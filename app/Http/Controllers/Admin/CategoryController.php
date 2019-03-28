@@ -7,6 +7,12 @@ use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+
+    public function __construct() {
+
+        // $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        dd("Index category");
+
+        $categories = Category::orderBy('id', 'DESC')->paginate();
+
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -24,7 +34,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('admin.categories.create');
+
     }
 
     /**
@@ -35,7 +47,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

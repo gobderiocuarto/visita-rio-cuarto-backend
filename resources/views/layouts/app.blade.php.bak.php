@@ -49,6 +49,7 @@
 
                         @endguest
                     </ul>
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -73,6 +74,7 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -89,8 +91,7 @@
         </main>
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('libs/jquery/jquery.min.js') }}" ></script>
-    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}" ></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
     @yield('scripts')
 </body>
 </html>
