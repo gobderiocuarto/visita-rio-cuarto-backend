@@ -15,7 +15,13 @@ Route::get('/', function () {
     return view('web.home');
 });
 
+
+
 Auth::routes();
+
+Route::get('/admin', function () {
+    return redirect('admin/categories');
+});
 
 
 Route::resource('admin/categories','Admin\CategoryController');

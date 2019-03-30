@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <nav class="col-md-8" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+            <li class="breadcrumb-item"><a href="/admin/categories">Categorias</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear Categoría</li>
+          </ol>
+        </nav>
         <div class="col-md-8">
             <div class="card">
                 <form id="form_organization_category" method="POST" action="/admin/categories" method="POST">

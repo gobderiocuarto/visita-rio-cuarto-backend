@@ -2,17 +2,22 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Lista de Categorías 
+    <div class="row justify-content-center">
+        <nav class="col-md-8" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+            <li class="breadcrumb-item active">Categorias</li>
+          </ol>
+        </nav>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Listado de Categorías</h2> 
                     <a href="{{ route('categories.create') }}" class="pull-right btn btn-sm btn-primary">
                         Crear
                     </a>
                 </div>
-
-                <div class="panel-body">
+                <div class="card-body">
 
                     <table class="table table-striped table-hover">
                         <thead>
