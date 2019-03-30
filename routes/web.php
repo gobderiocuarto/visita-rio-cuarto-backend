@@ -12,11 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('web.home');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('admin/category','Admin\CategoryController');
+Route::resource('admin/categories','Admin\CategoryController');

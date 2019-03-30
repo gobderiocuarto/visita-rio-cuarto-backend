@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\CategoryStoreRequest;
 
+use App\Http\Requests\CategoryUpdateRequest;
+
 use App\Category;
 
 class CategoryController extends Controller
@@ -24,8 +26,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        dd("Index category");
-
+        
         $categories = Category::orderBy('id', 'DESC')->paginate();
 
         return view('admin.categories.index', compact('categories'));
@@ -55,8 +56,9 @@ class CategoryController extends Controller
 
         $category = Category::create($request->all());
 
-        return redirect()->route('admin.categories.edit', $category->id)->with('info', 'Categoría creada con éxito');
+        return redirect()->route('admin.categories.edit', $category->id)->with('message', 'Categoría creada con éxito');
     }
+
 
 
 
@@ -68,8 +70,12 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        return view('admin.categories.show', compact('category'));
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -79,8 +85,13 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        return view('admin.categories.edit', compact('category'));
     }
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -89,9 +100,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $category->fill($request->all())->save();
+
+        return redirect()->route('categories.edit', $category->id)->with('message', 'Categoría actualizada con éxito');
     }
 
     /**

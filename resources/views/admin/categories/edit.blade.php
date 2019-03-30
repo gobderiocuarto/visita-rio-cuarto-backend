@@ -5,9 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <form id="form_organization_category" method="POST" action="/admin/categories" method="POST">
+                <form id="form_organization_category" method="POST" action="/admin/categories/{{ $category->id }}" method="POST">
+                    {{ method_field('PATCH') }}
                     <div class="card-header">
-                        Crear Categoría
+                        Editar Categoría nombre:  <strong>"{{ $category->name }}"</strong> 
                     </div>
                     <div class="card-body">
                         @if($errors->any())
@@ -20,28 +21,26 @@
                         </div>
                         @elseif (Session::has('message'))
                         <div class="alert alert-success" role="alert">
-                            <ul>
-                                <li>{{ Session::get('message') }}</li>
-                            </ul>
+                            {{ Session::get('message') }}
                         </div>
                         @endif
                         @csrf
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
-                                <input name="name" id="name" type="text" class="form-control" value="{{ old('name') }}" autofocus required minlength=3>
+                                <input name="name" id="name" type="text" class="form-control" value="{{ $category->name }}" autofocus required minlength=3>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="slug" class="col-md-3 col-form-label text-md-right">Slug (*)</label>
+                            <label for="slug" class="col-md-3 col-form-label text-md-right">Slug</label>
                             <div class="col-md-8">
-                                <input name="slug" id="slug" type="text" class="form-control" value="{{ old('name') }}" readonly>
+                                <input name="slug" id="slug" type="text" class="form-control" value="{{ $category->slug }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="description" class="col-md-3 col-form-label text-md-right">Breve descripción </label>
                             <div class="col-md-8">
-                                <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
+                                <textarea class="form-control" name="description" rows="3">{{ $category->description }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -49,7 +48,7 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Crear Categoría</button>
+                                <button type="submit" class="btn btn-primary">Actualizar Categoría</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
