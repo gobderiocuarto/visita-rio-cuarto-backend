@@ -22,6 +22,7 @@ class CategoryTableSeeder extends Seeder
 	                'name' => $name,
 	                'category_id' => 0,
 	                'slug'  => Str::slug($name),
+                    'state' => 1,
                     'created_at' => date('Y-m-d H:m:s'),
                     'updated_at' => date('Y-m-d H:m:s')
 	        ));

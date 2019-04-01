@@ -34,6 +34,17 @@
                         @endif
                         @csrf
                         <div class="form-group row">
+                            <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría padre (*)</label>
+                            <div class="col-md-8">
+                                <select id="category_id" name="category_id" class="form-control form-control-xl" required>
+                                    <option value="" >Seleccione...</option>
+                                    @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" @if(1 == old('category_0')) selected @endif>{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
                                 <input name="name" id="name" type="text" class="form-control" value="{{ old('name') }}" autofocus required minlength=3>

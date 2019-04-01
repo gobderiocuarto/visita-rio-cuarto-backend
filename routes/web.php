@@ -20,6 +20,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
+
 Route::get('/admin', function () {
     return redirect('admin/categories');
 });

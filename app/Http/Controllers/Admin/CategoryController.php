@@ -39,8 +39,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        
-        return view('admin.categories.create');
+        $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
+        return view('admin.categories.create', compact('categories'));
 
     }
 
@@ -56,7 +56,7 @@ class CategoryController extends Controller
 
         $category = Category::create($request->all());
 
-        return redirect()->route('admin.categories.edit', $category->id)->with('message', 'Categoría creada con éxito');
+        return redirect()->route('categories.edit', $category->id)->with('message', 'Categoría creada con éxito');
     }
 
 
