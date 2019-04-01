@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Str as Str;
 
-class ZonesTableSeeder extends Seeder
+class CategoryTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,20 +13,18 @@ class ZonesTableSeeder extends Seeder
      */
     public function run()
     {
-       //factory(App\Zone::class)->create();
+        $categories = ['Alojamiento','Gastronomía', 'Esparcimiento', 'Transporte'];
 
-    	$zones = ['Banda Norte','Centro', 'Alberdi', 'Bimaco'];
+    	foreach ($categories as $key => $name) {
 
-    	foreach ($zones as $key => $name) {
-
-			\DB::table('zones')->insert(array(
+			\DB::table('categories')->insert(array(
 
 	                'name' => $name,
+	                'category_id' => 0,
 	                'slug'  => Str::slug($name),
                     'created_at' => date('Y-m-d H:m:s'),
                     'updated_at' => date('Y-m-d H:m:s')
 	        ));
 		}
-
     }
 }
