@@ -23,8 +23,10 @@ class CreateOrganizationsTable extends Migration
             $table->Text('description')->nullable();
 
             $table->string('email', 128)->unique();
-            $table->string('phone');
-            $table->string('web');
+            $table->string('phone')->nullable();
+            $table->string('web')->nullable();
+
+            $table->tinyinteger('state')->unsigned()->default(1);
 
             $table->timestamps();
 

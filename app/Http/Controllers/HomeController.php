@@ -28,7 +28,7 @@ class HomeController extends Controller
 
         $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
 
-        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->get();
+        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
 
         return view('web.home', $array_data);
     }

@@ -5,20 +5,19 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\CategoryStoreRequest;
-
-use App\Http\Requests\CategoryUpdateRequest;
-
 use App\Category;
+use App\Zone;
+use App\Organization;
 
-class CategoryController extends Controller
+class OrganizationController extends Controller
 {
-
+    
     public function __construct() {
 
         $this->middleware('auth');
 
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +25,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        
-        $categories = Category::orderBy('id', 'DESC')->paginate();
-        return view('admin.categories.index', compact('categories'));
+        dd('index organizations');
     }
 
     /**
@@ -38,9 +35,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        return view('admin.categories.create', compact('categories'));
+        $array_data = array();
 
+        $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
+        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+
+        return view('admin.organizations.create', $array_data );
     }
 
     /**
@@ -49,16 +49,13 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryStoreRequest $request)
+    public function store(Request $request)
     {
+        //dd($request);
 
-        $category = Category::create($request->all());
-
-        return redirect()->route('categories.edit', $category->id)->with('message', 'Categoría creada con éxito');
+        $organization = Organization::create($request->all());
+        return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización creada con éxito');
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -68,12 +65,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-
-        return view('admin.categories.show', compact('category'));
+        //
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -83,13 +76,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-
-        return view('admin.categories.edit', compact('category'));
+        //
     }
-
-
-
 
     /**
      * Update the specified resource in storage.
@@ -98,13 +86,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
-
-        $category->fill($request->all())->save();
-
-        return redirect()->route('categories.edit', $category->id)->with('message', 'Categoría actualizada con éxito');
+        //
     }
 
     /**

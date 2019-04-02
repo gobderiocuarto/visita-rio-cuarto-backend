@@ -19,6 +19,8 @@ class CreateZonesTable extends Migration
             $table->string('name', 128);
             $table->string('slug', 128)->unique();
 
+            $table->tinyinteger('state')->unsigned()->default(1);
+
             $table->timestamps();
         });
     }

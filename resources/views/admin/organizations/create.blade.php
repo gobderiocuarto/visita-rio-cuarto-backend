@@ -6,15 +6,15 @@
         <nav class="col-md-8" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-            <li class="breadcrumb-item"><a href="/admin/categories">Categorias</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Crear Categoría</li>
+            <li class="breadcrumb-item"><a href="/admin/organizations">Organizaciones</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear Organización</li>
           </ol>
         </nav>
         <div class="col-md-8">
             <div class="card">
-                <form id="form_organization_category" method="POST" action="/admin/categories" method="POST">
+                <form id="form_organization_category" method="POST" action="/admin/organizations" method="POST">
                     <div class="card-header">
-                        Crear Categoría
+                        Crear Organizacion / Servicio
                     </div>
                     <div class="card-body">
                         @if($errors->any())
@@ -34,12 +34,16 @@
                         @endif
                         @csrf
                         <div class="form-group row">
-                            <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría padre (*)</label>
+                            <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
                             <div class="col-md-8">
-                                <select id="category_id" name="category_id" class="form-control form-control-xl" required>
+                                <select id="category_id" name="category_id" class="form-control form-control-xl" autofocus required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" @if(1 == old('category_0')) selected @endif>{{ $category->name }}</option>
+                                        <optgroup label="{{ $category->name }}">
+                                            @foreach($category->categories as $option)
+                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
+                                            @endforeach                                    
+                                        </optgroup>
                                     @endforeach
                                 </select>
                             </div>
@@ -47,11 +51,11 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
-                                <input name="name" id="name" type="text" class="form-control" value="{{ old('name') }}" autofocus required minlength=3>
+                                <input name="name" id="name" type="text" class="form-control" value="{{ old('name') }}" required minlength=3>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="slug" class="col-md-3 col-form-label text-md-right">Slug (*)</label>
+                            <label for="slug" class="col-md-3 col-form-label text-md-right">Slug</label>
                             <div class="col-md-8">
                                 <input name="slug" id="slug" type="text" class="form-control" value="{{ old('name') }}" readonly>
                             </div>
@@ -62,12 +66,42 @@
                                 <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-md-3 col-form-label text-md-right">Email (*)</label>
+                            <div class="col-md-8">
+                                <input name="email" id="email" type="email" class="form-control" value="{{ old('email') }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono</label>
+                            <div class="col-md-8">
+                                <input name="phone" id="phone" type="text" class="form-control" value="{{ old('phone') }}" >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="web" class="col-md-3 col-form-label text-md-right">Web</label>
+                            <div class="col-md-8">
+                                <input name="web" id="web" type="text" class="form-control" value="{{ old('web') }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="zone" class="col-md-3 col-form-label text-md-right">Zona (*)</label>
+                            <div class="col-md-8">
+                                <select id="zone" name="zone" class="form-control form-control-xl" required>
+                                    <option value="" >Selecciona...</option>
+                                    @foreach($zones as $zone)
+                                    <option value="{{ $zone->slug }}">{{ $zone->name }}</option>
+                                    @endforeach  
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Crear Categoría</button>
+                                <button type="submit" class="btn btn-primary">Crear Organización</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>

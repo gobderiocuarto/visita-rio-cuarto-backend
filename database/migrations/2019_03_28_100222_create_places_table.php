@@ -26,7 +26,9 @@ class CreatePlacesTable extends Migration
             $table->integer('street')->unsigned();
             $table->mediumInteger('number')->unsigned();
 
-            $table->string('zone', 64);            
+            $table->string('zone', 64);
+
+            $table->tinyinteger('state')->unsigned()->default(1);           
 
             $table->timestamps();
         });
