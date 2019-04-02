@@ -31,96 +31,42 @@
                 
                     <!-- Left Side Of Navbar -->
                     <div class="navbar-nav mr-auto">
-
-                        <form action="/Guia" method="get" name="top" id="top">
-
-                            <input name="search" id="search" type="text" class="inputformCommon2" placeholder="&nbsp;¿Qué estás buscando?" value="">
-                            <select name="rubro" id="rubro" class="comboboxCommon2" style="margin-top:5px;">
-                                <option value="">TODOS LOS RUBROS</option>
-
-                                <optgroup label="Para tu casa">
-                                
-                                    <option value="Decoracion-Y-Hogar" selected="">decoracion y hogar</option>
-                                    
-                                    <option value="Fumigaciones">fumigaciones</option>
-                                    
-                                    <option value="Jardin-Y-Pileta">jardin y pileta</option>
-                                    
-                                    <option value="Limpieza">limpieza</option>
-                                    
-                                    <option value="Mantenimiento-Generales">Mantenimiento generales</option>
-                                    
-                                </optgroup>
-
-                                <optgroup label="Para vos">
-                                
-                                    <option value="Colegio">colegio</option>
-                                    
-                                    <option value="Colonia-De-Vacaciones">Colonia de vacaciones</option>
-                                    
-                                    <option value="Cursos-Y-Talleres">cursos y talleres</option>
-                                    
-                                    <option value="Deportes">deportes</option>
-                                    
-                                    <option value="Empleadas-Domesticas">Empleadas domesticas</option>
-                                    
-                                    <option value="Merceria">Merceria</option>
-                                    
-                                    <option value="Moda">Moda</option>
-                                    
-                                    <option value="Profesionales">profesionales</option>
-                                    
-                                    <option value="Recreacion">Recreacion y regalos</option>
-                                    
-                                    <option value="Salud-Y-Belleza">salud y belleza</option>
-                                    
-                                    <option value="Turismo">turismo</option>
-                                    
-                                </optgroup>
-
-                            </select>
-
-                            <div class="float: left;" id="nosenose">
-                          
-                                <select name="guia" id="guia" class="comboboxCommon2" style="width:200px;">
-                          
-                                  <option value="Nordelta">Nordelta</option>
-                                  
-                                  <option value="Pilar">Pilar</option>
-                                  
-                                  <option value="Belgrano">Belgrano</option>
-                                  
-                                </select>
-
-                                <input type="submit" value="Buscar" class="submitButton2">
+                        <form action="/buscador" method="get" name="top" id="top">
+                            <div class="row"> 
+                                <div class="col-md-3">   
+                                    <input name="search" id="search" type="text" placeholder="&nbsp;¿Qué estás buscando?" value="">
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="rubro" id="rubro">
+                                        <option value="" selected="selected">Todas las Categorías</option>
+                                        @foreach($categories as $category)
+                                        <optgroup label="{{ $category->name }}">
+                                            @foreach($category->categories as $option)
+                                            <option value="{{ $option->slug }}">{{ $option->name }}</option>
+                                            @endforeach                                    
+                                        </optgroup>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select name="zona">
+                                        <option value="" selected="selected">Todo Río Cuarto</option>
+                                        @foreach($zones as $zone)
+                                        <option value="{{ $zone->slug }}">{{ $zone->name }}</option>
+                                        @endforeach        
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Buscar">
+                                </div>
                             </div>
-                        </form>                       
+                        </form>
                     </div>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/admin') }}">Admin</a>
+                        </li>
                     </ul>
                 </div>
             </div>
