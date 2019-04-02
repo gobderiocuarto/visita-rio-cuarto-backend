@@ -22,7 +22,7 @@ Auth::routes();
 
 
 Route::get('/admin', function () {
-    return redirect('admin/categories');
+    return redirect('admin/organizations');
 });
 
 

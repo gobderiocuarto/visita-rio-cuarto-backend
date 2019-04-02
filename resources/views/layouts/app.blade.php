@@ -32,20 +32,22 @@
                     <ul class="navbar-nav mr-auto">
                         @guest
 
+                        
+
+                        @else
+
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Organizaciones
                           </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url('admin/organization/create') }}">Nueva Organización</a>
-                            <a class="dropdown-item" href="{{ url('admin/organization') }}">Listar Organizaciones</a>
+                            <a class="dropdown-item" href="{{ url('admin/organizations/create') }}">Nueva Organización</a>
+                            <a class="dropdown-item" href="{{ url('admin/organizations') }}">Listar Organizaciones</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('/admin/category/create') }}">Nueva Categoría</a>
-                            <a class="dropdown-item" href="{{ url('/admin/category') }}">Listar Categorías</a>
+                            <a class="dropdown-item" href="{{ url('/admin/categories/create') }}">Nueva Categoría</a>
+                            <a class="dropdown-item" href="{{ url('/admin/categories') }}">Listar Categorías</a>
                           </div>
                         </li>
-
-                        @else
 
                         @endguest
                     </ul>

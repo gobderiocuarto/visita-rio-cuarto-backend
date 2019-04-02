@@ -15,7 +15,7 @@
                 <form id="form_organization_category" method="POST" action="/admin/categories/{{ $category->id }}" method="POST">
                     {{ method_field('PATCH') }}
                     <div class="card-header">
-                        <h2>Editar Categoría nombre:  <strong>"{{ $category->name }}"</strong></h2>
+                        <h2>Editar Categoría nombre:  </br><strong>"{{ $category->name }}"</strong></h2>
                     </div>
                     <div class="card-body">
                         @if($errors->any())

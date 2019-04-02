@@ -12,9 +12,11 @@
         </nav>
         <div class="col-md-8">
             <div class="card">
-                <form id="form_organization_category" method="POST" action="/admin/organizations" method="POST">
+                <form id="form_organization_category" method="POST" action="/admin/organizations/{{ $organization->id }}" method="POST">
+                    {{ method_field('PATCH') }}
                     <div class="card-header">
-                        <h2>Crear Organizacion / Servicio</h2>
+                        <h3>Editar organización nombre:</h3>
+                        <h2><strong>"{{ $organization->name }}"</strong></h2>
                     </div>
                     <div class="card-body">
                         @if($errors->any())
@@ -27,9 +29,7 @@
                         </div>
                         @elseif (Session::has('message'))
                         <div class="alert alert-success" role="alert">
-                            <ul>
-                                <li>{{ Session::get('message') }}</li>
-                            </ul>
+                            {{ Session::get('message') }}
                         </div>
                         @endif
                         @csrf
@@ -41,7 +41,9 @@
                                     @foreach($categories as $category)
                                         <optgroup label="{{ $category->name }}">
                                             @foreach($category->categories as $option)
-                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
+                                            <option value="{{ $option->id }}" @if ($option->id == $organization->category_id) selected @endif >
+                                                {{ $option->name }}
+                                            </option>
                                             @endforeach                                    
                                         </optgroup>
                                     @endforeach
@@ -51,37 +53,37 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
-                                <input name="name" id="name" type="text" class="form-control" value="{{ old('name') }}" required minlength=3>
+                                <input name="name" id="name" type="text" class="form-control" value="{{ $organization->name }}" required minlength=3>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="slug" class="col-md-3 col-form-label text-md-right">Slug</label>
                             <div class="col-md-8">
-                                <input name="slug" id="slug" type="text" class="form-control" value="{{ old('name') }}" readonly>
+                                <input name="slug" id="slug" type="text" class="form-control" value="{{ $organization->slug }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="description" class="col-md-3 col-form-label text-md-right">Breve descripción </label>
                             <div class="col-md-8">
-                                <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
+                                <textarea class="form-control" name="description" rows="3">{{ $organization->description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="email" class="col-md-3 col-form-label text-md-right">Email (*)</label>
                             <div class="col-md-8">
-                                <input name="email" id="email" type="email" class="form-control" value="{{ old('email') }}" required>
+                                <input name="email" id="email" type="email" class="form-control" value="{{ $organization->email }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono</label>
                             <div class="col-md-8">
-                                <input name="phone" id="phone" type="text" class="form-control" value="{{ old('phone') }}" >
+                                <input name="phone" id="phone" type="text" class="form-control" value="{{ $organization->phone }}" >
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="web" class="col-md-3 col-form-label text-md-right">Web</label>
                             <div class="col-md-8">
-                                <input name="web" id="web" type="text" class="form-control" value="{{ old('web') }}">
+                                <input name="web" id="web" type="text" class="form-control" value="{{ $organization->web }}">
                             </div>
                         </div>
 
@@ -91,7 +93,9 @@
                                 <select id="zone" name="zone" class="form-control form-control-xl" required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($zones as $zone)
-                                    <option value="{{ $zone->id }}">{{ $zone->name }}</option>
+                                    <option value="{{ $zone->id }}" @if ($zone->id == $organization->category_id) selected @endif>
+                                        {{ $zone->name }}
+                                    </option>
                                     @endforeach  
                                 </select>
                             </div>
@@ -101,7 +105,7 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Crear Organización</button>
+                                <button type="submit" class="btn btn-primary">Actualizar Organización</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>

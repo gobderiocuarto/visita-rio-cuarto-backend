@@ -9,6 +9,9 @@ use App\Category;
 use App\Zone;
 use App\Organization;
 
+use App\Http\Requests\OrganizationStoreRequest;
+use App\Http\Requests\OrganizationUpdateRequest;
+
 class OrganizationController extends Controller
 {
     
@@ -25,7 +28,8 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        dd('index organizations');
+        $organizations = Organization::orderBy('id', 'DESC')->paginate(1);
+        return view('admin.organizations.index', compact('organizations'));
     }
 
     /**
@@ -49,10 +53,8 @@ class OrganizationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrganizationStoreRequest $request)
     {
-        //dd($request);
-
         $organization = Organization::create($request->all());
         return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización creada con éxito');
     }
@@ -76,7 +78,11 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $array_data ['organization'] = Organization::findOrFail($id);
+        $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
+        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+
+        return view('admin.organizations.edit', $array_data);
     }
 
     /**
@@ -86,9 +92,13 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OrganizationUpdateRequest $request, $id)
     {
-        //
+        $organization = Organization::findOrFail($id);
+
+        $organization->fill($request->all())->save();
+
+        return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización actualizada con éxito');
     }
 
     /**
