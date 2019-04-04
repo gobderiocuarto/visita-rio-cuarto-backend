@@ -20,13 +20,13 @@ class CreatePlacesTable extends Migration
             $table->string('slug', 128)->unique();
             $table->text('description')->nullable();
 
-            $table->float('lat', 10,6);
-            $table->float('lng', 10,6);
+            $table->float('lat', 10,6)->nullable();
+            $table->float('lng', 10,6)->nullable();
 
             $table->integer('street')->unsigned();
             $table->mediumInteger('number')->unsigned();
-
-            $table->string('zone', 64);
+            $table->string('floor', 64)->nullable();
+            $table->string('zone', 64)->nullable();
 
             $table->tinyinteger('state')->unsigned()->default(1);           
 

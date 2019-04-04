@@ -3,17 +3,17 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-12" aria-label="breadcrumb">
+        <nav class="col-md-8" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-            <li class="breadcrumb-item active">Organizaciones</li>
+            <li class="breadcrumb-item active">Lugares</li>
           </ol>
         </nav>
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h2>Listado de Organizaciones</h2> 
-                    <a href="{{ route('organizations.create') }}" class="pull-right btn btn-sm btn-primary">
+                    <h2>Listado de Lugares</h2> 
+                    <a href="{{ route('places.create') }}" class="pull-right btn btn-sm btn-primary">
                         Crear
                     </a>
                 </div>
@@ -24,21 +24,19 @@
                             <tr>
                                 <th width="10px">ID</th>
                                 <th>Nombre</th>
-                                <th>Categoría</th>
                                 <th colspan="3">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($organizations as $organization)
+                            @foreach($places as $place)
                             <tr>
-                                <td>{{ $organization->id }}</td>
-                                <td>{{ $organization->name }}</td>
-                                <td>{{ $organization->category->category->name }} :: {{ $organization->category->name }}</td>
+                                <td>{{ $place->id }}</td>
+                                <td>{{ $place->name }}</td>
                                 <td width="10px">
-                                    <a href="{{ route('organizations.show', $organization->id) }}" class="btn btn-sm btn-default">Ver</a>
+                                    <a href="{{ route('places.show', $place->id) }}" class="btn btn-sm btn-default">Ver</a>
                                 </td>
                                 <td width="10px">
-                                    <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-default">Editar</a>
+                                    <a href="{{ route('places.edit', $place->id) }}" class="btn btn-sm btn-default">Editar</a>
                                 </td>
                                 <td width="10px">
                                     
@@ -51,7 +49,7 @@
                             @endforeach
                         </tbody>   
                     </table>
-                        {{ $organizations->render() }}
+                        {{ $places->render() }}
                 </div>
             </div>
         </div>

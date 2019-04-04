@@ -28,7 +28,7 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $organizations = Organization::orderBy('id', 'DESC')->paginate(1);
+        $organizations = Organization::orderBy('id', 'ASC')->paginate();
         return view('admin.organizations.index', compact('organizations'));
     }
 
@@ -42,7 +42,7 @@ class OrganizationController extends Controller
         $array_data = array();
 
         $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        //$array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
 
         return view('admin.organizations.create', $array_data );
     }
@@ -80,7 +80,7 @@ class OrganizationController extends Controller
     {
         $array_data ['organization'] = Organization::findOrFail($id);
         $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        //$array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
 
         return view('admin.organizations.edit', $array_data);
     }
