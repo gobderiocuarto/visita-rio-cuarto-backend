@@ -10,15 +10,28 @@
             <li class="breadcrumb-item active" aria-current="page">Crear Organización</li>
           </ol>
         </nav>
-        <div class="col-md-8">
-            <div class="card">
-                <form id="form_organization_category" method="POST" action="/admin/organizations/{{ $organization->id }}" method="POST">
-                    {{ method_field('PATCH') }}
-                    <div class="card-header">
-                        <h3>Editar organización nombre:</h3>
-                        <h2><strong>"{{ $organization->name }}"</strong></h2>
-                    </div>
-                    <div class="card-body">
+        <div class="col-md-10 mx-auto">
+
+            <h3>Editar organización nombre:</h3>
+            <h2><strong>"{{ $organization->name }}"</strong></h2>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="nav-item">
+                    <a href="#step1" class="nav-link active" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                        1
+                    </a>
+                </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#complete" class="nav-link disabled" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                        2
+                    </a>
+                </li>
+            </ul>
+
+            <form id="form_organization_category" method="POST" action="/admin/organizations/{{ $organization->id }}" method="POST">
+            {{ method_field('PATCH') }}
+                <div class="tab-content p-3 mt-2 border">
+                    <div class="tab-pane active" role="tabpanel" id="step1">
                         @if($errors->any())
                         <div class="alert alert-warning" role="alert">
                             <ul>
@@ -85,35 +98,26 @@
                             <div class="col-md-8">
                                 <input name="web" id="web" type="text" class="form-control" value="{{ $organization->web }}">
                             </div>
-                        </div>
+                        </div> 
 
-                        <div class="form-group row">
-                            <label for="zone" class="col-md-3 col-form-label text-md-right">Zona (*)</label>
-                            <div class="col-md-8">
-                                <select id="zone" name="zone" class="form-control form-control-xl" required>
-                                    <option value="" >Selecciona...</option>
-                                    @foreach($zones as $zone)
-                                    <option value="{{ $zone->id }}" @if ($zone->id == $organization->category_id) selected @endif>
-                                        {{ $zone->name }}
-                                    </option>
-                                    @endforeach  
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Actualizar Organización</button>
+                                <button type="button" class="btn btn-primary next-step">Actualizar Organización</button>
                             </div>
                             <div class="col-md-4">
-                                <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
+                                <button type="reset" class="btn btn-outline-dark ">Limpiar campos</button>
                             </div>
                         </div>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-primary ml-auto next-step">Save and continue</button>
+                        </div>
                     </div>
-                </form>
-            </div>
+                    <div class="tab-pane" role="tabpanel" id="complete">
+                        <h3>Complete</h3>
+                        <p>You have successfully completed all steps!</p>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -127,7 +131,37 @@
             callback: function(text){
                 $('#slug').val(text);
             }
-        });    
+        }); 
+
+
+        // tab wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            var $target = $(e.relatedTarget);
+            if ($target.parent().hasClass('disabled')) {
+                return false;
+            }
+        });
+
+        $(".next-step").click(function (e) {
+            var $active = $('.nav-tabs .nav-link.active');
+            $active.parent().next().find('.nav-link').removeClass('disabled');
+            nextTab($active);
+
+        });
+        $(".prev-step").click(function (e) {
+
+            var $active = $('.nav-tabs li>a.active');
+            prevTab($active);
+
+        });   
     });
+
+
+    function nextTab(elem) {
+    $(elem).parent().next().find('a[data-toggle="tab"]').click();
+    }
+    function prevTab(elem) {
+        $(elem).parent().prev().find('a[data-toggle="tab"]').click();
+    }
 </script>
 @endsection

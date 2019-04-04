@@ -36,7 +36,7 @@
                                 <div class="col-md-3">   
                                     <input name="search" id="search" type="text" placeholder="&nbsp;¿Qué estás buscando?" value="">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <select name="rubro" id="rubro">
                                         <option value="" selected="selected">Todas las Categorías</option>
                                         @foreach($categories as $category)
@@ -56,7 +56,7 @@
                                         @endforeach        
                                     </select>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <input type="submit" value="Buscar">
                                 </div>
                             </div>

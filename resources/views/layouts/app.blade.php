@@ -15,6 +15,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('style')
 </head>
 <body>
     <div id="app">
@@ -46,6 +48,16 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ url('/admin/categories/create') }}">Nueva Categoría</a>
                             <a class="dropdown-item" href="{{ url('/admin/categories') }}">Listar Categorías</a>
+                          </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Lugares
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url('admin/places/create') }}">Nuevo Lugar</a>
+                            <a class="dropdown-item" href="{{ url('admin/places') }}">Listar Lugares</a>
                           </div>
                         </li>
 

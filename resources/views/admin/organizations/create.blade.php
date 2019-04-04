@@ -83,19 +83,7 @@
                             <div class="col-md-8">
                                 <input name="web" id="web" type="text" class="form-control" value="{{ old('web') }}">
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="zone" class="col-md-3 col-form-label text-md-right">Zona (*)</label>
-                            <div class="col-md-8">
-                                <select id="zone" name="zone" class="form-control form-control-xl" required>
-                                    <option value="" >Selecciona...</option>
-                                    @foreach($zones as $zone)
-                                    <option value="{{ $zone->id }}">{{ $zone->name }}</option>
-                                    @endforeach  
-                                </select>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
 
                     <div class="card-footer">

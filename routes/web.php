@@ -29,3 +29,5 @@ Route::get('/admin', function () {
 Route::resource('admin/categories','Admin\CategoryController');
 
 Route::resource('admin/organizations','Admin\OrganizationController');
+
+Route::resource('admin/places','Admin\PlaceController');
