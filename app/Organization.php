@@ -14,4 +14,10 @@ class Organization extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function addresses()
+    {
+        return $this->belongsToMany(Address::class);
+    }
+
 }

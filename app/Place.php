@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Place extends Model
 {
     protected $guarded = [];
+
+    public function organization() {
+        return $this->belongsTo(Organization::class);
+    }
 }

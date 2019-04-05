@@ -15,17 +15,33 @@ class CategoryTableSeeder extends Seeder
     {
         $categories = ['Alojamiento','Gastronomía', 'Esparcimiento', 'Transporte'];
 
-    	foreach ($categories as $key => $name) {
+    	foreach ($categories as $key => $category) {
 
 			\DB::table('categories')->insert(array(
 
-	                'name' => $name,
+	                'name' => $category,
 	                'category_id' => 0,
-	                'slug'  => Str::slug($name),
+	                'slug'  => Str::slug($category),
                     'state' => 1,
                     'created_at' => date('Y-m-d H:m:s'),
                     'updated_at' => date('Y-m-d H:m:s')
 	        ));
+
+            /*
+
+            foreach ($category as $key => $subcategory) {
+                \DB::table('categories')->insert(array(
+
+                    'name' => $subcategory,
+                    'category_id' => 0,
+                    'slug'  => Str::slug($subcategory),
+                    'state' => 1,
+                    'created_at' => date('Y-m-d H:m:s'),
+                    'updated_at' => date('Y-m-d H:m:s')
+                ));
+            }
+            */
+
 		}
     }
 }

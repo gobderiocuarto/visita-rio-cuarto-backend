@@ -30,4 +30,9 @@ Route::resource('admin/categories','Admin\CategoryController');
 
 Route::resource('admin/organizations','Admin\OrganizationController');
 
+Route::post('admin/organizations/{organization}/place','Admin\AddressController@store');
+
+//Route::post('/expense_reports/{expense_report}/expenses', 'ExpenseController@store');
+
+
 Route::resource('admin/places','Admin\PlaceController');
