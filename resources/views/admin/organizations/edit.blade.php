@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('style')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/css/bootstrap-select.min.css">
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -17,12 +19,12 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="nav-item">
                     <a href="#step1" class="nav-link active" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
-                        1
+                        Datos de la organización
                     </a>
                 </li>
                 <li role="presentation" class="nav-item">
                     <a href="#complete" class="nav-link disabled" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                        2
+                        Espacio / Dirección
                     </a>
                 </li>
             </ul>
@@ -112,8 +114,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" role="tabpanel" id="complete">
-                        <h3>Complete</h3>
-                        <p>You have successfully completed all steps!</p>
+                        @include('admin.organizations.places')
                     </div>
                 </div>
             </form>
@@ -122,9 +123,12 @@
 </div>
 @endsection
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
 <script src="{{ asset('libs/stringToSlug/jquery.stringToSlug.min.js') }}"></script>
 <script>
     $(document).ready(function(){
+
+        $('.selectpicker').selectpicker();
 
         $("#name, #slug").stringToSlug({
             callback: function(text){

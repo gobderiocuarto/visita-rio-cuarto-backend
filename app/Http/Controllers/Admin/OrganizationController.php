@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Category;
-use App\Zone;
 use App\Organization;
+use App\Place;
+use App\Zone;
 
 use App\Http\Requests\OrganizationStoreRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
@@ -80,7 +81,7 @@ class OrganizationController extends Controller
     {
         $array_data ['organization'] = Organization::findOrFail($id);
         $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        //$array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        $array_data ['places'] = Place::orderBy('name', 'ASC')->get();
 
         return view('admin.organizations.edit', $array_data);
     }

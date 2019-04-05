@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('style')
-<<<<<<< HEAD
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/css/bootstrap-select.min.css">
-=======
->>>>>>> 41d0b8bca9f5b69cf9d19d0cc33029d2329b3edb
 @endsection
 @section('content')
 
