@@ -14,7 +14,6 @@
 
             <h3>Editar organización nombre:</h3>
             <h2><strong>"{{ $organization->name }}"</strong></h2>
-
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="nav-item">
                     <a href="#step1" class="nav-link active" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">

@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="zone" class="col-md-3 col-form-label text-md-right  selectpicker">Zona</label>
+                            <label for="zone" class="col-md-3 col-form-label text-md-right">Zona</label>
                             <div class="col-md-8">
                                 <select id="zone" name="zone" class="form-control form-control-xl selectpicker" data-live-search="true">
                                     <option value="">Selecciona...</option>
@@ -127,8 +127,8 @@
 <script>
     $(document).ready(function(){
 
-        $('.my-select').selectpicker();
-
+        $('.selectpicker').selectpicker();
+        
         $("#name, #slug").stringToSlug({
             callback: function(text){
                 $('#slug').val(text);

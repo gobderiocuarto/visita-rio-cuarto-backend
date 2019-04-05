@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 
+use Illuminate\Support\Str as Str;
+
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -11,6 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+
         factory(App\User::class)->create();
     }
 }

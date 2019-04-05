@@ -82,7 +82,6 @@ class PlaceController extends Controller
         $array_data ['streets'] = Street::orderBy('name', 'ASC')->get();
         $array_data ['zones'] = Zone::orderBy('name', 'ASC')->get();
 
-
         return view('admin.places.edit', $array_data);
     }
 
