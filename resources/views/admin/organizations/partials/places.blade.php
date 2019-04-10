@@ -24,7 +24,7 @@
                             <a href="#" class="btn btn-sm btn-default">Editar</a>
                         </td>
                         <td width="10px">
-                            <button class="btn btn-sm btn-danger">Eliminar</button>                           
+                            <button class="btn btn-sm btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 @endforeach
@@ -33,6 +33,7 @@
         </div>
     </div>
 </div>
+
 <div id="add_place" class="mt-2">
     <form id="form_add_place" method="POST" action="/admin/organizations/{{ $organization->id }}/place" method="POST">
         <div class="card-header">
@@ -47,7 +48,7 @@
                 @endforeach
                 </ul>
             </div>
-            @elseif (Session::has('message'))
+            @elseif (Session::has('message_place'))
             <div class="alert alert-success" role="alert">
                 {{ Session::get('message') }}
             </div>
@@ -66,7 +67,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="form-group row">
                 <label for="address_type" class="col-md-12 col-form-label">Calle(*)</label>
                 <div class="col-md-3">
@@ -78,7 +78,7 @@
                         <option value="5">Planta Industrial</option>
                         <option value="">Personalizar...</option>
                     </select>
-                    <input name="address_type_name" id="address_type_name" type="text" value="">
+                    <input name="address_type_name" id="address_type_name" type="hidden" value="">
                 </div>
                 <div class="col-md-8">
                     <select id="street" name="street" class="form-control form-control-xl selectpicker" data-live-search="true" required>

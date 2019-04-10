@@ -79,7 +79,7 @@ class AddressController extends Controller
 
         $address->save();
 
-        return redirect()->route('organizations.edit', $organization->id)->with('message', 'Lugar asociado exitosamente');
+        return redirect()->route('organizations.edit', $organization->id)->with('message_place', 'Dirección asociada exitosamente');
     }
 
     /**
