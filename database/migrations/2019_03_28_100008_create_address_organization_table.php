@@ -14,10 +14,13 @@ class CreateAddressOrganizationTable extends Migration
     public function up()
     {
         Schema::create('address_organization', function (Blueprint $table) {
+
             $table->increments('id');
 
-            $table->integer('address_id')->unsigned();
             $table->integer('organization_id')->unsigned();
+            $table->integer('address_id')->unsigned();
+            $table->tinyinteger('address_type_id')->unsigned()->default(0);
+            $table->string('address_type_name')->nullable();
             
             $table->timestamps();
 

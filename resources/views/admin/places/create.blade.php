@@ -7,18 +7,18 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-8" aria-label="breadcrumb">
+        <nav class="col-md-10" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
             <li class="breadcrumb-item"><a href="/admin/places">Espacios</a></li>
             <li class="breadcrumb-item active" aria-current="page">Crear</li>
           </ol>
         </nav>
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <form id="form_create_place" method="POST" action="/admin/places" method="POST">
                     <div class="card-header">
-                        Crear espacio
+                        <h2>Crear espacio</h2>
                     </div>
                     <div class="card-body">
                         @if($errors->any())
@@ -50,15 +50,15 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="description" class="col-md-3 col-form-label text-md-right">Breve descripción </label>
+                            <label for="description" class="col-md-3 col-form-label text-md-right">Breve descripción</label>
                             <div class="col-md-8">
                                 <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="street" class="col-md-3 col-form-label text-md-right">Calle(*)</label>
+                            <label for="street_id" class="col-md-3 col-form-label text-md-right">Calle(*)</label>
                             <div class="col-md-8">
-                                <select id="street" name="street" class="form-control form-control-xl selectpicker" data-live-search="true" required>
+                                <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true" required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($streets as $street)
                                     <option value="{{ $street->id }}">
@@ -74,9 +74,9 @@
                                 <input name="number" id="number" type="number" class="form-control" value="{{ old('number') }}" required>
                             </div>
 
-                            <label for="depto" class="col-md-2 col-form-label text-md-right">Piso / Dpto</label>
+                            <label for="floor" class="col-md-2 col-form-label text-md-right">Piso / Dpto</label>
                             <div class="col-md-3">
-                                <input name="depto" id="depto" type="text" class="form-control" value="{{ old('depto') }}" disabled>
+                                <input name="floor" id="floor" type="text" class="form-control" value="{{ old('floor') }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -91,9 +91,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="zone" class="col-md-3 col-form-label text-md-right">Zona</label>
+                            <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
                             <div class="col-md-8">
-                                <select id="zone" name="zone" class="form-control form-control-xl selectpicker" data-live-search="true">
+                                <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true">
                                     <option value="">Selecciona...</option>
                                     @foreach($zones as $zone)
                                     <option value="{{ $zone->id }}">

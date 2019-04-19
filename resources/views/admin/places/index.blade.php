@@ -12,7 +12,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h2>Listado de Lugares</h2> 
+                    <h2>Listado de Espacios</h2> 
                     <a href="{{ route('places.create') }}" class="pull-right btn btn-sm btn-primary">
                         Crear
                     </a>
@@ -24,7 +24,7 @@
                             <tr>
                                 <th width="10px">ID</th>
                                 <th>Nombre</th>
-                                <th colspan="3">&nbsp;</th>
+                                <th colspan="2">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,13 +33,9 @@
                                 <td>{{ $place->id }}</td>
                                 <td>{{ $place->name }}</td>
                                 <td width="10px">
-                                    <a href="{{ route('places.show', $place->id) }}" class="btn btn-sm btn-default">Ver</a>
+                                    <a href="{{ route('places.edit', $place->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <a href="{{ route('places.edit', $place->id) }}" class="btn btn-sm btn-default">Editar</a>
-                                </td>
-                                <td width="10px">
-                                    
                                     <button class="btn btn-sm btn-danger">
                                         Eliminar
                                     </button>                           

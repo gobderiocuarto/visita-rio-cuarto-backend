@@ -17,7 +17,12 @@ class Organization extends Model
 
     public function addresses()
     {
-        return $this->belongsToMany(Address::class);
+        return $this->belongsToMany(Address::class)->withPivot('address_type_id', 'address_type_name');
+    }
+
+    public function places()
+    {
+        return $this->belongsToMany(Place::class)->withPivot('address_type_id', 'address_type_name');
     }
 
 }

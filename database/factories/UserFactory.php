@@ -19,8 +19,8 @@ $factory->define(App\User::class, function (Faker $faker) {
 	//$name = $faker->name;
 	//$email = $faker->unique()->safeEmail;
 
-	$name = "Guillermo";
-	$email = "copydot@gmail.com";
+	$name = "Gobierno Abierto";
+	$email = "ga@mail.com";
 
     return [
         'name' => $name,

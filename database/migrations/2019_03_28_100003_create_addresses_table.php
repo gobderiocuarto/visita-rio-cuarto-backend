@@ -16,21 +16,25 @@ class CreateAddressesTable extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('organization_id')->unsigned()->nullable();
-            $table->string('address_type', 64);
-            $table->integer('street')->unsigned();
-            $table->mediumInteger('number')->unsigned();
-            $table->string('floor', 64)->nullable();
-            $table->string('zone', 64)->nullable();
+            $table->integer('street_id')->unsigned();
+            //$table->integer('organization_id')->unsigned()->nullable();
+            //$table->integer('place_id')->unsigned()->nullable();
+            //$table->string('address_type', 64)->nullable();
+            
+            $table->integer('number')->unsigned()->nullable(); // Sin Numero?? Km tal??
+            $table->string('floor')->nullable();
             $table->float('lat', 10,6)->nullable();
             $table->float('lng', 10,6)->nullable();
+            $table->integer('zone_id')->unsigned()->default(0);
 
             $table->timestamps();
 
+            //$table->primary(['street_id', 'number']);
+            /*
             $table->foreign('organization_id')->references('id')->on('organizations')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
+            */
         });
     }
 

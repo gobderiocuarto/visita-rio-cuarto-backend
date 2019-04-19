@@ -1,18 +1,5 @@
 <form id="form_organization_category" method="POST" action="/admin/organizations/{{ $organization->id }}" method="POST">
     {{ method_field('PATCH') }}
-    @if($errors->any())
-    <div class="alert alert-warning" role="alert">
-        <ul>
-        @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-        </ul>
-    </div>
-    @elseif (Session::has('message'))
-    <div class="alert alert-success" role="alert">
-        {{ Session::get('message') }}
-    </div>
-    @endif
     @csrf
     <div class="form-group row">
         <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>

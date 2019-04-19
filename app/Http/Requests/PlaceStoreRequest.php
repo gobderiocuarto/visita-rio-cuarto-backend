@@ -26,7 +26,7 @@ class PlaceStoreRequest extends FormRequest
         return [
             'name' => 'required',
             'slug' => 'required|unique:places,slug',
-            'street' => 'required|numeric',
+            'street_id' => 'required|numeric',
             'number' => 'required|numeric'
         ];
     }

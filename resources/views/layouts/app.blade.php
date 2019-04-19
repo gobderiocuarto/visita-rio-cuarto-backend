@@ -3,19 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     @yield('style')
 </head>
 <body>
@@ -34,8 +29,6 @@
                     <ul class="navbar-nav mr-auto">
                         @guest
 
-                        
-
                         @else
 
                         <li class="nav-item dropdown">
@@ -53,14 +46,13 @@
 
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Lugares
+                            Espacios
                           </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url('admin/places/create') }}">Nuevo Lugar</a>
-                            <a class="dropdown-item" href="{{ url('admin/places') }}">Listar Lugares</a>
+                            <a class="dropdown-item" href="{{ url('admin/places/create') }}">Nuevo Espacio</a>
+                            <a class="dropdown-item" href="{{ url('admin/places') }}">Listar Espacios</a>
                           </div>
                         </li>
-
                         @endguest
                     </ul>
                     <!-- Right Side Of Navbar -->
@@ -104,7 +96,8 @@
     </div>
     <!-- Scripts -->
     <script src="{{ asset('libs/jquery/jquery.min.js') }}" ></script>
-    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script>const base_url = "{{ url('/') }}"</script>
     @yield('scripts')
 </body>
 </html>

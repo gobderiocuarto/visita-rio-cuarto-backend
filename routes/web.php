@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,9 +31,10 @@ Route::resource('admin/categories','Admin\CategoryController');
 
 Route::resource('admin/organizations','Admin\OrganizationController');
 
-Route::post('admin/organizations/{organization}/place','Admin\AddressController@store');
+Route::post('admin/organizations/{organization}/place','Admin\OrganizationController@storePlace');
 
-//Route::post('/expense_reports/{expense_report}/expenses', 'ExpenseController@store');
+Route::post('admin/organizations/{organization}/places/{place}','Admin\OrganizationController@destroyPlace');
 
+Route::post('admin/organizations/{organization}/addresses/{address}','Admin\OrganizationController@destroyAddress');
 
 Route::resource('admin/places','Admin\PlaceController');

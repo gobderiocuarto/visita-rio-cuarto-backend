@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+// Soporte para transacciones 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 use App\Address;
+use App\AddressType;
 use App\Category;
 use App\Organization;
 use App\Place;
@@ -41,15 +46,12 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        $array_data = array();
+        $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
+        $places = Place::orderBy('name', 'ASC')->get();
+        $streets = Street::orderBy('name', 'ASC')->get();
+        $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
 
-        //.$array_data ['organization'] = New Organization();
-        $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        $array_data ['places'] = Place::orderBy('name', 'ASC')->get();
-        $array_data ['streets'] = Street::orderBy('name', 'ASC')->get();
-        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
-
-        return view('admin.organizations.create', $array_data );
+        return view('admin.organizations.create', compact('categories','places','streets', 'zones') );
     }
 
     /**
@@ -60,8 +62,27 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationStoreRequest $request)
     {
+        //dd($request);
         $organization = Organization::create($request->all());
-        return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización creada con éxito');
+        /*
+
+        $organization = Organization::create ([
+             'category_id' => $request->get('category_id')
+            , 'name' => $request->get('name') 
+            , 'slug' => $request->get('slug')
+            , 'description' => $request->get('description')
+            , 'email' => $request->get('email')
+            , 'phone' => $request->get('phone')
+            , 'web' => $request->get('web')
+        ]);
+        */
+
+        if ($organization) {
+            return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización creada con éxito');
+        } else {
+            return redirect()->back()->withErrors('Error al crear la organización');
+        }
+       
     }
 
     /**
@@ -83,15 +104,20 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        $array_data ['organization'] = Organization::findOrFail($id);
-        $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        $array_data ['places'] = Place::orderBy('name', 'ASC')->get();
-        $array_data ['streets'] = Street::orderBy('name', 'ASC')->get();
-        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
-        $array_data ['addresses'] = Address::orderBy('id', 'ASC')->where('organization_id',$id)->get();
+        $organization = Organization::findOrFail($id);
 
-        return view('admin.organizations.edit', $array_data);
+        $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
+        $places = Place::orderBy('name', 'ASC')->get();
+        $streets = Street::orderBy('name', 'ASC')->get();
+        $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+
+        $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
+
+        return view('admin.organizations.edit', compact('organization','categories','places','streets', 'zones', 'addresses_types') );
     }
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -102,10 +128,11 @@ class OrganizationController extends Controller
      */
     public function update(OrganizationUpdateRequest $request, $id)
     {
+
         $organization = Organization::findOrFail($id);
         $organization->fill($request->all())->save();
 
-        return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización actualizada con éxito');
+        return redirect('admin/organizations/' . $organization->id.'/edit#organization_tab')->with('message', 'Organización actualizada con éxito');
     }
 
     /**
@@ -119,52 +146,113 @@ class OrganizationController extends Controller
         //
     }
 
-    /*
-    public function createPlace(Request $request, $id)
+    public function storePlace(Request $request, $org_id)
     {
-        $organization = Organization::findOrFail($id);
 
-        dd($request);
+        //dd($request);
 
+        $organization = Organization::with('addresses', 'places')->findOrFail($org_id); 
 
-        switch ($request->address_type) {
-            case '1':
-                $address_type_name = 'Dirección';
-                break;
-            case '2':
-                $address_type_name = 'Casa Central';
-                break;
-            case '3':
-                $address_type_name = 'Sucursal';
-                break;
+        $address_type_id = $request->get('address_type');
 
-            case '4':
-                $address_type_name = 'Oficina';
-                break;
+        // Determino el nombre del tipo de dirección
+        if ($address_type_id === "0"){
 
-            case '5':
-                $address_type_name = 'Planta Industrial';
-                break;
-            case '-1':
-                $address_type_name = $request->address_type_name;
-                break;
+            //dd('nuevo');
+
+            $address_type_name =  $request->get('address_type_name');
+
+        } else {
+
+            $address_type_name = AddressType::findOrFail($address_type_id)->name;
             
-            default:
-                $address_type_name = "";
-                break;
         }
 
-        $request['address_type'] = $address_type_name;
+
+        # Start transaction
+        DB::beginTransaction();
+
+        // Elimino relacion anterior de espacio / dirección
+        if ($request->get('prev_rel_type') === "place"){
+
+            $organization->places()->detach($request->get('prev_rel_value'));
+
+        } else if ($request->get('prev_rel_type') === "address"){
+
+            $organization->addresses()->detach($request->get('prev_rel_value'));
+
+        }
 
 
-        unset($request['address_type_name']);
+        if($request->place) { // Si hay espacio asociado a la org
 
+            // Determinar si el espacio ya esta asociado a la org
+            $exist = $organization->places()->where('places.id', $request->place)->first();
 
-        $address = Address::create($request->all());
+            if(empty($exist)) {
 
-        $address->organization()->attach($request->get('tags'));
+                $organization->places()->attach($request->place, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
 
-        return redirect()->route('organizations.edit', $organization->id)->with('message', 'Lugar asociado exitosamente');
+                DB::commit();
+
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Espacio asociado con éxito');
+
+            } else {
+
+                DB::rollBack();
+
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('El espacio elegido ya se encuentra asociado');
+
+            }
+
+        } else {
+
+            //dd($request);
+
+            $address = Address::create($request->all());
+            
+            if ($address) {
+                
+                $address_organization = $address->organizations()->attach($organization->id, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
+
+                DB::commit();
+
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Dirección asociada con éxito');
+
+            } else {
+
+                DB::rollBack();
+
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('Error al crear la dirección');
+            }
+
+        }
+
     }
-    */
+
+
+
+    public function destroyAddress($org_id, $address_id)
+    {
+        
+        $organization = Organization::findOrFail($org_id);
+        $organization->addresses()->where('addresses.id', $address_id)->delete();
+
+        // $address = Address::join('address_organization', 'addresses.id', '=', 'address_organization.address_id')
+        //     ->where('address_organization.organization_id', $org_id)
+        //     ->where('address_organization.address_id', $address_id)
+        //     ->delete();
+
+        return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Dirección eliminada correctamente');
+    }
+
+
+    public function destroyPlace($org_id, $place_id)
+    {
+        $organization = Organization::findOrFail($org_id);
+        $organization->places()->detach($place_id);
+
+        return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Espacio desvinculado correctamente');
+    }
+
 }

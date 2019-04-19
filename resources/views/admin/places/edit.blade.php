@@ -7,19 +7,19 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-8" aria-label="breadcrumb">
+        <nav class="col-md-10" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
             <li class="breadcrumb-item"><a href="/admin/places">Espacios</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <form id="form_create_place" method="POST" action="/admin/places/{{ $place->id }}" method="POST">
-                {{ method_field('PATCH') }}b
+                {{ method_field('PATCH') }}
                     <div class="card-header">
-                        Editar espacio
+                        <h2>Editar espacio:: <strong>{{$place->name}}</strong></h2>
                     </div>
                     <div class="card-body">
                         @if($errors->any())
@@ -51,16 +51,16 @@
                         <div class="form-group row">
                             <label for="description" class="col-md-3 col-form-label text-md-right">Breve descripción </label>
                             <div class="col-md-8">
-                                <textarea class="form-control" name="description" rows="3">{{ $place->description }}</textarea>
+                                <textarea class="form-control" name="description" rows="8">{{ $place->description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="street" class="col-md-3 col-form-label text-md-right">Calle(*)</label>
+                            <label for="street_id" class="col-md-3 col-form-label text-md-right">Calle(*)</label>
                             <div class="col-md-8">
-                                <select id="street" name="street" class="form-control form-control-xl selectpicker" data-live-search="true"  required>
+                                <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true"  required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($streets as $street)
-                                    <option value="{{ $street->id }}" @if ($street->id == $place->street) selected @endif >
+                                    <option value="{{ $street->id }}" @if ($street->id == $place->address->street_id) selected @endif >
                                         {{ $street->name }}
                                     </option>
                                     @endforeach
@@ -70,32 +70,32 @@
                         <div class="form-group row">
                             <label for="number" class="col-md-3 col-form-label text-md-right">Número (*)</label>
                             <div class="col-md-3">
-                                <input name="number" id="number" type="number" class="form-control" value="{{ $place->number }}" required>
+                                <input name="number" id="number" type="number" class="form-control" value="{{ $place->address->number }}" required>
                             </div>
 
-                            <label for="depto" class="col-md-2 col-form-label text-md-right">Piso / Dpto</label>
+                            <label for="floor" class="col-md-2 col-form-label text-md-right">Piso / Dpto</label>
                             <div class="col-md-3">
-                                <input name="depto" id="depto" type="text" class="form-control" value="{{ $place->depto }}" disabled>
+                                <input name="floor" id="floor" type="text" class="form-control" value="{{ $place->address->floor }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="lat" class="col-md-3 col-form-label text-md-right">Latitud</label>
                             <div class="col-md-3">
-                                <input name="lat" id="lat" type="text" class="form-control" value="{{ $place->lat }}">
+                                <input name="lat" id="lat" type="text" class="form-control" value="{{ $place->address->lat }}">
                             </div>
                             <label for="lng" class="col-md-2 col-form-label text-md-right">Longitud</label>
                             <div class="col-md-3">
-                                <input name="lng" id="lng" type="text" class="form-control" value="{{ $place->lng }}">
+                                <input name="lng" id="lng" type="text" class="form-control" value="{{ $place->address->lng }}">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="zone" class="col-md-3 col-form-label text-md-right">Zona</label>
-                            <div class="col-md-8">
-                                <select id="zone" name="zone" class="form-control form-control-xl selectpicker" data-live-search="true">
+                            <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
+                            <div class="col-md-6">
+                                <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true">
                                     <option value="" >Selecciona...</option>
                                     @foreach($zones as $zone)
-                                    <option value="{{ $zone->id }}" @if ($zone->id == $place->zone) selected @endif>
+                                    <option value="{{ $zone->id }}" @if ($zone->id == $place->address->zone_id) selected @endif>
                                         {{ $zone->name }}
                                     </option>
                                     @endforeach
@@ -103,7 +103,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
@@ -124,6 +123,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
 <script src="{{ asset('libs/stringToSlug/jquery.stringToSlug.min.js') }}"></script>
 <script>
+
     $(document).ready(function(){
 
         $('.selectpicker').selectpicker();
@@ -132,7 +132,9 @@
             callback: function(text){
                 $('#slug').val(text);
             }
-        });    
+        }); 
+
     });
+
 </script>
 @endsection

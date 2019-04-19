@@ -15,9 +15,11 @@ class CategoryTableSeeder extends Seeder
     {
         $categories = ['Alojamiento','Gastronomía', 'Esparcimiento', 'Transporte'];
 
+        $sucategories['Alojamiento'] = ['Hoteles', 'Pensiones'];
+
     	foreach ($categories as $key => $category) {
 
-			\DB::table('categories')->insert(array(
+			$category_id = \DB::table('categories')->insertGetId(array(
 
 	                'name' => $category,
 	                'category_id' => 0,
@@ -27,20 +29,23 @@ class CategoryTableSeeder extends Seeder
                     'updated_at' => date('Y-m-d H:m:s')
 	        ));
 
-            /*
 
-            foreach ($category as $key => $subcategory) {
-                \DB::table('categories')->insert(array(
+            if (isset($sucategories[$category])) {
 
-                    'name' => $subcategory,
-                    'category_id' => 0,
-                    'slug'  => Str::slug($subcategory),
-                    'state' => 1,
-                    'created_at' => date('Y-m-d H:m:s'),
-                    'updated_at' => date('Y-m-d H:m:s')
-                ));
-            }
-            */
+                foreach ($sucategories[$category] as $key => $subcategory) {
+
+                    \DB::table('categories')->insert(array(
+
+                        'name' => $subcategory,
+                        'category_id' => $category_id,
+                        'slug'  => Str::slug($subcategory),
+                        'state' => 1,
+                        'created_at' => date('Y-m-d H:m:s'),
+                        'updated_at' => date('Y-m-d H:m:s')
+                    ));
+                }
+
+            } 
 
 		}
     }

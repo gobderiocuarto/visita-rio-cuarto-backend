@@ -2,9 +2,7 @@
     <div class="card">
         <div class="card-header">
             <h2>Direcciones </h2> 
-            <a href="{{ route('organizations.create') }}" class="pull-right btn btn-sm btn-primary">
-                Crear
-            </a>
+            <button id="places_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i>Crear</button>
         </div>
         <div class="card-body">
             <table class="table table-striped table-hover">
@@ -16,15 +14,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($addresses as $address)
+                @foreach($organization->places as $place)
                     <tr>
-                        <td><strong>{{ $address->address_type }}</strong></td>
-                        <td>{{ $address->street }}, {{ $address->number }}, (Espacio)</td>
+                        <td><strong>{{ $place->pivot->address_type_name }}</strong></td>
+                        <td>{{ $place->address->street->name }} {{ $place->address->number }}, <strong>{{ $place->name }}</strong></strong></td>
                         <td width="10px">
-                            <a href="#" class="btn btn-sm btn-default">Editar</a>
+                            <button type="button" class="btn btn-sm btn-success places_btn_edit" data-rel-type="place" data-rel-value="{{ $place->id }}">
+                                Editar
+                            </button>
                         </td>
                         <td width="10px">
-                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                            <form action="/admin/organizations/{{ $organization->id }}/places/{{ $place->id }}" method="POST">
+                                 @csrf
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                @foreach($organization->addresses as $address)
+                    <tr>
+                        <td><strong>{{ $address->pivot->address_type_name }}</strong></td>
+                        <td>{{ $address->street->name }} {{ $address->number }}</td>
+                        <td width="10px">
+                            <button type="button" class="btn btn-sm btn-success places_btn_edit" data-rel-type="address" data-rel-value="{{ $address->id }}">
+                                Editar
+                            </button>
+                        </td>
+                        <td width="10px">
+                            <form action="/admin/organizations/{{ $organization->id }}/addresses/{{ $address->id }}" method="POST">
+                                 @csrf
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -34,31 +54,32 @@
     </div>
 </div>
 
-<div id="add_place" class="mt-2">
-    <form id="form_add_place" method="POST" action="/admin/organizations/{{ $organization->id }}/place" method="POST">
+<div id="add_edit_place" class="mt-2" style="display: none;">
+    <form id="form_place" method="POST" action="/admin/organizations/{{ $organization->id }}/place">
         <div class="card-header">
-            <h4>Nuevo Espacio / Dirección</h4>
+            <h4 id="title_add_edit_place">Nuevo Espacio / Dirección</h4>
         </div>
         <div class="card-body">
-            @if($errors->any())
-            <div class="alert alert-warning" role="alert">
-                <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </div>
-            @elseif (Session::has('message_place'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('message') }}
-            </div>
-            @endif
             @csrf
             <div class="form-group row">
-                <label for="place" class="col-md-12 col-form-label">Espacio</label>
+                <label for="address_type" class="col-md-12 col-form-label">Tipo de dirección</label>
+                <div class="col-md-5">
+                    <select id="address_type" name="address_type" class="form-control form-control-xl" data-default-value="1" autofocus required>
+                        @foreach($addresses_types as $type)
+                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        @endforeach
+                        <option value="-1">Personalizar...</option>
+                    </select>
+
+                    <input name="address_type_name" id="address_type_name" type="hidden" value="">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="place" class="col-md-12 col-form-label">Vínculo a espacio</label>
                 <div class="col-md-8">
-                    <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" disabled>
-                        <option value="" >Selecciona...</option>
+                    <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="">
+                        <option value="">No vincular</option>
                         @foreach($places as $place)
                         <option value="{{ $place->id }}">
                             {{ $place->name }}
@@ -68,21 +89,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="address_type" class="col-md-12 col-form-label">Calle(*)</label>
-                <div class="col-md-3">
-                    <select id="address_type" name="address_type" class="form-control form-control-xl" autofocus required>
-                        <option value="1">Dirección</option>
-                        <option value="2">Casa Central</option>
-                        <option value="3">Sucursal</option>
-                        <option value="4">Oficina</option>
-                        <option value="5">Planta Industrial</option>
-                        <option value="">Personalizar...</option>
-                    </select>
-                    <input name="address_type_name" id="address_type_name" type="hidden" value="">
-                </div>
+                <label for="street_id" class="col-md-12 col-form-label">Calle(*)</label>
                 <div class="col-md-8">
-                    <select id="street" name="street" class="form-control form-control-xl selectpicker" data-live-search="true" required>
-                        <option value="" >Selecciona...</option>
+                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" required>
+                        <option value="">Selecciona...</option>
                         @foreach($streets as $street)
                         <option value="{{ $street->id }}">
                             {{ $street->name }}
@@ -129,10 +139,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="zone" class="col-md-12 col-form-label">Zona</label>
+                <label for="zone_id" class="col-md-12 col-form-label">Zona</label>
                 <div class="col-md-5">
-                    <select id="zone" name="zone" class="form-control form-control-xl selectpicker" data-live-search="true">
-                        <option value="">Selecciona...</option>
+                    <select id="zone_id" name="zone_id" class="form-control form-control-xl" data-default-value="0">
+                        <option value="0">Selecciona...</option>
                         @foreach($zones as $zone)
                         <option value="{{ $zone->id }}">
                             {{ $zone->name }}
@@ -145,12 +155,15 @@
         <div class="card-footer">
             <div class="form-group row mb-0">
                 <div class="col-md-4 offset-md-3">
-                    <button type="submit" class="btn btn-primary">Agregar Espacio</button>
+                    <button id="btn_save" type="submit" class="btn btn-primary" disabled>Guardar</button>
                 </div>
                 <div class="col-md-4">
-                    <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
+                    <button id="places_btn_cancel" type="button" class="btn btn-outline-dark">Cancelar</button>
                 </div>
             </div>
         </div>
+        <input type="hidden" id="organization" name="organization" value="{{ $organization->id }}">
+        <input type="hidden" id="rel_type" name="prev_rel_type" value="">
+        <input type="hidden" id="rel_value" name="prev_rel_value" value="">
     </form>
 </div>

@@ -22,17 +22,18 @@ class CreateOrganizationsTable extends Migration
             $table->string('slug', 128)->unique();
             $table->Text('description')->nullable();
 
+            $table->tinyinteger('state')->unsigned()->default(1);
+
             $table->string('email', 128)->unique();
             $table->string('phone')->nullable();
             $table->string('web')->nullable();
 
-            $table->tinyinteger('state')->unsigned()->default(1);
-
             $table->timestamps();
-
+            
             $table->foreign('category_id')->references('id')->on('categories')
-                ->onDelete('cascade')
+                ->onDelete('restrict')
                 ->onUpdate('cascade');
+            
         });
     }
 
