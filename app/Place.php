@@ -25,4 +25,15 @@ class Place extends Model
     }
 
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
+    public function file()
+    {
+        return $this->morphOne(File::class, 'fileable');
+    }
+
+
 }

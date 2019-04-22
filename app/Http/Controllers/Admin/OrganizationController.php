@@ -143,8 +143,11 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $organization = Organization::findOrFail($id)->delete();
+        return back()->with('message', 'Organización eliminada correctamente');
     }
+
+
 
     public function storePlace(Request $request, $org_id)
     {
@@ -193,9 +196,15 @@ class OrganizationController extends Controller
 
                 $organization->places()->attach($request->place, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
 
+                // $this->setStorageResponse('place', $request->place);
+
+
+                // DB::rollBack();
                 DB::commit();
 
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Espacio asociado con éxito');
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
+                        ->with('message', 'Espacio asociado con éxito')
+                        ->with('action', ['type' => 'place', 'value' => $request->place ]);
 
             } else {
 
@@ -215,9 +224,14 @@ class OrganizationController extends Controller
                 
                 $address_organization = $address->organizations()->attach($organization->id, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
 
+
+                // DB::rollBack();
                 DB::commit();
 
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Dirección asociada con éxito');
+
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
+                                ->with('message', 'Dirección asociada con éxito')
+                                ->with('action', ['type' => 'address', 'value' => $address->id ]);
 
             } else {
 

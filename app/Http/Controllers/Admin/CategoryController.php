@@ -27,7 +27,7 @@ class CategoryController extends Controller
     public function index()
     {
         
-        $categories = Category::orderBy('id', 'DESC')->paginate();
+        $categories = Category::orderBy('id', 'ASC')->paginate();
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -115,6 +115,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id)->delete();
+        return back()->with('message', 'Categoría eliminada correctamente');
     }
 }

@@ -1,18 +1,19 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-12" aria-label="breadcrumb">
+        <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
             <li class="breadcrumb-item active">Organizaciones</li>
           </ol>
         </nav>
-        <div class="col-md-12">
+        <div class="col-12 col-md-10">
+            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
-                    <h2>Listado de Organizaciones</h2> 
+                    <h2>Listado de organizaciones</h2> 
                     <a href="{{ route('organizations.create') }}" class="pull-right btn btn-sm btn-primary">
                         Crear
                     </a>
@@ -25,7 +26,7 @@
                                 <th width="10px">ID</th>
                                 <th>Nombre</th>
                                 <th>Categoría</th>
-                                <th colspan="3">&nbsp;</th>
+                                <th colspan="2">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,23 +36,20 @@
                                 <td>{{ $organization->name }}</td>
                                 <td>{{ $organization->category->category->name }} :: {{ $organization->category->name }}</td>
                                 <td width="10px">
-                                    <a href="{{ route('organizations.show', $organization->id) }}" class="btn btn-sm btn-default">Ver</a>
+                                    <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-default">Editar</a>
-                                </td>
-                                <td width="10px">
-                                    
-                                    <button class="btn btn-sm btn-danger">
-                                        Eliminar
-                                    </button>                           
-                                    
+                                    <form action="/admin/organizations/{{ $organization->id }}" method="POST">
+                                        {{ method_field('DELETE') }}
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>   
                     </table>
-                        {{ $organizations->render() }}
+                    {{ $organizations->render() }}
                 </div>
             </div>
         </div>

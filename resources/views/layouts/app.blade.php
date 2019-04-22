@@ -15,7 +15,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -31,17 +31,8 @@
 
                         @else
 
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Organizaciones
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ url('admin/organizations/create') }}">Nueva Organización</a>
-                            <a class="dropdown-item" href="{{ url('admin/organizations') }}">Listar Organizaciones</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('/admin/categories/create') }}">Nueva Categoría</a>
-                            <a class="dropdown-item" href="{{ url('/admin/categories') }}">Listar Categorías</a>
-                          </div>
+                        <li class="nav-item">
+                          Esta la plantilla del front
                         </li>
 
                         <li class="nav-item dropdown">

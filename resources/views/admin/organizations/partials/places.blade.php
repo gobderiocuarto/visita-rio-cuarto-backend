@@ -1,7 +1,7 @@
-<div id="list_places" class="mt-2">
+<div id="list_places" class="mt-2" @if(Session::has('action')) style="display: none;" @endif>
     <div class="card">
         <div class="card-header">
-            <h2>Direcciones </h2> 
+            <h2>Direcciones</h2> 
             <button id="places_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i>Crear</button>
         </div>
         <div class="card-body">
@@ -53,8 +53,7 @@
         </div>
     </div>
 </div>
-
-<div id="add_edit_place" class="mt-2" style="display: none;">
+<div id="add_edit_place" class="mt-2" @if(!Session::has('action')) style="display: none;" @endif>
     <form id="form_place" method="POST" action="/admin/organizations/{{ $organization->id }}/place">
         <div class="card-header">
             <h4 id="title_add_edit_place">Nuevo Espacio / Dirección</h4>
@@ -74,7 +73,6 @@
                     <input name="address_type_name" id="address_type_name" type="hidden" value="">
                 </div>
             </div>
-
             <div class="form-group row">
                 <label for="place" class="col-md-12 col-form-label">Vínculo a espacio</label>
                 <div class="col-md-8">
@@ -106,7 +104,7 @@
                     <div class="row">
                         <label for="number" class="col-md-12 col-form-label">Número (*)</label>
                         <div class="col-md-10">
-                            <input name="number" id="number" type="number" class="form-control col-md-12" value="{{ old('number') }}" required>
+                            <input name="number" id="number" type="number" class="form-control col-md-12" value="{{ $place->number }}" required>
                         </div>
                     </div>
                 </div>
@@ -163,7 +161,7 @@
             </div>
         </div>
         <input type="hidden" id="organization" name="organization" value="{{ $organization->id }}">
-        <input type="hidden" id="rel_type" name="prev_rel_type" value="">
-        <input type="hidden" id="rel_value" name="prev_rel_value" value="">
+        <input type="hidden" id="rel_type" name="prev_rel_type" @if(Session::has('action')) value="{{ Session::get('action.type') }}" @else value="" @endif>
+        <input type="hidden" id="rel_value" name="prev_rel_value" @if(Session::has('action')) value="{{ Session::get('action.value') }}" @else value="" @endif>
     </form>
 </div>

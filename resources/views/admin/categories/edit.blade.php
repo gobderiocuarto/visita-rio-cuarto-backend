@@ -1,37 +1,25 @@
-@extends('layouts.app')
-
+@extends('admin.layouts.app')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-8" aria-label="breadcrumb">
+        <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
             <li class="breadcrumb-item"><a href="/admin/categories">Categorias</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar Categoría</li>
           </ol>
         </nav>
-        <div class="col-md-8">
+        <div class="col-12 col-md-10">
+            @include('admin.layouts.partials.errors_messages')
             <div class="card">
+                <div class="card-header">
+                    <h3>Editar categoría:</h3>
+                    <h2><strong>"{{ $category->name }}"</strong></h2>
+                </div>
                 <form id="form_organization_category" method="POST" action="/admin/categories/{{ $category->id }}" method="POST">
                     {{ method_field('PATCH') }}
-                    <div class="card-header">
-                        <h2>Editar Categoría nombre:  </br><strong>"{{ $category->name }}"</strong></h2>
-                    </div>
-                    <div class="card-body">
-                        @if($errors->any())
-                        <div class="alert alert-warning" role="alert">
-                            <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                            </ul>
-                        </div>
-                        @elseif (Session::has('message'))
-                        <div class="alert alert-success" role="alert">
-                            {{ Session::get('message') }}
-                        </div>
-                        @endif
-                        @csrf
+                    @csrf
+                    <div class="card-body mt-2">
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
@@ -55,7 +43,7 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Actualizar Categoría</button>
+                                <button type="submit" class="btn btn-primary">Actualizar categoría</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
@@ -69,7 +57,6 @@
 </div>
 @endsection
 @section('scripts')
-<script src="{{ asset('libs/stringToSlug/jquery.stringToSlug.min.js') }}"></script>
 <script>
     $(document).ready(function(){
 

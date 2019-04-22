@@ -1,72 +1,54 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @section('style')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/css/bootstrap-select.min.css">
 @endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-10" aria-label="breadcrumb">
+        <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
             <li class="breadcrumb-item"><a href="/admin/organizations">Organizaciones</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Crear Organización</li>
+            <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
-        <div class="col-md-10 mx-auto mt-4 mb-2">
-            <h3>Editar organización:</h3>
-            <h2><strong>"{{ $organization->name }}"</strong></h2>
-            @if($errors->any())
-            <div class="alert alert-warning" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </div>
-            @elseif (Session::has('message'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('message') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            @endif
-            <ul class="nav nav-tabs mt-5" role="tablist">
-                <li role="presentation" class="nav-item">
-                    <a href="#organization_tab" class="nav-link active" data-toggle="tab" aria-controls="organization_tab" role="tab" title="Datos de la Organización">
-                        Datos de la organización
-                    </a>
-                </li>
-                <li role="presentation" class="nav-item">
-                    <a href="#places_tab" class="nav-link" data-toggle="tab" aria-controls="places_tab" role="tab" title="Espacios">
-                        Espacios / Direcciones
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content p-3 mt-2 border">
-                <div class="tab-pane active" role="tabpanel" id="organization_tab">
-                     @include('admin.organizations.partials.edit_organization')
+        <div class="col-12 col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Editar organización:</h3>
+                    <h2><strong>"{{ $organization->name }}"</strong></h2>
                 </div>
-                <div class="tab-pane" role="tabpanel" id="places_tab">
-                    @include('admin.organizations.partials.places')
+                <div class="card-body mt-2">
+                    @include('admin.layouts.partials.errors_messages')
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="nav-item">
+                            <a href="#organization_tab" class="nav-link active" data-toggle="tab" aria-controls="organization_tab" role="tab" title="Datos de la Organización">
+                                Datos de la organización
+                            </a>
+                        </li>
+                        <li role="presentation" class="nav-item">
+                            <a href="#places_tab" class="nav-link" data-toggle="tab" aria-controls="places_tab" role="tab" title="Espacios">
+                                Espacios / Direcciones
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-3 mt-2 border">
+                        <div class="tab-pane active" role="tabpanel" id="organization_tab">
+                             @include('admin.organizations.partials.edit_organization')
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="places_tab">
+                            @include('admin.organizations.partials.places')
+                        </div>
+                    </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>
-
 @include('admin.organizations.partials.modal_custom_place')
-
 @endsection
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
-<script src="{{ asset('libs/stringToSlug/jquery.stringToSlug.min.js') }}"></script>
-<script>
 
+<script>
 
     // ----------------------------------------------------
     // Funciones
@@ -129,7 +111,105 @@
     }
 
 
-    
+    function loadPlaceAddress() {
+
+        let rel_type = $("#rel_type").val()
+        let rel_value = $("#rel_value").val()
+
+        if (rel_value &&  rel_value) {
+
+            const title_add_edit = 'Editar espacio / dirección'
+            let url_get
+
+            let organization = $('#organization').val()
+
+            $('#title_add_edit_place').empty();
+            $('#title_add_edit_place').html(title_add_edit)
+            
+            switch (rel_type) {
+                case 'place':
+                    url_get = base_url+"/api/organizations/"+organization+"/places/"+rel_value
+                    break;
+
+                case 'address':
+
+                    url_get = base_url+"/api/organizations/"+organization+"/addresses/"+rel_value
+                    break;
+              
+                default:
+                    break;
+            }
+
+
+            $.get(url_get, function(data){ 
+
+                console.log(data);
+
+                showform(true)
+
+                // Si trae data.address se trata de un espacio
+                if (data.address) {
+
+                    if (data.address_type_id == 0) {
+                        var option = new Option(data.address_type_name, data.address_type_id); 
+                        $('#address_type').prepend($(option));
+                    }
+                    
+                    $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
+                    $('#address_type_name').val(data.address_type_name);
+
+                    $('#place option:selected').removeAttr('selected');
+                    //$('#place option[value="3"]').attr("selected",true);
+                    $("#place").val(data.id);
+
+                    $('#street_id option:selected').removeAttr('selected');
+                    //$("#street_id option[value="+data.address.street_id+"]").attr("selected",true);
+                    $("#street_id").val(data.address.street_id);
+                    $('#street_id').prop('disabled', true);
+
+                    $('#number').val(data.address.number).prop('disabled', true);
+                    $('#floor').val(data.address.floor).prop('disabled', true);
+                    $('#lat').val(data.address.lat).prop('disabled', true);
+                    $('#lng').val(data.address.lng).prop('disabled', true);                    
+
+                    $('#zone_id option:selected').removeAttr('selected');
+                    //$("#zone_id option[value="+data.address.zone.id+"]").attr("selected",true);
+                    $("#zone_id").val(data.address.zone_id);
+                    $('#zone_id').prop('disabled', true);
+
+                    $('.selectpicker').selectpicker('refresh');
+
+                } else { // se trata de una direc
+
+                    if (data.address_type_id == 0) {
+                        var option = new Option(data.address_type_name, data.address_type_id); 
+                        $('#address_type').prepend($(option));
+                    }
+                    $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
+                    $('#address_type_name').val(data.address_type_name);
+
+                    $('#street_id option:selected').removeAttr('selected');
+                    $("#street_id").val(data.street_id);
+
+                    $('#number').val(data.number);
+                    $('#floor').val(data.floor);
+                    $('#lat').val(data.lat);
+                    $('#lng').val(data.lng);                    
+
+                    $('#zone_id option:selected').removeAttr('selected');
+                    $("#zone_id").val(data.zone_id);
+
+                    $('.selectpicker').selectpicker('refresh');
+                }
+
+                //$("#nombre").val(data.name);
+                
+            });
+            
+        }
+
+    }
+
     
     $(document).ready(function(){
 
@@ -169,6 +249,7 @@
 
         }
 
+        loadPlaceAddress()
 
         // NUEVO espacio / dirección: Mostrar form al presionar boton 
         $("#places_btn_add").click(function(){
@@ -177,6 +258,9 @@
 
             $("#title_add_edit_place").empty();
             $('#title_add_edit_place').html(title_add_edit)
+
+            // $("#rel_type").val("")
+            // $("#rel_value").val("")
             showform(true) 
 
         });
@@ -185,7 +269,18 @@
         // EDITAR espacio / dirección asociada: Mostrar form al presionar boton
         $(".places_btn_edit").click(function(){
 
-            const title_add_edit = 'Editar espacio / dirección'
+            // let rel_type = $(this).data("rel-type")
+            // let rel_value = $(this).data("rel-value")
+
+            $("#rel_type").val($(this).data("rel-type"))
+            $("#rel_value").val($(this).data("rel-value"))
+
+            // loadPlaceAddres(rel_type, rel_value)
+            loadPlaceAddress()
+
+
+
+            /*const title_add_edit = 'Editar espacio / dirección'
             let url_get
             let organization = $('#organization').val()
 
@@ -279,7 +374,7 @@
 
                 //$("#nombre").val(data.name);
                 
-            });
+            });*/
              
         });
 
@@ -287,8 +382,10 @@
         // CANCELAR nuevo / edicion de espacio / dirección
         $("#places_btn_cancel").click(function(){
 
+            $("#rel_type").val("")
+            $("#rel_value").val("")
+
             showform(false) 
-            //clear_address()
 
         });
 

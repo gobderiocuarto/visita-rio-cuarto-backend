@@ -1,41 +1,25 @@
-@extends('layouts.app')
-
-@section('style')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/css/bootstrap-select.min.css">
-@endsection
+@extends('admin.layouts.app')
 @section('content')
-
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-10" aria-label="breadcrumb">
+        <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
             <li class="breadcrumb-item"><a href="/admin/places">Espacios</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
-        <div class="col-md-10">
+        <div class="col-12 col-md-10">
+            @include('admin.layouts.partials.errors_messages')
             <div class="card">
-                <form id="form_create_place" method="POST" action="/admin/places/{{ $place->id }}" method="POST">
-                {{ method_field('PATCH') }}
-                    <div class="card-header">
-                        <h2>Editar espacio:: <strong>{{$place->name}}</strong></h2>
-                    </div>
-                    <div class="card-body">
-                        @if($errors->any())
-                        <div class="alert alert-warning" role="alert">
-                            <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                            </ul>
-                        </div>
-                        @elseif (Session::has('message'))
-                        <div class="alert alert-success" role="alert">
-                            {{ Session::get('message') }}
-                        </div>
-                        @endif
-                        @csrf
+                <div class="card-header">
+                    <h3>Editar espacio:</h3>
+                    <h2><strong>"{{ $place->name }}"</strong></h2>
+                </div>
+                <form id="form_create_place" method="POST" action="/admin/places/{{ $place->id }}" method="POST" enctype="multipart/form-data">
+                    {{ method_field('PATCH') }}
+                    @csrf
+                    <div class="card-body mt-2">
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
@@ -102,11 +86,33 @@
                                 </select>
                             </div>
                         </div>
+                        @if($place->file)
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label text-md-right">Imagen principal</label>
+                            <div class="col-md-3 ">
+                                <img class="img-fluid" src="{{ Storage::url("{$place->file->file_path}") }}" alt="{{$place->file->file_alt}}">
+                            </div>
+                        </div>
+                        @endif
+                        <div class="form-group row">
+                            <label for="file" class="col-md-3 col-form-label text-md-right">Cargar nueva imagen</label>
+                            <div class="col-md-8">
+                                <input type="file" id="file" name="file" class="" value="{{ old('file') }}">
+                                <small class="form-text text-muted mt-2">El tamaño de la imagen debe ser etc, etc...</small>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
+                            <div class="col-md-8">
+                                <input type="text" id="file_alt" name="file_alt" class="form-control" value="@if($place->file) {{$place->file->file_alt}} @endif">
+                                <small class="form-text text-muted mt-2">Lorem ipsum ...</small>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                                <button type="submit" class="btn btn-primary">Actualizar espacio</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
@@ -120,10 +126,7 @@
 </div>
 @endsection
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
-<script src="{{ asset('libs/stringToSlug/jquery.stringToSlug.min.js') }}"></script>
 <script>
-
     $(document).ready(function(){
 
         $('.selectpicker').selectpicker();
@@ -135,6 +138,5 @@
         }); 
 
     });
-
 </script>
 @endsection

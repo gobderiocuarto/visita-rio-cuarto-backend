@@ -139,7 +139,7 @@ class PlaceController extends Controller
     public function update(Request $request, $id)
     {
         
-        //dd($request);
+        //dd($request->get('file_alt'));
         $place = Place::findOrFail($id);
 
         # Start transaction
@@ -168,15 +168,55 @@ class PlaceController extends Controller
 
 
             if (!$address) {
+
                 DB::rollBack();
+
             } else {
-                DB::commit();
+
+                if ($request->hasFile('file') && $request->file('file')->isValid()) {
+
+                    if($place->file) {
+                        $place->file->delete();
+
+                        if ( Storage::exists($place->file->file_path) ) {
+                            Storage::delete($place->file->file_path);
+                        }  
+                    }
+                    
+                    $new_img = $this->renameFile($request->file('file'));
+
+                    //if($new_img = $this->upload_file($request->file('file'), 'places/'.$place->id.'/') ) {
+
+                    // $path = Storage::putFileAs('folders', $request->file('file'), 'nombre_archivo')
+
+                    if( $path = Storage::putFileAs('places/'.$place->id, $request->file('file'), $new_img) ) {
+
+                        // protected function createThumbs($source_file_route, $destiny_file_route, $pixel_size)
+
+                        $place->file()->create(['file_path'=> $path, 'file_alt'=> $request->get('file_alt') ]);
+
+                        DB::commit();
+
+                        return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+                        
+                    } else {
+
+                        DB::rollBack();
+                        return back()->withInput()->withErrors(['Se produjo un error al subir el archivo. Por favor, intente nuevamente.']);
+
+                    }
+                    
+                } else {
+
+                   DB::commit(); 
+
+                   return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+                }
+                
             }
         }
 
-
-
-        return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+        
     }
 
     /**
@@ -187,6 +227,8 @@ class PlaceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $place = Place::findOrFail($id)->delete();
+        return back()->with('message', 'Espacio eliminado correctamente');
     }
+
 }

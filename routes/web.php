@@ -23,9 +23,11 @@ Auth::routes();
 
 
 Route::get('/admin', function () {
-    return redirect('admin/organizations');
+    return redirect('admin/home');
 });
 
+
+Route::resource('admin/home','Admin\HomeController');
 
 Route::resource('admin/categories','Admin\CategoryController');
 

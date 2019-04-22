@@ -1,39 +1,23 @@
-@extends('layouts.app')
-
+@extends('admin.layouts.app')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <nav class="col-md-8" aria-label="breadcrumb">
+        <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
             <li class="breadcrumb-item"><a href="/admin/organizations">Organizaciones</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Crear Organización</li>
+            <li class="breadcrumb-item active" aria-current="page">Crear</li>
           </ol>
         </nav>
-        <div class="col-md-8">
-            <h2>Crear Organizacion</h2>
-            <div class="card mt-5">
+        <div class="col-12 col-md-10">
+            @include('admin.layouts.partials.errors_messages')
+            <div class="card">
+                <div class="card-header">
+                    <h2>Crear organización</h2>
+                </div>
                 <form id="form_organization_category" method="POST" action="/admin/organizations" method="POST">
-                    <div class="card-header">
-                        <h4> Datos de la organización</h4>
-                    </div>
+                    @csrf
                     <div class="card-body">
-                        @if($errors->any())
-                        <div class="alert alert-warning" role="alert">
-                            <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                            </ul>
-                        </div>
-                        @elseif (Session::has('message'))
-                        <div class="alert alert-success" role="alert">
-                            <ul>
-                                <li>{{ Session::get('message') }}</li>
-                            </ul>
-                        </div>
-                        @endif
-                        @csrf
                         <div class="form-group row">
                             <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
                             <div class="col-md-8">
@@ -86,11 +70,10 @@
                             </div>
                         </div>                        
                     </div>
-
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Crear Organización</button>
+                                <button type="submit" class="btn btn-primary">Crear organización</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
@@ -104,11 +87,10 @@
 </div>
 @endsection
 @section('scripts')
-<script src="{{ asset('libs/stringToSlug/jquery.stringToSlug.min.js') }}"></script>
 <script>
     $(document).ready(function(){
 
-        $("#name, #slug").stringToSlug({
+        $("#name").stringToSlug({
             callback: function(text){
                 $('#slug').val(text);
             }

@@ -12,7 +12,7 @@
                         <option value="{{ $option->id }}" @if ($option->id == $organization->category_id) selected @endif >
                             {{ $option->name }}
                         </option>
-                        @endforeach                                    
+                        @endforeach                             
                     </optgroup>
                 @endforeach
             </select>
@@ -54,10 +54,9 @@
             <input name="web" id="web" type="text" class="form-control" value="{{ $organization->web }}">
         </div>
     </div> 
-
-    <div class="form-group row mb-0">
+    <div class="form-group row mt-5">
         <div class="col-md-4 offset-md-3">
-            <button type="submit" class="btn btn-primary">Actualizar Organización</button>
+            <button type="submit" class="btn btn-primary">Actualizar organización</button>
         </div>
         <div class="col-md-4">
             <button type="reset" class="btn btn-outline-dark ">Limpiar campos</button>
