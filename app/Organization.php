@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use \Conner\Tagging\Taggable;
 
 class Organization extends Model
 {
+    
+    use Taggable;
+
     protected $fillable = [
         'category_id', 'name', 'slug', 'description', 'email', 'phone', 'web'
     ];

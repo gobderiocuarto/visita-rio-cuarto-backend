@@ -23,6 +23,28 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+
+        \Validator::extend("tags_rule", function($attribute, $tags, $parameters) {
+            $array_tags = explode(',', $tags);
+
+            $rules = [
+                'tag' => 'alpha_num',
+            ];
+            
+            if ($array_tags) {
+                foreach ($array_tags as $tag) {
+                    $data = [
+                        'tag' => trim($tag)
+                    ];
+                    $validator = \Validator::make($data, $rules);
+                    if ($validator->fails()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+                
     }
 }

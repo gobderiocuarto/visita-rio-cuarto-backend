@@ -1,4 +1,7 @@
 @extends('admin.layouts.app')
+@section('styles')
+<link rel="stylesheet" href="{{ asset('libs/bootstrap-tagsinput/css/tagsinput.css') }}">
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -68,6 +71,12 @@
                             <div class="col-md-8">
                                 <input name="web" id="web" type="text" class="form-control" value="{{ old('web') }}">
                             </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tags" class="col-md-3 col-form-label text-md-right">Etiquetas (separadas por coma)</label>
+                            <div class="col-md-8">
+                                <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value="">
+                            </div>
                         </div>                        
                     </div>
                     <div class="card-footer">
@@ -87,6 +96,7 @@
 </div>
 @endsection
 @section('scripts')
+<script src="{{ asset('libs/bootstrap-tagsinput/js/tagsinput.js') }}"></script>
 <script>
     $(document).ready(function(){
 

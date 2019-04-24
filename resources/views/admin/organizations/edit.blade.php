@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
-@section('style')
+@section('styles')
+<link rel="stylesheet" href="{{ asset('libs/bootstrap-tagsinput/css/tagsinput.css') }}">
 @endsection
 @section('content')
 <div class="container">
@@ -47,7 +48,7 @@
 @include('admin.organizations.partials.modal_custom_place')
 @endsection
 @section('scripts')
-
+<script src="{{ asset('libs/bootstrap-tagsinput/js/tagsinput.js') }}"></script>
 <script>
 
     // ----------------------------------------------------

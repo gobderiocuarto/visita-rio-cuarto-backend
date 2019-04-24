@@ -16,12 +16,13 @@ use App\Place;
 use App\Street;
 use App\Zone;
 
+use \Conner\Tagging\Model\Tag;
 use App\Http\Requests\OrganizationStoreRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
 
 class OrganizationController extends Controller
 {
-    
+
     public function __construct() {
 
         $this->middleware('auth');
@@ -62,8 +63,15 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationStoreRequest $request)
     {
-        //dd($request);
+
         $organization = Organization::create($request->all());
+
+        $tags = explode(',', $request->get('tags'));
+        $organization->tag($tags);
+
+        foreach ($organization->tags as $tag) {
+           $tag->setGroup('Servicios');
+        }
         /*
 
         $organization = Organization::create ([
@@ -78,6 +86,7 @@ class OrganizationController extends Controller
         */
 
         if ($organization) {
+
             return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización creada con éxito');
         } else {
             return redirect()->back()->withErrors('Error al crear la organización');
@@ -106,6 +115,8 @@ class OrganizationController extends Controller
     {
         $organization = Organization::findOrFail($id);
 
+        $tags = implode(', ', $organization->tagNames());
+
         $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
         $places = Place::orderBy('name', 'ASC')->get();
         $streets = Street::orderBy('name', 'ASC')->get();
@@ -113,7 +124,7 @@ class OrganizationController extends Controller
 
         $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
 
-        return view('admin.organizations.edit', compact('organization','categories','places','streets', 'zones', 'addresses_types') );
+        return view('admin.organizations.edit', compact('organization','tags','categories','places','streets', 'zones', 'addresses_types') );
     }
 
 
@@ -129,8 +140,17 @@ class OrganizationController extends Controller
     public function update(OrganizationUpdateRequest $request, $id)
     {
 
+        //dd($request->all());
+
         $organization = Organization::findOrFail($id);
         $organization->fill($request->all())->save();
+
+        $tags = explode(',', $request->get('tags'));
+        $organization->retag($tags);
+
+        foreach ($organization->tags as $tag) {
+           $tag->setGroup('Servicios');
+        }
 
         return redirect('admin/organizations/' . $organization->id.'/edit#organization_tab')->with('message', 'Organización actualizada con éxito');
     }

@@ -23,11 +23,26 @@ class OrganizationUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+
+        $rules = [
             'category_id' => 'required|numeric',
             'name' => 'required',
             'slug' => 'required|unique:organizations,slug,'. $this->organization,
             'email' => 'required|email|unique:organizations,email, '. $this->organization
+        ];
+
+        $rules['tags'] = 'tags_rule';
+
+        //dd($rules);
+
+        return $rules;
+    }
+
+
+    public function messages(){
+        return [
+            'name.required' => "El campo 'Nombre' es obligatorio",
+            'tags_rule' => "Los tags sólo deben contener letras y números.",
         ];
     }
 }
