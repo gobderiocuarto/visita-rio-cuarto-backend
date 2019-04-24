@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <h2>Crear organización</h2>
                 </div>
-                <form id="form_organization_category" method="POST" action="/admin/organizations" method="POST">
+                <form id="form_organization_category" method="POST" action="/admin/organizations">
                     @csrf
                     <div class="card-body">
                         <div class="form-group row">
