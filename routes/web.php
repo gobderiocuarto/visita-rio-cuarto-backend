@@ -19,12 +19,14 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Route::get('/search', 'HomeController@search')->name('search');
 
+
+Auth::routes();
 
 Route::get('/admin', function () {
     return redirect('admin/home');
-});
+})->name('admin');
 
 
 Route::resource('admin/home','Admin\HomeController');

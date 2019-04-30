@@ -2,10 +2,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Laravel\Scout\Searchable;
 
 class Category extends Model
 {
+    use Searchable;
+    
     protected $fillable = [
         'name', 'slug', 'description', 'category_id', 'state'
     ];
@@ -19,6 +21,7 @@ class Category extends Model
     {
         return $this->hasMany(Category::class);
     }
+
 
 
 } # END CLASS

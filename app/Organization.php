@@ -5,10 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use \Conner\Tagging\Taggable;
 
+use Laravel\Scout\Searchable;
+
 class Organization extends Model
 {
     
     use Taggable;
+    use Searchable;
 
     protected $fillable = [
         'category_id', 'name', 'slug', 'description', 'email', 'phone', 'web'
@@ -27,6 +30,12 @@ class Organization extends Model
     public function places()
     {
         return $this->belongsToMany(Place::class)->withPivot('address_type_id', 'address_type_name');
+    }
+
+    public function toSearchableArray() {
+        $this->load('tagged');
+        $this->load('category.category');
+        return $this->toArray();
     }
 
 }

@@ -25,15 +25,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $array_data = array();
 
-        $array_data ['categories'] = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-
-        $array_data ['zones'] = Zone::orderBy('name', 'ASC')->where('state',1)->get();
-
-        
-        $array_data ['organizations'] = Organization::orderBy('id', 'ASC')->paginate();
-
-        return view('web.home', $array_data);
+        $organizations = Organization::orderBy('id', 'ASC')->paginate();
+        //dd($array_data);
+        return view('web.home.index', compact('organizations'));
     }
+
+
+
+    public function search(Request $request)
+    {
+        
+        $query = $request->get('search');
+        // $organizations = Organization::with('tagged')->where('name', 'like',"%$query%")->get();
+        $organizations = Organization::search($query)->get();
+        
+        //dd($organizations);
+        return view('web.home.index', compact('organizations'));
+    }
+
 }

@@ -17,6 +17,7 @@ use App\Street;
 use App\Zone;
 
 use \Conner\Tagging\Model\Tag;
+
 use App\Http\Requests\OrganizationStoreRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
 
@@ -72,6 +73,9 @@ class OrganizationController extends Controller
         foreach ($organization->tags as $tag) {
            $tag->setGroup('Servicios');
         }
+
+        $organization->update();
+
         /*
 
         $organization = Organization::create ([
