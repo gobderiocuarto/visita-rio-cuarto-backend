@@ -8,6 +8,9 @@ use App\Address;
 use App\Organization;
 use App\Place;
 
+use \Conner\Tagging\Model\Tag;
+
+
 class ApiController extends Controller
 {
 	//Traer datos de espacio por ej. para agregar a org
@@ -57,5 +60,13 @@ class ApiController extends Controller
         return $address;
         
     }
+
+
+    public function getServiceTags($termino)
+    {
+        $service_tags = Tag::inGroup('Servicios')->where('name', 'LIKE', "%$termino%")->pluck('name');
+        return $service_tags;
+    }
+
     
 } # END Class

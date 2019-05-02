@@ -147,7 +147,6 @@ class OrganizationController extends Controller
         //dd($request->all());
 
         $organization = Organization::findOrFail($id);
-        $organization->fill($request->all())->save();
 
         $tags = explode(',', $request->get('tags'));
         $organization->retag($tags);
@@ -155,6 +154,8 @@ class OrganizationController extends Controller
         foreach ($organization->tags as $tag) {
            $tag->setGroup('Servicios');
         }
+
+        $organization->fill($request->all())->save();
 
         return redirect('admin/organizations/' . $organization->id.'/edit#organization_tab')->with('message', 'Organización actualizada con éxito');
     }

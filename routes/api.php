@@ -24,3 +24,5 @@ Route::get('/addresses/{address_id}', 'ApiController@getAddress');
 Route::get('organizations/{organization_id}/places/{place_id}', 'ApiController@getOrganizationPlace');
 
 Route::get('organizations/{organization_id}/addresses/{address_id}', 'ApiController@getAddressOrganization');
+
+Route::get('services/{termino}', 'ApiController@getServiceTags');
