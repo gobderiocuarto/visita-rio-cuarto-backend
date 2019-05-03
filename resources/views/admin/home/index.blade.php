@@ -10,13 +10,19 @@
     <section class="col-12 col-md-10">
       <div class="card">
         <div class="card-body row justify-content-center">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4 offset-md-2">
             <a href="/admin/organizations/" class="btn btn-lg btn-primary mb-3 p-5 btn-block">
               <i class="fas fa-calendar-alt fa-2x d-block mb-3"></i>
               <h5 class="">Organizaciones</h5>
             </a>
           </div>
           <div class="col-12 col-md-4">
+            <a href="/admin/services/" class="btn btn-lg btn-primary mb-3 p-5 btn-block">
+              <i class="fas fa-calendar-alt fa-2x d-block mb-3"></i>
+              <h5 class="">Servicios</h5>
+            </a>
+          </div>
+          <div class="col-12 col-md-4 offset-md-2">
             <a href="/admin/places/" class="btn btn-lg btn-primary mb-3 p-5 btn-block">
               <i class="fas fa-calendar-alt fa-2x d-block mb-3"></i>
               <h5 class="">Espacios</h5>

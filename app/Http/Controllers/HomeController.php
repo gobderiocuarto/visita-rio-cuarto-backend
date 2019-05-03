@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
 
         $organizations = Organization::orderBy('id', 'ASC')->paginate();
-        //dd($array_data);
+        //dd($organizations);
         return view('web.home.index', compact('organizations'));
     }
 

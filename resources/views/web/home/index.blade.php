@@ -45,7 +45,7 @@
 	              	</div>
 	              	<div class="card-footer">
 			        	@forelse ($organization->tags as $tag)
-			        	<span class="badge badge-info">{{$tag->name}}</span>
+			        	<span class="badge badge-info">{{ $tag->name }}</span>
 			        	@empty
 			        	<em>Sin etiquetas</em>
 			        	@endforelse

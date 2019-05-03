@@ -42,3 +42,5 @@ Route::post('admin/organizations/{organization}/places/{place}','Admin\Organizat
 Route::post('admin/organizations/{organization}/addresses/{address}','Admin\OrganizationController@destroyAddress');
 
 Route::resource('admin/places','Admin\PlaceController');
+
+Route::resource('admin/services','Admin\ServiceController');

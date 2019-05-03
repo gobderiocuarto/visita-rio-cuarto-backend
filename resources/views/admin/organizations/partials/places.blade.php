@@ -156,7 +156,7 @@
                     <button id="btn_save" type="submit" class="btn btn-primary" disabled>Guardar</button>
                 </div>
                 <div class="col-md-4">
-                    <button id="places_btn_cancel" type="button" class="btn btn-outline-dark">Cancelar</button>
+                    <button id="places_btn_cancel" type="button" class="btn btn-outline-dark">Volver al listado</button>
                 </div>
             </div>
         </div>

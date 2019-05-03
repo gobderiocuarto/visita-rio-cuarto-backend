@@ -55,7 +55,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="tags" class="col-md-3 col-form-label text-md-right">Etiquetas (separadas por coma)</label>
+        <label for="tags" class="col-md-3 col-form-label text-md-right">Listado de Servicios (separar mediante coma)</label>
         <div class="col-md-8">
             <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value="{{ $tags }}" placeholder="Etiquetas">
         </div>
