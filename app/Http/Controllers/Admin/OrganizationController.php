@@ -177,16 +177,13 @@ class OrganizationController extends Controller
     public function storePlace(Request $request, $org_id)
     {
 
-        //dd($request);
-
         $organization = Organization::with('addresses', 'places')->findOrFail($org_id); 
+        //dd($request->get('address_type_name'));
 
         $address_type_id = $request->get('address_type');
 
-        // Determino el nombre del tipo de dirección
-        if ($address_type_id === "0"){
-
-            //dd('nuevo');
+        // // Determino el nombre del tipo de dirección
+        if ($request->get('address_type') === "0"){ // nuevo tipo 
 
             $address_type_name =  $request->get('address_type_name');
 
@@ -198,72 +195,118 @@ class OrganizationController extends Controller
 
 
         # Start transaction
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
         // Elimino relacion anterior de espacio / dirección
-        if ($request->get('prev_rel_type') === "place"){
+        // if ($request->get('prev_rel_type') === "place"){
 
-            $organization->places()->detach($request->get('prev_rel_value'));
+        //     $organization->places()->detach($request->get('prev_rel_value'));
 
-        } else if ($request->get('prev_rel_type') === "address"){
+        // } else if ($request->get('prev_rel_type') === "address"){
 
-            $organization->addresses()->detach($request->get('prev_rel_value'));
+        //     $organization->addresses()->detach($request->get('prev_rel_value'));
+        //     Address::find($request->get('prev_rel_value'))->delete();
 
-        }
+
+        // }
 
 
-        if($request->place) { // Si hay espacio asociado a la org
+        if($request->place) { // asocia place a org
 
-            // Determinar si el espacio ya esta asociado a la org
-            $exist = $organization->places()->where('places.id', $request->place)->first();
+            // // Determinar si el espacio ya esta asociado a la org
+            // $exist = $organization->places()->where('organizationable_id', $request->place)
+            // ->where('organizationable_type', 'App\Place')->first();
 
-            if(empty($exist)) {
+            // if(empty($exist)) {
 
-                $organization->places()->attach($request->place, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
+
+                // Elimino relacion anterior de espacio / dirección
+                if ($request->get('prev_rel_type') === "place"){
+
+                    $organization->places()->detach($request->get('prev_rel_value'));
+
+                } else if ($request->get('prev_rel_type') === "address"){
+
+                    $organization->addresses()->detach($request->get('prev_rel_value'));
+                    Address::find($request->get('prev_rel_value'))->delete();
+
+
+                }
+
+                $organization->places()->attach($request->place, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
 
                 // $this->setStorageResponse('place', $request->place);
 
+                // dd($result);
 
-                // DB::rollBack();
-                DB::commit();
+                // if($result) {
 
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
-                        ->with('message', 'Espacio asociado con éxito')
-                        ->with('action', ['type' => 'place', 'value' => $request->place ]);
+                    // DB::commit();
 
-            } else {
+                    return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
+                            ->with('message', 'Espacio asociado con éxito')
+                            ->with('action', ['type' => 'place', 'value' => $request->place ]);
 
-                DB::rollBack();
+                
 
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('El espacio elegido ya se encuentra asociado');
+                // } else {
 
-            }
+                    //dd($exist);
 
-        } else {
+                    // DB::rollBack();
+
+                    // return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('El espacio elegido ya se encuentra asociado');
+                // }
+
+            // }
+
+        } else { // asocia address a org
 
             //dd($request);
 
-            $address = Address::create($request->all());
+            // Si existe, elimino relacion anterior place / address
+
+            if ($request->get('prev_rel_type') === "place"){
+
+                $organization->places()->detach($request->get('prev_rel_value'));
+                $address = Address::create($request->all());
+               
+
+            } else if ($request->get('prev_rel_type') === "address"){
+
+                $organization->addresses()->detach($request->get('prev_rel_value'));
+                $address = Address::find($request->get('prev_rel_value'));
+                $address->fill($request->all())->save();
+
+                // dd($address);
+
+            } else {
+
+                $address = Address::create($request->all());
+
+            }
+
+
+
+
+            $organization->addresses()->attach($address->id, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
             
-            if ($address) {
+            // if ($address) {
                 
-                $address_organization = $address->organizations()->attach($organization->id, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
+                // $address_organization = $address->organizations()->attach($organization->id, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
 
-
-                // DB::rollBack();
-                DB::commit();
-
+                // DB::commit();
 
                 return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
                                 ->with('message', 'Dirección asociada con éxito')
                                 ->with('action', ['type' => 'address', 'value' => $address->id ]);
 
-            } else {
+            // } else {
 
-                DB::rollBack();
+            //     DB::rollBack();
 
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('Error al crear la dirección');
-            }
+            //     return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('Error al crear la dirección');
+            // }
 
         }
 

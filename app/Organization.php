@@ -22,14 +22,25 @@ class Organization extends Model
         return $this->belongsTo(Category::class);
     }
 
+    // public function addresses()
+    // {
+    //     return $this->belongsToMany(Address::class)->withPivot('address_type_id', 'address_type_name');
+    // }
+
     public function addresses()
     {
-        return $this->belongsToMany(Address::class)->withPivot('address_type_id', 'address_type_name');
+        return $this->morphedByMany('App\Address', 'organizationable')->withPivot('address_type_id', 'address_type_name');
     }
+
+    // public function places()
+    // {
+    //     return $this->belongsToMany(Place::class)->withPivot('address_type_id', 'address_type_name');
+    // }
+
 
     public function places()
     {
-        return $this->belongsToMany(Place::class)->withPivot('address_type_id', 'address_type_name');
+        return $this->morphedByMany('App\Place', 'organizationable')->withPivot('address_type_id', 'address_type_name');
     }
 
     public function toSearchableArray() {
@@ -37,5 +48,6 @@ class Organization extends Model
         $this->load('category.category');
         return $this->toArray();
     }
+
 
 }

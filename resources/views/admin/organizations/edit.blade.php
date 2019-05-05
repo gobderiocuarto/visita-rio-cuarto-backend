@@ -139,7 +139,6 @@
                     break;
 
                 case 'address':
-
                     url_get = base_url+"/api/organizations/"+organization+"/addresses/"+rel_value
                     break;
               
@@ -147,70 +146,82 @@
                     break;
             }
 
+            $.ajax({
+                type: "GET",
+                //dataType: "json",
+                url: url_get,
+                //data: dataString,
 
-            $.get(url_get, function(data){ 
+                success: function(data) {
 
-                console.log(data);
+                    console.log(data)
 
-                showform(true)
+                    showform(true)
 
-                // Si trae data.address se trata de un espacio
-                if (data.address) {
+                    // Si trae data.address se trata de un espacio
+                    if (data.address) {
 
-                    if (data.address_type_id == 0) {
-                        var option = new Option(data.address_type_name, data.address_type_id); 
-                        $('#address_type').prepend($(option));
+                        if (data.pivot.address_type_id == 0) {
+                            var option = new Option(data.pivot.address_type_name, data.pivot.address_type_id); 
+                            $('#address_type').prepend($(option));
+                        }
+                        
+                        $('#address_type option[value="'+data.pivot.address_type_id+'"]').attr("selected",true);
+                        $('#address_type_name').val(data.pivot.address_type_name);
+
+                        $('#place option:selected').removeAttr('selected');
+                        //$('#place option[value="3"]').attr("selected",true);
+                        $("#place").val(data.id);
+
+                        $('#street_id option:selected').removeAttr('selected');
+                        //$("#street_id option[value="+data.address.street_id+"]").attr("selected",true);
+                        $("#street_id").val(data.address.street_id);
+                        $('#street_id').prop('disabled', true);
+
+                        $('#number').val(data.address.number).prop('disabled', true);
+                        $('#floor').val(data.address.floor).prop('disabled', true);
+                        $('#lat').val(data.address.lat).prop('disabled', true);
+                        $('#lng').val(data.address.lng).prop('disabled', true);                    
+
+                        $('#zone_id option:selected').removeAttr('selected');
+                        //$("#zone_id option[value="+data.address.zone.id+"]").attr("selected",true);
+                        $("#zone_id").val(data.address.zone_id);
+                        $('#zone_id').prop('disabled', true);
+
+                        $('.selectpicker').selectpicker('refresh');
+
+                    } else { // se trata de una direc
+
+                        if (data.pivot.address_type_id == 0) {
+                            var option = new Option(data.pivot.address_type_name, data.pivot.address_type_id); 
+                            $('#address_type').prepend($(option));
+                        }                        
+
+                        $('#address_type option[value="'+data.pivot.address_type_id+'"]').attr("selected",true);
+                        $('#address_type_name').val(data.pivot.address_type_name);
+
+                        $('#street_id option:selected').removeAttr('selected');
+                        $("#street_id").val(data.street_id);
+
+                        $('#number').val(data.number);
+                        $('#floor').val(data.floor);
+                        $('#lat').val(data.lat);
+                        $('#lng').val(data.lng);                    
+
+                        $('#zone_id option:selected').removeAttr('selected');
+                        $("#zone_id").val(data.zone_id);
+
+                        $('.selectpicker').selectpicker('refresh');
                     }
-                    
-                    $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
-                    $('#address_type_name').val(data.address_type_name);
 
-                    $('#place option:selected').removeAttr('selected');
-                    //$('#place option[value="3"]').attr("selected",true);
-                    $("#place").val(data.id);
+                    //$("#nombre").val(data.name);
 
-                    $('#street_id option:selected').removeAttr('selected');
-                    //$("#street_id option[value="+data.address.street_id+"]").attr("selected",true);
-                    $("#street_id").val(data.address.street_id);
-                    $('#street_id').prop('disabled', true);
+                },  // success
 
-                    $('#number').val(data.address.number).prop('disabled', true);
-                    $('#floor').val(data.address.floor).prop('disabled', true);
-                    $('#lat').val(data.address.lat).prop('disabled', true);
-                    $('#lng').val(data.address.lng).prop('disabled', true);                    
-
-                    $('#zone_id option:selected').removeAttr('selected');
-                    //$("#zone_id option[value="+data.address.zone.id+"]").attr("selected",true);
-                    $("#zone_id").val(data.address.zone_id);
-                    $('#zone_id').prop('disabled', true);
-
-                    $('.selectpicker').selectpicker('refresh');
-
-                } else { // se trata de una direc
-
-                    if (data.address_type_id == 0) {
-                        var option = new Option(data.address_type_name, data.address_type_id); 
-                        $('#address_type').prepend($(option));
-                    }
-                    $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
-                    $('#address_type_name').val(data.address_type_name);
-
-                    $('#street_id option:selected').removeAttr('selected');
-                    $("#street_id").val(data.street_id);
-
-                    $('#number').val(data.number);
-                    $('#floor').val(data.floor);
-                    $('#lat').val(data.lat);
-                    $('#lng').val(data.lng);                    
-
-                    $('#zone_id option:selected').removeAttr('selected');
-                    $("#zone_id").val(data.zone_id);
-
-                    $('.selectpicker').selectpicker('refresh');
+                error: function(e) {
+                    alert ("Se produjo un error al recuperar los datos a editar ")
                 }
 
-                //$("#nombre").val(data.name);
-                
             });
             
         }

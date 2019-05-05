@@ -19,9 +19,15 @@ class Place extends Model
     }
 
 
+    // public function organizations()
+    // {
+    //     return $this->belongsToMany(Organization::class)->withPivot('address_type_id', 'address_type_name');
+    // }
+
+
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class)->withPivot('address_type_id', 'address_type_name');
+        return $this->morphToMany('App\Organization', 'organizationable')->withPivot('address_type_id', 'address_type_name');
     }
 
 

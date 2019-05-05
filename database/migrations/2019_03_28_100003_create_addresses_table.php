@@ -17,11 +17,8 @@ class CreateAddressesTable extends Migration
             $table->increments('id');
 
             $table->integer('street_id')->unsigned();
-            //$table->integer('organization_id')->unsigned()->nullable();
-            //$table->integer('place_id')->unsigned()->nullable();
-            //$table->string('address_type', 64)->nullable();
-            
             $table->integer('number')->unsigned()->nullable(); // Sin Numero?? Km tal??
+            
             $table->string('floor')->nullable();
             $table->float('lat', 10,6)->nullable();
             $table->float('lng', 10,6)->nullable();
@@ -29,12 +26,8 @@ class CreateAddressesTable extends Migration
 
             $table->timestamps();
 
-            //$table->primary(['street_id', 'number']);
-            /*
-            $table->foreign('organization_id')->references('id')->on('organizations')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            */
+            $table->unique(['street_id', 'number']);
+            
         });
     }
 
