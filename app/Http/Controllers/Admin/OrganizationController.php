@@ -104,10 +104,10 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -193,34 +193,27 @@ class OrganizationController extends Controller
             
         }
 
-
         # Start transaction
         // DB::beginTransaction();
 
-        // Elimino relacion anterior de espacio / dirección
-        // if ($request->get('prev_rel_type') === "place"){
-
-        //     $organization->places()->detach($request->get('prev_rel_value'));
-
-        // } else if ($request->get('prev_rel_type') === "address"){
-
-        //     $organization->addresses()->detach($request->get('prev_rel_value'));
-        //     Address::find($request->get('prev_rel_value'))->delete();
-
-
-        // }
-
-
         if($request->place) { // asocia place a org
 
-            // // Determinar si el espacio ya esta asociado a la org
-            // $exist = $organization->places()->where('organizationable_id', $request->place)
-            // ->where('organizationable_type', 'App\Place')->first();
+            // Determinar si el espacio ya esta asociado a la org
+            $exist = $organization->places()->where('organizationable_id', $request->place)
+            ->where('organizationable_type', 'App\Place')->first();
 
-            // if(empty($exist)) {
+            if(!empty($exist)) {
 
+                //dd($exist);
+
+                // DB::rollBack();
+
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('El espacio elegido ya se encuentra asociado');
+
+            } else {
 
                 // Elimino relacion anterior de espacio / dirección
+
                 if ($request->get('prev_rel_type') === "place"){
 
                     $organization->places()->detach($request->get('prev_rel_value'));
@@ -237,28 +230,13 @@ class OrganizationController extends Controller
 
                 // $this->setStorageResponse('place', $request->place);
 
-                // dd($result);
+                // DB::commit();
 
-                // if($result) {
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
+                        ->with('message', 'Espacio asociado con éxito')
+                        ->with('action', ['type' => 'place', 'value' => $request->place ]);
 
-                    // DB::commit();
-
-                    return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
-                            ->with('message', 'Espacio asociado con éxito')
-                            ->with('action', ['type' => 'place', 'value' => $request->place ]);
-
-                
-
-                // } else {
-
-                    //dd($exist);
-
-                    // DB::rollBack();
-
-                    // return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('El espacio elegido ya se encuentra asociado');
-                // }
-
-            // }
+            }
 
         } else { // asocia address a org
 
@@ -286,18 +264,12 @@ class OrganizationController extends Controller
 
             }
 
-
-
-
             $organization->addresses()->attach($address->id, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
             
-            // if ($address) {
-                
-                // $address_organization = $address->organizations()->attach($organization->id, ['address_type_name' => $address_type_name, 'address_type_id' => $address_type_id ]);
+            
+            // DB::commit();
 
-                // DB::commit();
-
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
+            return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
                                 ->with('message', 'Dirección asociada con éxito')
                                 ->with('action', ['type' => 'address', 'value' => $address->id ]);
 

@@ -11,6 +11,13 @@ use App\Organization;
 
 class ServiceController extends Controller
 {
+
+    public function __construct() {
+
+        $this->middleware('auth');
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -54,10 +61,12 @@ class ServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     //
+    // }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -67,12 +76,19 @@ class ServiceController extends Controller
      */
     public function edit($id)
     {
-
+        // Obtener detalle del tag
         $service = Tag::findOrFail($id);
 
-        $organizations = Organization::withAnyTag(["$service->name"])->get();
+        // Organizaciones asociadas al grupo de tags "servicio" 
+        $service_orgs = Organization::withAnyTag(["$service->name"])->orderBy('name','ASC')->paginate();
 
-        return view('admin.services.edit', compact('service', 'organizations') );
+        // $list_orgs = Organization::where('state', 1)->orderBy('name','DESC')->get();
+
+        $list_orgs = Organization::withoutTags(["$service->name"])->where('state', 1)->orderBy('name','DESC')->get();
+
+        // dd($list_orgs);
+
+        return view('admin.services.edit', compact('service', 'service_orgs', 'list_orgs') );
 
     }
 
@@ -94,7 +110,6 @@ class ServiceController extends Controller
 
         $organizations = Organization::withAnyTag(["$old_name"])->get();
 
-
         foreach ($organizations as $organization) {
 
             $result = Tagged::where('taggable_id',$organization->id)
@@ -105,13 +120,12 @@ class ServiceController extends Controller
 
             //dd($result);
 
+            $organization->save();
+
         }
 
         $service->fill($request->all())->save();
-
-
         return redirect('admin/services/' . $service->id.'/edit')->with('message', 'Servicio actualizado con éxito');
-
     }
 
     /**
@@ -123,5 +137,42 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function storeOrganization(Request $request, $service_id)
+    {
+
+        $service = Tag::findOrFail($service_id);
+
+        $organization = Organization::findOrFail($request->organization);
+
+        if (!in_array($service->name, $organization->tagNames())) {
+            $organization->tag("$service->name"); // attach the tag
+            $organization->save();
+            return redirect('admin/services/'.$service_id.'/edit')->with('message', 'Organización agregada con éxito');
+
+        } else {
+            return redirect()->back()->withErrors('Error al agregar la organización');
+        }
+
+    }
+
+
+    public function destroyOrganization(Request $request, $service_id)
+    {
+
+        $service = Tag::findOrFail($service_id);
+
+        $organization = Organization::findOrFail($request->organization);
+
+        if (in_array($service->name, $organization->tagNames())) {
+            $organization->untag("$service->name"); // attach the tag
+            $organization->save();
+            return redirect('admin/services/'.$service_id.'/edit')->with('message', 'Organización desvinculada con éxito');
+
+        } else {
+            return redirect()->back()->withErrors('Error al desvincular la organización');
+        }
+
     }
 }

@@ -69,7 +69,6 @@
                         @endforeach
                         <option value="-1">Personalizar...</option>
                     </select>
-
                     <input name="address_type_name" id="address_type_name" type="hidden" value="">
                 </div>
             </div>
@@ -117,7 +116,6 @@
                     </div>
                 </div>                
             </div>
-
             <div class="form-group row">
                 <div class="col-md-3">
                     <div class="row">
