@@ -15,6 +15,8 @@ use App\Zone;
 
 use App\Http\Requests\PlaceStoreRequest;
 
+use Intervention\Image\ImageManagerStatic as Image;
+
 class PlaceController extends Controller
 {
 
@@ -139,82 +141,142 @@ class PlaceController extends Controller
     public function update(Request $request, $id)
     {
         
-        //dd($request->get('file_alt'));
+        //dd($request->all());
         $place = Place::findOrFail($id);
 
-        # Start transaction
-        DB::beginTransaction();
+        $place->address->fill($request->all())->save();
 
-        $place->name = $request->get('name'); 
-        $place->slug = $request->get('slug');
-        $place->description = $request->get('description');
-    
-        $result_1 = $place->save();
+        // dd($place->address);
 
-        if (!$result_1) {
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
 
-            DB::rollBack();
+            $folder_img = 'places/'.$place->id.'/';
+            $thumb_img = $folder_img.'thumbs/';
 
-        } else {
+            // Borrar archivos anteriores, si existen
+            if($place->file) {
 
-            $address = Address::where('id', $place->address_id)->update ([
-                  'street_id' => $request->get('street_id') 
-                , 'number' => $request->get('number')
-                , 'floor' => $request->get('floor')
-                , 'lat' => $request->get('lat')
-                , 'lng' => $request->get('lng')
-                , 'zone_id' => $request->get('zone_id')
-            ]);
-
-
-            if (!$address) {
-
-                DB::rollBack();
-
-            } else {
-
-                if ($request->hasFile('file') && $request->file('file')->isValid()) {
-
-                    if($place->file) {
-                        $place->file->delete();
-
-                        if ( Storage::exists($place->file->file_path) ) {
-                            Storage::delete($place->file->file_path);
-                        }  
-                    }
-                    
-                    $new_img = $this->renameFile($request->file('file'));
-
-                    //if($new_img = $this->upload_file($request->file('file'), 'places/'.$place->id.'/') ) {
-
-                    // $path = Storage::putFileAs('folders', $request->file('file'), 'nombre_archivo')
-
-                    if( $path = Storage::putFileAs('places/'.$place->id, $request->file('file'), $new_img) ) {
-
-                        // protected function createThumbs($source_file_route, $destiny_file_route, $pixel_size)
-
-                        $place->file()->create(['file_path'=> $path, 'file_alt'=> $request->get('file_alt') ]);
-
-                        DB::commit();
-
-                        return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
-                        
-                    } else {
-
-                        DB::rollBack();
-                        return back()->withInput()->withErrors(['Se produjo un error al subir el archivo. Por favor, intente nuevamente.']);
-
-                    }
-                    
-                } else {
-
-                   DB::commit(); 
-
-                   return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
-                }
-                
+                if (Storage::exists($folder_img.$place->file->file_path) ) {
+                    Storage::delete($folder_img.$place->file->file_path);
+                    Storage::delete($thumb_img.$place->file->file_path);
+                }  
+                $place->file->delete();
             }
+
+            // Renombrar archivo entrante
+            $new_img = $this->renameFile($request->file('file'));
+
+            if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
+
+                Storage::makeDirectory($thumb_img);
+
+                $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
+
+                $place->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
+
+                // DB::commit();
+
+                // return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+                
+            } 
+            
         }
+
+        $place->save();
+
+        return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+
+        // # Start transaction
+        // // DB::beginTransaction();
+
+        // //$place->fill($request->all())->save();
+
+        // $place->name = $request->get('name'); 
+        // $place->slug = $request->get('slug');
+        // $place->description = $request->get('description');
+
+        // // $result_1 = $place->save();
+        // $result_1 = TRUE;
+
+        // if (!$result_1) {
+
+        //     DB::rollBack();
+
+        // } else {
+
+        //     //  'street_id', 'number', 'floor', 'lat', 'lng', 'zone_id'
+
+        //     // $address = Address::where('id', $place->address_id)->update ([
+        //     //       'street_id' => $request->get('street_id') 
+        //     //     , 'number' => $request->get('number')
+        //     //     , 'floor' => $request->get('floor')
+        //     //     , 'lat' => $request->get('lat')
+        //     //     , 'lng' => $request->get('lng')
+        //     //     , 'zone_id' => $request->get('zone_id')
+        //     // ]);
+
+            
+
+        //     $place->save();
+
+        //     dd($place);
+
+
+
+
+
+        //     if (!$address) {
+
+        //         DB::rollBack();
+
+        //     } else {
+
+        //         if ($request->hasFile('file') && $request->file('file')->isValid()) {
+
+        //             $folder_img = 'places/'.$place->id.'/';
+
+        //             // Borrar archivos anteriores, si existen
+        //             if($place->file) {
+
+        //                 if (Storage::exists($folder_img.$place->file->file_path) ) {
+        //                     Storage::delete($folder_img.$place->file->file_path);
+        //                 }  
+        //                 $place->file->delete();
+        //             }
+
+        //             // Renombrar archivo entrante
+        //             $new_img = $this->renameFile($request->file('file'));
+
+        //             if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
+
+        //                 $thumb_img = $folder_img.'thumbs/';
+
+        //                 Storage::makeDirectory($thumb_img);
+
+        //                 $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
+ 
+        //                 $place->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
+
+        //                 DB::commit();
+
+        //                 return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+                        
+        //             } else {
+
+        //                 DB::rollBack();
+        //                 return back()->withInput()->withErrors(['Se produjo un error al subir el archivo. Por favor, intente nuevamente.']);
+
+        //             }
+                    
+        //         } else {
+
+        //            DB::commit(); 
+
+        //            return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+        //         }
+                
+        //     }
+        // }
 
         
     }

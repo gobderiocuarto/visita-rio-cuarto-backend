@@ -90,7 +90,9 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label text-md-right">Imagen principal</label>
                             <div class="col-md-3 ">
-                                <img class="img-fluid" src="{{ Storage::url("{$place->file->file_path}") }}" alt="{{$place->file->file_alt}}">
+                                <a target="_blank" href="{{ Storage::url("places/{$place->id}/{$place->file->file_path}") }}">
+                                    <img class="img-fluid" src="{{ Storage::url("places/{$place->id}/thumbs/{$place->file->file_path}") }}" alt="{{$place->file->file_alt}}">
+                                </a>
                             </div>
                         </div>
                         @endif
