@@ -27,7 +27,16 @@ class CategoryController extends Controller
     public function index()
     {
         
-        $categories = Category::orderBy('id', 'ASC')->paginate();
+        $categories = Category::where('category_id',0)->orderBy('name','ASC')->paginate(2);
+
+        // $page = ($categories->currentPage() <= $categories->lastPage()) ? $categories->currentPage() : $categories->lastPage() ;
+
+        // dd($page);
+
+        // public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+
+        // Model::find(...)->paginate($per_page, ['*'], 'page', $page);
+        
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -52,6 +61,7 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
 
+        // dd($request);
         $category = Category::create($request->all());
 
         return redirect()->route('categories.edit', $category->id)->with('message', 'Categoría creada con éxito');
@@ -69,7 +79,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::findOrFail($id);
-
         return view('admin.categories.show', compact('category'));
     }
 
@@ -81,11 +90,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
+        
         $category = Category::findOrFail($id);
 
-        return view('admin.categories.edit', compact('category'));
+        $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('id','<>',$category->id)->where('state',1)->get();
+
+        $pag['list_page']= $request->get('pag');
+
+
+        return view('admin.categories.edit', compact('category', 'categories'), $pag );
     }
 
 
@@ -102,9 +117,22 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
+        if ($request->category_id <> 0) {
+
+            if ($category->categories()->count()) {
+
+               //dd("tiene hijas, NO puede");
+                return redirect()->back()->withErrors('No es posible mover la categoría al nivel inferior porque contiene categorías hijas. Debe reubicarlas antes de proceder');
+
+            }
+
+        }
+
         $category->fill($request->all())->save();
 
-        return redirect()->route('categories.edit', $category->id)->with('message', 'Categoría actualizada con éxito');
+        $list_page = (isset($request->list_page)) ? $request->list_page : 1 ;
+
+        return redirect()->route('categories.edit', ['id'=> $category->id, 'pag'=>$list_page] )->with('message', 'Categoría actualizada con éxito');
     }
 
     /**

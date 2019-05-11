@@ -23,6 +23,7 @@
                             <div class="col-md-8">
                                 <select id="category_id" name="category_id" class="form-control form-control-xl" required>
                                     <option value="" >Selecciona...</option>
+                                    <option value="0" >(Es categoría principal / Raíz)</option>
                                     @foreach($categories as $category)
                                     <option value="{{ $category->id }}" @if(1 == old('category_0')) selected @endif>{{ $category->name }}</option>
                                     @endforeach

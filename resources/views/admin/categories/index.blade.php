@@ -12,30 +12,31 @@
             @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
-                    <h2>Listado de categorías</h2> 
-                    <a href="{{ route('categories.create') }}" class="pull-right btn btn-sm btn-primary">
-                        Crear
-                    </a>
+                    <h2>Listado de categorías</h2>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-secondary text-right mb-3" >
+                        <a href="{{ route('categories.create') }}" class="btn btn-md btn-primary">
+                            Crear categoría
+                        </a>
+                    </div>    
                     <table class="table table-striped table-hover">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
-                                <th width="10px">ID</th>
                                 <th>Nombre</th>
-                                <th colspan="2">&nbsp;</th>
+                                <th width="20px">ID</th>
+                                <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($categories as $category)
-                            <tr>
-                                <td>{{ $category->id }}</td>
+                            <tr class="table-info">
                                 <td>{{ $category->name }}</td>
+                                <td>{{ $category->id }}</td>
                                 <td width="10px">
-                                    <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-success">Editar</a>
+                                    <a href="{{ route('categories.edit', [ 'id' => $category->id, 'pag' => $categories->currentPage()] ) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    
                                     <form action="/admin/categories/{{ $category->id }}" method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
@@ -43,10 +44,31 @@
                                     </form>
                                 </td>
                             </tr>
+                                @forelse($category->categories as $subcategory)
+                                <tr>
+                                    <td><i class="fas fa-angle-double-right"></i> {{ $subcategory->name }}</td>
+                                    <td>{{ $subcategory->id }}</td>
+                                    <td width="10px">
+                                        <a href="{{ route('categories.edit', [ 'id' => $subcategory->id, 'pag' => $categories->currentPage()]) }}" class="btn btn-sm btn-success">Editar</a>
+                                    </td>
+                                    <td width="10px">
+                                        <form action="/admin/categories/{{ $subcategory->id }}" method="POST">
+                                            {{ method_field('DELETE') }}
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr><td colspan="4"><i class="fas fa-asterisk"></i> (No contiene subcategorías)</td></tr>
+                                @endforelse
                             @endforeach
                         </tbody>   
                     </table>     	
-                    {{ $categories->render() }}
+                    
+                </div>
+                <div class="card-footer text-center">
+                   <div>{{ $categories->links() }}</div> 
                 </div>
             </div>
         </div>

@@ -27,6 +27,7 @@ class CategoryUpdateRequest extends FormRequest
         return [
             'name' => 'required',
             'slug' => 'required|unique:categories,slug,' . $this->category,
+            'list_page' => 'numeric | nullable',
         ];
     }
 }

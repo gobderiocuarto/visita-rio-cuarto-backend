@@ -10,7 +10,7 @@
 				@foreach ($organizations as $organization)
 			    <div class="card mb-3">
 			    	<div class="col-md-12 card-header p-3">
-			    		{{ $organization->category->category->name }} :: {{ $organization->category->name }}
+			    		@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}
 			    	</div>
 			    	<div class="card-body">
 	              		<div class="row no-gutters">		                
