@@ -34,7 +34,7 @@
                             <tr>
                                 <td>{{ $organization->id }}</td>
                                 <td>{{ $organization->name }}</td>
-                                <td>{{ $organization->category->category->name }} :: {{ $organization->category->name }}</td>
+                                <td>@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}</td>
                                 <td width="10px">
                                     <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>

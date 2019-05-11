@@ -1,0 +1,4107 @@
+[
+    {
+        "id": "1",
+        "name": "11 DE NOVIEMBRE",
+        "slug": ""
+    },
+    {
+        "id": "2",
+        "name": "12 DE OCTUBRE",
+        "slug": ""
+    },
+    {
+        "id": "3",
+        "name": "13 DE JULIO",
+        "slug": ""
+    },
+    {
+        "id": "4",
+        "name": "14 DE ABRIL",
+        "slug": ""
+    },
+    {
+        "id": "5",
+        "name": "17 DE OCTUBRE",
+        "slug": ""
+    },
+    {
+        "id": "6",
+        "name": "25 DE MAYO",
+        "slug": ""
+    },
+    {
+        "id": "7",
+        "name": "9 DE JULIO",
+        "slug": ""
+    },
+    {
+        "id": "8",
+        "name": "ABANDERADO GRANDOLI",
+        "slug": ""
+    },
+    {
+        "id": "9",
+        "name": "ABILENE",
+        "slug": ""
+    },
+    {
+        "id": "10",
+        "name": "ABRAHAM LINCOLN",
+        "slug": ""
+    },
+    {
+        "id": "11",
+        "name": "ACACIAS",
+        "slug": ""
+    },
+    {
+        "id": "12",
+        "name": "ACHALAY",
+        "slug": ""
+    },
+    {
+        "id": "13",
+        "name": "ACONCAGUA",
+        "slug": ""
+    },
+    {
+        "id": "14",
+        "name": "ACONQUIJA",
+        "slug": ""
+    },
+    {
+        "id": "15",
+        "name": "ADAN QUIROGA",
+        "slug": ""
+    },
+    {
+        "id": "16",
+        "name": "ADELIA MARIA",
+        "slug": ""
+    },
+    {
+        "id": "17",
+        "name": "Agte. JOSE DUARTE",
+        "slug": ""
+    },
+    {
+        "id": "18",
+        "name": "AGUSTIN TOSCO",
+        "slug": ""
+    },
+    {
+        "id": "19",
+        "name": "ALACALUFES",
+        "slug": ""
+    },
+    {
+        "id": "20",
+        "name": "ALAMEDA",
+        "slug": ""
+    },
+    {
+        "id": "21",
+        "name": "ALBERDI",
+        "slug": ""
+    },
+    {
+        "id": "22",
+        "name": "ALBERDI (N)",
+        "slug": ""
+    },
+    {
+        "id": "23",
+        "name": "ALBERTO SORIA",
+        "slug": ""
+    },
+    {
+        "id": "24",
+        "name": "ALCALDE ANDRES ACOSTA",
+        "slug": ""
+    },
+    {
+        "id": "25",
+        "name": "ALEJANDRO AGUADO",
+        "slug": ""
+    },
+    {
+        "id": "26",
+        "name": "ALEJANDRO ROCA",
+        "slug": ""
+    },
+    {
+        "id": "27",
+        "name": "ALEJANDRO SANSI",
+        "slug": ""
+    },
+    {
+        "id": "28",
+        "name": "ALESSIO IANNACCONE",
+        "slug": ""
+    },
+    {
+        "id": "29",
+        "name": "ALFREDO TERZAGA",
+        "slug": ""
+    },
+    {
+        "id": "30",
+        "name": "ALFREDO VITULO",
+        "slug": ""
+    },
+    {
+        "id": "31",
+        "name": "ALMAFUERTE",
+        "slug": ""
+    },
+    {
+        "id": "32",
+        "name": "ALSINA",
+        "slug": ""
+    },
+    {
+        "id": "33",
+        "name": "Alte. BROWN",
+        "slug": ""
+    },
+    {
+        "id": "34",
+        "name": "ALVEAR",
+        "slug": ""
+    },
+    {
+        "id": "35",
+        "name": "AMADEO FIORI",
+        "slug": ""
+    },
+    {
+        "id": "36",
+        "name": "AMADEO MIRANDA",
+        "slug": ""
+    },
+    {
+        "id": "37",
+        "name": "AMADEO MOZART",
+        "slug": ""
+    },
+    {
+        "id": "38",
+        "name": "AMADO NERVO",
+        "slug": ""
+    },
+    {
+        "id": "39",
+        "name": "AMEGHINO",
+        "slug": ""
+    },
+    {
+        "id": "40",
+        "name": "ANACLETO PEANO",
+        "slug": ""
+    },
+    {
+        "id": "41",
+        "name": "ANDRES DADONE",
+        "slug": ""
+    },
+    {
+        "id": "42",
+        "name": "ANDRES TERZAGA",
+        "slug": ""
+    },
+    {
+        "id": "43",
+        "name": "ANGEL H. CABRAL",
+        "slug": ""
+    },
+    {
+        "id": "44",
+        "name": "ANGELA MARTINEZ",
+        "slug": ""
+    },
+    {
+        "id": "45",
+        "name": "ANIBAL PONCE",
+        "slug": ""
+    },
+    {
+        "id": "46",
+        "name": "ANTARTIDA ARGENTINA",
+        "slug": ""
+    },
+    {
+        "id": "47",
+        "name": "ANTONIO DEL VALLE",
+        "slug": ""
+    },
+    {
+        "id": "48",
+        "name": "ANTONIO F. LUCERO",
+        "slug": ""
+    },
+    {
+        "id": "49",
+        "name": "ANTONIO FERRER",
+        "slug": ""
+    },
+    {
+        "id": "50",
+        "name": "ANTONIO SAENZ",
+        "slug": ""
+    },
+    {
+        "id": "51",
+        "name": "APATAMAS",
+        "slug": ""
+    },
+    {
+        "id": "52",
+        "name": "ARAUCANOS",
+        "slug": ""
+    },
+    {
+        "id": "53",
+        "name": "ARGENTINA",
+        "slug": ""
+    },
+    {
+        "id": "54",
+        "name": "ARGÜELLO",
+        "slug": ""
+    },
+    {
+        "id": "55",
+        "name": "ARISTOBULO DEL VALLE",
+        "slug": ""
+    },
+    {
+        "id": "56",
+        "name": "ARRAYANES",
+        "slug": ""
+    },
+    {
+        "id": "57",
+        "name": "ARROYO PIEDRAS BLANCAS",
+        "slug": ""
+    },
+    {
+        "id": "58",
+        "name": "ARTURO M. BAS",
+        "slug": ""
+    },
+    {
+        "id": "59",
+        "name": "ARTURO M. JAURETCHE",
+        "slug": ""
+    },
+    {
+        "id": "60",
+        "name": "ATENAS",
+        "slug": ""
+    },
+    {
+        "id": "61",
+        "name": "ATILIO LOPEZ",
+        "slug": ""
+    },
+    {
+        "id": "62",
+        "name": "AYACUCHO",
+        "slug": ""
+    },
+    {
+        "id": "63",
+        "name": "AYMARAS",
+        "slug": ""
+    },
+    {
+        "id": "64",
+        "name": "AZOPARDO",
+        "slug": ""
+    },
+    {
+        "id": "65",
+        "name": "BACH",
+        "slug": ""
+    },
+    {
+        "id": "66",
+        "name": "BAIGORRIA",
+        "slug": ""
+    },
+    {
+        "id": "67",
+        "name": "BAJADA MANUEL LASTRA",
+        "slug": ""
+    },
+    {
+        "id": "68",
+        "name": "BALCARCE",
+        "slug": ""
+    },
+    {
+        "id": "69",
+        "name": "BARILOCHE",
+        "slug": ""
+    },
+    {
+        "id": "70",
+        "name": "BEETHOVEN",
+        "slug": ""
+    },
+    {
+        "id": "71",
+        "name": "BELGRANO",
+        "slug": ""
+    },
+    {
+        "id": "72",
+        "name": "BELISARIO ROLDAN",
+        "slug": ""
+    },
+    {
+        "id": "73",
+        "name": "BEN ALFA PETRAZZINI",
+        "slug": ""
+    },
+    {
+        "id": "74",
+        "name": "BENIGNO HERNANDEZ",
+        "slug": ""
+    },
+    {
+        "id": "75",
+        "name": "BENJAMIN CASTELLANO",
+        "slug": ""
+    },
+    {
+        "id": "76",
+        "name": "BENJAMIN FRANKLIN",
+        "slug": ""
+    },
+    {
+        "id": "77",
+        "name": "BERNARDO DE O'HIGGINS",
+        "slug": ""
+    },
+    {
+        "id": "78",
+        "name": "BERNARDO LACASE",
+        "slug": ""
+    },
+    {
+        "id": "79",
+        "name": "BERNARDO MONTEAGUDO",
+        "slug": ""
+    },
+    {
+        "id": "80",
+        "name": "BERUTTI",
+        "slug": ""
+    },
+    {
+        "id": "81",
+        "name": "BLAS PARERA",
+        "slug": ""
+    },
+    {
+        "id": "82",
+        "name": "BOLIVAR",
+        "slug": ""
+    },
+    {
+        "id": "83",
+        "name": "BOLIVIA",
+        "slug": ""
+    },
+    {
+        "id": "84",
+        "name": "Bomb. JOSE MICHELIZA",
+        "slug": ""
+    },
+    {
+        "id": "85",
+        "name": "BRASIL",
+        "slug": ""
+    },
+    {
+        "id": "86",
+        "name": "BUENA VISTA",
+        "slug": ""
+    },
+    {
+        "id": "87",
+        "name": "BUENOS AIRES",
+        "slug": ""
+    },
+    {
+        "id": "88",
+        "name": "CAÑA DE AMBAR",
+        "slug": ""
+    },
+    {
+        "id": "89",
+        "name": "CABILDO",
+        "slug": ""
+    },
+    {
+        "id": "90",
+        "name": "CABILDO DE LA VILLA DE LA CONCEPCION",
+        "slug": ""
+    },
+    {
+        "id": "91",
+        "name": "CABO DE HORNOS",
+        "slug": ""
+    },
+    {
+        "id": "92",
+        "name": "CABRERA",
+        "slug": ""
+    },
+    {
+        "id": "93",
+        "name": "CAFETO",
+        "slug": ""
+    },
+    {
+        "id": "94",
+        "name": "CALCHAQUIES",
+        "slug": ""
+    },
+    {
+        "id": "95",
+        "name": "CALDEN",
+        "slug": ""
+    },
+    {
+        "id": "96",
+        "name": "CALLAO",
+        "slug": ""
+    },
+    {
+        "id": "97",
+        "name": "CAMILO ARIAS",
+        "slug": ""
+    },
+    {
+        "id": "98",
+        "name": "CANADA",
+        "slug": ""
+    },
+    {
+        "id": "99",
+        "name": "CANTU",
+        "slug": ""
+    },
+    {
+        "id": "100",
+        "name": "Cap. FELIX MESTRE",
+        "slug": ""
+    },
+    {
+        "id": "101",
+        "name": "Cap. FRANCISCO CESAR",
+        "slug": ""
+    },
+    {
+        "id": "102",
+        "name": "Cap. MANUEL GIACHINO",
+        "slug": ""
+    },
+    {
+        "id": "103",
+        "name": "Cap. MANUEL PRADO",
+        "slug": ""
+    },
+    {
+        "id": "104",
+        "name": "CAPAYANES",
+        "slug": ""
+    },
+    {
+        "id": "105",
+        "name": "CARACAS",
+        "slug": ""
+    },
+    {
+        "id": "106",
+        "name": "CARLOS ASTRADA",
+        "slug": ""
+    },
+    {
+        "id": "107",
+        "name": "CARLOS AVILA JUAREZ",
+        "slug": ""
+    },
+    {
+        "id": "108",
+        "name": "CARLOS GARDEL",
+        "slug": ""
+    },
+    {
+        "id": "109",
+        "name": "CARLOS PELLEGRINI",
+        "slug": ""
+    },
+    {
+        "id": "110",
+        "name": "CARLOS VISMARA",
+        "slug": ""
+    },
+    {
+        "id": "111",
+        "name": "CARMELO PEREZ",
+        "slug": ""
+    },
+    {
+        "id": "112",
+        "name": "CASEROS",
+        "slug": ""
+    },
+    {
+        "id": "113",
+        "name": "CATAMARCA",
+        "slug": ""
+    },
+    {
+        "id": "114",
+        "name": "Cdro. RIVADAVIA",
+        "slug": ""
+    },
+    {
+        "id": "115",
+        "name": "CERRO CATEDRAL",
+        "slug": ""
+    },
+    {
+        "id": "116",
+        "name": "CERRO FITZ ROY",
+        "slug": ""
+    },
+    {
+        "id": "117",
+        "name": "CERRO TRONADOR",
+        "slug": ""
+    },
+    {
+        "id": "118",
+        "name": "CERVANTES",
+        "slug": ""
+    },
+    {
+        "id": "119",
+        "name": "CHACABUCO",
+        "slug": ""
+    },
+    {
+        "id": "120",
+        "name": "CHACO",
+        "slug": ""
+    },
+    {
+        "id": "121",
+        "name": "CHAMPAQUI",
+        "slug": ""
+    },
+    {
+        "id": "122",
+        "name": "CHEMECO",
+        "slug": ""
+    },
+    {
+        "id": "123",
+        "name": "CHICLANA",
+        "slug": ""
+    },
+    {
+        "id": "124",
+        "name": "CHILE",
+        "slug": ""
+    },
+    {
+        "id": "125",
+        "name": "CHUBUT",
+        "slug": ""
+    },
+    {
+        "id": "126",
+        "name": "CID CAMPEADOR",
+        "slug": ""
+    },
+    {
+        "id": "131",
+        "name": "CIUDAD DE VINAROS",
+        "slug": ""
+    },
+    {
+        "id": "132",
+        "name": "Cjal. ALFREDO SANTIAGO OVIEDO",
+        "slug": ""
+    },
+    {
+        "id": "133",
+        "name": "Cjal. CAROLINA SALGADO DE GONZALEZ",
+        "slug": ""
+    },
+    {
+        "id": "134",
+        "name": "Cjal. EIZMENDI",
+        "slug": ""
+    },
+    {
+        "id": "135",
+        "name": "Cjal. F. ALEJANDRO IMPOSTI",
+        "slug": ""
+    },
+    {
+        "id": "136",
+        "name": "Cjal. SOLANGE G. DE BARRERA",
+        "slug": ""
+    },
+    {
+        "id": "137",
+        "name": "CLAUDIO MAMERTO CUENCA",
+        "slug": ""
+    },
+    {
+        "id": "138",
+        "name": "CLODOMIRA VERA",
+        "slug": ""
+    },
+    {
+        "id": "139",
+        "name": "Cmte. AGENOR DE LA VEGA",
+        "slug": ""
+    },
+    {
+        "id": "140",
+        "name": "Cmte. DOROTEO GONZALEZ",
+        "slug": ""
+    },
+    {
+        "id": "141",
+        "name": "Cmte. JUAN A. BALMACEDA",
+        "slug": ""
+    },
+    {
+        "id": "142",
+        "name": "Cmte. JUAN A. BALMACEDA (N)",
+        "slug": ""
+    },
+    {
+        "id": "143",
+        "name": "Cmte. MARTIN QUENON",
+        "slug": ""
+    },
+    {
+        "id": "144",
+        "name": "Cnel. CONRADO VILLEGAS",
+        "slug": ""
+    },
+    {
+        "id": "145",
+        "name": "Cnel. DORREGO",
+        "slug": ""
+    },
+    {
+        "id": "146",
+        "name": "Cnel. DORREGO (N)",
+        "slug": ""
+    },
+    {
+        "id": "147",
+        "name": "Cmte. VENTURA ECHEVERRIA",
+        "slug": ""
+    },
+    {
+        "id": "148",
+        "name": "Cnel. MOLDES",
+        "slug": ""
+    },
+    {
+        "id": "149",
+        "name": "Cnel. MOLDES (N)",
+        "slug": ""
+    },
+    {
+        "id": "150",
+        "name": "Cnel. OLMEDO",
+        "slug": ""
+    },
+    {
+        "id": "151",
+        "name": "Cnel. PEDRO H. ZANNI",
+        "slug": ""
+    },
+    {
+        "id": "152",
+        "name": "Cnel. PEDRO VARGAS",
+        "slug": ""
+    },
+    {
+        "id": "153",
+        "name": "Cnel. SIMON GORORDO",
+        "slug": ""
+    },
+    {
+        "id": "154",
+        "name": "Cnel. VIDELA",
+        "slug": ""
+    },
+    {
+        "id": "155",
+        "name": "COCHANCHARAVA",
+        "slug": ""
+    },
+    {
+        "id": "156",
+        "name": "COLOMBIA",
+        "slug": ""
+    },
+    {
+        "id": "157",
+        "name": "COLON",
+        "slug": ""
+    },
+    {
+        "id": "158",
+        "name": "COMECHINGONES",
+        "slug": ""
+    },
+    {
+        "id": "159",
+        "name": "CONSTITUCION",
+        "slug": ""
+    },
+    {
+        "id": "160",
+        "name": "CORDOBA",
+        "slug": ""
+    },
+    {
+        "id": "161",
+        "name": "CORRIENTES",
+        "slug": ""
+    },
+    {
+        "id": "162",
+        "name": "COSME ARGERICH",
+        "slug": ""
+    },
+    {
+        "id": "163",
+        "name": "COSTA RICA",
+        "slug": ""
+    },
+    {
+        "id": "164",
+        "name": "COSTANERA",
+        "slug": ""
+    },
+    {
+        "id": "165",
+        "name": "Crio. JOSE CONSIGLI",
+        "slug": ""
+    },
+    {
+        "id": "166",
+        "name": "Crio. JOSE CONSIGLI (N)",
+        "slug": ""
+    },
+    {
+        "id": "167",
+        "name": "Crio. MANUEL MEDINA",
+        "slug": ""
+    },
+    {
+        "id": "168",
+        "name": "Crio. MANUEL MEDINA (N)",
+        "slug": ""
+    },
+    {
+        "id": "169",
+        "name": "CRISTOBAL BAEZ",
+        "slug": ""
+    },
+    {
+        "id": "170",
+        "name": "CUBA",
+        "slug": ""
+    },
+    {
+        "id": "171",
+        "name": "CUYO",
+        "slug": ""
+    },
+    {
+        "id": "172",
+        "name": "DALIA",
+        "slug": ""
+    },
+    {
+        "id": "173",
+        "name": "DANTE",
+        "slug": ""
+    },
+    {
+        "id": "174",
+        "name": "DANTE ASPITIA",
+        "slug": ""
+    },
+    {
+        "id": "175",
+        "name": "DE LA CONCEPCION",
+        "slug": ""
+    },
+    {
+        "id": "176",
+        "name": "DE LAS POSTAS",
+        "slug": ""
+    },
+    {
+        "id": "177",
+        "name": "DE LOS MONTONEROS",
+        "slug": ""
+    },
+    {
+        "id": "178",
+        "name": "DE LOS PONCHOS",
+        "slug": ""
+    },
+    {
+        "id": "179",
+        "name": "DE LOS TROPEROS",
+        "slug": ""
+    },
+    {
+        "id": "180",
+        "name": "DEAN FUNES",
+        "slug": ""
+    },
+    {
+        "id": "181",
+        "name": "DEL LIBERTADOR JOSE DE SAN MARTIN",
+        "slug": ""
+    },
+    {
+        "id": "182",
+        "name": "DELFINO QUIRICI",
+        "slug": ""
+    },
+    {
+        "id": "183",
+        "name": "DERMIDIO L. OBREGON",
+        "slug": ""
+    },
+    {
+        "id": "184",
+        "name": "DIAGUITAS",
+        "slug": ""
+    },
+    {
+        "id": "185",
+        "name": "DIEGO BRASH",
+        "slug": ""
+    },
+    {
+        "id": "186",
+        "name": "DIEGO PAROISSIEN",
+        "slug": ""
+    },
+    {
+        "id": "187",
+        "name": "DIEGO VELAZQUEZ",
+        "slug": ""
+    },
+    {
+        "id": "188",
+        "name": "DOMINGO FICCO",
+        "slug": ""
+    },
+    {
+        "id": "189",
+        "name": "DON BOSCO",
+        "slug": ""
+    },
+    {
+        "id": "190",
+        "name": "Dr. AMADEO SABATTINI",
+        "slug": ""
+    },
+    {
+        "id": "191",
+        "name": "Dr. CARLOS GAUDARD",
+        "slug": ""
+    },
+    {
+        "id": "192",
+        "name": "Dr. CARLOS GAUDARD (N)",
+        "slug": ""
+    },
+    {
+        "id": "193",
+        "name": "Dr. CARLOS J. NORTON",
+        "slug": ""
+    },
+    {
+        "id": "194",
+        "name": "Dr. CARLOS J. RODRIGUEZ",
+        "slug": ""
+    },
+    {
+        "id": "195",
+        "name": "Dr. EMILIO A. CONI",
+        "slug": ""
+    },
+    {
+        "id": "196",
+        "name": "Dr. FRANCISCO J. MUÑIZ",
+        "slug": ""
+    },
+    {
+        "id": "197",
+        "name": "Dr. GUILLERMO ALEJANDRO MONTES",
+        "slug": ""
+    },
+    {
+        "id": "198",
+        "name": "Dr. GUILLERMO RAWSON",
+        "slug": ""
+    },
+    {
+        "id": "199",
+        "name": "Dr. JOSE MARTORELLI",
+        "slug": ""
+    },
+    {
+        "id": "200",
+        "name": "Dr. JULIAN MAIDANA",
+        "slug": ""
+    },
+    {
+        "id": "201",
+        "name": "Dr. MARTIN DE ALVA",
+        "slug": ""
+    },
+    {
+        "id": "202",
+        "name": "Dr. TOMAS SOAJE",
+        "slug": ""
+    },
+    {
+        "id": "203",
+        "name": "Dr. VICENTE FELIPE CONTI",
+        "slug": ""
+    },
+    {
+        "id": "204",
+        "name": "Dr. VICTOR R. GUILLET",
+        "slug": ""
+    },
+    {
+        "id": "205",
+        "name": "ECHEVERRIA",
+        "slug": ""
+    },
+    {
+        "id": "206",
+        "name": "ECUADOR",
+        "slug": ""
+    },
+    {
+        "id": "207",
+        "name": "EDMUNDO D'AMICIS",
+        "slug": ""
+    },
+    {
+        "id": "209",
+        "name": "EDUARDO BAS",
+        "slug": ""
+    },
+    {
+        "id": "210",
+        "name": "EDUARDO JENNER",
+        "slug": ""
+    },
+    {
+        "id": "211",
+        "name": "EDUARDO PEREZ BULNES",
+        "slug": ""
+    },
+    {
+        "id": "212",
+        "name": "EL CHASQUE",
+        "slug": ""
+    },
+    {
+        "id": "213",
+        "name": "EL RASTREADOR",
+        "slug": ""
+    },
+    {
+        "id": "214",
+        "name": "EL SALVADOR",
+        "slug": ""
+    },
+    {
+        "id": "215",
+        "name": "ELIAS MOYANO",
+        "slug": ""
+    },
+    {
+        "id": "216",
+        "name": "EMERIC VIDAL",
+        "slug": ""
+    },
+    {
+        "id": "217",
+        "name": "EMILIO JAUTZ",
+        "slug": ""
+    },
+    {
+        "id": "218",
+        "name": "ENRIQUE ROS",
+        "slug": ""
+    },
+    {
+        "id": "219",
+        "name": "ENTRE RIOS",
+        "slug": ""
+    },
+    {
+        "id": "220",
+        "name": "ESPAÑA",
+        "slug": ""
+    },
+    {
+        "id": "221",
+        "name": "ESPERANZA",
+        "slug": ""
+    },
+    {
+        "id": "222",
+        "name": "ESTADO DE ISRAEL",
+        "slug": ""
+    },
+    {
+        "id": "223",
+        "name": "ESTADOS UNIDOS",
+        "slug": ""
+    },
+    {
+        "id": "224",
+        "name": "ESTANISLAO ZEBALLOS",
+        "slug": ""
+    },
+    {
+        "id": "225",
+        "name": "ESTEBAN A. GAZCON",
+        "slug": ""
+    },
+    {
+        "id": "226",
+        "name": "FALUCHO",
+        "slug": ""
+    },
+    {
+        "id": "227",
+        "name": "FAMATINA",
+        "slug": ""
+    },
+    {
+        "id": "228",
+        "name": "FATIMA",
+        "slug": ""
+    },
+    {
+        "id": "229",
+        "name": "FEDERICO DECOUVETTE",
+        "slug": ""
+    },
+    {
+        "id": "230",
+        "name": "FELIPE NERI GUERRA",
+        "slug": ""
+    },
+    {
+        "id": "231",
+        "name": "FERNANDO FADER",
+        "slug": ""
+    },
+    {
+        "id": "232",
+        "name": "FIDEL ARGUELLO",
+        "slug": ""
+    },
+    {
+        "id": "233",
+        "name": "FLORENCIO SANCHEZ",
+        "slug": ""
+    },
+    {
+        "id": "234",
+        "name": "FORMOSA",
+        "slug": ""
+    },
+    {
+        "id": "235",
+        "name": "FORTUNATO REMEDI",
+        "slug": ""
+    },
+    {
+        "id": "236",
+        "name": "FOTHERINGHAM",
+        "slug": ""
+    },
+    {
+        "id": "237",
+        "name": "FRANCIA",
+        "slug": ""
+    },
+    {
+        "id": "238",
+        "name": "FRANCISCO REMONDINO",
+        "slug": ""
+    },
+    {
+        "id": "239",
+        "name": "FRANCISCO ZARCO",
+        "slug": ""
+    },
+    {
+        "id": "240",
+        "name": "FRANKLIN ROOSEVELT",
+        "slug": ""
+    },
+    {
+        "id": "241",
+        "name": "FRAY ANTONIO CARDARELLI",
+        "slug": ""
+    },
+    {
+        "id": "242",
+        "name": "FRAY BENITO TESSITORE",
+        "slug": ""
+    },
+    {
+        "id": "243",
+        "name": "FRAY DONATTI",
+        "slug": ""
+    },
+    {
+        "id": "244",
+        "name": "FRAY JUSTO SANTA MARIA DE ORO",
+        "slug": ""
+    },
+    {
+        "id": "245",
+        "name": "FRAY LUDOVICO QUARANTA",
+        "slug": ""
+    },
+    {
+        "id": "246",
+        "name": "FRAY LUIS BELTRAN",
+        "slug": ""
+    },
+    {
+        "id": "247",
+        "name": "FRAY MAMERTO ESQUIU",
+        "slug": ""
+    },
+    {
+        "id": "248",
+        "name": "FRAY MOISES ALVAREZ",
+        "slug": ""
+    },
+    {
+        "id": "249",
+        "name": "FRAY QUIRICO PORRECA",
+        "slug": ""
+    },
+    {
+        "id": "250",
+        "name": "FRENCH",
+        "slug": ""
+    },
+    {
+        "id": "251",
+        "name": "GENARO IGLESIAS",
+        "slug": ""
+    },
+    {
+        "id": "252",
+        "name": "GERONIMO ALIAGA",
+        "slug": ""
+    },
+    {
+        "id": "253",
+        "name": "GERONIMO DEL BARCO",
+        "slug": ""
+    },
+    {
+        "id": "254",
+        "name": "Gob. ALEJO C. GUZMAN",
+        "slug": ""
+    },
+    {
+        "id": "255",
+        "name": "Gob. JUAN BAUTISTA BUSTOS",
+        "slug": ""
+    },
+    {
+        "id": "256",
+        "name": "Gob. ENRIQUE RODRIGUEZ",
+        "slug": ""
+    },
+    {
+        "id": "257",
+        "name": "Gob. MANUEL LOPEZ",
+        "slug": ""
+    },
+    {
+        "id": "258",
+        "name": "Gral. BRUNO MORON",
+        "slug": ""
+    },
+    {
+        "id": "259",
+        "name": "Gral. ENRIQUE MOSCONI",
+        "slug": ""
+    },
+    {
+        "id": "260",
+        "name": "Gral. ENRIQUE MOSCONI (E)",
+        "slug": ""
+    },
+    {
+        "id": "261",
+        "name": "Gral. HILARION DE LA QUINTANA",
+        "slug": ""
+    },
+    {
+        "id": "262",
+        "name": "Gral. JOSE GARIBALDI",
+        "slug": ""
+    },
+    {
+        "id": "263",
+        "name": "Gral. MIGUEL E. MOLINA",
+        "slug": ""
+    },
+    {
+        "id": "264",
+        "name": "Gral. PAZ",
+        "slug": ""
+    },
+    {
+        "id": "265",
+        "name": "Gral. PAZ (N)",
+        "slug": ""
+    },
+    {
+        "id": "266",
+        "name": "Gral. ROCA",
+        "slug": ""
+    },
+    {
+        "id": "267",
+        "name": "Gral. SOLER",
+        "slug": ""
+    },
+    {
+        "id": "268",
+        "name": "GRANADEROS",
+        "slug": ""
+    },
+    {
+        "id": "269",
+        "name": "GRITO DE ALCORTA",
+        "slug": ""
+    },
+    {
+        "id": "270",
+        "name": "GÜEMES",
+        "slug": ""
+    },
+    {
+        "id": "271",
+        "name": "GUARDIAS NACIONALES",
+        "slug": ""
+    },
+    {
+        "id": "272",
+        "name": "GUATEMALA",
+        "slug": ""
+    },
+    {
+        "id": "273",
+        "name": "GUAYAQUIL",
+        "slug": ""
+    },
+    {
+        "id": "274",
+        "name": "GUAYCURUES",
+        "slug": ""
+    },
+    {
+        "id": "275",
+        "name": "GUILLERMO MARCONI",
+        "slug": ""
+    },
+    {
+        "id": "276",
+        "name": "GUMERSINDO ALONSO",
+        "slug": ""
+    },
+    {
+        "id": "277",
+        "name": "HAITI",
+        "slug": ""
+    },
+    {
+        "id": "278",
+        "name": "HECTOR ROBERTO BRITOS",
+        "slug": ""
+    },
+    {
+        "id": "279",
+        "name": "HERMANOS VELAZCO",
+        "slug": ""
+    },
+    {
+        "id": "280",
+        "name": "HERMINIO MALVINO",
+        "slug": ""
+    },
+    {
+        "id": "281",
+        "name": "HERNANDARIAS",
+        "slug": ""
+    },
+    {
+        "id": "282",
+        "name": "HILARIO ASCASUBI",
+        "slug": ""
+    },
+    {
+        "id": "283",
+        "name": "HIPOLITO IRIGOYEN",
+        "slug": ""
+    },
+    {
+        "id": "284",
+        "name": "HONDURAS",
+        "slug": ""
+    },
+    {
+        "id": "285",
+        "name": "HUARPES",
+        "slug": ""
+    },
+    {
+        "id": "286",
+        "name": "HUMAHUACA",
+        "slug": ""
+    },
+    {
+        "id": "287",
+        "name": "HUMBERTO PRIMERO",
+        "slug": ""
+    },
+    {
+        "id": "288",
+        "name": "IGNACIO PIROVANO",
+        "slug": ""
+    },
+    {
+        "id": "289",
+        "name": "IGUAZU",
+        "slug": ""
+    },
+    {
+        "id": "290",
+        "name": "INDALECIO LOPEZ",
+        "slug": ""
+    },
+    {
+        "id": "291",
+        "name": "INDIO FELIPE ROSAS",
+        "slug": ""
+    },
+    {
+        "id": "292",
+        "name": "Ing. DINKELDEIN",
+        "slug": ""
+    },
+    {
+        "id": "293",
+        "name": "Ing. DINKELDEIN (N)",
+        "slug": ""
+    },
+    {
+        "id": "294",
+        "name": "Ing. JOSE MARIA MOYANO",
+        "slug": ""
+    },
+    {
+        "id": "295",
+        "name": "Ing. MANUEL PIZARRO",
+        "slug": ""
+    },
+    {
+        "id": "296",
+        "name": "Int. BOASI",
+        "slug": ""
+    },
+    {
+        "id": "297",
+        "name": "Int. DAGUERRE",
+        "slug": ""
+    },
+    {
+        "id": "298",
+        "name": "Int. Dr. HUMBERTO J. MUGNAINI",
+        "slug": ""
+    },
+    {
+        "id": "299",
+        "name": "Int. Dr. JAIME GIL",
+        "slug": ""
+    },
+    {
+        "id": "300",
+        "name": "INTI-HUASI",
+        "slug": ""
+    },
+    {
+        "id": "301",
+        "name": "IPE",
+        "slug": ""
+    },
+    {
+        "id": "302",
+        "name": "ISABEL DE GUEVARA",
+        "slug": ""
+    },
+    {
+        "id": "303",
+        "name": "ISABEL LA CATOLICA",
+        "slug": ""
+    },
+    {
+        "id": "304",
+        "name": "ISLAS DE LOS ESTADOS",
+        "slug": ""
+    },
+    {
+        "id": "305",
+        "name": "ISLAS GEORGIAS",
+        "slug": ""
+    },
+    {
+        "id": "306",
+        "name": "ISLAS MALVINAS",
+        "slug": ""
+    },
+    {
+        "id": "307",
+        "name": "ISLAS ORCADAS",
+        "slug": ""
+    },
+    {
+        "id": "308",
+        "name": "ITALIA",
+        "slug": ""
+    },
+    {
+        "id": "309",
+        "name": "ITUZAINGO",
+        "slug": ""
+    },
+    {
+        "id": "310",
+        "name": "JAMAICA",
+        "slug": ""
+    },
+    {
+        "id": "311",
+        "name": "JOAQUIN CRISOL",
+        "slug": ""
+    },
+    {
+        "id": "312",
+        "name": "JOAQUIN VICTOR GONZALEZ",
+        "slug": ""
+    },
+    {
+        "id": "313",
+        "name": "JORGE NEWBERY",
+        "slug": ""
+    },
+    {
+        "id": "314",
+        "name": "JORGE WASHINGTON",
+        "slug": ""
+    },
+    {
+        "id": "315",
+        "name": "JOSE A. PACHECO DE MELO",
+        "slug": ""
+    },
+    {
+        "id": "316",
+        "name": "JOSE BALZANO",
+        "slug": ""
+    },
+    {
+        "id": "317",
+        "name": "JOSE BIASSI",
+        "slug": ""
+    },
+    {
+        "id": "318",
+        "name": "JOSE BOZZANO",
+        "slug": ""
+    },
+    {
+        "id": "319",
+        "name": "JOSE CARDARELLI",
+        "slug": ""
+    },
+    {
+        "id": "320",
+        "name": "JOSE D'ERAMO",
+        "slug": ""
+    },
+    {
+        "id": "321",
+        "name": "JOSE DARRAGUEIRA",
+        "slug": ""
+    },
+    {
+        "id": "322",
+        "name": "JOSE E. COLOMBRES",
+        "slug": ""
+    },
+    {
+        "id": "323",
+        "name": "JOSE GABRIEL BROCHERO",
+        "slug": ""
+    },
+    {
+        "id": "324",
+        "name": "JOSE HERNANDEZ",
+        "slug": ""
+    },
+    {
+        "id": "325",
+        "name": "JOSE I. THAMES",
+        "slug": ""
+    },
+    {
+        "id": "326",
+        "name": "JOSE M. SERRANO",
+        "slug": ""
+    },
+    {
+        "id": "327",
+        "name": "JOSE M. SUGASTI",
+        "slug": ""
+    },
+    {
+        "id": "328",
+        "name": "JOSE MANUEL ESTRADA",
+        "slug": ""
+    },
+    {
+        "id": "329",
+        "name": "JOSE MANUEL ESTRADA (N)",
+        "slug": ""
+    },
+    {
+        "id": "330",
+        "name": "JOSE MARMOL",
+        "slug": ""
+    },
+    {
+        "id": "331",
+        "name": "JOSE MARMOL (N)",
+        "slug": ""
+    },
+    {
+        "id": "332",
+        "name": "JOSE PENNA",
+        "slug": ""
+    },
+    {
+        "id": "333",
+        "name": "JOSE SEVERO MALABIA",
+        "slug": ""
+    },
+    {
+        "id": "334",
+        "name": "JOSE T. SEMERIA",
+        "slug": ""
+    },
+    {
+        "id": "335",
+        "name": "JOSE V. DE ALVA",
+        "slug": ""
+    },
+    {
+        "id": "336",
+        "name": "JOSE VERDI",
+        "slug": ""
+    },
+    {
+        "id": "337",
+        "name": "JUAN A. DE LA MAZA",
+        "slug": ""
+    },
+    {
+        "id": "338",
+        "name": "JUAN A. FERNANDEZ",
+        "slug": ""
+    },
+    {
+        "id": "339",
+        "name": "JUAN B. FASSI",
+        "slug": ""
+    },
+    {
+        "id": "340",
+        "name": "JUAN B. JUSTO",
+        "slug": ""
+    },
+    {
+        "id": "341",
+        "name": "JUAN BAUTISTA DICHIARA",
+        "slug": ""
+    },
+    {
+        "id": "342",
+        "name": "JUAN BIALET MASSE",
+        "slug": ""
+    },
+    {
+        "id": "343",
+        "name": "JUAN BRANDINO",
+        "slug": ""
+    },
+    {
+        "id": "344",
+        "name": "JUAN CRUZ VARELA",
+        "slug": ""
+    },
+    {
+        "id": "345",
+        "name": "JUAN DE DIOS MADERA",
+        "slug": ""
+    },
+    {
+        "id": "346",
+        "name": "JUAN DE GARAY",
+        "slug": ""
+    },
+    {
+        "id": "347",
+        "name": "JUAN DIAZ DE SOLIS",
+        "slug": ""
+    },
+    {
+        "id": "348",
+        "name": "JUAN GOETHE",
+        "slug": ""
+    },
+    {
+        "id": "349",
+        "name": "JUAN GOLOBARDES",
+        "slug": ""
+    },
+    {
+        "id": "350",
+        "name": "JUAN ISLA",
+        "slug": ""
+    },
+    {
+        "id": "351",
+        "name": "JUAN JOSE CASTELLI",
+        "slug": ""
+    },
+    {
+        "id": "352",
+        "name": "JUAN JOSE PASO",
+        "slug": ""
+    },
+    {
+        "id": "353",
+        "name": "JUAN JOSE VIAMONTE",
+        "slug": ""
+    },
+    {
+        "id": "354",
+        "name": "JUAN LAFORGUE",
+        "slug": ""
+    },
+    {
+        "id": "355",
+        "name": "JUAN VASQUEZ CAÑAS",
+        "slug": ""
+    },
+    {
+        "id": "356",
+        "name": "JUANA AZURDUY DE PADILLA",
+        "slug": ""
+    },
+    {
+        "id": "357",
+        "name": "JUANA MANUELA GORRITI",
+        "slug": ""
+    },
+    {
+        "id": "358",
+        "name": "JUJUY",
+        "slug": ""
+    },
+    {
+        "id": "359",
+        "name": "JULIA DIAZ",
+        "slug": ""
+    },
+    {
+        "id": "360",
+        "name": "JULIAN AGUIRRE",
+        "slug": ""
+    },
+    {
+        "id": "361",
+        "name": "JULIO C. BORDA",
+        "slug": ""
+    },
+    {
+        "id": "362",
+        "name": "JUSTO P. HERNANDEZ",
+        "slug": ""
+    },
+    {
+        "id": "363",
+        "name": "KANTUTA",
+        "slug": ""
+    },
+    {
+        "id": "364",
+        "name": "KENNEDY",
+        "slug": ""
+    },
+    {
+        "id": "365",
+        "name": "KOWALK",
+        "slug": ""
+    },
+    {
+        "id": "366",
+        "name": "LA ALOJA",
+        "slug": ""
+    },
+    {
+        "id": "367",
+        "name": "LA PAMPA",
+        "slug": ""
+    },
+    {
+        "id": "368",
+        "name": "LAGO CORRENTOSO",
+        "slug": ""
+    },
+    {
+        "id": "369",
+        "name": "LAGO LACAR",
+        "slug": ""
+    },
+    {
+        "id": "370",
+        "name": "LAGO NAHUEL HUAPI",
+        "slug": ""
+    },
+    {
+        "id": "371",
+        "name": "LAGO TRAFUL",
+        "slug": ""
+    },
+    {
+        "id": "372",
+        "name": "LAGUNA BLANCA",
+        "slug": ""
+    },
+    {
+        "id": "373",
+        "name": "LAGUNA FRIAS",
+        "slug": ""
+    },
+    {
+        "id": "374",
+        "name": "LAGUNA LEUVUCO",
+        "slug": ""
+    },
+    {
+        "id": "375",
+        "name": "LAMADRID",
+        "slug": ""
+    },
+    {
+        "id": "376",
+        "name": "LANCEROS DEL SUD",
+        "slug": ""
+    },
+    {
+        "id": "377",
+        "name": "LANIN",
+        "slug": ""
+    },
+    {
+        "id": "378",
+        "name": "LAPACHO",
+        "slug": ""
+    },
+    {
+        "id": "379",
+        "name": "LAPRIDA",
+        "slug": ""
+    },
+    {
+        "id": "380",
+        "name": "LAS DELICIAS",
+        "slug": ""
+    },
+    {
+        "id": "381",
+        "name": "LAS GOLONDRINAS",
+        "slug": ""
+    },
+    {
+        "id": "382",
+        "name": "LAS HERAS",
+        "slug": ""
+    },
+    {
+        "id": "383",
+        "name": "LAVALLE",
+        "slug": ""
+    },
+    {
+        "id": "384",
+        "name": "LEANDRO N. ALEM",
+        "slug": ""
+    },
+    {
+        "id": "385",
+        "name": "LEON PALLIERE",
+        "slug": ""
+    },
+    {
+        "id": "386",
+        "name": "LEONARDO DA VINCI",
+        "slug": ""
+    },
+    {
+        "id": "387",
+        "name": "LEOPOLDO LUGONES",
+        "slug": ""
+    },
+    {
+        "id": "388",
+        "name": "LEYES OBRERAS",
+        "slug": ""
+    },
+    {
+        "id": "389",
+        "name": "LIBERTAD",
+        "slug": ""
+    },
+    {
+        "id": "390",
+        "name": "LINIERS",
+        "slug": ""
+    },
+    {
+        "id": "391",
+        "name": "LLAO LLAO",
+        "slug": ""
+    },
+    {
+        "id": "392",
+        "name": "LLAY LLAY",
+        "slug": ""
+    },
+    {
+        "id": "393",
+        "name": "LOPE DE VEGA",
+        "slug": ""
+    },
+    {
+        "id": "394",
+        "name": "LORENZO SUAREZ DE FIGUEROA",
+        "slug": ""
+    },
+    {
+        "id": "395",
+        "name": "LOS ALERCES",
+        "slug": ""
+    },
+    {
+        "id": "396",
+        "name": "LOS CEIBOS",
+        "slug": ""
+    },
+    {
+        "id": "397",
+        "name": "LOS GUARANIES",
+        "slug": ""
+    },
+    {
+        "id": "398",
+        "name": "LOS INCAS",
+        "slug": ""
+    },
+    {
+        "id": "399",
+        "name": "LOS INMIGRANTES",
+        "slug": ""
+    },
+    {
+        "id": "400",
+        "name": "LOS JAGÜELES",
+        "slug": ""
+    },
+    {
+        "id": "401",
+        "name": "LOS PUNTANOS",
+        "slug": ""
+    },
+    {
+        "id": "402",
+        "name": "LOS TORDOS",
+        "slug": ""
+    },
+    {
+        "id": "403",
+        "name": "LUCIANO SUBIRACHS",
+        "slug": ""
+    },
+    {
+        "id": "404",
+        "name": "LUIS GENTILE",
+        "slug": ""
+    },
+    {
+        "id": "405",
+        "name": "LUIS PASTEUR",
+        "slug": ""
+    },
+    {
+        "id": "406",
+        "name": "LUIS REINAUDI",
+        "slug": ""
+    },
+    {
+        "id": "407",
+        "name": "M. CERVANTES SAAVEDRA",
+        "slug": ""
+    },
+    {
+        "id": "408",
+        "name": "M. CERVANTES SAAVEDRA (N)",
+        "slug": ""
+    },
+    {
+        "id": "409",
+        "name": "MADRE MERCEDES DEL NIÑO JESUS",
+        "slug": ""
+    },
+    {
+        "id": "410",
+        "name": "MAESTRO VASCO ZACCARIA",
+        "slug": ""
+    },
+    {
+        "id": "411",
+        "name": "MAGALLANES",
+        "slug": ""
+    },
+    {
+        "id": "412",
+        "name": "MAIPU",
+        "slug": ""
+    },
+    {
+        "id": "413",
+        "name": "MAIPU (N)",
+        "slug": ""
+    },
+    {
+        "id": "414",
+        "name": "MANCO CAPAC",
+        "slug": ""
+    },
+    {
+        "id": "415",
+        "name": "MANSILLA",
+        "slug": ""
+    },
+    {
+        "id": "416",
+        "name": "MANUEL ANDRADA",
+        "slug": ""
+    },
+    {
+        "id": "417",
+        "name": "MANUEL ANTONIO ACEVEDO",
+        "slug": ""
+    },
+    {
+        "id": "418",
+        "name": "MANUEL CORONEL",
+        "slug": ""
+    },
+    {
+        "id": "419",
+        "name": "MANUEL NOROÑA",
+        "slug": ""
+    },
+    {
+        "id": "420",
+        "name": "MANUEL ORDOÑEZ",
+        "slug": ""
+    },
+    {
+        "id": "421",
+        "name": "MANUEL PUEBLA",
+        "slug": ""
+    },
+    {
+        "id": "422",
+        "name": "MANUEL SARSFIELD",
+        "slug": ""
+    },
+    {
+        "id": "423",
+        "name": "MANUEL SAVIO",
+        "slug": ""
+    },
+    {
+        "id": "424",
+        "name": "MANUEL UGARTE",
+        "slug": ""
+    },
+    {
+        "id": "425",
+        "name": "MANUELA CABRAL",
+        "slug": ""
+    },
+    {
+        "id": "426",
+        "name": "MANUELITA ROSAS",
+        "slug": ""
+    },
+    {
+        "id": "427",
+        "name": "MAR CHIQUITA",
+        "slug": ""
+    },
+    {
+        "id": "428",
+        "name": "MARCELO T. DE ALVEAR",
+        "slug": ""
+    },
+    {
+        "id": "429",
+        "name": "MARCOS LLOVERAS",
+        "slug": ""
+    },
+    {
+        "id": "430",
+        "name": "MARIA BENITA ARIAS",
+        "slug": ""
+    },
+    {
+        "id": "431",
+        "name": "MARIA LAFORGUE",
+        "slug": ""
+    },
+    {
+        "id": "432",
+        "name": "MARIA OLGUIN",
+        "slug": ""
+    },
+    {
+        "id": "433",
+        "name": "MARIANO BOEDO",
+        "slug": ""
+    },
+    {
+        "id": "434",
+        "name": "MARIANO FRAGUEIRO",
+        "slug": ""
+    },
+    {
+        "id": "435",
+        "name": "MARIANO LOPEZ COBO",
+        "slug": ""
+    },
+    {
+        "id": "436",
+        "name": "MARIANO MORENO",
+        "slug": ""
+    },
+    {
+        "id": "437",
+        "name": "MARIANO SANCHEZ DE LORIA",
+        "slug": ""
+    },
+    {
+        "id": "438",
+        "name": "MARIQUITA SANCHEZ DE THOMPSON",
+        "slug": ""
+    },
+    {
+        "id": "439",
+        "name": "MARTIN DE PUEYRREDON",
+        "slug": ""
+    },
+    {
+        "id": "440",
+        "name": "MARTIN FIERRO",
+        "slug": ""
+    },
+    {
+        "id": "441",
+        "name": "MARTIRES RIOCUARTENSES",
+        "slug": ""
+    },
+    {
+        "id": "442",
+        "name": "MATACOS",
+        "slug": ""
+    },
+    {
+        "id": "443",
+        "name": "MATIAS NOLASCO",
+        "slug": ""
+    },
+    {
+        "id": "444",
+        "name": "MATILDE PINO",
+        "slug": ""
+    },
+    {
+        "id": "445",
+        "name": "MAYOR EGIDIO SOSA",
+        "slug": ""
+    },
+    {
+        "id": "446",
+        "name": "MEJICO",
+        "slug": ""
+    },
+    {
+        "id": "447",
+        "name": "MENDOZA",
+        "slug": ""
+    },
+    {
+        "id": "448",
+        "name": "MERCEDARIO",
+        "slug": ""
+    },
+    {
+        "id": "449",
+        "name": "MIGUEL A. TABOADA",
+        "slug": ""
+    },
+    {
+        "id": "450",
+        "name": "MIGUEL ANGEL",
+        "slug": ""
+    },
+    {
+        "id": "451",
+        "name": "MIGUEL JUAREZ CELMAN",
+        "slug": ""
+    },
+    {
+        "id": "452",
+        "name": "MIGUEL S. TUGORES",
+        "slug": ""
+    },
+    {
+        "id": "453",
+        "name": "MIGUEL UNAMUNO",
+        "slug": ""
+    },
+    {
+        "id": "454",
+        "name": "MISIONES",
+        "slug": ""
+    },
+    {
+        "id": "455",
+        "name": "MITRE",
+        "slug": ""
+    },
+    {
+        "id": "456",
+        "name": "MOISES IRUSTA",
+        "slug": ""
+    },
+    {
+        "id": "457",
+        "name": "MOISES VALENTINUZZI",
+        "slug": ""
+    },
+    {
+        "id": "458",
+        "name": "MONTEVIDEO",
+        "slug": ""
+    },
+    {
+        "id": "459",
+        "name": "Myor. JUAN DE DIOS LOPEZ",
+        "slug": ""
+    },
+    {
+        "id": "460",
+        "name": "NATALIO J. CASTAGNO",
+        "slug": ""
+    },
+    {
+        "id": "461",
+        "name": "NELIO P. GUALPA",
+        "slug": ""
+    },
+    {
+        "id": "462",
+        "name": "NEUQUEN",
+        "slug": ""
+    },
+    {
+        "id": "463",
+        "name": "NICANOR CARRANZA LUCERO",
+        "slug": ""
+    },
+    {
+        "id": "464",
+        "name": "NICARAGUA",
+        "slug": ""
+    },
+    {
+        "id": "465",
+        "name": "NICOLAS AVELLANEDA",
+        "slug": ""
+    },
+    {
+        "id": "466",
+        "name": "NICOLAS FALCONE",
+        "slug": ""
+    },
+    {
+        "id": "467",
+        "name": "NICOLAS FINOLA",
+        "slug": ""
+    },
+    {
+        "id": "468",
+        "name": "NICORINO D'ONOFRIO",
+        "slug": ""
+    },
+    {
+        "id": "469",
+        "name": "NUMERO 1",
+        "slug": ""
+    },
+    {
+        "id": "470",
+        "name": "NUMERO 10",
+        "slug": ""
+    },
+    {
+        "id": "471",
+        "name": "NUMERO 11",
+        "slug": ""
+    },
+    {
+        "id": "472",
+        "name": "NUMERO 12",
+        "slug": ""
+    },
+    {
+        "id": "473",
+        "name": "NUMERO 13",
+        "slug": ""
+    },
+    {
+        "id": "474",
+        "name": "NUMERO 14",
+        "slug": ""
+    },
+    {
+        "id": "475",
+        "name": "NUMERO 2",
+        "slug": ""
+    },
+    {
+        "id": "476",
+        "name": "NUMERO 21",
+        "slug": ""
+    },
+    {
+        "id": "477",
+        "name": "NUMERO 23",
+        "slug": ""
+    },
+    {
+        "id": "478",
+        "name": "NUMERO 3",
+        "slug": ""
+    },
+    {
+        "id": "479",
+        "name": "NUMERO 35",
+        "slug": ""
+    },
+    {
+        "id": "480",
+        "name": "NUMERO 37",
+        "slug": ""
+    },
+    {
+        "id": "481",
+        "name": "NUMERO 39",
+        "slug": ""
+    },
+    {
+        "id": "482",
+        "name": "NUMERO 4",
+        "slug": ""
+    },
+    {
+        "id": "483",
+        "name": "BERTA Y ROBERTO TATO",
+        "slug": ""
+    },
+    {
+        "id": "484",
+        "name": "NUMERO 5",
+        "slug": ""
+    },
+    {
+        "id": "485",
+        "name": "NUMERO 55",
+        "slug": ""
+    },
+    {
+        "id": "486",
+        "name": "NUMERO 57",
+        "slug": ""
+    },
+    {
+        "id": "487",
+        "name": "NUMERO 6",
+        "slug": ""
+    },
+    {
+        "id": "488",
+        "name": "NUMERO 7",
+        "slug": ""
+    },
+    {
+        "id": "489",
+        "name": "NUMERO 8",
+        "slug": ""
+    },
+    {
+        "id": "490",
+        "name": "Ob. LEOPOLDO BUTELER (E)",
+        "slug": ""
+    },
+    {
+        "id": "491",
+        "name": "Ob. LEOPOLDO BUTELER (O)",
+        "slug": ""
+    },
+    {
+        "id": "492",
+        "name": "OLEGARIO V. ANDRADE",
+        "slug": ""
+    },
+    {
+        "id": "493",
+        "name": "OLONGASTAS",
+        "slug": ""
+    },
+    {
+        "id": "494",
+        "name": "OMBU",
+        "slug": ""
+    },
+    {
+        "id": "495",
+        "name": "ONAS",
+        "slug": ""
+    },
+    {
+        "id": "496",
+        "name": "ONCATIVO",
+        "slug": ""
+    },
+    {
+        "id": "497",
+        "name": "ORQUIDEA",
+        "slug": ""
+    },
+    {
+        "id": "498",
+        "name": "OSCAR FICCO",
+        "slug": ""
+    },
+    {
+        "id": "499",
+        "name": "PABLO HERMINIO LAS HERAS",
+        "slug": ""
+    },
+    {
+        "id": "500",
+        "name": "PABLO R. CANEPA",
+        "slug": ""
+    },
+    {
+        "id": "501",
+        "name": "PACHAMAMA",
+        "slug": ""
+    },
+    {
+        "id": "502",
+        "name": "PAMPAS",
+        "slug": ""
+    },
+    {
+        "id": "503",
+        "name": "PANAMA",
+        "slug": ""
+    },
+    {
+        "id": "504",
+        "name": "PARAGUAY",
+        "slug": ""
+    },
+    {
+        "id": "505",
+        "name": "PARANA",
+        "slug": ""
+    },
+    {
+        "id": "506",
+        "name": "PARTERA TERESA ROMANO DE MONTES",
+        "slug": ""
+    },
+    {
+        "id": "507",
+        "name": "PASO DE LOS ANDES",
+        "slug": ""
+    },
+    {
+        "id": "508",
+        "name": "PATAGONES",
+        "slug": ""
+    },
+    {
+        "id": "509",
+        "name": "PATRICIAS MENDOCINAS",
+        "slug": ""
+    },
+    {
+        "id": "510",
+        "name": "PATRICIOS",
+        "slug": ""
+    },
+    {
+        "id": "511",
+        "name": "PAUL GROUSSAC",
+        "slug": ""
+    },
+    {
+        "id": "512",
+        "name": "PAUL HARRIS",
+        "slug": ""
+    },
+    {
+        "id": "513",
+        "name": "PAULA MONTAL",
+        "slug": ""
+    },
+    {
+        "id": "514",
+        "name": "PAUNERO",
+        "slug": ""
+    },
+    {
+        "id": "515",
+        "name": "Pcia. DE LA RIOJA",
+        "slug": ""
+    },
+    {
+        "id": "516",
+        "name": "PEDERNERA",
+        "slug": ""
+    },
+    {
+        "id": "517",
+        "name": "PEDRO F. URIARTE",
+        "slug": ""
+    },
+    {
+        "id": "518",
+        "name": "PEDRO GOYENA",
+        "slug": ""
+    },
+    {
+        "id": "519",
+        "name": "PEDRO GRENON",
+        "slug": ""
+    },
+    {
+        "id": "520",
+        "name": "PEDRO INCHAUSPE",
+        "slug": ""
+    },
+    {
+        "id": "521",
+        "name": "PEDRO JOSE ALMIRON",
+        "slug": ""
+    },
+    {
+        "id": "522",
+        "name": "PEDRO L. GALLO",
+        "slug": ""
+    },
+    {
+        "id": "523",
+        "name": "PEDRO M. ARAOZ",
+        "slug": ""
+    },
+    {
+        "id": "524",
+        "name": "PEDRO MEDRANO",
+        "slug": ""
+    },
+    {
+        "id": "525",
+        "name": "PEDRO NOLASCO RODRIGUEZ",
+        "slug": ""
+    },
+    {
+        "id": "526",
+        "name": "PEDRO NOLASCO RODRIGUEZ (N)",
+        "slug": ""
+    },
+    {
+        "id": "527",
+        "name": "PERIODISTAS RIOCUARTENSES",
+        "slug": ""
+    },
+    {
+        "id": "528",
+        "name": "PERITO FRANCISCO MORENO",
+        "slug": ""
+    },
+    {
+        "id": "529",
+        "name": "PERU",
+        "slug": ""
+    },
+    {
+        "id": "530",
+        "name": "PIERINO ROSSO",
+        "slug": ""
+    },
+    {
+        "id": "531",
+        "name": "PLUMERILLO",
+        "slug": ""
+    },
+    {
+        "id": "532",
+        "name": "POGAS",
+        "slug": ""
+    },
+    {
+        "id": "533",
+        "name": "POTRERILLO",
+        "slug": ""
+    },
+    {
+        "id": "534",
+        "name": "PRESIDENTE PERON (C)",
+        "slug": ""
+    },
+    {
+        "id": "535",
+        "name": "PRESIDENTE PERON (E)",
+        "slug": ""
+    },
+    {
+        "id": "536",
+        "name": "PRESIDENTE PERON (O)",
+        "slug": ""
+    },
+    {
+        "id": "537",
+        "name": "PRIMERA JUNTA",
+        "slug": ""
+    },
+    {
+        "id": "538",
+        "name": "PRINGLES",
+        "slug": ""
+    },
+    {
+        "id": "539",
+        "name": "Prof. CARLOS R. SARANDON",
+        "slug": ""
+    },
+    {
+        "id": "541",
+        "name": "PUBLICA",
+        "slug": ""
+    },
+    {
+        "id": "542",
+        "name": "PUBLICA (CERRADA)",
+        "slug": ""
+    },
+    {
+        "id": "543",
+        "name": "PUBLICITARIOS ARGENTINOS",
+        "slug": ""
+    },
+    {
+        "id": "544",
+        "name": "PUBLICO",
+        "slug": ""
+    },
+    {
+        "id": "545",
+        "name": "PUELCHES",
+        "slug": ""
+    },
+    {
+        "id": "546",
+        "name": "PUENTE DEL INCA",
+        "slug": ""
+    },
+    {
+        "id": "547",
+        "name": "ZUNDER",
+        "slug": ""
+    },
+    {
+        "id": "548",
+        "name": "QUENA",
+        "slug": ""
+    },
+    {
+        "id": "549",
+        "name": "QUINA ROJA",
+        "slug": ""
+    },
+    {
+        "id": "550",
+        "name": "RAFAEL J. BRUNO",
+        "slug": ""
+    },
+    {
+        "id": "551",
+        "name": "RAFAEL OBLIGADO",
+        "slug": ""
+    },
+    {
+        "id": "552",
+        "name": "RAFAELA ORLANDO",
+        "slug": ""
+    },
+    {
+        "id": "553",
+        "name": "RANQUELES",
+        "slug": ""
+    },
+    {
+        "id": "554",
+        "name": "RECONQUISTA",
+        "slug": ""
+    },
+    {
+        "id": "555",
+        "name": "REFORMA UNIVERSITARIA DE 1918",
+        "slug": ""
+    },
+    {
+        "id": "556",
+        "name": "REGIMIENTO 14 DE INFANTERIA",
+        "slug": ""
+    },
+    {
+        "id": "557",
+        "name": "REGIMIENTO 14 DE INFANTERIA (O)",
+        "slug": ""
+    },
+    {
+        "id": "558",
+        "name": "REMEDIOS DE ESCALADA",
+        "slug": ""
+    },
+    {
+        "id": "559",
+        "name": "RENE SALAMANCA",
+        "slug": ""
+    },
+    {
+        "id": "560",
+        "name": "REPUBLICA ARABE SIRIA",
+        "slug": ""
+    },
+    {
+        "id": "561",
+        "name": "REPUBLICA DEL LIBANO",
+        "slug": ""
+    },
+    {
+        "id": "562",
+        "name": "RICARDO CARPANI",
+        "slug": ""
+    },
+    {
+        "id": "563",
+        "name": "RICARDO GÜIRALDES",
+        "slug": ""
+    },
+    {
+        "id": "564",
+        "name": "RICARDO GUTIERREZ",
+        "slug": ""
+    },
+    {
+        "id": "565",
+        "name": "RICARDO ROJAS",
+        "slug": ""
+    },
+    {
+        "id": "566",
+        "name": "RICARDO WAGNER",
+        "slug": ""
+    },
+    {
+        "id": "567",
+        "name": "RIO COLORADO",
+        "slug": ""
+    },
+    {
+        "id": "568",
+        "name": "RIO DE LA PLATA",
+        "slug": ""
+    },
+    {
+        "id": "569",
+        "name": "RIO DE LA PLATA (N)",
+        "slug": ""
+    },
+    {
+        "id": "570",
+        "name": "RIO DE LAS BARRANCAS",
+        "slug": ""
+    },
+    {
+        "id": "571",
+        "name": "RIO DESEADO",
+        "slug": ""
+    },
+    {
+        "id": "572",
+        "name": "RIO GALLEGOS",
+        "slug": ""
+    },
+    {
+        "id": "573",
+        "name": "RIO GRANDE",
+        "slug": ""
+    },
+    {
+        "id": "574",
+        "name": "RIO JURAMENTO",
+        "slug": ""
+    },
+    {
+        "id": "575",
+        "name": "RIO LIMAY",
+        "slug": ""
+    },
+    {
+        "id": "576",
+        "name": "RIO NEGRO",
+        "slug": ""
+    },
+    {
+        "id": "577",
+        "name": "RIO NIHUIL",
+        "slug": ""
+    },
+    {
+        "id": "578",
+        "name": "RIO PILCOMAYO",
+        "slug": ""
+    },
+    {
+        "id": "579",
+        "name": "RIO PILCOMAYO (N)",
+        "slug": ""
+    },
+    {
+        "id": "580",
+        "name": "RIO PRIMERO",
+        "slug": ""
+    },
+    {
+        "id": "581",
+        "name": "RIO QUINTO",
+        "slug": ""
+    },
+    {
+        "id": "582",
+        "name": "RIO SEGUNDO",
+        "slug": ""
+    },
+    {
+        "id": "583",
+        "name": "RIO TERCERO",
+        "slug": ""
+    },
+    {
+        "id": "584",
+        "name": "RIO TURBIO",
+        "slug": ""
+    },
+    {
+        "id": "585",
+        "name": "RIOJA",
+        "slug": ""
+    },
+    {
+        "id": "586",
+        "name": "RIVADAVIA",
+        "slug": ""
+    },
+    {
+        "id": "587",
+        "name": "RIVERA INDARTE",
+        "slug": ""
+    },
+    {
+        "id": "588",
+        "name": "ROBERTO E. HOEVEL",
+        "slug": ""
+    },
+    {
+        "id": "589",
+        "name": "ROBERTO J. PAYRO",
+        "slug": ""
+    },
+    {
+        "id": "590",
+        "name": "ROBLES",
+        "slug": ""
+    },
+    {
+        "id": "591",
+        "name": "RODOLFO GOMEZ",
+        "slug": ""
+    },
+    {
+        "id": "592",
+        "name": "ROMA",
+        "slug": ""
+    },
+    {
+        "id": "593",
+        "name": "ROQUE SAENZ PEÑA",
+        "slug": ""
+    },
+    {
+        "id": "594",
+        "name": "ROSARIO DE SANTA FE",
+        "slug": ""
+    },
+    {
+        "id": "595",
+        "name": "ROSARIO GIL",
+        "slug": ""
+    },
+    {
+        "id": "596",
+        "name": "RUBEN AGÜERO",
+        "slug": ""
+    },
+    {
+        "id": "597",
+        "name": "RUBEN DARIO",
+        "slug": ""
+    },
+    {
+        "id": "598",
+        "name": "RUY DIAZ DE GUZMAN",
+        "slug": ""
+    },
+    {
+        "id": "599",
+        "name": "SAAVEDRA",
+        "slug": ""
+    },
+    {
+        "id": "600",
+        "name": "SADI CARNOT",
+        "slug": ""
+    },
+    {
+        "id": "601",
+        "name": "SAGRADA FAMILIA",
+        "slug": ""
+    },
+    {
+        "id": "602",
+        "name": "SAINT REMY",
+        "slug": ""
+    },
+    {
+        "id": "603",
+        "name": "SALTA",
+        "slug": ""
+    },
+    {
+        "id": "604",
+        "name": "SAN ANTONIO DE PADUA",
+        "slug": ""
+    },
+    {
+        "id": "605",
+        "name": "SAN CAYETANO",
+        "slug": ""
+    },
+    {
+        "id": "606",
+        "name": "SAN JOSE DE CALASANZ",
+        "slug": ""
+    },
+    {
+        "id": "607",
+        "name": "SAN JUAN",
+        "slug": ""
+    },
+    {
+        "id": "608",
+        "name": "SAN LORENZO",
+        "slug": ""
+    },
+    {
+        "id": "609",
+        "name": "SAN LUIS",
+        "slug": ""
+    },
+    {
+        "id": "610",
+        "name": "SAN MARTIN",
+        "slug": ""
+    },
+    {
+        "id": "611",
+        "name": "SAN PANTALEON",
+        "slug": ""
+    },
+    {
+        "id": "612",
+        "name": "SANAVIRONES",
+        "slug": ""
+    },
+    {
+        "id": "613",
+        "name": "SANTA CRUZ",
+        "slug": ""
+    },
+    {
+        "id": "614",
+        "name": "SANTA FE",
+        "slug": ""
+    },
+    {
+        "id": "615",
+        "name": "SANTA ROSA",
+        "slug": ""
+    },
+    {
+        "id": "616",
+        "name": "SANTIAGO DEL ESTERO",
+        "slug": ""
+    },
+    {
+        "id": "617",
+        "name": "SANTIAGO DRAGO",
+        "slug": ""
+    },
+    {
+        "id": "618",
+        "name": "SANTO DOMINGO",
+        "slug": ""
+    },
+    {
+        "id": "619",
+        "name": "SANTOS VEGA",
+        "slug": ""
+    },
+    {
+        "id": "620",
+        "name": "SARA ZIMERMAN",
+        "slug": ""
+    },
+    {
+        "id": "621",
+        "name": "SARMIENTO",
+        "slug": ""
+    },
+    {
+        "id": "622",
+        "name": "SARRATEA",
+        "slug": ""
+    },
+    {
+        "id": "623",
+        "name": "SATURNINO SEGUROLA",
+        "slug": ""
+    },
+    {
+        "id": "624",
+        "name": "SAUL TABORDA",
+        "slug": ""
+    },
+    {
+        "id": "625",
+        "name": "SCHUBERT",
+        "slug": ""
+    },
+    {
+        "id": "626",
+        "name": "SEBASTIAN VERA",
+        "slug": ""
+    },
+    {
+        "id": "627",
+        "name": "SECUNDINO DIAZ DE BEDOYA",
+        "slug": ""
+    },
+    {
+        "id": "628",
+        "name": "Sgto. CABRAL",
+        "slug": ""
+    },
+    {
+        "id": "629",
+        "name": "SHAKESPEARE",
+        "slug": ""
+    },
+    {
+        "id": "630",
+        "name": "SIMON OSTWALD",
+        "slug": ""
+    },
+    {
+        "id": "631",
+        "name": "SOBREMONTE",
+        "slug": ""
+    },
+    {
+        "id": "632",
+        "name": "SOBREMONTE (N)",
+        "slug": ""
+    },
+    {
+        "id": "633",
+        "name": "SOCO-SOCO",
+        "slug": ""
+    },
+    {
+        "id": "634",
+        "name": "SOFIA C. DE PUEBLA",
+        "slug": ""
+    },
+    {
+        "id": "635",
+        "name": "Srtas. CEJAS",
+        "slug": ""
+    },
+    {
+        "id": "636",
+        "name": "STEPHENSON",
+        "slug": ""
+    },
+    {
+        "id": "637",
+        "name": "SUCRE",
+        "slug": ""
+    },
+    {
+        "id": "638",
+        "name": "SUIPACHA",
+        "slug": ""
+    },
+    {
+        "id": "639",
+        "name": "TABLADA",
+        "slug": ""
+    },
+    {
+        "id": "640",
+        "name": "TALAR",
+        "slug": ""
+    },
+    {
+        "id": "641",
+        "name": "TAMBOR DE TACUARI",
+        "slug": ""
+    },
+    {
+        "id": "642",
+        "name": "TEHUELCHES",
+        "slug": ""
+    },
+    {
+        "id": "643",
+        "name": "TEODORO SANCHEZ DE BUSTAMANTE",
+        "slug": ""
+    },
+    {
+        "id": "644",
+        "name": "THOMAS JEFFERSON",
+        "slug": ""
+    },
+    {
+        "id": "645",
+        "name": "TIERRA DEL FUEGO",
+        "slug": ""
+    },
+    {
+        "id": "646",
+        "name": "TIMBO",
+        "slug": ""
+    },
+    {
+        "id": "647",
+        "name": "TINCUNACO",
+        "slug": ""
+    },
+    {
+        "id": "648",
+        "name": "TOMAS A. EDISON",
+        "slug": ""
+    },
+    {
+        "id": "649",
+        "name": "TOMAS M. DE ANCHORENA",
+        "slug": ""
+    },
+    {
+        "id": "650",
+        "name": "TOMAS GODOY CRUZ",
+        "slug": ""
+    },
+    {
+        "id": "651",
+        "name": "TOMAS GUIDO",
+        "slug": ""
+    },
+    {
+        "id": "652",
+        "name": "TRABAJO Y PREVISION",
+        "slug": ""
+    },
+    {
+        "id": "653",
+        "name": "TRAPALANDA",
+        "slug": ""
+    },
+    {
+        "id": "654",
+        "name": "TREJO Y SANABRIA",
+        "slug": ""
+    },
+    {
+        "id": "655",
+        "name": "TRISTAN BURGOS",
+        "slug": ""
+    },
+    {
+        "id": "656",
+        "name": "TRISTAN BURGOS (N)",
+        "slug": ""
+    },
+    {
+        "id": "657",
+        "name": "TUCUMAN",
+        "slug": ""
+    },
+    {
+        "id": "658",
+        "name": "TULIO REYNA",
+        "slug": ""
+    },
+    {
+        "id": "659",
+        "name": "TUPUNGATO",
+        "slug": ""
+    },
+    {
+        "id": "660",
+        "name": "UNION DE LOS ARGENTINOS (C)",
+        "slug": ""
+    },
+    {
+        "id": "661",
+        "name": "UNION DE LOS ARGENTINOS (E)",
+        "slug": ""
+    },
+    {
+        "id": "662",
+        "name": "UNION DE LOS ARGENTINOS (O)",
+        "slug": ""
+    },
+    {
+        "id": "663",
+        "name": "URBANO ALVAREZ",
+        "slug": ""
+    },
+    {
+        "id": "664",
+        "name": "URQUIZA",
+        "slug": ""
+    },
+    {
+        "id": "665",
+        "name": "URUGUAY",
+        "slug": ""
+    },
+    {
+        "id": "666",
+        "name": "USHUAIA",
+        "slug": ""
+    },
+    {
+        "id": "667",
+        "name": "Vcdro. MARAMBIO",
+        "slug": ""
+    },
+    {
+        "id": "668",
+        "name": "VELEZ SARSFIELD",
+        "slug": ""
+    },
+    {
+        "id": "669",
+        "name": "VENEZUELA",
+        "slug": ""
+    },
+    {
+        "id": "670",
+        "name": "VICENTE BECCARINI",
+        "slug": ""
+    },
+    {
+        "id": "671",
+        "name": "VICENTE LOPEZ Y PLANES",
+        "slug": ""
+    },
+    {
+        "id": "672",
+        "name": "VICTOR HUGO",
+        "slug": ""
+    },
+    {
+        "id": "673",
+        "name": "VILELAS",
+        "slug": ""
+    },
+    {
+        "id": "674",
+        "name": "VILLAVICENCIO",
+        "slug": ""
+    },
+    {
+        "id": "675",
+        "name": "VIRACOCHA",
+        "slug": ""
+    },
+    {
+        "id": "676",
+        "name": "VIRREY VERTIZ",
+        "slug": ""
+    },
+    {
+        "id": "677",
+        "name": "VUELTA DE OBLIGADO",
+        "slug": ""
+    },
+    {
+        "id": "678",
+        "name": "WENCESLAO TEJERINA",
+        "slug": ""
+    },
+    {
+        "id": "679",
+        "name": "WENCESLAO TEJERINA (N)",
+        "slug": ""
+    },
+    {
+        "id": "680",
+        "name": "WERFIL PIÑERO",
+        "slug": ""
+    },
+    {
+        "id": "681",
+        "name": "YAMANAS",
+        "slug": ""
+    },
+    {
+        "id": "682",
+        "name": "YANQUETRUZ",
+        "slug": ""
+    },
+    {
+        "id": "683",
+        "name": "YAPEYU",
+        "slug": ""
+    },
+    {
+        "id": "684",
+        "name": "YARAVI",
+        "slug": ""
+    },
+    {
+        "id": "685",
+        "name": "ZORAIDA BLANCO",
+        "slug": ""
+    },
+    {
+        "id": "686",
+        "name": "OMAGUACAS",
+        "slug": ""
+    },
+    {
+        "id": "687",
+        "name": "12 DE ABRIL",
+        "slug": ""
+    },
+    {
+        "id": "688",
+        "name": "ENRIQUE SANTOS DISCEPOLO",
+        "slug": ""
+    },
+    {
+        "id": "689",
+        "name": "GLAUCE HELEM BALDOVIN",
+        "slug": ""
+    },
+    {
+        "id": "690",
+        "name": "PAULINO MIGUEL VALLEJO",
+        "slug": ""
+    },
+    {
+        "id": "691",
+        "name": "ANGEL ENRIQUE VIEYRA",
+        "slug": ""
+    },
+    {
+        "id": "692",
+        "name": "BIANCO BUFALI",
+        "slug": ""
+    },
+    {
+        "id": "693",
+        "name": "PEDRO JOSE MATAS BOVER",
+        "slug": ""
+    },
+    {
+        "id": "694",
+        "name": "CECILIO ERNESTO PEREZ DE LA ROSA",
+        "slug": ""
+    },
+    {
+        "id": "695",
+        "name": "SUSANA LEONOR MICHELOTTI",
+        "slug": ""
+    },
+    {
+        "id": "696",
+        "name": "LUIS NORBERTO GANZER",
+        "slug": ""
+    },
+    {
+        "id": "697",
+        "name": "HOMERO MANZI",
+        "slug": ""
+    },
+    {
+        "id": "698",
+        "name": "MARIANO LONGARINI",
+        "slug": ""
+    },
+    {
+        "id": "699",
+        "name": "JUAN MANUEL FANGIO",
+        "slug": ""
+    },
+    {
+        "id": "700",
+        "name": "FELIPE GOMEZ DEL JUNCO",
+        "slug": ""
+    },
+    {
+        "id": "701",
+        "name": "12 DE AGOSTO DIA DE LA JUVENTUD",
+        "slug": ""
+    },
+    {
+        "id": "702",
+        "name": "RICARDO BALBIN",
+        "slug": ""
+    },
+    {
+        "id": "703",
+        "name": "FRANKLIN ARREGUI CANO",
+        "slug": ""
+    },
+    {
+        "id": "704",
+        "name": "ESTADO DE PALESTINA",
+        "slug": ""
+    },
+    {
+        "id": "705",
+        "name": "MARTIN FIERRO (N)",
+        "slug": ""
+    },
+    {
+        "id": "706",
+        "name": "Mtro. JUAN PISTARINI",
+        "slug": ""
+    },
+    {
+        "id": "707",
+        "name": "AMADO JULIAN CURCHOD",
+        "slug": ""
+    },
+    {
+        "id": "708",
+        "name": "ROSA PECILE",
+        "slug": ""
+    },
+    {
+        "id": "709",
+        "name": "VIA MITRE",
+        "slug": ""
+    },
+    {
+        "id": "710",
+        "name": "JOAQUIN BUSTAMANTE",
+        "slug": ""
+    },
+    {
+        "id": "711",
+        "name": "NUMERO 9",
+        "slug": ""
+    },
+    {
+        "id": "712",
+        "name": "NUMERO 15",
+        "slug": ""
+    },
+    {
+        "id": "713",
+        "name": "NUMERO 16",
+        "slug": ""
+    },
+    {
+        "id": "714",
+        "name": "NUMERO 18",
+        "slug": ""
+    },
+    {
+        "id": "715",
+        "name": "NUMERO 20",
+        "slug": ""
+    },
+    {
+        "id": "716",
+        "name": "NUMERO 5",
+        "slug": ""
+    },
+    {
+        "id": "717",
+        "name": "NUMERO 6",
+        "slug": ""
+    },
+    {
+        "id": "718",
+        "name": "NUMERO 11",
+        "slug": ""
+    },
+    {
+        "id": "719",
+        "name": "PUBLICA NUMERO 1",
+        "slug": ""
+    },
+    {
+        "id": "720",
+        "name": "PUBLICA NUMERO 2",
+        "slug": ""
+    },
+    {
+        "id": "721",
+        "name": "PUBLICA NUMERO 3",
+        "slug": ""
+    },
+    {
+        "id": "722",
+        "name": "PUBLICA NUMERO 4",
+        "slug": ""
+    },
+    {
+        "id": "723",
+        "name": "PUBLICA NUMERO 5",
+        "slug": ""
+    },
+    {
+        "id": "724",
+        "name": "PUBLICA NUMERO 6",
+        "slug": ""
+    },
+    {
+        "id": "725",
+        "name": "PUBLICA NUMERO 7",
+        "slug": ""
+    },
+    {
+        "id": "726",
+        "name": "PUBLICA NUMERO 8",
+        "slug": ""
+    },
+    {
+        "id": "727",
+        "name": "PUBLICA NUMERO 9",
+        "slug": ""
+    },
+    {
+        "id": "728",
+        "name": "PUBLICA NUMERO 10",
+        "slug": ""
+    },
+    {
+        "id": "729",
+        "name": "PUBLICA NUMERO 11",
+        "slug": ""
+    },
+    {
+        "id": "730",
+        "name": "PUBLICA NUMERO 12",
+        "slug": ""
+    },
+    {
+        "id": "731",
+        "name": "DE ACCESO",
+        "slug": ""
+    },
+    {
+        "id": "732",
+        "name": "LEANDRO N. ALEM (N)",
+        "slug": ""
+    },
+    {
+        "id": "733",
+        "name": "TOMAS M. DE ANCHORENA (N)",
+        "slug": ""
+    },
+    {
+        "id": "734",
+        "name": "FERNANDO FADER (E)",
+        "slug": ""
+    },
+    {
+        "id": "735",
+        "name": "RICARDO GUTIERREZ (N)",
+        "slug": ""
+    },
+    {
+        "id": "736",
+        "name": "FRANCISCO LACASE",
+        "slug": ""
+    },
+    {
+        "id": "737",
+        "name": "LUCIA PLACCI DE ZORZIN",
+        "slug": ""
+    },
+    {
+        "id": "738",
+        "name": "ELISEO SANCHEZ",
+        "slug": ""
+    },
+    {
+        "id": "739",
+        "name": "JOSE M. SERRANO (N)",
+        "slug": ""
+    },
+    {
+        "id": "740",
+        "name": "SALUSTIANO MARTINEZ",
+        "slug": ""
+    },
+    {
+        "id": "741",
+        "name": "Dr. JOSE MARTORELLI (N)",
+        "slug": ""
+    },
+    {
+        "id": "742",
+        "name": "LIA Y GERARDO SZERZON",
+        "slug": ""
+    },
+    {
+        "id": "743",
+        "name": "JORGE LUIS BORGES",
+        "slug": ""
+    },
+    {
+        "id": "744",
+        "name": "BERNARDO HOUSSAY",
+        "slug": ""
+    },
+    {
+        "id": "745",
+        "name": "CESAR MILSTEIN",
+        "slug": ""
+    },
+    {
+        "id": "746",
+        "name": "LUIS FEDERICO LELOIR",
+        "slug": ""
+    },
+    {
+        "id": "747",
+        "name": "OSVALDO SORIANO",
+        "slug": ""
+    },
+    {
+        "id": "748",
+        "name": "ADOLFO BIOY CASARES",
+        "slug": ""
+    },
+    {
+        "id": "749",
+        "name": "RENE FAVAROLO",
+        "slug": ""
+    },
+    {
+        "id": "750",
+        "name": "ALBERTO LUBETKIN",
+        "slug": ""
+    },
+    {
+        "id": "751",
+        "name": "RODOLFO WALSH",
+        "slug": ""
+    },
+    {
+        "id": "752",
+        "name": "MARIA TERESA BACIGALUPO",
+        "slug": ""
+    },
+    {
+        "id": "753",
+        "name": "JOSE DEMARCHI",
+        "slug": ""
+    },
+    {
+        "id": "754",
+        "name": "ROBERTO FONTANARROSA",
+        "slug": ""
+    },
+    {
+        "id": "755",
+        "name": "OLIVERIO GIRONDO",
+        "slug": ""
+    },
+    {
+        "id": "756",
+        "name": "VICTORIA Y SILVINA OCAMPO",
+        "slug": ""
+    },
+    {
+        "id": "757",
+        "name": "JUAN FILLOY",
+        "slug": ""
+    },
+    {
+        "id": "758",
+        "name": "JULIO CORTAZAR",
+        "slug": ""
+    },
+    {
+        "id": "759",
+        "name": "MANUEL MUJICA LAINEZ",
+        "slug": ""
+    },
+    {
+        "id": "760",
+        "name": "SAN FRANCISCO DE SALES",
+        "slug": ""
+    },
+    {
+        "id": "761",
+        "name": "GODOFREDO DAIREAUX",
+        "slug": ""
+    },
+    {
+        "id": "762",
+        "name": "UBALDO GARIMALDI",
+        "slug": ""
+    },
+    {
+        "id": "763",
+        "name": "JOSE INGENIEROS",
+        "slug": ""
+    },
+    {
+        "id": "764",
+        "name": "ROBERTO ARLT",
+        "slug": ""
+    },
+    {
+        "id": "765",
+        "name": "REGION PIEMONTE",
+        "slug": ""
+    },
+    {
+        "id": "766",
+        "name": "ALICIA MOREAU DE JUSTO",
+        "slug": ""
+    },
+    {
+        "id": "767",
+        "name": "Rvdo. PADRE GENIALE SILVI",
+        "slug": ""
+    },
+    {
+        "id": "768",
+        "name": "Rvdo. PADRE GENIALE SILVI (N)",
+        "slug": ""
+    },
+    {
+        "id": "769",
+        "name": "18 DE MARZO",
+        "slug": ""
+    },
+    {
+        "id": "770",
+        "name": "22 DE ABRIL",
+        "slug": ""
+    },
+    {
+        "id": "771",
+        "name": "VICTOR BARRIONUEVO IMPOSTI",
+        "slug": ""
+    },
+    {
+        "id": "772",
+        "name": "TITO CABRERA",
+        "slug": ""
+    },
+    {
+        "id": "773",
+        "name": "CALANDRIA",
+        "slug": ""
+    },
+    {
+        "id": "774",
+        "name": "CARDENAL",
+        "slug": ""
+    },
+    {
+        "id": "775",
+        "name": "COLIBRI",
+        "slug": ""
+    },
+    {
+        "id": "776",
+        "name": "NICOLAS DI SANTO",
+        "slug": ""
+    },
+    {
+        "id": "777",
+        "name": "DOMINGO DI SANTO",
+        "slug": ""
+    },
+    {
+        "id": "778",
+        "name": "LITO FICCO",
+        "slug": ""
+    },
+    {
+        "id": "779",
+        "name": "LITO FICCO (N)",
+        "slug": ""
+    },
+    {
+        "id": "780",
+        "name": "JUAN FLORIANI",
+        "slug": ""
+    },
+    {
+        "id": "781",
+        "name": "TERESA MAGDALENA FRUA",
+        "slug": ""
+    },
+    {
+        "id": "782",
+        "name": "FRANCISCO FRUTTERO",
+        "slug": ""
+    },
+    {
+        "id": "783",
+        "name": "OMAR GONET",
+        "slug": ""
+    },
+    {
+        "id": "784",
+        "name": "GUACAMAYOS",
+        "slug": ""
+    },
+    {
+        "id": "785",
+        "name": "HORNERO",
+        "slug": ""
+    },
+    {
+        "id": "786",
+        "name": "JUAN MARCHISIO",
+        "slug": ""
+    },
+    {
+        "id": "787",
+        "name": "RICARDO PEDRAZZA",
+        "slug": ""
+    },
+    {
+        "id": "788",
+        "name": "NESTOR FELIPE PRINCE",
+        "slug": ""
+    },
+    {
+        "id": "789",
+        "name": "REINA MORA",
+        "slug": ""
+    },
+    {
+        "id": "790",
+        "name": "RUISEÑOR",
+        "slug": ""
+    },
+    {
+        "id": "791",
+        "name": "HECTOR SOSA",
+        "slug": ""
+    },
+    {
+        "id": "792",
+        "name": "SEVERO VIETRI",
+        "slug": ""
+    },
+    {
+        "id": "793",
+        "name": "ZORZAL",
+        "slug": ""
+    },
+    {
+        "id": "794",
+        "name": "EDMUNDO ROBERTO DENNER",
+        "slug": ""
+    },
+    {
+        "id": "796",
+        "name": "RAUL FIORI",
+        "slug": ""
+    },
+    {
+        "id": "797",
+        "name": "Enf. ROSA DE OLIVARES",
+        "slug": ""
+    },
+    {
+        "id": "798",
+        "name": "Pte. ARTURO U. ILLIA",
+        "slug": ""
+    },
+    {
+        "id": "799",
+        "name": "FLORINDO DI COLA",
+        "slug": ""
+    },
+    {
+        "id": "800",
+        "name": "Dr. ALFREDO PALACIOS",
+        "slug": ""
+    },
+    {
+        "id": "801",
+        "name": "RAMONITA CABELLO",
+        "slug": ""
+    },
+    {
+        "id": "802",
+        "name": "SANTIAGO CORONEL",
+        "slug": ""
+    },
+    {
+        "id": "803",
+        "name": "Pje. MAIPU",
+        "slug": ""
+    },
+    {
+        "id": "804",
+        "name": "JOSE OMAR PARIANI",
+        "slug": ""
+    },
+    {
+        "id": "805",
+        "name": "JOSE ALBERTO SVAGUZA",
+        "slug": ""
+    },
+    {
+        "id": "806",
+        "name": "ANA MARIA SERPEZ",
+        "slug": ""
+    },
+    {
+        "id": "807",
+        "name": "RUBEN ARESE",
+        "slug": ""
+    },
+    {
+        "id": "808",
+        "name": "FELIX BRUNO",
+        "slug": ""
+    },
+    {
+        "id": "809",
+        "name": "GUSTAVO CANDINI",
+        "slug": ""
+    },
+    {
+        "id": "810",
+        "name": "CARLOS DAVERIO",
+        "slug": ""
+    },
+    {
+        "id": "811",
+        "name": "FEDERICO GRÜBEN",
+        "slug": ""
+    },
+    {
+        "id": "812",
+        "name": "DOROTEO MIRANDA",
+        "slug": ""
+    },
+    {
+        "id": "813",
+        "name": "ALEJANDRO NONIS",
+        "slug": ""
+    },
+    {
+        "id": "814",
+        "name": "ANGEL OLIVIERI",
+        "slug": ""
+    },
+    {
+        "id": "815",
+        "name": "FRANCISCO PERCELLO",
+        "slug": ""
+    },
+    {
+        "id": "816",
+        "name": "LIBORIO SOSA",
+        "slug": ""
+    },
+    {
+        "id": "817",
+        "name": "REYNALDO VILLARREAL",
+        "slug": ""
+    },
+    {
+        "id": "818",
+        "name": "Ing. ALBERTO EMILIO LUCCHINI",
+        "slug": ""
+    },
+    {
+        "id": "819",
+        "name": "LOS GUARANIES (N)",
+        "slug": ""
+    },
+    {
+        "id": "820",
+        "name": "NUMERO 20",
+        "slug": ""
+    },
+    {
+        "id": "821",
+        "name": "CARLOS MASTRANGELO",
+        "slug": ""
+    },
+    {
+        "id": "822",
+        "name": "JORGE TORRES VELEZ",
+        "slug": ""
+    },
+    {
+        "id": "823",
+        "name": "ISIDORO VAREA",
+        "slug": ""
+    },
+    {
+        "id": "824",
+        "name": "FRAY SALVADOR SOLA",
+        "slug": ""
+    },
+    {
+        "id": "825",
+        "name": "CARLOS ANSELMO GHIGLIONE",
+        "slug": ""
+    },
+    {
+        "id": "826",
+        "name": "ALEJANDRO HIRAM MONTBRUN",
+        "slug": ""
+    },
+    {
+        "id": "827",
+        "name": "Mons. HECTOR ISIDRO PEREYRA",
+        "slug": ""
+    },
+    {
+        "id": "828",
+        "name": "BERTA CLARA PERASSI",
+        "slug": ""
+    }
+]
