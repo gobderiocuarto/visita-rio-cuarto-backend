@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\DB; // Soporte para transacciones
+
 use \Conner\Tagging\Model\Tag;
 use \Conner\Tagging\Model\Tagged;
 use App\Organization;
@@ -29,7 +31,6 @@ class ServiceController extends Controller
         $services = Tag::inGroup('Servicios')->paginate();
 
         // $pag = $services->currentPage();
-        // dd($pag);
 
         return view('admin.services.index', compact('services', 'pag'));
     }
@@ -41,7 +42,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.services.create');
     }
 
     /**
@@ -52,8 +53,29 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        # Start transaction
+        DB::beginTransaction();
+
+        $service = Tag::create($request->all());
+        $service->setGroup('Servicios');
+
+        $exist = Tag::where('slug', '=', $service->slug)->where('tag_group_id', '=', 1)->where('id', '<>',$service->id )->first();
+
+        if ($exist) {
+
+            DB::rollBack();
+            return redirect()->back()->withErrors('Ya existe un servicio con el nombre ingresado');
+
+        } else {
+            DB::commit();
+            return redirect('admin/services/' . $service->id.'/edit')->with('message', 'Servicio creado con éxito');
+        }
+
     }
+
+
 
     /**
      * Display the specified resource.
@@ -85,8 +107,6 @@ class ServiceController extends Controller
         // $list_orgs = Organization::where('state', 1)->orderBy('name','DESC')->get();
 
         $list_orgs = Organization::withoutTags(["$service->name"])->where('state', 1)->orderBy('name','DESC')->get();
-
-        // dd($list_orgs);
 
         return view('admin.services.edit', compact('service', 'service_orgs', 'list_orgs') );
 
@@ -136,8 +156,25 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $service = Tag::findOrFail($id);
+
+        $tagged = Tagged::where('taggable_type','App\Organization')->where('tag_name',$service->name)->get();
+
+        foreach ($tagged as $key => $tag) {
+
+            if ($tag->taggable_type == "App\Organization") {
+                $tag->delete();
+                $org = Organization::findOrFail($tag->taggable_id)->save();
+            }
+        }
+
+        $result_1 = $service->delete();
+
+        return back()->with('message', 'Servicio eliminado correctamente');
+
     }
+
+
 
     public function storeOrganization(Request $request, $service_id)
     {

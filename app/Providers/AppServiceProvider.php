@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             $array_tags = explode(',', $tags);
 
             $rules = [
-                'tag' => 'alpha_num',
+                'tag' => 'string',
             ];
             
             if ($array_tags) {

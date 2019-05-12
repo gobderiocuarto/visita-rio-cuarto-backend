@@ -33,7 +33,7 @@
                                 <button type="submit" class="btn btn-primary">Actualizar servicio</button>
                             </div>
                             <div class="col-md-4">
-                                <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
+                                <a class="btn btn-outline-dark" href="{{ route('services.index') }}">Regresar al Listado</a>
                             </div>
                         </div>
                     </div>
