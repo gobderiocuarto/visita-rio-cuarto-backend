@@ -19,7 +19,8 @@
                         <a href="{{ route('categories.create') }}" class="btn btn-md btn-primary">
                             Crear categoría
                         </a>
-                    </div>    
+                    </div>
+                    <hr>   
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>

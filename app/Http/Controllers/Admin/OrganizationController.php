@@ -76,21 +76,7 @@ class OrganizationController extends Controller
 
         $organization->update();
 
-        /*
-
-        $organization = Organization::create ([
-             'category_id' => $request->get('category_id')
-            , 'name' => $request->get('name') 
-            , 'slug' => $request->get('slug')
-            , 'description' => $request->get('description')
-            , 'email' => $request->get('email')
-            , 'phone' => $request->get('phone')
-            , 'web' => $request->get('web')
-        ]);
-        */
-
         if ($organization) {
-
             return redirect()->route('organizations.edit', $organization->id)->with('message', 'Organización creada con éxito');
         } else {
             return redirect()->back()->withErrors('Error al crear la organización');
@@ -119,16 +105,20 @@ class OrganizationController extends Controller
     {
         $organization = Organization::findOrFail($id);
 
+        //dd($organization->places);
+
         $tags = implode(', ', $organization->tagNames());
 
         $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        $places = Place::orderBy('name', 'ASC')->get();
-        $streets = Street::orderBy('name', 'ASC')->get();
+
         $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        $places = Place::orderBy('name', 'ASC')->get();
+       
+        $streets = $this->getStreets();
 
         $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
 
-        return view('admin.organizations.edit', compact('organization','tags','categories','places','streets', 'zones', 'addresses_types') );
+        return view('admin.organizations.edit', compact('organization','tags', 'categories','places','zones', 'addresses_types', 'streets'));
     }
 
 
@@ -176,6 +166,8 @@ class OrganizationController extends Controller
 
     public function storePlace(Request $request, $org_id)
     {
+
+        //dd($request->all());
 
         $organization = Organization::with('addresses', 'places')->findOrFail($org_id); 
         //dd($request->get('address_type_name'));
@@ -251,6 +243,8 @@ class OrganizationController extends Controller
                
 
             } else if ($request->get('prev_rel_type') === "address"){
+
+
 
                 $organization->addresses()->detach($request->get('prev_rel_value'));
                 $address = Address::find($request->get('prev_rel_value'));

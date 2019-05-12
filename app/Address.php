@@ -11,11 +11,8 @@ class Address extends Model
         'street_id', 'number', 'floor', 'lat', 'lng', 'zone_id'
     ];
 
+    protected $appends = ['street'];
 
-   	// public function organizations()
-    // {
-    //     return $this->belongsToMany(Organization::class)->withPivot('address_type_id', 'address_type_name');
-    // }
 
     public function organizations()
     {
@@ -29,11 +26,24 @@ class Address extends Model
     }
 
 
-    public function street()
+    // public function street()
+    // {
+    //     return $this->belongsTo(Street::class);
+    // }
+
+    //Retorna una calle unica para una direccion dada
+    public function getStreetAttribute()
     {
-        return $this->belongsTo(Street::class);
+        // $streets = json_decode(file_get_contents(STREETS_URL), true);
+        $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
+
+        $key = array_search($this->street_id, array_column($streets , 'id'));
+
+        return (object)$streets[$key];
+
     }
-    
+
+
     public function zone()
     {
         return $this->belongsTo(Zone::class);

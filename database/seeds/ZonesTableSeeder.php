@@ -15,7 +15,7 @@ class ZonesTableSeeder extends Seeder
     {
        //factory(App\Zone::class)->create();
 
-    	$zones = ['Banda Norte','Centro', 'Alberdi', 'Bimaco'];
+    	$zones = ['Banda Norte','Centro', 'Alberdi', 'Bimaco', 'Sur', 'Oeste'];
 
     	foreach ($zones as $key => $name) {
 
