@@ -16,7 +16,7 @@ class ApiController extends Controller
 	//Traer datos de espacio por ej. para agregar a org
 	public function getPlace($id)
     {
-        $place =  Place::with('organizations', 'address.street', 'address.zone')->findOrFail($id);
+        $place =  Place::with('organizations', 'address.zone')->findOrFail($id);
 
         return $place;
     }
@@ -24,9 +24,23 @@ class ApiController extends Controller
 
     public function getAddress($id)
     {
-        $address =  Address::with('street', 'zone')->findOrFail($id);
+
+        $address =  Address::with('zone')->findOrFail($id);
 
         return $address;
+
+        $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
+
+        $key = array_search($address->street_id, array_column($streets , 'id'));
+
+        $address = $address->toArray();
+
+        $address['street'] = $streets [$key];
+
+        return $address;
+
+        // $address =  Address::with('street', 'zone')->findOrFail($id);
+        //return $address;
     }
 
 
@@ -40,15 +54,9 @@ class ApiController extends Controller
     public function getOrganizationPlace($organization, $place)
     {
         $organization = Organization::findOrFail($organization);
-        //dd($place);
-        //   $place =  Place::with('address.street')
-        //   			    ->join('organization_place', 'organization_place.place_id','places.id')
-						// ->where('places.id',$place)
-						// ->where('organization_place.organization_id',$organization)
-						// ->select('places.*', 'organization_place.address_type_id', 'organization_place.address_type_name')
-						// ->first();
-
-        return $organization->places()->with('address.street')->where('places.id', $place )->first();
+        
+        // return $organization->places()->with('address.street')->where('places.id', $place )->first();
+        return $organization->places()->with('address')->where('places.id', $place )->first();
     }
 
 
@@ -73,7 +81,8 @@ class ApiController extends Controller
                     // ->select('addresses.*', 'address_organization.address_type_id', 'address_organization.address_type_name' )
                     // ->first();
 
-        return $organization->addresses()->with('street')->where('addresses.id', $address)->first();
+        // return $organization->addresses()->with('street')->where('addresses.id', $address)->first();
+        return $organization->addresses()->where('addresses.id', $address)->first();
         
     }
 

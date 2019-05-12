@@ -14,6 +14,18 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
+    public function getStreets()
+    {
+        $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
+
+        foreach ($streets as $key => &$street) {
+            $street = (object)$street;
+        }
+
+        return $streets;
+
+    }
+
 
     protected function renameFile($file) {
 

@@ -2,11 +2,14 @@
     <div class="card">
         <div class="card-header">
             <h2>Direcciones</h2> 
-            <button id="places_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i>Crear</button>
         </div>
         <div class="card-body">
+            <div class="alert alert-secondary text-right mb-3" >
+                <button id="places_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear organización</button>
+            </div>
+            <hr>       
             <table class="table table-striped table-hover">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
                         <th>Tipo</th>
                         <th>Calle y número</th>
@@ -25,7 +28,7 @@
                         </td>
                         <td width="10px">
                             <form action="/admin/organizations/{{ $organization->id }}/places/{{ $place->id }}" method="POST">
-                                 @csrf
+                                @csrf
                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                             </form>
                         </td>
@@ -88,12 +91,10 @@
             <div class="form-group row">
                 <label for="street_id" class="col-md-12 col-form-label">Calle(*)</label>
                 <div class="col-md-8">
-                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" required>
+                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="10" required>
                         <option value="">Selecciona...</option>
                         @foreach($streets as $street)
-                        <option value="{{ $street->id }}">
-                            {{ $street->name }}
-                        </option>
+                        <option value="{{ $street->id }}">{{ $street->name }}</option>
                         @endforeach
                     </select>
                 </div>

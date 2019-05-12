@@ -14,19 +14,21 @@
             <div class="card">
                 <div class="card-header">
                     <h2>Listado de organizaciones</h2> 
-                    <a href="{{ route('organizations.create') }}" class="pull-right btn btn-sm btn-primary">
-                        Crear
-                    </a>
                 </div>
                 <div class="card-body">
-
+                    <div class="alert alert-secondary text-right mb-3" >
+                        <a href="{{ route('organizations.create') }}" class="pull-right btn btn-sm btn-primary">
+                        Crear organización
+                        </a>
+                    </div>
+                    <hr>       
                     <table class="table table-striped table-hover">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
                                 <th width="10px">ID</th>
                                 <th>Nombre</th>
                                 <th>Categoría</th>
-                                <th colspan="2">&nbsp;</th>
+                                <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,7 +36,7 @@
                             <tr>
                                 <td>{{ $organization->id }}</td>
                                 <td>{{ $organization->name }}</td>
-                                <td>@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}</td>
+                                <td>@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}</td>                                
                                 <td width="10px">
                                     <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>

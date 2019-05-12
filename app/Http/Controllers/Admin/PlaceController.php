@@ -65,17 +65,7 @@ class PlaceController extends Controller
         DB::beginTransaction();
 
         $address = Address::create($request->all());
-        
-        // $address = Address::create ([
-        //       'street_id' => $request->get('street') 
-        //     , 'number' => $request->get('number')
-        //     , 'floor' => $request->get('floor')
-        //     , 'lat' => $request->get('lat')
-        //     , 'lng' => $request->get('lng')
-        //     , 'zone_id' => $request->get('zone')
-        // ]);
-        
-
+             
         if (!$address) {
 
             DB::rollBack();
@@ -123,8 +113,10 @@ class PlaceController extends Controller
 
         $place = Place::findOrFail($id);
         $address = Address::where('id', $id)->first();
-        $streets = Street::orderBy('name', 'ASC')->get();
         $zones = Zone::orderBy('name', 'ASC')->get();
+
+        // $streets = Street::orderBy('name', 'ASC')->get();
+        $streets = $this->getStreets();
 
         //dd($array_data);
 
@@ -141,7 +133,7 @@ class PlaceController extends Controller
     public function update(Request $request, $id)
     {
         
-        //dd($request->all());
+
         $place = Place::findOrFail($id);
 
         $place->address->fill($request->all())->save();
