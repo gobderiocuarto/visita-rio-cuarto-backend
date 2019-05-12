@@ -7,7 +7,7 @@
 				<h1>Organizaciones</h1>
 			    <h2>Listar organizaciones</h2>
 			    </br>
-				@foreach ($organizations as $organization)
+				@forelse ($organizations as $organization)
 			    <div class="card mb-3">
 			    	<div class="col-md-12 card-header p-3">
 			    		@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}
@@ -52,7 +52,9 @@
 			        </div>
 	            </div>
 			   	</br>
-			    @endforeach
+			   	@empty
+			   	<em>La búsqueda no arrojó resultados</em>
+			    @endforelse
 			</div>
 		</div>
 	</div>
