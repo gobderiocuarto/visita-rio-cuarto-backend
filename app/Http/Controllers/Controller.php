@@ -16,7 +16,7 @@ class Controller extends BaseController
 
     public function getStreets()
     {
-        $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
+        $streets = json_decode(file_get_contents(env('APP_URL').env('STREETS_PATH')), true);
 
         foreach ($streets as $key => &$street) {
             $street = (object)$street;

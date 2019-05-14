@@ -13,7 +13,7 @@
                             <a class="nav-link" href="{{ route('login') }}">Menu 1</a>
                         </li>
                     </ul>
-                    <form class="form-inline" action="/search" method="GET">
+                    <form class="form-inline" action="{{ url ('/search') }}" method="GET">
                         <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" name="search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                     </form>

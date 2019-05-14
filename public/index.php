@@ -1,5 +1,7 @@
 <?php
 
+// echo ("<pre>");print_r("hola");echo ("</pre>"); exit();
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
@@ -8,6 +10,7 @@
  */
 
 define('LARAVEL_START', microtime(true));
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +51,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 | and wonderful application we have prepared for them.
 |
 */
+
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 

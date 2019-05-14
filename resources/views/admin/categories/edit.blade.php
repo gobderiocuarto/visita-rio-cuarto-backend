@@ -4,8 +4,8 @@
     <div class="row justify-content-center">
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-            <li class="breadcrumb-item"><a href="/admin/categories">Categorias</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/') }}">Admin</a></li>
+            <li class="breadcrumb-item"><a href='{{ url("/admin/categories") }}'>Categorias</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar Categoría</li>
           </ol>
         </nav>
@@ -15,7 +15,7 @@
                     <h3>Editar categoría:</h3>
                     <h2><strong>"{{ $category->name }}"</strong></h2>
                 </div>
-                <form id="form_organization_category" method="POST" action="/admin/categories/{{ $category->id }}" method="POST">
+                <form id="form_organization_category" method="POST" action='{{ url("/admin/categories/{$category->id}") }}' method="POST">
                     {{ method_field('PATCH') }}
                     @csrf
                     <div class="card-body mt-2">

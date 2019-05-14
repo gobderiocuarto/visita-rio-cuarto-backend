@@ -34,8 +34,15 @@ class Address extends Model
     //Retorna una calle unica para una direccion dada
     public function getStreetAttribute()
     {
+        
+        // $algo = env('APP_URL') . env('STREETS_PATH');
+
+        // define('STREETS_URL',);
+
+        // dd(STREETS_URL);
         // $streets = json_decode(file_get_contents(STREETS_URL), true);
-        $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
+        $streets = json_decode(file_get_contents(env('APP_URL').env('STREETS_PATH')), true);
+        // $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
 
         $key = array_search($this->street_id, array_column($streets , 'id'));
 

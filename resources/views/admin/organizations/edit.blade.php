@@ -9,8 +9,8 @@
     <div class="row justify-content-center">
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-            <li class="breadcrumb-item"><a href="/admin/organizations">Organizaciones</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Admin</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/organizations') }}">Organizaciones</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
@@ -52,7 +52,7 @@
 @section('scripts')
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 <script src="{{ asset('libs/jquery-tagsinput/js/jquery.tagsinput-revisited.js') }}"></script>
-        <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="{{ asset('libs/typeahead/bootstrap3-typeahead.min.js') }}"></script>
 <script src="{{ asset('libs/bootstrap-tagsinput/js/tagsinput.js') }}"></script> -->
 <script>

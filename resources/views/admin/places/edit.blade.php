@@ -4,8 +4,8 @@
     <div class="row justify-content-center">
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-            <li class="breadcrumb-item"><a href="/admin/places">Espacios</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Admin</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/places') }}">Espacios</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
@@ -16,7 +16,7 @@
                     <h3>Editar espacio:</h3>
                     <h2><strong>"{{ $place->name }}"</strong></h2>
                 </div>
-                <form id="form_create_place" method="POST" action="/admin/places/{{ $place->id }}" method="POST" enctype="multipart/form-data">
+                <form id="form_create_place" method="POST" action='{{ url("/admin/places/$place->id") }}' method="POST" enctype="multipart/form-data">
                     {{ method_field('PATCH') }}
                     @csrf
                     <div class="card-body mt-2">

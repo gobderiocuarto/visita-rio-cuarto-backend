@@ -1,4 +1,4 @@
-<form id="form_organization_category" method="POST" action="/admin/organizations/{{ $organization->id }}">
+<form id="form_organization_category" method="POST" action='{{ url("/admin/organizations/$organization->id")}}'>
     {{ method_field('PATCH') }}
     @csrf
     <div class="form-group row">

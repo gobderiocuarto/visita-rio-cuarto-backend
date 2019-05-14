@@ -27,7 +27,7 @@
                             </button>
                         </td>
                         <td width="10px">
-                            <form action="/admin/organizations/{{ $organization->id }}/places/{{ $place->id }}" method="POST">
+                            <form action='{{ url("/admin/organizations/$organization->id/places/$place->id") }}' method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                             </form>
@@ -44,7 +44,7 @@
                             </button>
                         </td>
                         <td width="10px">
-                            <form action="/admin/organizations/{{ $organization->id }}/addresses/{{ $address->id }}" method="POST">
+                            <form action='{{ url("/admin/organizations/organization->id/addresses/$address->id") }}' method="POST">
                                  @csrf
                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                             </form>
@@ -57,7 +57,7 @@
     </div>
 </div>
 <div id="add_edit_place" class="mt-2" @if(!Session::has('action')) style="display: none;" @endif>
-    <form id="form_place" method="POST" action="/admin/organizations/{{ $organization->id }}/place">
+    <form id="form_place" method="POST" action='{{ url("/admin/organizations/$organization->id/place") }}'>
         <div class="card-header">
             <h4 id="title_add_edit_place">Nuevo Espacio / Dirección</h4>
         </div>

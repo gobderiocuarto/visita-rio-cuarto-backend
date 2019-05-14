@@ -4,8 +4,8 @@
     <div class="row justify-content-center">
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-            <li class="breadcrumb-item"><a href="/admin/services">Servicios</a></li>
+            <li class="breadcrumb-item"><a href='{{ url("/admin") }}'>Admin</a></li>
+            <li class="breadcrumb-item"><a href='{{ url("/admin/services") }}'>Servicios</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar Servicio</li>
           </ol>
         </nav>
@@ -16,7 +16,7 @@
                     <h3>Editar servicio:</h3>
                     <h2><strong>"{{ $service->name }}"</strong></h2>
                 </div>
-                <form id="form_edit_service" method="POST" action="/admin/services/{{ $service->id }}">
+                <form id="form_edit_service" method="POST" action='{{ url("/admin/services/$service->id") }}'>
                     {{ method_field('PATCH') }}
                     @csrf
                     <div class="card-body mt-2">
@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body">
                     <div class="alert alert-info mb-0" role="alert">
-                        <form method="POST" action="/admin/services/{{ $service->id }}/organizations">
+                        <form method="POST" action='{{ url("/admin/services/$service->id/organizations") }}'>
                             @csrf
                             <div class="form-group row">
                                 <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar Lugar...</h5></label>

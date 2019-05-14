@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+            <li class="breadcrumb-item"><a href='{{ url("/admin")}}'>Admin</a></li>
             <li class="breadcrumb-item active">Servicios</li>
           </ol>
         </nav>
@@ -36,7 +36,7 @@
                                     <a href="{{ route('services.edit', $service->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <form action="/admin/services/{{ $service->id }}" method="POST">
+                                    <form action='{{ url("/admin/services/$service->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>

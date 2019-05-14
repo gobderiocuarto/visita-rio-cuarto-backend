@@ -7,8 +7,8 @@
     <div class="row justify-content-center">
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-            <li class="breadcrumb-item"><a href="/admin/organizations">Organizaciones</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Admin</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/organizations') }}">Organizaciones</a></li>
             <li class="breadcrumb-item active" aria-current="page">Crear</li>
           </ol>
         </nav>
@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <h2>Crear organización</h2>
                 </div>
-                <form id="form_organization_category" method="POST" action="/admin/organizations">
+                <form id="form_organization_category" method="POST" action="{{ url('/admin/organizations') }}">
                     @csrf
                     <div class="card-body">
                         <div class="form-group row">
