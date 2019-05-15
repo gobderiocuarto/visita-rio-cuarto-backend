@@ -143,7 +143,16 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::findOrFail($id)->delete();
-        return back()->with('message', 'Categoría eliminada correctamente');
+        $category = Category::findOrFail($id);
+        // $category = Category::findOrFail($id)->delete();
+
+        if(empty($category->categories->toArray())) {
+            $category->delete();
+            return redirect()->back()->with('message', 'Categoría eliminada con éxito');
+        }else {
+
+            return redirect()->back()->withErrors('No puede eliminarse la categoria porque contiene subcategorias');
+
+        }
     }
 }
