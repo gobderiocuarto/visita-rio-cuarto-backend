@@ -133,6 +133,7 @@ class PlaceController extends Controller
     public function update(Request $request, $id)
     {
         
+        //dd($request);
 
         $place = Place::findOrFail($id);
 
@@ -170,11 +171,13 @@ class PlaceController extends Controller
 
                 // return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
                 
-            } 
+            }
             
+        } else {
+            $place->file()->update(['file_alt'=> $request->get('file_alt')]);
         }
 
-        $place->save();
+        $place->fill($request->all())->save();
 
         return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
 

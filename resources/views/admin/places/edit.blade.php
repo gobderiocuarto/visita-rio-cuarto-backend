@@ -106,7 +106,7 @@
                         <div class="form-group row">
                             <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
                             <div class="col-md-8">
-                                <input type="text" id="file_alt" name="file_alt" class="form-control" value="@if($place->file) {{$place->file->file_alt}} @endif">
+                                <input type="text" id="file_alt" name="file_alt" class="form-control" @if($place->file) value="{{$place->file->file_alt}}" @else value="" @endif>
                                 <small class="form-text text-muted mt-2">Lorem ipsum ...</small>
                             </div>
                         </div>
