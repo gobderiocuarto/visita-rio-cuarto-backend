@@ -24,15 +24,18 @@
                         <div class="form-group row">
                             <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
                             <div class="col-md-8">
-                                <select id="category_id" name="category_id" class="form-control form-control-xl" autofocus required>
+                                <select class="selectpicker form-control form-control-xl" id="category_id" name="category_id" autofocus required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($categories as $category)
-                                        <optgroup label="{{ $category->name }}">
-                                            @foreach($category->categories as $option)
-                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
-                                            @endforeach                                    
-                                        </optgroup>
-                                    @endforeach
+                                    <option style="font-weight: bold;" value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </option>
+                                    @foreach($category->categories as $subcategory)
+                                    <option style="text-indent: 10px;" value="{{ $subcategory->id }}" >
+                                        {{ $subcategory->name }}
+                                    </option>
+                                    @endforeach                             
+                                @endforeach
                                 </select>
                             </div>
                         </div>
