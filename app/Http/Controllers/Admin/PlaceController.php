@@ -44,7 +44,8 @@ class PlaceController extends Controller
      */
     public function create()
     {
-        $streets = Street::orderBy('name', 'ASC')->get();
+        // $streets = Street::orderBy('name', 'ASC')->get();
+        $streets = $this->getStreets(); // in Controller (parent)
         $zones = Zone::orderBy('name', 'ASC')->get();
         return view('admin.places.create', compact ('streets', 'zones') );
     }
@@ -116,7 +117,7 @@ class PlaceController extends Controller
         $zones = Zone::orderBy('name', 'ASC')->get();
 
         // $streets = Street::orderBy('name', 'ASC')->get();
-        $streets = $this->getStreets();
+        $streets = $this->getStreets(); // in Controller (parent)
 
         //dd($array_data);
 
