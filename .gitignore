@@ -7,6 +7,7 @@
 .gitignore
 .env
 .phpunit.result.cache
+commits.txt
 Homestead.json
 Homestead.yaml
 npm-debug.log
