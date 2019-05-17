@@ -58,7 +58,7 @@
 <script>
 
     // ----------------------------------------------------
-    // Funciones
+    // Functions
     // ----------------------------------------------------
 
 
@@ -228,6 +228,10 @@
 
     }
 
+    // ----------------------------------------------------
+    // END Functions
+    // ----------------------------------------------------
+
     
     $(document).ready(function(){
 
@@ -244,19 +248,18 @@
             }
         }); 
 
-        
 
-        function getData(callback) {
+        // function getData(callback) {
 
-            $.get(base_url+'/api/services/', function(data){
-                //console.log(data)
-                callback(data);
-            });
-        }
-
+        //     $.get(base_url+'/api/services/', function(data){
+        //         //console.log(data)
+        //         callback(data);
+        //     });
+        // }
 
 
-        // var url_json = base_url+'/api/services/'
+
+        // Obtener listado de servicios (tags group servicios) (callback)
 
         function responseGetData(data){
 
@@ -271,7 +274,7 @@
 
         //alert (datos)
 
-        var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
+        // var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
 
         $('#tags').tagsInput({
             'autocomplete': {
