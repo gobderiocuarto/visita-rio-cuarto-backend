@@ -10,6 +10,7 @@ use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 
 use App\Category;
+use App\Organization;
 
 class CategoryController extends Controller
 {
@@ -146,12 +147,24 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         // $category = Category::findOrFail($id)->delete();
 
-        if(empty($category->categories->toArray())) {
-            $category->delete();
-            return redirect()->back()->with('message', 'Categoría eliminada con éxito');
+        if(!empty($category->categories->toArray())) {
+
+            return redirect()->back()->withErrors('No puede eliminarse la categoría porque contiene subcategorías');
+           
         }else {
 
-            return redirect()->back()->withErrors('No puede eliminarse la categoria porque contiene subcategorias');
+            $organizations = Organization::where('category_id',$category->id)->get()->toArray();
+
+            if (!empty($organizations)) {
+
+                return redirect()->back()->withErrors('No puede eliminarse la categoría porque tiene organizaciones asignadas.');
+
+            } else {
+
+                $category->delete();
+                return redirect()->back()->with('message', 'Categoría eliminada con éxito');
+
+            }
 
         }
     }
