@@ -42,6 +42,12 @@ class Organization extends Model
     {
         return $this->morphedByMany('App\Place', 'organizationable')->withPivot('address_type_id', 'address_type_name');
     }
+    
+
+    public function file()
+    {
+        return $this->morphOne(File::class, 'fileable');
+    }
 
     public function toSearchableArray() {
         $this->load('tagged');

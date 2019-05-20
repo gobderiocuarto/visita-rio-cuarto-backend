@@ -1,4 +1,4 @@
-<form id="form_organization_category" method="POST" action='{{ url("/admin/organizations/$organization->id")}}'>
+<form id="form_organization_category" method="POST" action='{{ url("/admin/organizations/$organization->id")}}' enctype="multipart/form-data">
     {{ method_field('PATCH') }}
     @csrf
     <div class="form-group row">
@@ -61,7 +61,30 @@
             <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value="{{ $tags }}" placeholder="Etiquetas">
         </div>
     </div>
-
+    <div class="form-group row">
+        <label for="file" class="col-md-3 col-form-label text-md-right">Cargar nueva imagen</label>
+        <div class="col-md-8">
+            <input type="file" id="file" name="file" class="" value="{{ old('file') }}">
+            <small class="form-text text-muted mt-2">El tamaño de la imagen debe ser etc, etc...</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
+        <div class="col-md-8">
+            <input type="text" id="file_alt" name="file_alt" class="form-control" @if($organization->file) value="{{$organization->file->file_alt}}" @else value="" @endif>
+            <small class="form-text text-muted mt-2">Lorem ipsum ...</small>
+        </div>
+    </div>
+    @if($organization->file)
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label text-md-right">Imagen principal (actual)</label>
+        <div class="col-md-3 ">
+            <a target="_blank" href="{{ Storage::url("organizations/{$organization->id}/{$organization->file->file_path}") }}">
+                <img class="img-fluid" src="{{ Storage::url("organizations/{$organization->id}/thumbs/{$organization->file->file_path}") }}" alt="{{$organization->file->file_alt}}">
+            </a>
+        </div>
+    </div>
+    @endif
     <div class="form-group row mt-5">
         <div class="col-md-4 offset-md-3">
             <button type="submit" class="btn btn-primary">Actualizar organización</button>

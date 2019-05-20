@@ -77,6 +77,19 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
+                            <div class="col-md-6">
+                                <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true">
+                                    <option value="" >Selecciona...</option>
+                                    @foreach($zones as $zone)
+                                    <option value="{{ $zone->id }}" @if ($zone->id == $place->address->zone_id) selected @endif>
+                                        {{ $zone->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="tags" class="col-md-3 col-form-label text-md-right">Listado de Servicios (separar mediante coma)</label>
                             <div class="col-md-8">
                                 <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value=""  placeholder="Etiquetas">

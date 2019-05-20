@@ -21,6 +21,8 @@ use \Conner\Tagging\Model\Tag;
 use App\Http\Requests\OrganizationStoreRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
 
+use Intervention\Image\ImageManagerStatic as Image;
+
 class OrganizationController extends Controller
 {
 
@@ -143,6 +145,38 @@ class OrganizationController extends Controller
 
         foreach ($organization->tags as $tag) {
            $tag->setGroup('Servicios');
+        }
+
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+
+            $folder_img = 'organizations/'.$organization->id.'/';
+            $thumb_img = $folder_img.'thumbs/';
+
+            // Borrar archivos anteriores, si existen
+            if($organization->file) {
+
+                if (Storage::exists($folder_img.$organization->file->file_path) ) {
+                    Storage::delete($folder_img.$organization->file->file_path);
+                    Storage::delete($thumb_img.$organization->file->file_path);
+                }  
+                $organization->file->delete();
+            }
+
+            // Renombrar archivo entrante
+            $new_img = $this->renameFile($request->file('file'));
+
+            if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
+
+                Storage::makeDirectory($thumb_img);
+
+                $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
+
+                $organization->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
+                
+            }
+            
+        } else {
+            $organization->file()->update(['file_alt'=> $request->get('file_alt')]);
         }
 
         $organization->fill($request->all())->save();

@@ -97,17 +97,17 @@
                         </div>
                         @endif
                         <div class="form-group row">
-                            <label for="file" class="col-md-3 col-form-label text-md-right">Cargar nueva imagen</label>
-                            <div class="col-md-8">
-                                <input type="file" id="file" name="file" class="" value="{{ old('file') }}">
-                                <small class="form-text text-muted mt-2">El tamaño de la imagen debe ser etc, etc...</small>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
                             <div class="col-md-8">
                                 <input type="text" id="file_alt" name="file_alt" class="form-control" @if($place->file) value="{{$place->file->file_alt}}" @else value="" @endif>
                                 <small class="form-text text-muted mt-2">Lorem ipsum ...</small>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="file" class="col-md-3 col-form-label text-md-right">Cargar nueva imagen</label>
+                            <div class="col-md-8">
+                                <input type="file" id="file" name="file" class="" value="{{ old('file') }}">
+                                <small class="form-text text-muted mt-2">El tamaño de la imagen debe ser etc, etc...</small>
                             </div>
                         </div>
                     </div>
