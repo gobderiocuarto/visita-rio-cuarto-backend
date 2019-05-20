@@ -100,5 +100,18 @@ class ApiController extends Controller
         return $service_tags;
     }
 
+
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Obtener colección de nombres de tags asociados a grupo servicios
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+
+    public function getServicesTags()
+    {
+        $service_tags = Tag::inGroup('Servicios')->pluck('name');
+        return $service_tags;
+    }
+
     
 } # END Class

@@ -1,4 +1,7 @@
 @extends('admin.layouts.app')
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/typeahead.css') }}"/>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -15,14 +18,14 @@
                 <div class="card-header">
                     <h2>Crear Servicio</h2>
                 </div>
-                <form id="form_organization_category" method="POST" action='{{ url("/admin/services") }}' method="POST">
+                <form id="form_create_service" method="POST" action='{{ url("/admin/services") }}' method="POST">
                     @csrf
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
-                                <input name="name" id="name" type="text" class="form-control" value="{{ old('name') }}" autofocus required minlength=3>
-                            </div>
+                                <input name="name" id="name" type="text" class="typeahead form-control" value="{{ old('name') }}" autofocus required minlength=3>
+                            </div>                           
                         </div>
                     </div>
                     <div class="card-footer">
@@ -42,14 +45,30 @@
 </div>
 @endsection
 @section('scripts')
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/bloodhound.js"></script> -->
+<script src="{{ asset('libs/typeahead/typeahead.bundle.js') }}"></script>
 <script>
+
     $(document).ready(function(){
 
-        $("#name").stringToSlug({
-            callback: function(text){
-                $('#slug').val(text);
-            }
-        });    
-    });
+        // Typeahead para recuperar listado de Servicios existentes.
+        var services = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.whitespace,
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              // url points to a json file that contains an array of country names
+              prefetch: base_url+'/api/services/'
+        });
+
+        $('#name').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: 'services',
+          source: services
+        });
+
+    }); // END document ready
 </script>
 @endsection

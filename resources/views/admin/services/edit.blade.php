@@ -1,4 +1,7 @@
 @extends('admin.layouts.app')
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/typeahead.css') }}"/>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -23,7 +26,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
-                                <input name="name" id="name" type="text" class="form-control" value="{{ $service->name }}" autofocus required minlength=3>
+                                <input name="name" id="name" type="text" class="typeahead form-control" value="{{ $service->name }}" autofocus required minlength=3>
                             </div>
                         </div>
                     </div>
@@ -115,14 +118,34 @@
 </div>
 @endsection
 @section('scripts')
+<script src="{{ asset('libs/typeahead/typeahead.bundle.js') }}"></script>
 <script>
     $(document).ready(function(){
 
-        $("#name, #slug").stringToSlug({
-            callback: function(text){
-                $('#slug').val(text);
-            }
-        });    
+        // $("#name, #slug").stringToSlug({
+        //     callback: function(text){
+        //         $('#slug').val(text);
+        //     }
+        // });
+
+        // Typeahead para recuperar listado de Servicios existentes.
+        var services = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.whitespace,
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              // url points to a json file that contains an array of country names
+              prefetch: base_url+'/api/services/'
+        });
+
+        $('#name').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: 'services',
+          source: services
+        }); 
+
     });
 </script>
 @endsection
