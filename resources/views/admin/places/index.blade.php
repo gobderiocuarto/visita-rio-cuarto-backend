@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('meta_title') {{ config('app.name'). " - Admin :: Listar espacios" }} @endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

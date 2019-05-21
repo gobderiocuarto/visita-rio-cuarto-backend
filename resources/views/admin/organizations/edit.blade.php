@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('meta_title') {{ config('app.name'). " - Admin :: Editar organización" }} @endsection
 @section('styles')
 <!-- <link rel="stylesheet" href="{{ asset('libs/bootstrap-tagsinput/css/tagsinput.css') }}"> -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('meta_title') {{ config('app.name'). " - Admin :: Crear servicio" }} @endsection
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/typeahead.css') }}"/>
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('meta_title') {{ config('app.name'). " - Admin :: Verificar usuario" }} @endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
