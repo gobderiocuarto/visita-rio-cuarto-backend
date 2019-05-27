@@ -36,10 +36,10 @@
                                     <a href="{{ route('places.edit', $place->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <form action='{{ url("/admin/places/$place->id") }}' method="POST">
+                                    <form id="form_delete_place_{{ $place->id }}" action='{{ url("/admin/places/$place->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-danger delete_place" data-id-place="{{ $place->id }}">Eliminar</button>
                                     </form>             
                                 </td>
                             </tr>
@@ -52,4 +52,39 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+
+    // ----------------------------------------------------
+    // Document Ready
+    // ----------------------------------------------------
+
+    $(document).ready(function(){
+
+        // Confirmación de borrado mediante SweetAlert
+        $('.delete_place').click(function() {
+
+            event.preventDefault();
+
+            swal({
+              title: "¡Atención!",
+              text: "Se dispone a eliminar un espacio...",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_delete_place_"+$(this).data("id-place");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });
+        });
+    }); //  END document ready
+</script>
 @endsection

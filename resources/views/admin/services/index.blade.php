@@ -36,10 +36,10 @@
                                     <a href="{{ route('services.edit', $service->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <form action='{{ url("/admin/services/$service->id") }}' method="POST">
+                                    <form id="form_delete_serv_{{ $service->id }}" action='{{ url("/admin/services/$service->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-danger delete_serv" data-id-serv="{{ $service->id }}">Eliminar</button>
                                     </form>
                                 </td>
                             </tr>
@@ -52,4 +52,39 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+
+    // ----------------------------------------------------
+    // Document Ready
+    // ----------------------------------------------------
+
+    $(document).ready(function(){
+
+        // Confirmación de borrado mediante SweetAlert
+        $('.delete_serv').click(function() {
+
+            event.preventDefault();
+
+            swal({
+              title: "¡Atención!",
+              text: "Se dispone a eliminar un servicio...",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_delete_serv_"+$(this).data("id-serv");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });
+        });
+    }); //  END document ready
+</script>
 @endsection

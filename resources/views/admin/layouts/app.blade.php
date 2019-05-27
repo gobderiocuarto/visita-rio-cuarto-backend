@@ -30,6 +30,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
     <script src="{{ asset('libs/stringToSlug/jquery.stringToSlug.min.js') }}"></script>
     <script>const base_url = "{{ url('/') }}"</script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @yield('scripts')
 </body>
 </html>

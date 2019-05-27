@@ -39,10 +39,10 @@
                                     <a href="{{ route('categories.edit', [ 'id' => $category->id, 'pag' => $categories->currentPage()] ) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <form action='{{ url("/admin/categories/$category->id") }}' method="POST">
+                                    <form id="form_delete_cat_{{ $category->id }}" action='{{ url("/admin/categories/$category->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-danger delete_cat" data-id-cat="{{ $category->id }}">Eliminar</button>
                                     </form>
                                 </td>
                             </tr>
@@ -54,10 +54,10 @@
                                         <a href="{{ route('categories.edit', [ 'id' => $subcategory->id, 'pag' => $categories->currentPage()]) }}" class="btn btn-sm btn-success">Editar</a>
                                     </td>
                                     <td width="10px">
-                                        <form action='{{ url("/admin/categories/$subcategory->id") }}' method="POST">
+                                        <form id="form_delete_cat_{{ $subcategory->id }}" action='{{ url("/admin/categories/$subcategory->id") }}' method="POST">
                                             {{ method_field('DELETE') }}
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                            <button type="submit" class="btn btn-sm btn-danger delete_cat" data-id-cat="{{ $subcategory->id }}">Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -76,4 +76,39 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+
+    // ----------------------------------------------------
+    // Document Ready
+    // ----------------------------------------------------
+
+    $(document).ready(function(){
+
+        // Confirmación de borrado mediante SweetAlert
+        $('.delete_cat').click(function() {
+
+            event.preventDefault();
+
+            swal({
+              title: "¡Atención!",
+              text: "Se dispone a eliminar una categoría...",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_delete_cat_"+$(this).data("id-cat");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });
+        });
+    }); //  END document ready
+</script>
 @endsection

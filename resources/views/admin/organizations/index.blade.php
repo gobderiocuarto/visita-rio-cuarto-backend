@@ -41,10 +41,10 @@
                                     <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <form action='{{ url("/admin/organizations/$organization->id") }}' method="POST">
+                                    <form id="form_delete_org_{{ $organization->id }}" class="form_delete_org" action='{{ url("/admin/organizations/$organization->id") }}' method="POST" >
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-danger delete_org" data-id-org="{{ $organization->id }}">Eliminar</button>
                                     </form>
                                 </td>
                             </tr>
@@ -57,4 +57,40 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+
+    // ----------------------------------------------------
+    // Document Ready
+    // ----------------------------------------------------
+
+    $(document).ready(function(){
+
+        // Confirmación de borrado mediante SweetAlert
+        $('.delete_org').click(function() {
+        // $( ".form_delete_org" ).submit(function( event ) {
+
+            event.preventDefault();
+
+            swal({
+              title: "¡Atención!",
+              text: "Se dispone a eliminar una organización...",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_delete_org_"+$(this).data("id-org");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });
+        });
+    }); //  END document ready
+</script>
 @endsection
