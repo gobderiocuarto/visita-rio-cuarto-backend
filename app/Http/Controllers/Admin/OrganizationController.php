@@ -202,7 +202,6 @@ class OrganizationController extends Controller
     {
 
         //dd($request->all());
-
         $organization = Organization::with('addresses', 'places')->findOrFail($org_id); 
         //dd($request->get('address_type_name'));
 
@@ -231,15 +230,13 @@ class OrganizationController extends Controller
             if(!empty($exist)) {
 
                 //dd($exist);
-
                 // DB::rollBack();
 
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('El espacio elegido ya se encuentra asociado');
+                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('La ubicación elegida ya se encuentra asociada');
 
             } else {
 
-                // Elimino relacion anterior de espacio / dirección
-
+                // Elimino relacion anterior de ubicación
                 if ($request->get('prev_rel_type') === "place"){
 
                     $organization->places()->detach($request->get('prev_rel_value'));
@@ -255,11 +252,10 @@ class OrganizationController extends Controller
                 $organization->places()->attach($request->place, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
 
                 // $this->setStorageResponse('place', $request->place);
-
                 // DB::commit();
 
                 return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
-                        ->with('message', 'Espacio asociado con éxito')
+                        ->with('message', 'Ubicación asociada con éxito')
                         ->with('action', ['type' => 'place', 'value' => $request->place ]);
 
             }
@@ -268,8 +264,7 @@ class OrganizationController extends Controller
 
             //dd($request);
 
-            // Si existe, elimino relacion anterior place / address
-
+            // Si existe, elimino relacion con ubicación anterior
             if ($request->get('prev_rel_type') === "place"){
 
                 $organization->places()->detach($request->get('prev_rel_value'));
@@ -278,12 +273,9 @@ class OrganizationController extends Controller
 
             } else if ($request->get('prev_rel_type') === "address"){
 
-
-
                 $organization->addresses()->detach($request->get('prev_rel_value'));
                 $address = Address::find($request->get('prev_rel_value'));
                 $address->fill($request->all())->save();
-
                 // dd($address);
 
             } else {
@@ -294,11 +286,9 @@ class OrganizationController extends Controller
 
             $organization->addresses()->attach($address->id, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
             
-            
             // DB::commit();
-
             return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
-                                ->with('message', 'Dirección asociada con éxito')
+                                ->with('message', 'Ubicación asociada con éxito')
                                 ->with('action', ['type' => 'address', 'value' => $address->id ]);
 
             // } else {
@@ -325,7 +315,7 @@ class OrganizationController extends Controller
         //     ->where('address_organization.address_id', $address_id)
         //     ->delete();
 
-        return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Dirección eliminada correctamente');
+        return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Ubicación eliminada correctamente');
     }
 
 
@@ -334,7 +324,7 @@ class OrganizationController extends Controller
         $organization = Organization::findOrFail($org_id);
         $organization->places()->detach($place_id);
 
-        return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Espacio desvinculado correctamente');
+        return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Ubicación desvinculada correctamente');
     }
 
 }

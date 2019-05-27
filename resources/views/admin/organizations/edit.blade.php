@@ -31,7 +31,7 @@
                         </li>
                         <li role="presentation" class="nav-item">
                             <a href="#places_tab" class="nav-link" data-toggle="tab" aria-controls="places_tab" role="tab" title="Espacios">
-                                Espacios / Direcciones
+                                Ubicaciones
                             </a>
                         </li>
                     </ul>
@@ -53,9 +53,6 @@
 @section('scripts')
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 <script src="{{ asset('libs/jquery-tagsinput/js/jquery.tagsinput-revisited.js') }}"></script>
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="{{ asset('libs/typeahead/bootstrap3-typeahead.min.js') }}"></script>
-<script src="{{ asset('libs/bootstrap-tagsinput/js/tagsinput.js') }}"></script> -->
 <script>
 
     // ----------------------------------------------------
@@ -126,7 +123,7 @@
 
         if (rel_value &&  rel_value) {
 
-            const title_add_edit = 'Editar espacio / dirección'
+            const title_add_edit = 'Editar ubicación'
             let url_get
 
             let organization = $('#organization').val()
@@ -439,7 +436,7 @@
         // NUEVO espacio / dirección: Mostrar form al presionar boton 
         $("#places_btn_add").click(function(){
 
-            const title_add_edit = 'Asociar espacio / dirección'
+            const title_add_edit = 'Asociar ubicación'
 
             $("#title_add_edit_place").empty();
             $('#title_add_edit_place').html(title_add_edit)
@@ -673,6 +670,5 @@
         });
         
     });
-
 </script>
 @endsection

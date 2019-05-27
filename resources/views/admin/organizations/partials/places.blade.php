@@ -1,11 +1,11 @@
 <div id="list_places" class="mt-2" @if(Session::has('action')) style="display: none;" @endif>
     <div class="card">
         <div class="card-header">
-            <h2>Direcciones</h2> 
+            <h2>Ubicaciones</h2> 
         </div>
         <div class="card-body">
             <div class="alert alert-secondary text-right mb-3" >
-                <button id="places_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear organización</button>
+                <button id="places_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear ubicación</button>
             </div>
             <hr>       
             <table class="table table-striped table-hover">
@@ -59,12 +59,12 @@
 <div id="add_edit_place" class="mt-2" @if(!Session::has('action')) style="display: none;" @endif>
     <form id="form_place" method="POST" action='{{ url("/admin/organizations/$organization->id/place") }}'>
         <div class="card-header">
-            <h4 id="title_add_edit_place">Nuevo Espacio / Dirección</h4>
+            <h4 id="title_add_edit_place">Nueva ubicación</h4>
         </div>
         <div class="card-body">
             @csrf
             <div class="form-group row">
-                <label for="address_type" class="col-md-12 col-form-label">Tipo de dirección</label>
+                <label for="address_type" class="col-md-12 col-form-label">Tipo de ubicación</label>
                 <div class="col-md-5">
                     <select id="address_type" name="address_type" class="form-control form-control-xl" data-default-value="1" autofocus required>
                         @foreach($addresses_types as $type)
@@ -76,10 +76,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="place" class="col-md-12 col-form-label">Vínculo a espacio</label>
+                <label for="place" class="col-md-12 col-form-label">Utilizar ubicación existente:</label>
                 <div class="col-md-8">
                     <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="">
-                        <option value="">No vincular</option>
+                        <option value="">No utilizar</option>
                         @foreach($places as $place)
                         <option value="{{ $place->id }}">
                             {{ $place->name }}
