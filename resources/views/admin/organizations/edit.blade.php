@@ -59,7 +59,6 @@
     // Functions
     // ----------------------------------------------------
 
-
     //Limpiar datos  de formulario nuevo / editar
     function clear_address(){
 
@@ -445,6 +444,30 @@
             // $("#rel_value").val("")
             showform(true) 
 
+        });
+
+        // Eliminar Ubicación : Confirmación de borrado mediante SweetAlert
+        $('.delete_location').click(function() {
+
+            event.preventDefault();
+
+            swal({
+              title: "¡Atención!",
+              text: "Se dispone a eliminar una ubicación...",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = '#'+$(this).closest("form").attr('id');
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });
         });
 
 

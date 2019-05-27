@@ -27,9 +27,9 @@
                             </button>
                         </td>
                         <td width="10px">
-                            <form action='{{ url("/admin/organizations/$organization->id/places/$place->id") }}' method="POST">
+                            <form id="form_delete_place_{{ $place->id }}" action='{{ url("/admin/organizations/$organization->id/places/$place->id") }}' method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                <button type="submit" class="btn btn-sm btn-danger delete_location">Eliminar</button>
                             </form>
                         </td>
                     </tr>
@@ -44,9 +44,9 @@
                             </button>
                         </td>
                         <td width="10px">
-                            <form action='{{ url("/admin/organizations/organization->id/addresses/$address->id") }}' method="POST">
+                            <form id="form_delete_address_{{ $address->id }}" action='{{ url("/admin/organizations/$organization->id/addresses/$address->id") }}' method="POST">
                                  @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                <button type="submit" class="btn btn-sm btn-danger delete_location">Eliminar</button>
                             </form>
                         </td>
                     </tr>
