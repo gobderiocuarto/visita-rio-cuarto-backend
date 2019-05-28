@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('meta_title') {{ config('app.name'). " - Admin :: Editar servicio" }} @endsection
+@section('meta_title') {{ config('app.name'). " - Admin :: Editar etiqueta" }} @endsection
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/typeahead.css') }}"/>
 @endsection
@@ -9,8 +9,8 @@
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href='{{ url("/admin") }}'>Admin</a></li>
-            <li class="breadcrumb-item"><a href='{{ url("/admin/services") }}'>Servicios</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Editar Servicio</li>
+            <li class="breadcrumb-item"><a href='{{ url("/admin/services") }}'>Etiquetas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar etiqueta</li>
           </ol>
         </nav>
         <div class="col-12 col-md-10">
@@ -34,10 +34,10 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Actualizar servicio</button>
+                                <button type="submit" class="btn btn-primary">Actualizar etiqueta</button>
                             </div>
                             <div class="col-md-4">
-                                <a class="btn btn-outline-dark" href="{{ route('services.index') }}">Regresar al Listado</a>
+                                <a class="btn btn-outline-dark" href="{{ route('services.index') }}">Regresar al listado</a>
                             </div>
                         </div>
                     </div>
@@ -45,14 +45,14 @@
             </div>
             <div class="card mt-4">
                 <div class="card-header">
-                    <h3>Lugares asociados al servicio</h3>
+                    <h3>Ubicaciones asociadas a la etiqueta</h3>
                 </div>
                 <div class="card-body">
                     <div class="alert alert-info mb-0" role="alert">
                         <form method="POST" action='{{ url("/admin/services/$service->id/organizations") }}'>
                             @csrf
                             <div class="form-group row">
-                                <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar Lugar...</h5></label>
+                                <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar ubicación...</h5></label>
                                 <div class="col-md-10">
                                     <select id="organization" name="organization" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="" required>
                                         <option value="">Seleccione...</option>
@@ -78,7 +78,7 @@
                             </tr>
                         </thead>
                         <tbody class="mt-2">
-                            @foreach($service_orgs as $organization)
+                            @forelse($service_orgs as $organization)
                                 <tr class="table-info">
                                     <td colspan="2"><strong>{{ $organization->name }}</strong></td>
                                     <td width="10px">
@@ -107,8 +107,12 @@
                                     </td>
                                 </tr>                                
                                 @endforeach
-                                </br>
-                            @endforeach
+                            @empty
+                            <tr class="table-info">
+                                <td colspan="4" align="center"><span class="font-italic">-- Aún no existen ubicaciones asociadas al servicio --</span></td>
+                            </tr>
+                            @endforelse
+                            </br>
                         </tbody>   
                     </table>
                 </div>

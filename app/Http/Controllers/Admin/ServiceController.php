@@ -66,11 +66,11 @@ class ServiceController extends Controller
         if ($exist) {
 
             DB::rollBack();
-            return redirect()->back()->withErrors('Ya existe un servicio con el nombre ingresado');
+            return redirect()->back()->withErrors('Ya existe una etiqueta con el nombre ingresado');
 
         } else {
             DB::commit();
-            return redirect('admin/services/' . $service->id.'/edit')->with('message', 'Servicio creado con éxito');
+            return redirect('admin/services/' . $service->id.'/edit')->with('message', 'Etiqueta creada con éxito');
         }
 
     }
@@ -145,7 +145,7 @@ class ServiceController extends Controller
         }
 
         $service->fill($request->all())->save();
-        return redirect('admin/services/' . $service->id.'/edit')->with('message', 'Servicio actualizado con éxito');
+        return redirect('admin/services/' . $service->id.'/edit')->with('message', 'Etiqueta actualizada con éxito');
     }
 
     /**
@@ -170,7 +170,7 @@ class ServiceController extends Controller
 
         $result_1 = $service->delete();
 
-        return back()->with('message', 'Servicio eliminado correctamente');
+        return back()->with('message', 'Etiqueta eliminada correctamente');
 
     }
 
@@ -186,10 +186,10 @@ class ServiceController extends Controller
         if (!in_array($service->name, $organization->tagNames())) {
             $organization->tag("$service->name"); // attach the tag
             $organization->save();
-            return redirect('admin/services/'.$service_id.'/edit')->with('message', 'Organización agregada con éxito');
+            return redirect('admin/services/'.$service_id.'/edit')->with('message', 'Etiqueta agregada con éxito');
 
         } else {
-            return redirect()->back()->withErrors('Error al agregar la organización');
+            return redirect()->back()->withErrors('Error al agregar la etiqueta');
         }
 
     }
@@ -205,10 +205,10 @@ class ServiceController extends Controller
         if (in_array($service->name, $organization->tagNames())) {
             $organization->untag("$service->name"); // attach the tag
             $organization->save();
-            return redirect('admin/services/'.$service_id.'/edit')->with('message', 'Organización desvinculada con éxito');
+            return redirect('admin/services/'.$service_id.'/edit')->with('message', 'Etiqueta desvinculada con éxito');
 
         } else {
-            return redirect()->back()->withErrors('Error al desvincular la organización');
+            return redirect()->back()->withErrors('Error al desvincular la etiqueta');
         }
 
     }

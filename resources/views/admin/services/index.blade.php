@@ -1,22 +1,20 @@
 @extends('admin.layouts.app')
-@section('meta_title') {{ config('app.name'). " - Admin :: Listar servicios" }} @endsection
+@section('meta_title') {{ config('app.name'). " - Admin :: Listar etiquetas" }} @endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href='{{ url("/admin")}}'>Admin</a></li>
-            <li class="breadcrumb-item active">Servicios</li>
+            <li class="breadcrumb-item active">Etiquetas</li>
           </ol>
         </nav>
         <div class="col-12 col-md-10">
             @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
-                    <h2>Listado de servicios</h2> 
-                    <a href="{{ route('services.create') }}" class="pull-right btn btn-sm btn-primary">
-                        Crear
-                    </a>
+                    <h2>Listado de etiquetas</h2> 
+                    <a href="{{ route('services.create') }}" class="pull-right btn btn-sm btn-primary">Crear etiqueta</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-hover">
@@ -69,7 +67,7 @@
 
             swal({
               title: "¡Atención!",
-              text: "Se dispone a eliminar un servicio...",
+              text: "Se dispone a eliminar una etiqueta...",
               icon: "warning",
               buttons: true,
               dangerMode: true,
