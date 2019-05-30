@@ -10,25 +10,28 @@
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h2>Listado de etiquetas</h2> 
-                    <a href="{{ route('services.create') }}" class="pull-right btn btn-sm btn-primary">Crear etiqueta</a>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-2">
+                    @include('admin.layouts.partials.errors_messages')
+                    <div class="alert alert-secondary text-right mb-3" >
+                        <a href="{{ route('services.create') }}" class="btn btn-sm btn-primary ">
+                        Crear etiqueta
+                        </a>
+                    </div>
+                    <hr>
                     <table class="table table-striped table-hover">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
-                                <th width="10px">ID</th>
                                 <th>Nombre</th>
-                                <th colspan="2">&nbsp;</th>
+                                <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($services as $service)
                             <tr>
-                                <td>{{ $service->id }}</td>
                                 <td>{{ $service->name }}</td>
                                 <td width="10px">
                                     <a href="{{ route('services.edit', $service->id) }}" class="btn btn-sm btn-success">Editar</a>

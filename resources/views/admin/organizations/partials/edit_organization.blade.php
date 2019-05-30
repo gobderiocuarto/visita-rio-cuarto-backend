@@ -87,10 +87,10 @@
     @endif
     <div class="form-group row mt-5">
         <div class="col-md-4 offset-md-3">
-            <button type="submit" class="btn btn-primary">Actualizar organización</button>
+            <button type="submit" class="btn btn-success">Actualizar organización</button>
         </div>
         <div class="col-md-4">
-            <button type="reset" class="btn btn-outline-dark ">Limpiar campos</button>
+            <button type="reset" class="btn btn-outline-dark ">Restaurar datos</button>
         </div>
     </div>
 </form>

@@ -17,7 +17,7 @@
         </div>
         <div class="modal-footer">
           <button id="button_cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button id="btn_person_form" name="button_create" value="" type="submit" class="btn btn-primary" >Aceptar</button>
+          <button id="btn_person_form" name="button_create" value="" type="submit" class="btn btn-success" >Aceptar</button>
         </div>
       </form>
     </div>

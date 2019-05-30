@@ -7,18 +7,24 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin/') }}">Admin</a></li>
             <li class="breadcrumb-item"><a href="{{ url('/admin/categories/') }}">Categorias</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Crear Categoría</li>
+            <li class="breadcrumb-item active" aria-current="page">Crear</li>
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h2>Crear categoría</h2>
                 </div>
                 <form id="form_organization_category" method="POST" action="{{ url('/admin/categories/') }}" method="POST">
                     @csrf
-                    <div class="card-body">
+                    <div class="card-body mt-2">
+                        <div class="alert alert-secondary mb-3 text-right" >
+                            <a href="{{ route('categories.index') }}" class="btn btn-sm btn-primary ">
+                            Volver al listado
+                            </a>
+                        </div>
+                        <hr>
+                        @include('admin.layouts.partials.errors_messages')
                         <div class="form-group row">
                             <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría padre (*)</label>
                             <div class="col-md-8">
@@ -53,7 +59,7 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Crear categoría</button>
+                                <button type="submit" class="btn btn-success">Crear categoría</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>

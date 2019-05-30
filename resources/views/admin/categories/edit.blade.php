@@ -7,7 +7,7 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin/') }}">Admin</a></li>
             <li class="breadcrumb-item"><a href='{{ url("/admin/categories") }}'>Categorias</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Editar Categoría</li>
+            <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
         <div class="col-12 col-md-10">
@@ -20,6 +20,12 @@
                     {{ method_field('PATCH') }}
                     @csrf
                     <div class="card-body mt-2">
+                        <div class="alert alert-secondary mb-3 text-right" >
+                            <a href="{{ route('categories.index') }}" class="btn btn-sm btn-primary ">
+                            Volver al listado
+                            </a>
+                        </div>
+                        <hr>
                         @include('admin.layouts.partials.errors_messages')
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
@@ -40,11 +46,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group row">
-                        <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría padre (*)</label>
+                        <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría superior (*)</label>
                         <div class="col-md-8">
-                            <select id="category_id" name="category_id" class="form-control form-control-xl" required>
+                            <select id="category_id" name="category_id" class="form-control" required>
                                 <option value="" >Selecciona...</option>
                                 <option value="0" @if(0 == $category->category_id) selected @endif>(Es categoría principal / Raíz)</option>
                                 @foreach($categories as $option)
@@ -57,10 +62,10 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Actualizar categoría</button>
+                                <button type="submit" class="btn btn-success">Actualizar categoría</button>
                             </div>
                             <div class="col-md-4">
-                                <a class="btn btn-outline-dark" href="{{ route('categories.index', [ 'page' => $list_page ]) }}">Regresar al Listado</a>
+                                <button type="reset" class="btn btn-outline-dark ">Restaurar datos</button>
                             </div>
                         </div>
                     </div>

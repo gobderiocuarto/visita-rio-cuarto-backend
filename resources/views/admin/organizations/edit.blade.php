@@ -22,6 +22,12 @@
                     <h2><strong>"{{ $organization->name }}"</strong></h2>
                 </div>
                 <div class="card-body mt-2">
+                    <div class="alert alert-secondary mb-3 text-right" >
+                        <a href="{{ route('organizations.index') }}" class="btn btn-sm btn-primary ">
+                        Volver al listado
+                        </a>
+                    </div>
+                    <hr>
                     @include('admin.layouts.partials.errors_messages')
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="nav-item">

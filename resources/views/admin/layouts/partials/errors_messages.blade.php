@@ -9,6 +9,7 @@
     @endforeach
     </ul>
 </div>
+<hr>
 @elseif (Session::has('message'))
 <div class="alert alert-success" role="alert">
     {{ Session::get('message') }}
@@ -16,4 +17,5 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+<hr>
 @endif

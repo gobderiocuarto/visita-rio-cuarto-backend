@@ -10,22 +10,21 @@
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h2>Listado de organizaciones</h2> 
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-2">
+                    @include('admin.layouts.partials.errors_messages')
                     <div class="alert alert-secondary text-right mb-3" >
-                        <a href="{{ route('organizations.create') }}" class="pull-right btn btn-sm btn-primary">
+                        <a href="{{ route('organizations.create') }}" class="btn btn-sm btn-primary ">
                         Crear organización
                         </a>
                     </div>
-                    <hr>       
+                    <hr>                    
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th width="10px">ID</th>
                                 <th>Nombre</th>
                                 <th>Categoría</th>
                                 <th colspan="2">Opciones</th>
@@ -34,7 +33,6 @@
                         <tbody>
                             @foreach($organizations as $organization)
                             <tr>
-                                <td>{{ $organization->id }}</td>
                                 <td>{{ $organization->name }}</td>
                                 <td>@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}</td>                                
                                 <td width="10px">

@@ -6,31 +6,32 @@
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Admin</a></li>
-            <li class="breadcrumb-item active">Lugares</li>
+            <li class="breadcrumb-item active">Espacios</li>
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h2>Listado de espacios</h2> 
-                    <a href="{{ route('places.create') }}" class="pull-right btn btn-sm btn-primary">
-                        Crear
-                    </a>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-2">
+                    @include('admin.layouts.partials.errors_messages')
+                    <div class="alert alert-secondary text-right mb-3" >
+                        <a href="{{ route('places.create') }}" class="btn btn-sm btn-primary ">
+                        Crear espacio
+                        </a>
+                    </div>
+                    <hr>
                     <table class="table table-striped table-hover">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
-                                <th width="10px">ID</th>
                                 <th>Nombre</th>
-                                <th colspan="2">&nbsp;</th>
+                                <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($places as $place)
                             <tr>
-                                <td>{{ $place->id }}</td>
                                 <td>{{ $place->name }}</td>
                                 <td width="10px">
                                     <a href="{{ route('places.edit', $place->id) }}" class="btn btn-sm btn-success">Editar</a>

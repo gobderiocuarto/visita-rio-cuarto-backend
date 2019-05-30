@@ -10,23 +10,22 @@
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h2>Listado de categorías</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-2">
+                    @include('admin.layouts.partials.errors_messages')   
                     <div class="alert alert-secondary text-right mb-3" >
-                        <a href="{{ route('categories.create') }}" class="btn btn-md btn-primary">
+                        <a href="{{ route('categories.create') }}" class="btn btn-sm btn-primary">
                             Crear categoría
                         </a>
                     </div>
-                    <hr>   
+                    <hr>
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Nombre</th>
-                                <th width="20px">ID</th>
                                 <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
@@ -34,7 +33,6 @@
                             @foreach($categories as $category)
                             <tr class="table-info">
                                 <td>{{ $category->name }}</td>
-                                <td>{{ $category->id }}</td>
                                 <td width="10px">
                                     <a href="{{ route('categories.edit', [ 'id' => $category->id, 'pag' => $categories->currentPage()] ) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
@@ -49,7 +47,6 @@
                                 @forelse($category->categories as $subcategory)
                                 <tr>
                                     <td><i class="fas fa-angle-double-right"></i> {{ $subcategory->name }}</td>
-                                    <td>{{ $subcategory->id }}</td>
                                     <td width="10px">
                                         <a href="{{ route('categories.edit', [ 'id' => $subcategory->id, 'pag' => $categories->currentPage()]) }}" class="btn btn-sm btn-success">Editar</a>
                                     </td>

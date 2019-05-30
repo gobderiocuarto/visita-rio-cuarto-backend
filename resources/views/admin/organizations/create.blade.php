@@ -15,14 +15,20 @@
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h2>Crear organización</h2>
                 </div>
                 <form id="form_organization_category" method="POST" action="{{ url('/admin/organizations') }}">
                     @csrf
-                    <div class="card-body">
+                    <div class="card-body mt-2">
+                        @include('admin.layouts.partials.errors_messages')
+                        <div class="alert alert-secondary mb-3 text-right" >
+                            <a href="{{ route('organizations.index') }}" class="btn btn-sm btn-primary ">
+                            Volver al listado
+                            </a>
+                        </div>
+                        <hr>
                         <div class="form-group row">
                             <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
                             <div class="col-md-8">
@@ -87,7 +93,7 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Crear organización</button>
+                                <button type="submit" class="btn btn-success">Crear organización</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>

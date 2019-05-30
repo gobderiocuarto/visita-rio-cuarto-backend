@@ -10,11 +10,10 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href='{{ url("/admin") }}'>Admin</a></li>
             <li class="breadcrumb-item"><a href='{{ url("/admin/services") }}'>Etiquetas</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Editar etiqueta</li>
+            <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h3>Editar servicio:</h3>
@@ -24,6 +23,13 @@
                     {{ method_field('PATCH') }}
                     @csrf
                     <div class="card-body mt-2">
+                        <div class="alert alert-secondary mb-3 text-right" >
+                            <a href="{{ route('services.index') }}" class="btn btn-sm btn-primary ">
+                            Volver al listado
+                            </a>
+                        </div>
+                        <hr>
+                        @include('admin.layouts.partials.errors_messages')
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
@@ -34,10 +40,10 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Actualizar etiqueta</button>
+                                <button type="submit" class="btn btn-success">Actualizar etiqueta</button>
                             </div>
                             <div class="col-md-4">
-                                <a class="btn btn-outline-dark" href="{{ route('services.index') }}">Regresar al listado</a>
+                                <button type="reset" class="btn btn-outline-dark">Restaurar datos</button>
                             </div>
                         </div>
                     </div>

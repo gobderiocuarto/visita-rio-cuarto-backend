@@ -152,10 +152,10 @@
         <div class="card-footer">
             <div class="form-group row mb-0">
                 <div class="col-md-4 offset-md-3">
-                    <button id="btn_save" type="submit" class="btn btn-primary" disabled>Guardar</button>
+                    <button id="btn_save" type="submit" class="btn btn-success" disabled>Guardar cambios</button>
                 </div>
                 <div class="col-md-4">
-                    <button id="places_btn_cancel" type="button" class="btn btn-outline-dark">Volver al listado</button>
+                    <button id="places_btn_cancel" type="button" class="btn btn-outline-dark">Listar ubicaciones</button>
                 </div>
             </div>
         </div>

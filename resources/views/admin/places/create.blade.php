@@ -11,14 +11,20 @@
           </ol>
         </nav>
         <div class="col-12 col-md-10">
-            @include('admin.layouts.partials.errors_messages')
             <div class="card">
                 <div class="card-header">
                     <h2>Crear espacio</h2>
                 </div>
                 <form id="form_create_place" method="POST" action="{{ url('/admin/places') }}" method="POST">
                     @csrf
-                    <div class="card-body">
+                    <div class="card-body mt-2">
+                        <div class="alert alert-secondary mb-3 text-right" >
+                            <a href="{{ route('places.index') }}" class="btn btn-sm btn-primary ">
+                            Volver al listado
+                            </a>
+                        </div>
+                        <hr>
+                        @include('admin.layouts.partials.errors_messages')
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
@@ -41,7 +47,7 @@
                             <label for="street_id" class="col-md-3 col-form-label text-md-right">Calle(*)</label>
                             <div class="col-md-8">
                                 <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true" required>
-                                    <option value="" >Selecciona...</option>
+                                    <option value="" selected="selected">Selecciona...</option>
                                     @foreach($streets as $street)
                                     <option value="{{ $street->id }}">
                                         {{ $street->name }}
@@ -76,7 +82,7 @@
                             <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
                             <div class="col-md-8">
                                 <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true">
-                                    <option value="">Selecciona...</option>
+                                    <option value="" selected="selected">Selecciona...</option>
                                     @foreach($zones as $zone)
                                     <option value="{{ $zone->id }}">
                                         {{ $zone->name }}
@@ -89,10 +95,10 @@
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-primary">Crear espacio</button>
+                                <button type="submit" class="btn btn-success">Crear espacio</button>
                             </div>
                             <div class="col-md-4">
-                                <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>
+                                <button id="resetForm" type="reset" class="btn btn-outline-dark">Limpiar campos</button>
                             </div>
                         </div>
                     </div>
@@ -107,6 +113,10 @@
     $(document).ready(function(){
 
         $('.selectpicker').selectpicker();
+
+        $('#resetForm').on("click", function(){
+            $(".selectpicker").val('').selectpicker("refresh");
+        });
         
         $("#name").stringToSlug({
             callback: function(text){
