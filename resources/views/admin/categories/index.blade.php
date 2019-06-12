@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($categories as $category)
+                            @forelse($categories as $category)
                             <tr class="table-info">
                                 <td>{{ $category->name }}</td>
                                 <td width="10px">
@@ -61,7 +61,9 @@
                                 @empty
                                 <tr><td colspan="4"><i class="fas fa-asterisk"></i> (No contiene subcategorías)</td></tr>
                                 @endforelse
-                            @endforeach
+                            @empty
+                            <tr><td colspan="4"><i class="fas fa-exclamation-triangle"></i> Aún no se han definido categorías</td></tr>
+                            @endforelse
                         </tbody>   
                     </table>     	
                     

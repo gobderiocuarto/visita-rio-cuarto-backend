@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($services as $service)
+                            @forelse($services as $service)
                             <tr>
                                 <td>{{ $service->name }}</td>
                                 <td width="10px">
@@ -44,7 +44,9 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr><td colspan="4"><i class="fas fa-exclamation-triangle"></i> Aún no se han definido etiquetas</td></tr>
+                            @endforelse
                         </tbody>   
                     </table>
                     {{ $services->render() }}

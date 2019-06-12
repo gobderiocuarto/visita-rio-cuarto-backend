@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($organizations as $organization)
+                            @forelse($organizations as $organization)
                             <tr>
                                 <td>{{ $organization->name }}</td>
                                 <td>@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}</td>                                
@@ -46,7 +46,9 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr><td colspan="4"><i class="fas fa-exclamation-triangle"></i> Aún no se han definido Organizaciones</td></tr>
+                            @endforelse
                         </tbody>   
                     </table>
                     {{ $organizations->render() }}

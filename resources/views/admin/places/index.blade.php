@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($places as $place)
+                            @forelse($places as $place)
                             <tr>
                                 <td>{{ $place->name }}</td>
                                 <td width="10px">
@@ -44,7 +44,9 @@
                                     </form>             
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr><td colspan="4"><i class="fas fa-exclamation-triangle"></i> Aún no se han definido espacios</td></tr>
+                            @endforelse
                         </tbody>   
                     </table>
                     {{ $places->render() }}
