@@ -12,34 +12,7 @@
             @guest
             @else
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin/') }}">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Organizaciones
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ url('admin/organizations/create') }}">Nueva Organización</a>
-                <a class="dropdown-item" href="{{ url('admin/organizations') }}">Listar Organizaciones</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Espacios
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ url('admin/places/create') }}">Nuevo Espacio</a>
-                <a class="dropdown-item" href="{{ url('admin/places') }}">Listar Espacios</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Categorías
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ url('/admin/categories/create') }}">Nueva Categoría</a>
-                <a class="dropdown-item" href="{{ url('/admin/categories') }}">Listar Categorías</a>
-              </div>
+                <a class="nav-link" href="{{ url('admin/') }}">Admin <span class="sr-only">(current)</span></a>
             </li>
             @endguest
         </ul>
