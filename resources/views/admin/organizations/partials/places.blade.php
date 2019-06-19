@@ -17,7 +17,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($organization->places as $place)
+                @if (count($organization->places) === 0 and count($organization->addresses) === 0)
+                    <tr>
+                        <td colspan="4"><strong>Aún no se han asociado direcciones</strong></td>
+                    </tr>
+                @else
+                    @foreach($organization->places as $place)
                     <tr>
                         <td><strong>{{ $place->pivot->address_type_name }}</strong></td>
                         <td>{{ $place->address->street->name }} {{ $place->address->number }}, <strong>{{ $place->name }}</strong></strong></td>
@@ -33,8 +38,8 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
-                @foreach($organization->addresses as $address)
+                    @endforeach
+                    @foreach($organization->addresses as $address)
                     <tr>
                         <td><strong>{{ $address->pivot->address_type_name }}</strong></td>
                         <td>{{ $address->street->name }} {{ $address->number }}</td>
@@ -50,7 +55,8 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                    @endforeach
+                @endif
                 </tbody>   
             </table>
         </div>
@@ -104,7 +110,7 @@
                     <div class="row">
                         <label for="number" class="col-md-12 col-form-label">Número (*)</label>
                         <div class="col-md-10">
-                            <input name="number" id="number" type="number" class="form-control col-md-12" value="{{ $place->number }}" required>
+                            <input name="number" id="number" type="number" class="form-control col-md-12" value="{{ old('number') }}" required>
                         </div>
                     </div>
                 </div>
