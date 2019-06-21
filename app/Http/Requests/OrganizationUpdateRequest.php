@@ -28,7 +28,8 @@ class OrganizationUpdateRequest extends FormRequest
             'category_id' => 'required|numeric',
             'name' => 'required',
             'slug' => 'required|unique:organizations,slug,'. $this->organization,
-            'email' => 'required|email|unique:organizations,email, '. $this->organization
+            'phone' => 'required|string',
+            'email' => 'nullable|email|unique:organizations,email, '. $this->organization
         ];
 
         $rules['tags'] = 'tags_rule';
@@ -42,6 +43,7 @@ class OrganizationUpdateRequest extends FormRequest
     public function messages(){
         return [
             'name.required' => "El campo 'Nombre' es obligatorio",
+            'phone.required' => "El campo 'Teléfono' es obligatorio",
             'tags_rule' => "Los tags sólo deben contener letras y números.",
         ];
     }

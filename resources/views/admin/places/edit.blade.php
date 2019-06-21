@@ -79,7 +79,6 @@
                                 <input name="lng" id="lng" type="text" class="form-control" value="{{ $place->address->lng }}">
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
                             <div class="col-md-6">
@@ -93,30 +92,37 @@
                                 </select>
                             </div>
                         </div>
-                        @if($place->file)
+                        <hr />
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label text-md-right">Imagen principal</label>
-                            <div class="col-md-3 ">
+                            <label class="col-md-3 col-form-label text-md-right">Imagen principal: </label>
+                            @if($place->file)
+                            <div class="col-md-3">
                                 <a target="_blank" href="{{ Storage::url("places/{$place->id}/{$place->file->file_path}") }}">
                                     <img class="img-fluid" src="{{ Storage::url("places/{$place->id}/thumbs/{$place->file->file_path}") }}" alt="{{$place->file->file_alt}}">
                                 </a>
                             </div>
-                        </div>
-                        @endif
-                        <div class="form-group row">
-                            <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
+                            @else
                             <div class="col-md-8">
-                                <input type="text" id="file_alt" name="file_alt" class="form-control" @if($place->file) value="{{$place->file->file_alt}}" @else value="" @endif>
-                                <small class="form-text text-muted mt-2">Lorem ipsum ...</small>
+                                <span class="form-text font-italic mt-2">Aún no se ha cargado ninguna imagen</span>
                             </div>
+                            @endif
                         </div>
+                        <hr />
                         <div class="form-group row">
                             <label for="file" class="col-md-3 col-form-label text-md-right">Cargar nueva imagen</label>
                             <div class="col-md-8">
                                 <input type="file" id="file" name="file" class="" value="{{ old('file') }}">
-                                <small class="form-text text-muted mt-2">El tamaño de la imagen debe ser etc, etc...</small>
+                                <small class="form-text text-muted mt-2">Tamaño máximo ideal de imagen: 1000 x 1000 px</small>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
+                            <div class="col-md-8">
+                                <input type="text" id="file_alt" name="file_alt" class="form-control" @if($place->file) value="{{$place->file->file_alt}}" @else value="" @endif>
+                                <small class="form-text text-muted mt-2">Texto asociado a la imagen. Asegura que no se pierda información sea porque las imágenes no están disponibles, el lector ha desactivado las imágenes en su navegador o porqué está utilizando un lector de pantalla debido a que padece una deficiencia visual. </small>
+                            </div>
+                        </div>
+                        <hr />
                     </div>
                     <div class="card-footer">
                         <div class="form-group row mb-0">

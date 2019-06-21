@@ -255,7 +255,7 @@ class OrganizationController extends Controller
                 // DB::commit();
 
                 return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
-                        ->with('message', 'Ubicación asociada con éxito')
+                        ->with('message', 'Se actualizó correctamente la ubicación')
                         ->with('action', ['type' => 'place', 'value' => $request->place ]);
 
             }

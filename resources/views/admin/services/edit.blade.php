@@ -51,14 +51,14 @@
             </div>
             <div class="card mt-4">
                 <div class="card-header">
-                    <h3>Ubicaciones asociadas a la etiqueta</h3>
+                    <h3>Organizaciones asociadas a la etiqueta</h3>
                 </div>
                 <div class="card-body">
                     <div class="alert alert-info mb-0" role="alert">
                         <form method="POST" action='{{ url("/admin/services/$service->id/organizations") }}'>
                             @csrf
                             <div class="form-group row">
-                                <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar ubicación...</h5></label>
+                                <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar organización...</h5></label>
                                 <div class="col-md-10">
                                     <select id="organization" name="organization" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="" required>
                                         <option value="">Seleccione...</option>
@@ -72,8 +72,6 @@
                                 </div>
                             </div>
                         </form>
-                        <hr>
-                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
                     </div>
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">

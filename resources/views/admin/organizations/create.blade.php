@@ -66,15 +66,15 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="email" class="col-md-3 col-form-label text-md-right">Email (*)</label>
+                            <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono (*)</label>
                             <div class="col-md-8">
-                                <input name="email" id="email" type="email" class="form-control" value="{{ old('email') }}" required>
+                                <input name="phone" id="phone" type="text" class="form-control" value="{{ old('phone') }}" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono</label>
+                            <label for="email" class="col-md-3 col-form-label text-md-right">Email</label>
                             <div class="col-md-8">
-                                <input name="phone" id="phone" type="text" class="form-control" value="{{ old('phone') }}" >
+                                <input name="email" id="email" type="email" class="form-control" value="{{ old('email') }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -83,12 +83,13 @@
                                 <input name="web" id="web" type="text" class="form-control" value="{{ old('web') }}">
                             </div>
                         </div>
+                        <hr />
                         <div class="form-group row">
-                            <label for="tags" class="col-md-3 col-form-label text-md-right">Listado de Servicios (separar mediante coma)</label>
+                            <label for="tags" class="col-md-3 col-form-label text-md-right">Etiquetas asociadas (separar mediante comas)</label>
                             <div class="col-md-8">
                                 <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value=""  placeholder="Etiquetas">
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="form-group row mb-0">

@@ -82,10 +82,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="place" class="col-md-12 col-form-label">Utilizar ubicación existente:</label>
+                <label for="place" class="col-md-12 col-form-label">Asociar a ubicación existente:</label>
                 <div class="col-md-8">
                     <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="">
-                        <option value="">No utilizar</option>
+                        <option value="">No asociar</option>
                         @foreach($places as $place)
                         <option value="{{ $place->id }}">
                             {{ $place->name }}

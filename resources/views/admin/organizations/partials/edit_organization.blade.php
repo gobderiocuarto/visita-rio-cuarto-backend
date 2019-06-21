@@ -38,15 +38,15 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="email" class="col-md-3 col-form-label text-md-right">Email (*)</label>
+        <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono (*)</label>
         <div class="col-md-8">
-            <input name="email" id="email" type="email" class="form-control" value="{{ $organization->email }}" required>
+            <input name="phone" id="phone" type="text" class="form-control" value="{{ $organization->phone }}" required>
         </div>
     </div>
     <div class="form-group row">
-        <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono</label>
+        <label for="email" class="col-md-3 col-form-label text-md-right">Email</label>
         <div class="col-md-8">
-            <input name="phone" id="phone" type="text" class="form-control" value="{{ $organization->phone }}" >
+            <input name="email" id="email" type="email" class="form-control" value="{{ $organization->email }}">
         </div>
     </div>
     <div class="form-group row">
@@ -55,36 +55,44 @@
             <input name="web" id="web" type="text" class="form-control" value="{{ $organization->web }}">
         </div>
     </div>
+    <hr />
     <div class="form-group row">
-        <label for="tags" class="col-md-3 col-form-label text-md-right">Listado de Servicios (separar mediante coma)</label>
+        <label for="tags" class="col-md-3 col-form-label text-md-right">Etiquetas asociadas (separar mediante comas)</label>
         <div class="col-md-8">
             <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value="{{ $tags }}" placeholder="Etiquetas">
         </div>
     </div>
+    <hr />
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label text-md-right">Imagen principal: </label>
+        @if($organization->file)
+        <div class="col-md-3">
+            <a target="_blank" href="{{ Storage::url("organizations/{$organization->id}/{$organization->file->file_path}") }}">
+                <img class="img-fluid" src="{{ Storage::url("organizations/{$organization->id}/thumbs/{$organization->file->file_path}") }}" alt="{{$organization->file->file_alt}}">
+            </a>
+        </div>
+        @else
+        <div class="col-md-8">
+            <span class="form-text font-italic mt-2">Aún no se ha cargado ninguna imagen</span>
+        </div>
+        @endif
+    </div>
+    <hr />
     <div class="form-group row">
         <label for="file" class="col-md-3 col-form-label text-md-right">Cargar nueva imagen</label>
         <div class="col-md-8">
             <input type="file" id="file" name="file" class="" value="{{ old('file') }}">
-            <small class="form-text text-muted mt-2">El tamaño de la imagen debe ser etc, etc...</small>
+            <small class="form-text text-muted mt-2">Tamaño máximo ideal de imagen: 1000 x 1000 px</small>
         </div>
     </div>
     <div class="form-group row">
         <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
         <div class="col-md-8">
             <input type="text" id="file_alt" name="file_alt" class="form-control" @if($organization->file) value="{{$organization->file->file_alt}}" @else value="" @endif>
-            <small class="form-text text-muted mt-2">Lorem ipsum ...</small>
+            <small class="form-text text-muted mt-2">Texto asociado a la imagen. Asegura que no se pierda información sea porque las imágenes no están disponibles, el lector ha desactivado las imágenes en su navegador o porqué está utilizando un lector de pantalla debido a que padece una deficiencia visual. </small>
         </div>
     </div>
-    @if($organization->file)
-    <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">Imagen principal (actual)</label>
-        <div class="col-md-3 ">
-            <a target="_blank" href="{{ Storage::url("organizations/{$organization->id}/{$organization->file->file_path}") }}">
-                <img class="img-fluid" src="{{ Storage::url("organizations/{$organization->id}/thumbs/{$organization->file->file_path}") }}" alt="{{$organization->file->file_alt}}">
-            </a>
-        </div>
-    </div>
-    @endif
+    <hr />
     <div class="form-group row mt-5">
         <div class="col-md-4 offset-md-3">
             <button type="submit" class="btn btn-success">Actualizar organización</button>

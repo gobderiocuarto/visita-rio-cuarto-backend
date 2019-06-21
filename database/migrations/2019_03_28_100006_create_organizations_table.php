@@ -24,7 +24,7 @@ class CreateOrganizationsTable extends Migration
 
             $table->tinyinteger('state')->unsigned()->default(1);
 
-            $table->string('email', 128)->unique();
+            $table->string('email', 128)->unique()->nullable();
             $table->string('phone')->nullable();
             $table->string('web')->nullable();
 
