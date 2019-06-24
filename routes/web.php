@@ -45,6 +45,14 @@ Route::resource('admin/places','Admin\PlaceController');
 
 Route::resource('admin/services','Admin\ServiceController');
 
+// Servicios :: Agregar organizaciones
 Route::post('admin/services/{service}/organizations','Admin\ServiceController@storeOrganization');
 
-Route::post('admin/services/{service}/organizations/{organization}','Admin\ServiceController@destroyOrganization');
+// Servicios :: Desvincular organizaciones
+Route::post('admin/services/{service}/organizations/{organization}','Admin\ServiceController@unlinkOrganization');
+
+// Servicios :: Agregar espacios
+Route::post('admin/services/{service}/places','Admin\ServiceController@storePlace');
+
+// Servicios :: Desvincular espacio
+Route::post('admin/services/{service}/places/{place}','Admin\ServiceController@unlinkPlace');

@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 @section('meta_title') {{ config('app.name'). " - Admin :: Editar organización" }} @endsection
 @section('styles')
-<!-- <link rel="stylesheet" href="{{ asset('libs/bootstrap-tagsinput/css/tagsinput.css') }}"> -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="{{ asset('libs/jquery-tagsinput/css/jquery.tagsinput-revisited.css') }}"/>
 @endsection
@@ -252,18 +251,7 @@
         }); 
 
 
-        // function getData(callback) {
-
-        //     $.get(base_url+'/api/services/', function(data){
-        //         //console.log(data)
-        //         callback(data);
-        //     });
-        // }
-
-
-
         // Obtener listado de servicios (tags group servicios) (callback)
-
         function responseGetData(data){
 
             var result = [];
@@ -273,20 +261,13 @@
 
         };
 
-        //var datos = getData(responseGetData)
-
-        //alert (datos)
-
-        // var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
-
+        
+        // Obtener listado de servicios
         $('#tags').tagsInput({
             'autocomplete': {
                 source : function (request, responseGetData) {
-
                     var term = request.term;
-
-                    console.log(term)
-
+                    //console.log(term)
                     $.get(base_url+'/api/services/'+term, function(data){
                         //console.log(data)
                         responseGetData(data);
@@ -294,126 +275,6 @@
                 }
             } 
         });
-
-        // $("#tags").click(function(){
-        //     var datos = getData(responseGetData)
-            
-        // });
-
-
-
-        // var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
-
-        // $(".typeahead").typeahead({ 
-        //     source:cars 
-        //   });
-
-
-        // $('#tags').tagsinput({
-        //     //options for tagsinput here
-        // }).typeahead({
-        //     source: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
-        // });
-
-
-        // var url_json = base_url+'/libs/typeahead/citynames.json'
-
-        // $.get(url_json, function(data){ 
-        //     // alert (data)
-        //   $(".typeahead").typeahead({ 
-        //     source:data 
-        //   });
-        // },'json');
-
-        // alert(url_json)
-
-        // $('#tags').tagsinput({
-        //   typeaheadjs: {
-        //     name: 'cars',
-        //     source: cars
-        //   }
-        // });
-
-
-
-        // // // Defining the local dataset
-        // var cars = ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen'];
-        
-        // // // Constructing the suggestion engine
-        // // var cars = new Bloodhound({
-        // //     datumTokenizer: Bloodhound.tokenizers.whitespace,
-        // //     queryTokenizer: Bloodhound.tokenizers.whitespace,
-        // //     local: cars
-        // // });
-        
-        // // Initializing the typeahead
-        // $('.typeahead').typeahead({
-        //     hint: true,
-        //     highlight: true, /* Enable substring highlighting */
-        //     minLength: 1 /* Specify minimum characters required for showing result */
-        // },
-        // {
-        //     name: 'cars',
-        //     source: cars
-        // });
-
-
-        // var citynames = new Bloodhound({
-        //   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-        //   queryTokenizer: Bloodhound.tokenizers.whitespace,
-        //   prefetch: {
-        //     url: base_url+'/libs/typeahead/citynames.json',
-        //     filter: function(list) {
-        //       return $.map(list, function(cityname) {
-        //         return { name: cityname }; });
-        //     }
-        //   }
-        // });
-        // citynames.initialize();
-
-
-
-        // var countries = new Bloodhound({
-        //   datumTokenizer: Bloodhound.tokenizers.whitespace,
-        //   queryTokenizer: Bloodhound.tokenizers.whitespace,
-        //   // url points to a json file that contains an array of country names, see
-        //   // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-        //   prefetch: base_url+'/libs/typeahead/citynames.json'
-        // });
-
-        // alert(countries)
-
-
-
-
-
-        // let url_place = base_url+"/api/places/"+place_id
-        // var citynames = new Bloodhound({
-        //   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-        //   queryTokenizer: Bloodhound.tokenizers.whitespace,
-        //   prefetch: {
-        //     url: base_url+'/libs/typeahead/citynames.json',
-        //     filter: function(list) {
-        //       return $.map(list, function(cityname) {
-        //         return { name: cityname }; });
-        //     }
-        //   }
-        // });
-
-        // citynames.initialize();
-
-
-        // $('#tags').tagsinput({
-        //   typeaheadjs: {
-        //     name: 'citynames',
-        //     displayKey: 'name',
-        //     valueKey: 'name',
-        //     source: citynames.ttAdapter()
-        //   }
-        // });
-
-
-
 
 
         // ----------------------------------------------------

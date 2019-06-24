@@ -16,7 +16,7 @@
         <div class="col-12 col-md-10">
             <div class="card">
                 <div class="card-header">
-                    <h3>Editar servicio:</h3>
+                    <h3>Editar etiqueta servicio:</h3>
                     <h2><strong>"{{ $service->name }}"</strong></h2>
                 </div>
                 <form id="form_edit_service" method="POST" action='{{ url("/admin/services/$service->id") }}'>
@@ -48,82 +48,39 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> <!-- card -->
+
             <div class="card mt-4">
                 <div class="card-header">
-                    <h3>Organizaciones asociadas a la etiqueta</h3>
+                    <h5>Entidades asociadas a la etiqueta</h5>
                 </div>
                 <div class="card-body">
-                    <div class="alert alert-info mb-0" role="alert">
-                        <form method="POST" action='{{ url("/admin/services/$service->id/organizations") }}'>
-                            @csrf
-                            <div class="form-group row">
-                                <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar organización...</h5></label>
-                                <div class="col-md-10">
-                                    <select id="organization" name="organization" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="" required>
-                                        <option value="">Seleccione...</option>
-                                        @foreach ($list_orgs as $organization)
-                                        <option value="{{ $organization->id }}">{{ $organization->name }}, ({{ $organization->category->name }})</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-sm btn-success">Agregar</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <table class="table table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th width="25%">Organización</th>
-                                <th>Calle y número</th>
-                                <th colspan="2">Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="mt-2">
-                            @forelse($service_orgs as $organization)
-                                <tr class="table-info">
-                                    <td colspan="2"><strong>{{ $organization->name }}</strong></td>
-                                    <td width="10px">
-                                        <a href="{{ url('admin/organizations/'.$organization->id.'/edit') }}" class="btn btn-sm btn-success">Editar</a>
-                                    </td>
-                                    <td width="10px">
-                                        <form action="{{ url('admin/services/'.$service->id.'/organizations/'.$organization->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @foreach($organization->places as $place)
-                                <tr>
-                                    <td><span class="font-italic">{{ $place->pivot->address_type_name }}</span></td>
-                                    <td colspan="3">{{ $place->address->street->name }} {{ $place->address->number }}@if($place->address->floor)- {{ $place->address->floor }}@endif- <strong>{{$place->name}}</strong></td>
-                                </tr>                                
-                                @endforeach
-                                @foreach($organization->addresses as $address)
-                                <tr>
-                                    <td><span class="font-italic">{{ $address->pivot->address_type_name }}</span></td>
-                                    <td colspan="3">
-                                        {{$address->street->name}} {{$address->number}}
-                                        @if($address->floor)- {{ $address->floor }}@endif
-                                        @if($address->zone)- <strong>{{$address->zone->name}}</strong>@endif
-                                    </td>
-                                </tr>                                
-                                @endforeach
-                            @empty
-                            <tr class="table-info">
-                                <td colspan="4" align="center"><span class="font-italic">-- Aún no existen ubicaciones asociadas al servicio --</span></td>
-                            </tr>
-                            @endforelse
-                            </br>
-                        </tbody>   
-                    </table>
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="nav-item">
+                            <a href="#organizations_tab" class="nav-link active" data-toggle="tab" aria-controls="organizations_tab" role="tab" title="Datos de la Organización">
+                                Organizaciones
+                            </a>
+                        </li>
+                        <li role="presentation" class="nav-item">
+                            <a href="#places_tab" class="nav-link" data-toggle="tab" aria-controls="places_tab" role="tab" title="Espacios">
+                                Espacios
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-3 mt-2 border">
+                        <div class="tab-pane active" role="tabpanel" id="organizations_tab">
+                            @include('admin.services.partials.list_organizations')
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="places_tab">
+                            @include('admin.services.partials.list_places')
+                        </div>
+                    </div> <!-- tab-content -->
                 </div>
-                {{ $service_orgs->render() }}
-            </div>
-        </div>
-    </div>
+                {{-- $service_orgs->render() --}}
+            </div> <!-- card -->
+        </div> <!-- col -->
+    </div> <!-- row -->
 </div>
 @endsection
 @section('scripts')
@@ -136,6 +93,18 @@
         //         $('#slug').val(text);
         //     }
         // });
+
+        // Redireccionar a tab según ancla url
+        const hash = $(location).attr('hash'); 
+
+        if (hash) {
+            $('.tab-pane').removeClass('active')
+            $('.nav-item a').removeClass('active')
+            $('.nav-item a[href="'+hash+'"]').addClass('active')
+            $(hash).tab('show')
+
+        }
+        
 
         // Typeahead para recuperar listado de Servicios existentes.
         var services = new Bloodhound({

@@ -117,7 +117,6 @@
     // ----------------------------------------------------
 
     // Obtener listado de servicios (tags group servicios) (callback)
-
     function responseGetData(data){
 
         var result = [];
@@ -130,7 +129,6 @@
     // ----------------------------------------------------
     // END Functions
     // ----------------------------------------------------
-
 
 
     $(document).ready(function(){
@@ -147,11 +145,8 @@
         $('#tags').tagsInput({
             'autocomplete': {
                 source : function (request, responseGetData) {
-
                     var term = request.term;
-
                     console.log(term)
-
                     $.get(base_url+'/api/services/'+term, function(data){
                         //console.log(data)
                         responseGetData(data);
@@ -159,7 +154,6 @@
                 }
             } 
         });
-
 
     });
 </script>
