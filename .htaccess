@@ -3,5 +3,10 @@
 	deny from all
 </files>
 
+<files .env>
+	order allow,deny
+	deny from all
+</files>
+
 RewriteEngine On
 RewriteRule ^(.*)$ public/$1  [QSA,L]
