@@ -22,7 +22,7 @@ class CreateAddressesTable extends Migration
             $table->string('floor')->nullable();
             $table->float('lat', 10,6)->nullable();
             $table->float('lng', 10,6)->nullable();
-            $table->integer('zone_id')->unsigned()->default(0);
+            $table->integer('zone_id')->unsigned()->nullable()->default(0);
 
             $table->timestamps();
 

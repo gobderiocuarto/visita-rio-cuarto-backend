@@ -87,7 +87,7 @@
                             <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
                             <div class="col-md-6">
                                 <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true">
-                                    <option value="">Selecciona...</option>
+                                    <option value="0">Selecciona...</option>
                                     @foreach($zones as $zone)
                                     <option value="{{ $zone->id }}" @if ($zone->id == $place->address->zone_id) selected="selected" @endif>
                                         {{ $zone->name }}
