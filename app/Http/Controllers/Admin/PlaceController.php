@@ -86,6 +86,16 @@ class PlaceController extends Controller
                 return redirect()->back()->withErrors('Error al crear un espacio');
 
             } else {
+
+                $tags = explode(',', $request->get('tags'));
+                $place->tag($tags);
+
+                foreach ($place->tags as $tag) {
+                   $tag->setGroup('Servicios');
+                }
+
+                $place->update();
+
                 DB::commit();
                 return redirect()->route('places.edit', $place->id)->with('message', 'Espacio creado con éxito');
             }
@@ -119,9 +129,11 @@ class PlaceController extends Controller
         // $streets = Street::orderBy('name', 'ASC')->get();
         $streets = $this->getStreets(); // in Controller (parent)
 
+        $tags = implode(', ', $place->tagNames());
+
         //dd($array_data);
 
-        return view('admin.places.edit', compact('place','address','streets','zones'));
+        return view('admin.places.edit', compact('place','address','streets','zones', 'tags'));
     }
 
     /**
@@ -137,6 +149,13 @@ class PlaceController extends Controller
         //dd($request);
 
         $place = Place::findOrFail($id);
+
+        $tags = explode(',', $request->get('tags'));
+        $place->retag($tags);
+
+        foreach ($place->tags as $tag) {
+           $tag->setGroup('Servicios');
+        }
 
         $place->address->fill($request->all())->save();
 

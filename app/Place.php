@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use \Conner\Tagging\Taggable;
 
 class Place extends Model
 {
+    
+    use Taggable;
+
     //protected $guarded = [];
 
     protected $fillable = [

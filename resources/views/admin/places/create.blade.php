@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 @section('meta_title') {{ config('app.name'). " - Admin :: Crear espacio" }} @endsection
+@section('styles')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('libs/jquery-tagsinput/css/jquery.tagsinput-revisited.css') }}"/>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -77,7 +81,6 @@
                                 <input name="lng" id="lng" type="text" class="form-control" value="{{ old('lng') }}">
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
                             <div class="col-md-8">
@@ -89,6 +92,13 @@
                                     </option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group row">
+                            <label for="tags" class="col-md-3 col-form-label text-md-right">Etiquetas asociadas (separar mediante comas)</label>
+                            <div class="col-md-8">
+                                <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value=""  placeholder="Etiquetas">
                             </div>
                         </div>
                     </div>
@@ -109,7 +119,29 @@
 </div>
 @endsection
 @section('scripts')
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script src="{{ asset('libs/jquery-tagsinput/js/jquery.tagsinput-revisited.js') }}"></script>
 <script>
+
+    // ----------------------------------------------------
+    // Functions
+    // ----------------------------------------------------
+
+    // Obtener listado de servicios (tags group servicios) (callback)
+
+    function responseGetData(data){
+
+        var result = [];
+        result.push(data);
+        //console.log(result)
+        return (result)
+
+    };
+
+    // ----------------------------------------------------
+    // END Functions
+    // ----------------------------------------------------
+
     $(document).ready(function(){
 
         $('.selectpicker').selectpicker();
@@ -122,7 +154,27 @@
             callback: function(text){
                 $('#slug').val(text);
             }
-        });    
+        }); 
+
+        // Obtener listado de servicios (typeahead)
+        $('#tags').tagsInput({
+            'autocomplete': {
+                source : function (request, responseGetData) {
+
+                    var term = request.term;
+
+                    console.log(term)
+
+                    $.get(base_url+'/api/services/'+term, function(data){
+                        console.log(data)
+                        responseGetData(data);
+                    });
+                }
+            } 
+        });
+
+
+
     });
 </script>
 @endsection
