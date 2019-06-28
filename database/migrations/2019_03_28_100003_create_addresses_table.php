@@ -26,7 +26,7 @@ class CreateAddressesTable extends Migration
 
             $table->timestamps();
 
-            $table->unique(['street_id', 'number']);
+            //$table->unique(['street_id', 'number']);
             
         });
     }

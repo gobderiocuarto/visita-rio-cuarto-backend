@@ -30,6 +30,24 @@
                         <hr>
                         @include('admin.layouts.partials.errors_messages')
                         <div class="form-group row">
+                            <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
+                            <div class="col-md-8">
+                                <select class="selectpicker form-control form-control-xl" id="category_id" name="category_id" autofocus required>
+                                    <option value="" >Selecciona...</option>
+                                    @foreach($categories as $category)
+                                    <option style="font-weight: bold;" value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </option>
+                                    @foreach($category->categories as $subcategory)
+                                    <option style="text-indent: 10px;" value="{{ $subcategory->id }}" >
+                                        {{ $subcategory->name }}
+                                    </option>
+                                    @endforeach                             
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
                                 <input name="name" id="name" type="text" class="form-control" value="{{ old('name') }}" autofocus required minlength=3>

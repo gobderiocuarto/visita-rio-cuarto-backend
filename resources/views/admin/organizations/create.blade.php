@@ -22,13 +22,13 @@
                 <form id="form_organization_category" method="POST" action="{{ url('/admin/organizations') }}">
                     @csrf
                     <div class="card-body mt-2">
-                        @include('admin.layouts.partials.errors_messages')
                         <div class="alert alert-secondary mb-3 text-right" >
                             <a href="{{ route('organizations.index') }}" class="btn btn-sm btn-primary ">
                             Volver al listado
                             </a>
                         </div>
                         <hr>
+                        @include('admin.layouts.partials.errors_messages')
                         <div class="form-group row">
                             <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
                             <div class="col-md-8">

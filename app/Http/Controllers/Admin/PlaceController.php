@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
 
+use App\Category;
 use App\Address;
 use App\Place;
 use App\Street;
@@ -44,10 +45,12 @@ class PlaceController extends Controller
      */
     public function create()
     {
+        
+        $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
         // $streets = Street::orderBy('name', 'ASC')->get();
         $streets = $this->getStreets(); // in Controller (parent)
         $zones = Zone::orderBy('name', 'ASC')->get();
-        return view('admin.places.create', compact ('streets', 'zones') );
+        return view('admin.places.create', compact ('categories', 'streets', 'zones') );
     }
 
     /**
@@ -73,9 +76,9 @@ class PlaceController extends Controller
 
         } else {
 
-            // $place = Place::create($request->all());
             $place = Place::create ([
                   'address_id' => $address->id
+                , 'category_id' => $request->get('category_id')
                 , 'name' => $request->get('name') 
                 , 'slug' => $request->get('slug')
                 , 'description' => $request->get('description')
@@ -123,6 +126,8 @@ class PlaceController extends Controller
     {
 
         $place = Place::findOrFail($id);
+
+        $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
         $address = Address::where('id', $id)->first();
         $zones = Zone::orderBy('name', 'ASC')->get();
 
@@ -133,7 +138,7 @@ class PlaceController extends Controller
 
         //dd($array_data);
 
-        return view('admin.places.edit', compact('place','address','streets','zones', 'tags'));
+        return view('admin.places.edit', compact('place','address','streets','zones', 'tags', 'categories'));
     }
 
     /**
@@ -146,8 +151,6 @@ class PlaceController extends Controller
     public function update(Request $request, $id)
     {
         
-        //dd($request);
-
         $place = Place::findOrFail($id);
 
         $tags = explode(',', $request->get('tags'));
@@ -200,98 +203,6 @@ class PlaceController extends Controller
         $place->fill($request->all())->save();
 
         return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
-
-        // # Start transaction
-        // // DB::beginTransaction();
-
-        // //$place->fill($request->all())->save();
-
-        // $place->name = $request->get('name'); 
-        // $place->slug = $request->get('slug');
-        // $place->description = $request->get('description');
-
-        // // $result_1 = $place->save();
-        // $result_1 = TRUE;
-
-        // if (!$result_1) {
-
-        //     DB::rollBack();
-
-        // } else {
-
-        //     //  'street_id', 'number', 'floor', 'lat', 'lng', 'zone_id'
-
-        //     // $address = Address::where('id', $place->address_id)->update ([
-        //     //       'street_id' => $request->get('street_id') 
-        //     //     , 'number' => $request->get('number')
-        //     //     , 'floor' => $request->get('floor')
-        //     //     , 'lat' => $request->get('lat')
-        //     //     , 'lng' => $request->get('lng')
-        //     //     , 'zone_id' => $request->get('zone_id')
-        //     // ]);
-
-            
-
-        //     $place->save();
-
-        //     dd($place);
-
-
-
-
-
-        //     if (!$address) {
-
-        //         DB::rollBack();
-
-        //     } else {
-
-        //         if ($request->hasFile('file') && $request->file('file')->isValid()) {
-
-        //             $folder_img = 'places/'.$place->id.'/';
-
-        //             // Borrar archivos anteriores, si existen
-        //             if($place->file) {
-
-        //                 if (Storage::exists($folder_img.$place->file->file_path) ) {
-        //                     Storage::delete($folder_img.$place->file->file_path);
-        //                 }  
-        //                 $place->file->delete();
-        //             }
-
-        //             // Renombrar archivo entrante
-        //             $new_img = $this->renameFile($request->file('file'));
-
-        //             if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
-
-        //                 $thumb_img = $folder_img.'thumbs/';
-
-        //                 Storage::makeDirectory($thumb_img);
-
-        //                 $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
- 
-        //                 $place->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
-
-        //                 DB::commit();
-
-        //                 return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
-                        
-        //             } else {
-
-        //                 DB::rollBack();
-        //                 return back()->withInput()->withErrors(['Se produjo un error al subir el archivo. Por favor, intente nuevamente.']);
-
-        //             }
-                    
-        //         } else {
-
-        //            DB::commit(); 
-
-        //            return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
-        //         }
-                
-        //     }
-        // }
 
         
     }

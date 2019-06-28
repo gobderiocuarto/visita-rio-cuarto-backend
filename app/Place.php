@@ -13,7 +13,7 @@ class Place extends Model
     //protected $guarded = [];
 
     protected $fillable = [
-        'address_id', 'name', 'slug', 'description'
+        'category_id', 'address_id', 'name', 'slug', 'description'
     ];
 
     
