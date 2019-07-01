@@ -50,7 +50,7 @@
                         <div class="form-group row">
                             <label for="street_id" class="col-md-3 col-form-label text-md-right">Calle(*)</label>
                             <div class="col-md-8">
-                                <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true" required>
+                                <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true" data-size="8" required>
                                     <option value="" selected="selected">Selecciona...</option>
                                     @foreach($streets as $street)
                                     <option value="{{ $street->id }}">

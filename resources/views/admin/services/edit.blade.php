@@ -49,13 +49,11 @@
                     </div>
                 </form>
             </div> <!-- card -->
-
             <div class="card mt-4">
                 <div class="card-header">
                     <h5>Entidades asociadas a la etiqueta</h5>
                 </div>
                 <div class="card-body">
-
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="nav-item">
                             <a href="#organizations_tab" class="nav-link active" data-toggle="tab" aria-controls="organizations_tab" role="tab" title="Datos de la Organización">
