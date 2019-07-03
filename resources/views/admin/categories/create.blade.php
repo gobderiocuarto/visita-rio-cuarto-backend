@@ -24,11 +24,12 @@
                             </a>
                         </div>
                         <hr>
+                        <!-- data-size="8"  -->
                         @include('admin.layouts.partials.errors_messages')
                         <div class="form-group row">
                             <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría padre (*)</label>
                             <div class="col-md-8">
-                                <select id="category_id" name="category_id" class="form-control form-control-xl" required>
+                                <select id="category_id" name="category_id" class="form-control form-control-xl" data-size="8" required>
                                     <option value="" >Selecciona...</option>
                                     <option value="0" >(Es categoría principal / Raíz)</option>
                                     @foreach($categories as $category)

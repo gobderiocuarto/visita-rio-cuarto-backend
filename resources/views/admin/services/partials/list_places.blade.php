@@ -4,7 +4,7 @@
         <div class="form-group row">
             <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar espacio...</h5></label>
             <div class="col-md-10">
-                <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="" required>
+                <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="" data-size="8" required>
                     <option value="">Seleccione...</option>
                     @foreach ($list_places as $place)
                     <option value="{{ $place->id }}">{{ $place->name }}</option>
@@ -37,7 +37,6 @@
                     </form>
                 </td>
             </tr>
-                                                
         @empty
         <tr class="table-info">
             <td colspan="4" align="center"><span class="font-italic">-- Aún no existen ubicaciones asociadas al servicio --</span></td>

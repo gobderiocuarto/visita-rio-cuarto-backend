@@ -34,7 +34,7 @@
                         <div class="form-group row">
                             <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
                             <div class="col-md-8">
-                                <select class="selectpicker form-control form-control-xl" id="category_id" name="category_id" autofocus required>
+                                <select class="selectpicker form-control form-control-xl" id="category_id" name="category_id" data-size="8" autofocus required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($categories as $category)
                                     <option style="font-weight: bold;" value="{{ $category->id }}" @if ($category->id == $place->category_id) selected @endif >
@@ -70,7 +70,7 @@
                         <div class="form-group row">
                             <label for="street_id" class="col-md-3 col-form-label text-md-right">Calle(*)</label>
                             <div class="col-md-8">
-                                <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true" data-size="10" required>
+                                <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true" data-size="8" required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($streets as $street)
                                     <option value="{{ $street->id }}" @if ($street->id == $place->address->street_id) selected @endif >
@@ -104,7 +104,7 @@
                         <div class="form-group row">
                             <label for="zone_id" class="col-md-3 col-form-label text-md-right">Zona</label>
                             <div class="col-md-6">
-                                <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true">
+                                <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true" data-size="8">
                                     <option value="0">Selecciona...</option>
                                     @foreach($zones as $zone)
                                     <option value="{{ $zone->id }}" @if ($zone->id == $place->address->zone_id) selected="selected" @endif>
