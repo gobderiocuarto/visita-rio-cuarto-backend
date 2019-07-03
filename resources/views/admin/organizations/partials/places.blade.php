@@ -84,7 +84,7 @@
             <div class="form-group row">
                 <label for="place" class="col-md-12 col-form-label">Asociar a ubicación existente:</label>
                 <div class="col-md-8">
-                    <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="">
+                    <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true"  data-default-value="" data-size="8">
                         <option value="">No asociar</option>
                         @foreach($places as $place)
                         <option value="{{ $place->id }}">
@@ -97,7 +97,7 @@
             <div class="form-group row">
                 <label for="street_id" class="col-md-12 col-form-label">Calle(*)</label>
                 <div class="col-md-8">
-                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="10" required>
+                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8" required>
                         <option value="">Selecciona...</option>
                         @foreach($streets as $street)
                         <option value="{{ $street->id }}">{{ $street->name }}</option>
@@ -144,7 +144,7 @@
             <div class="form-group row">
                 <label for="zone_id" class="col-md-12 col-form-label">Zona</label>
                 <div class="col-md-5">
-                    <select id="zone_id" name="zone_id" class="form-control form-control-xl" data-default-value="0">
+                    <select id="zone_id" name="zone_id" class="form-control form-control-xl" data-default-value="0" data-size="8">
                         <option value="0">Selecciona...</option>
                         @foreach($zones as $zone)
                         <option value="{{ $zone->id }}">
