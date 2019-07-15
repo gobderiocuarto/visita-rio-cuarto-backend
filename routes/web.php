@@ -35,6 +35,8 @@ Route::resource('admin/categories','Admin\CategoryController');
 
 Route::resource('admin/organizations','Admin\OrganizationController');
 
+Route::get('admin/organizations/{search}','Admin\OrganizationController@index');
+
 Route::post('admin/organizations/{organization}/place','Admin\OrganizationController@storePlace');
 
 Route::post('admin/organizations/{organization}/places/{place}','Admin\OrganizationController@destroyPlace');

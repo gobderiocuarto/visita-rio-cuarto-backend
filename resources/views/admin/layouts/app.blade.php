@@ -17,7 +17,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             @include('admin.layouts.partials.nav_bar')
         </nav>
         <main class="py-4" style="margin-top: 50px; margin-bottom: 40px">

@@ -37,10 +37,43 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $organizations = Organization::orderBy('id', 'ASC')->paginate();
-        return view('admin.organizations.index', compact('organizations'));
+                    
+        $filter = (object)[];
+        $filter->search = '';
+        $filter->category = '';
+
+        $appends = array();
+
+        $categories = Category::with('category.category')->orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
+        $organizations = Organization::with('category.category')->orderBy('organizations.name', 'ASC');
+        
+        if (($request->search != '')) {
+            $organizations = $organizations->where('organizations.name', 'like', '%'.$request->search.'%' );
+            $filter->search = $request->search;
+
+            $appends ['search'] = $request->search;
+        }
+
+        // dd($request->category);
+
+        if (((int)$request->category != 0 )) {
+            $organizations = $organizations->join ('categories','categories.id','organizations.category_id')
+            ->where(function ($query) use ($request) {
+                $query->where ('categories.id', '=', $request->category)
+                ->orWhere('categories.category_id', '=', $request->category);
+            })
+            ->select('organizations.*');
+
+            $filter->category = $request->category;
+            $appends ['category'] = $request->category;
+        }
+
+        $organizations = $organizations->paginate();
+        // $organizations->withPath('custom/url');
+        $organizations->appends((array)$filter);
+        return view('admin.organizations.index', compact('filter', 'categories', 'organizations'));
     }
 
     /**
