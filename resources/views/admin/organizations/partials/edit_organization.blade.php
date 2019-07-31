@@ -4,7 +4,7 @@
     <div class="form-group row">
         <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
         <div class="col-md-8">
-            <select class="selectpicker form-control form-control-xl" id="category_id" name="category_id"  data-size="8" autofocus required>
+            <select class="form-control form-control-xl" id="category_id" name="category_id"  data-size="8" autofocus required>
                 <option value="" >Selecciona...</option>
                 @foreach($categories as $category)
                 <option style="font-weight: bold;" value="{{ $category->id }}" @if ($category->id == $organization->category_id) selected @endif >
