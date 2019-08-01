@@ -12,7 +12,7 @@
                 </option>
                 @foreach($category->categories as $subcategory)
                 <option style="text-indent: 10px;" value="{{ $subcategory->id }}" @if ($subcategory->id == $organization->category_id) selected @endif >
-                    {{ $subcategory->name }}
+                    &nbsp;{{ $subcategory->name }}
                 </option>
                 @endforeach                             
             @endforeach
