@@ -58,3 +58,9 @@ Route::post('admin/services/{service}/places','Admin\ServiceController@storePlac
 
 // Servicios :: Desvincular espacio
 Route::post('admin/services/{service}/places/{place}','Admin\ServiceController@unlinkPlace');
+
+
+// Eventos 
+
+// Eventos :: recursos
+Route::resource('admin/events','Admin\EventController');
