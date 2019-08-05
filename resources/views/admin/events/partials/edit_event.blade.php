@@ -45,9 +45,18 @@
     </div>
     <hr />
     <div class="form-group row">
-        <label for="tags_events" class="col-md-3 col-form-label text-md-right">Etiquetas asociadas (separar mediante comas)</label>
+        <label for="tags_events" class="col-md-3 col-form-label text-md-right">Categorías asociadas</label>
         <div class="col-md-8">
             <input name="tags_events" id="tags_events" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_events }}"  placeholder="Etiquetas">
+            <small class="form-text text-muted mt-2">Separar mediante comas</small>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group row">
+        <label for="tags_no_events" class="col-md-3 col-form-label text-md-right">Etiquetas asociadas</label>
+        <div class="col-md-8">
+            <input name="tags_no_events" id="tags_no_events" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_no_events }}"  placeholder="Etiquetas">
+            <small class="form-text text-muted mt-2">Separar mediante comas</small>
         </div>
     </div>
     <hr />

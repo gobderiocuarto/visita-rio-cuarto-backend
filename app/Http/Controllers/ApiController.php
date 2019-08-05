@@ -9,6 +9,7 @@ use App\Organization;
 use App\Place;
 
 use \Conner\Tagging\Model\Tag;
+use \Conner\Tagging\Model\Tagged;
 
 
 class ApiController extends Controller
@@ -90,11 +91,12 @@ class ApiController extends Controller
 
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
-    // Obtener coleccción de nombres de tags asociados a grupo servicios
+    // Obtener coleccción de nombres de tags asociados a grupo "servicios",
+    // filtrados por un termino
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
 
-    public function getServiceTags($termino)
+    public function getServiceTags($termino = '')
     {
         $service_tags = Tag::inGroup('Servicios')->where('name', 'LIKE', "%$termino%")->pluck('name');
         return $service_tags;
@@ -107,10 +109,45 @@ class ApiController extends Controller
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
 
-    public function getServicesTags()
+    // public function getServicesTags()
+    // {
+    //     $service_tags = Tag::inGroup('Servicios')->pluck('name');
+    //     return $service_tags;
+    // }
+
+
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Obtener colección de nombres de tags asociados a grupo "EVENTOS"
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+
+    public function getEventsTags($termino = '')
     {
-        $service_tags = Tag::inGroup('Servicios')->pluck('name');
-        return $service_tags;
+        $event_tags = Tag::inGroup('Eventos');
+        $event_tags->where('name', 'LIKE', "%$termino%");
+        $event_tags = $event_tags->pluck('name');
+        return $event_tags;
+    }
+
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Obtener colección de nombres de tags asociados a grupo "EVENTOS"
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+
+    public function getTags($termino = '')
+    {
+
+        $tags_no_events = Tag::where('tagging_tags.name', 'LIKE', "%$termino%")
+        ->where( function($query){
+            $query->where('tagging_tags.tag_group_id','=',NULL);
+                  // ->orwhere('tagging_tags.tag_group_id','<>',2);
+        })
+        ->distinct()
+        ->pluck('name');
+
+        return $tags_no_events;
     }
 
     

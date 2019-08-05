@@ -25,14 +25,14 @@
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Nombre</th>
+                                <th>Título</th>
                                 <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($events as $event)
                             <tr class="table-info">
-                                <td>{{ $event->name }}</td>
+                                <td>{{ $event->title }}</td>
                                 <td width="10px">
                                     <a href="{{ route('events.edit', [ 'id' => $event->id, 'pag' => $events->currentPage()] ) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>

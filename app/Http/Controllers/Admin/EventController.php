@@ -110,12 +110,16 @@ class EventController extends Controller
      */
     public function edit($id)
     {
+        
+
         $event = Event::findOrFail($id);
 
-        $tags_events = '';
+        // dd($event->tagNames());
 
+        // Recuperar Tag agrupados bajo "Eventos", pertenecientes al evento puntual
         $group_type = 'App\Event';
 
+        $tags_events = '';
         $array_tags_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
         ->join('tagging_tag_groups','tagging_tags.tag_group_id','tagging_tag_groups.id')
         ->where('tagging_tagged.taggable_id', $id )
@@ -128,16 +132,35 @@ class EventController extends Controller
             $tags_events .= $tag ['name'].', ';
         }
 
-        // $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
 
+        // Recuperar Tag NO AGRUPADOS 
+        $tags_no_events = '';
+        // $array_tags_no_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
+        // ->join('tagging_tag_groups','tagging_tags.tag_group_id','tagging_tag_groups.id')
+        // ->where('tagging_tagged.taggable_id','!=', $id )
+        // ->where('tagging_tagged.taggable_type', $group_type)
+        // ->where('tagging_tag_groups.slug', 'eventos')
+        // ->select('tagging_tags.name')
+        // ->get()->toArray();
+
+
+        $array_tags_no_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
+        ->where('tagging_tagged.taggable_id', $id )
+        ->where('tagging_tagged.taggable_type', $group_type)
+        ->where('tagging_tags.tag_group_id','=',NULL)
+        ->get()->toArray();
+
+        foreach ($array_tags_no_events as $key => $tag) {
+            $tags_no_events .= $tag ['name'].', ';
+        }
+
+        // $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
         $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
         $places = Place::orderBy('name', 'ASC')->get();
-       
         $streets = $this->getStreets();
-
         $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
 
-        return view('admin.events.edit', compact('event','tags_events', 'places','zones', 'addresses_types', 'streets'));
+        return view('admin.events.edit', compact('event','tags_events', 'tags_no_events', 'places','zones', 'addresses_types', 'streets'));
     }
 
     /**
@@ -149,7 +172,47 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+        // dd($request->get('tags_events'));
+        # Start transaction
+        DB::beginTransaction();
+
+        $event = Event::findOrFail($id);
+
+        #Determinar Tags a Asociar
+        // Los tags categorizados bajo eventos se definen previamente, no pudiendose
+        // agregar en forma dinámica desde el formulario de edición de eventos. 
+        // Por mas que estos se cargen en el campo correspondiente a "categorias"
+        // serán taggeados al evento pero se ubicaran en etiquetas asociadas
+        $tags_events = explode(',', $request->get('tags_events'));
+
+        // foreach ($event->tags as $tag) {
+        //    $tag->setGroup('Eventos');
+        // }
+
+        $tags_no_events = explode(',', $request->get('tags_no_events'));
         //
+
+        $tags =  array_merge($tags_events, $tags_no_events);
+
+        $event->retag($tags);
+
+
+
+
+
+        $result = $event->fill($request->all())->save();
+
+        // echo ("<pre>");print_r($event->tagNames());echo ("</pre>"); exit();
+
+
+        if ($result) {
+            DB::commit();
+            return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
+        } else {
+            DB::rollBack();
+            return back()->with('message', 'Evento creado correctamente');
+        }
     }
 
     /**
