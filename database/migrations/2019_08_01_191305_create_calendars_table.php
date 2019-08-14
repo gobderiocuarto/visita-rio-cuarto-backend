@@ -24,7 +24,9 @@ class CreateCalendarsTable extends Migration
             $table->date('end_date')->nullable();
             $table->time('end_time')->nullable();
 
-            $table->tinyinteger('state')->unsigned()->default(0);
+            $table->string('observations', 256)->nullable();
+
+            $table->tinyinteger('state')->unsigned()->default(1);
             
             $table->timestamps();
 

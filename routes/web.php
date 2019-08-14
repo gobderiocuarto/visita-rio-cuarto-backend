@@ -33,6 +33,11 @@ Route::resource('admin/home','Admin\HomeController');
 
 Route::resource('admin/categories','Admin\CategoryController');
 
+
+# Organizaciones
+
+# Organizaciones :: recursos
+
 Route::resource('admin/organizations','Admin\OrganizationController');
 
 Route::get('admin/organizations/{search}','Admin\OrganizationController@index');
@@ -43,24 +48,33 @@ Route::post('admin/organizations/{organization}/places/{place}','Admin\Organizat
 
 Route::post('admin/organizations/{organization}/addresses/{address}','Admin\OrganizationController@destroyAddress');
 
+# Espacios
+
 Route::resource('admin/places','Admin\PlaceController');
 
+# Servicios :: recursos
 Route::resource('admin/services','Admin\ServiceController');
 
-// Servicios :: Agregar organizaciones
+# Servicios :: Agregar organizaciones
 Route::post('admin/services/{service}/organizations','Admin\ServiceController@storeOrganization');
 
-// Servicios :: Desvincular organizaciones
+# Servicios :: Desvincular organizaciones
 Route::post('admin/services/{service}/organizations/{organization}','Admin\ServiceController@unlinkOrganization');
 
-// Servicios :: Agregar espacios
+# Servicios :: Agregar espacios
 Route::post('admin/services/{service}/places','Admin\ServiceController@storePlace');
 
-// Servicios :: Desvincular espacio
+# Servicios :: Desvincular espacio
 Route::post('admin/services/{service}/places/{place}','Admin\ServiceController@unlinkPlace');
 
 
-// Eventos 
+# Eventos 
 
-// Eventos :: recursos
+# Eventos :: recursos
 Route::resource('admin/events','Admin\EventController');
+
+# Eventos :: crear / editar  calendar asociado a evento
+Route::post('admin/events/{event}/calendars/{calendar?}','Admin\EventController@saveEventCalendar');
+
+# Eventos :: borrar calendario asociado a evento
+Route::delete('admin/events/{event}/calendars/{calendar}','Admin\EventController@destroyEventCalendar');

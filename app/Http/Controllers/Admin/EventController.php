@@ -5,14 +5,10 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-
 use App\Event;
 use App\Category;
 use App\Place;
-use App\Street;
-use App\Zone;
-use App\AddressType;
-
+use App\Calendar;
 
 // Soporte para transacciones 
 use Illuminate\Support\Facades\DB;
@@ -34,7 +30,6 @@ class EventController extends Controller
      */
     public function index()
     {
-
         $events = Event::orderBy('title', 'ASC')->paginate();
 
         return view('admin.events.index', compact('events'));
@@ -88,7 +83,6 @@ class EventController extends Controller
             DB::rollBack();
             return back()->with('message', 'Evento creado correctamente');
         }
-           
     }
 
     /**
@@ -102,6 +96,8 @@ class EventController extends Controller
         //
     }
 
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -111,12 +107,14 @@ class EventController extends Controller
     public function edit($id)
     {
         
+        $event = Event::with('calendars')->findOrFail($id);
 
-        $event = Event::findOrFail($id);
+        // echo ("<pre>");print_r($event);echo ("</pre>"); exit();
 
+        #Manejo de Tags 
         // dd($event->tagNames());
 
-        // Recuperar Tag agrupados bajo "Eventos", pertenecientes al evento puntual
+        # Recuperar Tag agrupados bajo "Eventos", pertenecientes al evento puntual
         $group_type = 'App\Event';
 
         $tags_events = '';
@@ -132,17 +130,8 @@ class EventController extends Controller
             $tags_events .= $tag ['name'].', ';
         }
 
-
         // Recuperar Tag NO AGRUPADOS 
         $tags_no_events = '';
-        // $array_tags_no_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
-        // ->join('tagging_tag_groups','tagging_tags.tag_group_id','tagging_tag_groups.id')
-        // ->where('tagging_tagged.taggable_id','!=', $id )
-        // ->where('tagging_tagged.taggable_type', $group_type)
-        // ->where('tagging_tag_groups.slug', 'eventos')
-        // ->select('tagging_tags.name')
-        // ->get()->toArray();
-
 
         $array_tags_no_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
         ->where('tagging_tagged.taggable_id', $id )
@@ -154,13 +143,20 @@ class EventController extends Controller
             $tags_no_events .= $tag ['name'].', ';
         }
 
-        // $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
-        $places = Place::orderBy('name', 'ASC')->get();
-        $streets = $this->getStreets();
-        $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
+        $group_events = Tag::inGroup('Eventos')->get()->toArray();
 
-        return view('admin.events.edit', compact('event','tags_events', 'tags_no_events', 'places','zones', 'addresses_types', 'streets'));
+        $places = $zones = $addresses_types = $streets = $organizations = array();
+        
+        // $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        // $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
+        // $streets = $this->getStreets();
+        // $organizations = Organization::where('state', 1)->orderBy('name')->with('addresses')->get();
+
+        // $calendars = Calendar::orderBy('start_date', 'ASC')->get();
+
+        $places = Place::orderBy('name', 'ASC')->get();
+
+        return view('admin.events.edit', compact('event', 'group_events', 'tags_events', 'tags_no_events', 'places', 'calendars', 'zones', 'addresses_types', 'streets', 'organizations'));
     }
 
     /**
@@ -197,21 +193,16 @@ class EventController extends Controller
 
         $event->retag($tags);
 
-
-
-
-
         $result = $event->fill($request->all())->save();
 
         // echo ("<pre>");print_r($event->tagNames());echo ("</pre>"); exit();
 
-
         if ($result) {
             DB::commit();
-            return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
+            return redirect()->route('events.edit', $event->id)->with('message', 'Evento actualizado correctamente');
         } else {
             DB::rollBack();
-            return back()->with('message', 'Evento creado correctamente');
+            return back()->with('message', 'Error al actualizar el evento');
         }
     }
 
@@ -223,6 +214,84 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // echo ("<pre>");print_r("TO DO: eliminar evento");echo ("</pre>"); exit();
+        $event = Event::findOrFail($id)->delete();
+        return back()->with('message', 'Evento eliminado correctamente');
     }
+
+
+    
+
+    public function saveEventCalendar(Request $request)
+    {
+
+        # Start transaction
+        // DB::beginTransaction();
+
+        $data = [];
+
+        $event_id = $request->get('event_id');
+
+        $event = Event::findOrFail($event_id);
+
+        $calendar_id = $request->get('calendar_id');
+
+        if ($calendar_id == 0) {
+            //Creo el calendario-funcion y si ok, paso los datos del nuevo calendar
+            $calendar = Calendar::create($request->all());
+            $result = ($calendar) ? TRUE : FALSE;
+            $new = TRUE;
+            
+        } else {
+            //Compruebo si existe...
+            $calendar = Calendar::findOrFail($calendar_id);
+            // Actualiza calendar
+            $result = $calendar->fill($request->all())->save(); 
+            $new = FALSE;
+            
+        }
+
+        $data['result'] = $result;
+        $data['calendar'] = $calendar;
+        $data['calendar']['token'] =  csrf_token();
+        $data['new'] = $new;
+
+        // DB::rollBack();
+        return $data;
+
+    }
+
+
+    
+    /*===================================================
+    Eliminar calendarios-funciones relacionadas a eventos
+    ====================================================*/
+    
+    public function destroyEventCalendar($id_event, $id_calendar)
+    {
+        // DB::beginTransaction();
+        $data = [];
+        
+        $data['result'] = Calendar::where('event_id',$id_event)->find($id_calendar)->delete();
+        
+        if ($data['result']) {
+            $data['message'] = 'Calendario eliminado correctamente';
+        } else {
+            $data['message'] = 'Se produjo un error al eliminar el calendario';
+        }
+        // DB::rollBack();
+        return $data;
+        
+    }
+    
+    // /*=============================================
+    // Obtener HTML listado de funciones
+    // =============================================*/
+
+    // public function getHtmlEventFunction() {
+
+    //      return view('admin.events.partials.event_calendar');
+
+    // } //END method
+
 }

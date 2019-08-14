@@ -12,6 +12,12 @@ class Event extends Model
     use Taggable;
 
     protected $fillable = [
-        'title', 'slug', 'summary', 'description'
+        'place_id', 'title', 'slug', 'summary', 'description', 'organizer'
     ];
+
+
+    public function calendars()
+    {
+        return $this->hasMany(Calendar::class)->orderBy('start_date','ASC');
+    }
 }

@@ -29,7 +29,21 @@
                         </div>
                         <hr>
                         @include('admin.layouts.partials.errors_messages')
-                        
+                        <div class="form-group row">
+                            <label for="category_id" class="col-md-3 col-form-label text-md-right">Categoría (*)</label>
+                            <div class="col-md-8">
+                                <select class="form-control form-control-xl" id="category_id" name="category_id"  data-size="8" autofocus required value="{{ old('category_id') }}">
+                                    <option value="">Selecciona...</option>
+                                    <option style="font-weight: bold;" value="1">Cultura y Espectáculos</option>
+                                        <option style="text-indent: 10px;" value="5">&nbsp;Teatro</option>
+                                        <option style="text-indent: 10px;" value="6">&nbsp;Cine</option>
+                                    <option style="font-weight: bold;" value="1">Deporte y Recreación</option>
+                                    <option style="font-weight: bold;" value="2">Congresos y Jornadas</option>
+                                    <option style="font-weight: bold;" value="3">Infantiles</option>
+                                    <option style="font-weight: bold;" value="4">Actividades Gratuitas</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="title" class="col-md-3 col-form-label text-md-right">Título (*)</label>
                             <div class="col-md-8">
@@ -43,13 +57,26 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="summary" class="col-md-3 col-form-label text-md-right">Información principal (*)</label>
+                            <label for="summary" class="col-md-3 col-form-label text-md-right">Resumen (*)</label>
                             <div class="col-md-8">
-                                <textarea class="form-control" name="summary" rows="5" required>{{ old('summary') }}</textarea>
-                                <small class="form-text text-muted mt-2">Longitud ideal: 160 caracteres aprox.</small>
+                                <textarea class="form-control" name="summary" rows="5" maxlength="250" required>{{ old('summary') }}</textarea>
+                                <small class="form-text text-muted mt-2">250 caracteres máximo</small>
                             </div>
                         </div>
                         <hr />
+                        <div class="form-group row">
+                            <label for="description" class="col-md-3 col-form-label text-md-right">Breve descripción </label>
+                            <div class="col-md-8">
+                                <textarea class="form-control" name="description" rows="10">{{ old('description') }}</textarea>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group row">
+                            <label for="tags" class="col-md-3 col-form-label text-md-right">Etiquetas asociadas (separar mediante comas)</label>
+                            <div class="col-md-8">
+                                <input name="tags" id="tags" type="text" class="form-control" data-role="tagsinput" value="{{ old('tags') }}"  placeholder="Etiquetas">
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="form-group row mb-0">

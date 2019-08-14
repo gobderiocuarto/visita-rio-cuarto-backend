@@ -34,7 +34,7 @@
                             <tr class="table-info">
                                 <td>{{ $event->title }}</td>
                                 <td width="10px">
-                                    <a href="{{ route('events.edit', [ 'id' => $event->id, 'pag' => $events->currentPage()] ) }}" class="btn btn-sm btn-success">Editar</a>
+                                    <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
                                     <form id="form_delete_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id") }}' method="POST">
@@ -75,7 +75,7 @@
 
             swal({
               title: "¡Atención!",
-              text: "Se dispone a eliminar una categoría...",
+              text: "Se dispone a eliminar un evento...",
               icon: "warning",
               buttons: true,
               dangerMode: true,

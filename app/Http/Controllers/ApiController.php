@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 use App\Address;
 use App\Organization;
 use App\Place;
+use App\Event;
+use App\Calendar;
 
 use \Conner\Tagging\Model\Tag;
 use \Conner\Tagging\Model\Tagged;
+
+
+// Soporte para transacciones 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 class ApiController extends Controller
@@ -130,6 +137,7 @@ class ApiController extends Controller
         return $event_tags;
     }
 
+
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
     // Obtener colección de nombres de tags asociados a grupo "EVENTOS"
@@ -148,6 +156,31 @@ class ApiController extends Controller
         ->pluck('name');
 
         return $tags_no_events;
+    }
+
+
+
+
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Obtener datos de un calendario puntual, si pertenece a un evento dado
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+
+    public function getEventCalendar($id_event, $id_calendar)
+    {
+
+        // $event = Event::findOrFail((int)$id_event);
+
+        $calendar = Calendar::where('event_id', (int)$id_event)->find((int)$id_calendar);
+
+        // var_dump($calendar); exit();
+
+        return $calendar; exit();
+
+        // $text = $this->getHtmlEventFunction();
+        // $data['html'] = html_entity_decode($text); 
+
     }
 
     
