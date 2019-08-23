@@ -8,7 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Event;
 use App\Category;
 use App\Place;
+use App\Address;
 use App\Calendar;
+use App\Zone;
+use App\Organization;
 
 // Soporte para transacciones 
 use Illuminate\Support\Facades\DB;
@@ -23,6 +26,12 @@ use \Conner\Tagging\Model\Tagged;
 
 class EventController extends Controller
 {
+    public function __construct() {
+
+        $this->middleware('auth');
+
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -107,9 +116,53 @@ class EventController extends Controller
     public function edit($id)
     {
         
+        $places = $zones = $addresses_types = $streets = array();
+        
         $event = Event::with('calendars')->findOrFail($id);
+        
+        #Listado total de organizaciones activas
+        $organizations = Organization::where('state', 1)->orderBy('name')->with('addresses')->with('places.address')->get();
+        
+        #Determinar ubicación actual del evento
+        $place = NULL;
+        if ($event->place_id) {
 
-        // echo ("<pre>");print_r($event);echo ("</pre>"); exit();
+            $org = Organization::Join('organizationables', 'organizationables.organization_id','organizations.id')
+                                    ->where('organizationables.id', $event->place_id)
+                                    ->select('organizations.*','organizationables.organizationable_id','organizationables.organizationable_type' )
+                                    ->first();
+
+            // var_dump($org); exit();
+
+            if($org){
+                $org = $org->toArray();
+                switch ($org['organizationable_type']) {
+                    case 'App\Place':
+                        $actual_place = Place::with('address')->where('id',$org['organizationable_id'])->first();
+                        $place = $org['name']." - ".$actual_place->name." - ".$actual_place->address->street->name." ".$actual_place->address->number;
+                        // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+        
+                        // $actual_place['organization'] =
+                        break;
+                    case 'App\Address':
+                        $actual_address = Address::where('id',$org['organizationable_id'])->first();
+                        $place = $org['name']." ".$actual_address->street->name." ".$actual_address->number;
+                        // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            }
+        }
+
+    
+        // $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        // $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
+        // $streets = $this->getStreets();
+
+
 
         #Manejo de Tags 
         // dd($event->tagNames());
@@ -143,20 +196,11 @@ class EventController extends Controller
             $tags_no_events .= $tag ['name'].', ';
         }
 
+        //Traer todos los tags agrupados en eventos
         $group_events = Tag::inGroup('Eventos')->get()->toArray();
 
-        $places = $zones = $addresses_types = $streets = $organizations = array();
         
-        // $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
-        // $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
-        // $streets = $this->getStreets();
-        // $organizations = Organization::where('state', 1)->orderBy('name')->with('addresses')->get();
-
-        // $calendars = Calendar::orderBy('start_date', 'ASC')->get();
-
-        $places = Place::orderBy('name', 'ASC')->get();
-
-        return view('admin.events.edit', compact('event', 'group_events', 'tags_events', 'tags_no_events', 'places', 'calendars', 'zones', 'addresses_types', 'streets', 'organizations'));
+        return view('admin.events.edit', compact('event', 'organizations', 'place',  'group_events', 'tags_events', 'tags_no_events', 'places', 'zones', 'addresses_types', 'streets'));
     }
 
     /**
@@ -169,7 +213,7 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         
-        // dd($request->get('tags_events'));
+        // dd($request);
         # Start transaction
         DB::beginTransaction();
 
@@ -182,20 +226,34 @@ class EventController extends Controller
         // serán taggeados al evento pero se ubicaran en etiquetas asociadas
         $tags_events = explode(',', $request->get('tags_events'));
 
-        // foreach ($event->tags as $tag) {
-        //    $tag->setGroup('Eventos');
-        // }
-
         $tags_no_events = explode(',', $request->get('tags_no_events'));
-        //
 
         $tags =  array_merge($tags_events, $tags_no_events);
 
         $event->retag($tags);
 
-        $result = $event->fill($request->all())->save();
-
         // echo ("<pre>");print_r($event->tagNames());echo ("</pre>"); exit();
+
+        # Actualizar evento
+
+        // $result = $event->fill($request->all())->save();
+        $place = $request->get('place');
+        
+        if ($request->get('place_id')) {
+            $place = $request->get('place_id');
+        }
+        
+        $result = $event->update([
+            'title'=> $request->get('title'),
+            'slug'=> $request->get('slug'),
+            'organizer'=> $request->get('organizer'),
+            'summary'=> $request->get('summary'),
+            'description'=> $request->get('description'),
+            'place_id'=> $place
+        ]);
+        # END actualizar evento
+        
+        // echo ('<pre>');print_r($event);echo ('</pre>'); exit();
 
         if ($result) {
             DB::commit();

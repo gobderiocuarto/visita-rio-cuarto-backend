@@ -135,7 +135,7 @@
 
         // ----------------------------------------------------
         // ----------------------------------------------------
-        // Calendarios - Funciones asociados a evento
+        // Calendarios-Funciones asociados a evento
         // ----------------------------------------------------
         // ----------------------------------------------------
 
@@ -221,9 +221,7 @@
             if (calendar_id !== 0) {
                  url_web += '/'+ calendar_id;
             }
-            // var formDataValues = document.forms.namedItem("signup-form");
-            // var formValues = new FormData(formDataValues);
-
+            
             var formData = new FormData($("#form_add_edit_calendar")[0]);
 
             $("#modal_create_edit_calendar").modal("hide")
@@ -328,7 +326,6 @@
             });
 
         });
-
 
     }); // END document.ready
 </script>

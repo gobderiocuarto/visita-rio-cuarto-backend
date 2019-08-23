@@ -29,7 +29,7 @@ class Organization extends Model
 
     public function addresses()
     {
-        return $this->morphedByMany('App\Address', 'organizationable')->withPivot('address_type_id', 'address_type_name');
+        return $this->morphedByMany('App\Address', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
     }
 
     // public function places()
@@ -40,7 +40,7 @@ class Organization extends Model
 
     public function places()
     {
-        return $this->morphedByMany('App\Place', 'organizationable')->withPivot('address_type_id', 'address_type_name');
+        return $this->morphedByMany('App\Place', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
     }
     
 

@@ -19,6 +19,12 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label for="organizer" class="col-md-3 col-form-label text-md-right">Organizador (*)</label>
+                <div class="col-md-8">
+                    <input name="organizer" id="organizer" type="text" class="form-control" value="{{ $event->organizer }}" required >
+                </div>
+            </div> 
+            <div class="form-group row">
                 <label for="summary" class="col-md-3 col-form-label text-md-right">Información principal (*)</label>
                 <div class="col-md-8">
                     <textarea class="form-control" name="summary" rows="5" required>{{ $event->summary }}</textarea>
@@ -52,24 +58,43 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h3>Organizador y Espacio</h3>
+            <h3>Lugar del evento</h3>
         </div>
         <div class="card-body mt-2">
+            <hr />
             <div class="form-group row">
-                <label for="organizer" class="col-md-3 col-form-label text-md-right">Organizador (*)</label>
+                <label for="place" class="col-md-3 col-form-label text-md-right">Ubicación del Evento</label>
                 <div class="col-md-8">
-                    <input name="organizer" id="organizer" type="text" class="form-control" value="{{ $event->organizer }}" required >
+                    @if ($place)
+                    <input name="place" id="place" type="text" class="form-control" value="{{ $place }}" readonly>
+                    @else
+                    <input name="place" id="place" type="text" class="form-control" value="" placeholder="Aún no se ha seleccionado ubicación" readonly>
+                    @endif
                 </div>
-            </div>    
+            </div>
             <div class="form-group row">
-                <label for="place" class="col-md-3 col-form-label text-md-right">Asociar a espacio:</label>
+                <label for="place_id" class="col-md-3 col-form-label text-md-right">Asignar nueva ubicación</label>
                 <div class="col-md-8">
-                    <select id="place_id" name="place_id" class="form-control form-control-xl selectpicker" data-live-search="true"  data-default-value="" data-size="8">
-                        <option value="">Seleccione...</option>
-                        @foreach($places as $place)
-                        <option value="{{ $place->id }}" @if ($place->id == $event->place_id) selected @endif>
-                            {{ $place->name }}
-                        </option>
+                    <select id="place_id" name="place_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8" required>
+                        <option value="">Selecciona...</option>
+                        @foreach($organizations as $organization)
+                            @if (!empty($organization->places))
+                            @foreach($organization->places as $place)
+                            <option value="{{ $place->pivot->id }}">
+                                ({{ $place->pivot->id }})
+                                {{ $organization->name }} - {{ $place->name }} - 
+                                {{ $place->address->street->name }} {{ $place->address->number }}
+                            </option>
+                            @endforeach
+                            @endif
+                            @if (!empty($organization->addresses))
+                            @foreach($organization->addresses as $address)
+                            <option value="{{ $address->pivot->id }}">
+                                ({{ $address->pivot->id }})
+                                {{ $organization->name }} - {{ $address->street->name }} {{ $address->number }}
+                            </option>
+                            @endforeach
+                            @endif
                         @endforeach
                     </select>
                 </div>
