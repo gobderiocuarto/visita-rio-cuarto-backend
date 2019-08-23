@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Storage;
 //Request
 use App\Http\Requests\EventStoreRequest;
 
+# Imagenes
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 use \Conner\Tagging\Model\Tag;
 use \Conner\Tagging\Model\Tagged;
@@ -234,8 +237,41 @@ class EventController extends Controller
 
         // echo ("<pre>");print_r($event->tagNames());echo ("</pre>"); exit();
 
+        
+        # Cargado de imagen
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+            
+            $folder_img = 'events/'.$event->id.'/';
+            $thumb_img = $folder_img.'thumbs/';
+            
+            // Borrar archivos anteriores, si existen
+            if($event->file) {
+                
+                if (Storage::exists($folder_img.$event->file->file_path) ) {
+                    Storage::delete($folder_img.$event->file->file_path);
+                    Storage::delete($thumb_img.$event->file->file_path);
+                }  
+                $event->file->delete();
+            }
+            
+            // Renombrar archivo entrante
+            $new_img = $this->renameFile($request->file('file'));
+            
+            if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
+                
+                Storage::makeDirectory($thumb_img);
+                
+                $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
+                
+                $event->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
+            }
+            
+        } else {
+            $event->file()->update(['file_alt'=> $request->get('file_alt')]);
+        }
+        # END  Cargado de imagen
+        
         # Actualizar evento
-
         // $result = $event->fill($request->all())->save();
         $place = $request->get('place');
         
@@ -251,9 +287,8 @@ class EventController extends Controller
             'description'=> $request->get('description'),
             'place_id'=> $place
         ]);
-        # END actualizar evento
-        
         // echo ('<pre>');print_r($event);echo ('</pre>'); exit();
+        # END actualizar evento
 
         if ($result) {
             DB::commit();

@@ -132,13 +132,31 @@
             }
         });
 
+        // Eliminar imagen de evento
+        $("#delete_image").click(function(){
+            event.preventDefault()
+
+            swal({
+              title: "¡Atención!",
+              text: "¿Confirma que desea eliminar la imagen?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("TO DO: Borrado de imagen de evento");
+                } 
+            });
+        
+        }); 
+
 
         // ----------------------------------------------------
         // ----------------------------------------------------
         // Calendarios-Funciones asociados a evento
         // ----------------------------------------------------
         // ----------------------------------------------------
-
 
         function calendarItemTemplate(calendar) {
 

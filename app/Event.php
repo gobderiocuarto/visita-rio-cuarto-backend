@@ -20,4 +20,15 @@ class Event extends Model
     {
         return $this->hasMany(Calendar::class)->orderBy('start_date','ASC');
     }
+    
+
+    // public function files()
+    // {
+    //     return $this->morphMany(File::class, 'fileable');
+    // }
+
+    public function file()
+    {
+        return $this->morphOne(File::class, 'fileable');
+    }
 }
