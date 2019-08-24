@@ -73,6 +73,12 @@ Route::post('admin/services/{service}/places/{place}','Admin\ServiceController@u
 # Eventos :: recursos
 Route::resource('admin/events','Admin\EventController');
 
+# Eventos :: cargar imagen asociada a evento
+Route::post('admin/events/{event}/images/','Admin\EventController@loadImageEvent');
+
+# Eventos :: borrar imagen asociada a evento
+Route::delete('admin/events/{event}/images/delete','Admin\EventController@destroyImageEvent');
+
 # Eventos :: crear / editar  calendar asociado a evento
 Route::post('admin/events/{event}/calendars/{calendar?}','Admin\EventController@saveEventCalendar');
 

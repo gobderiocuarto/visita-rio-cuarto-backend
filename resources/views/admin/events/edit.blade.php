@@ -134,6 +134,7 @@
 
         // Eliminar imagen de evento
         $("#delete_image").click(function(){
+
             event.preventDefault()
 
             swal({
@@ -145,7 +146,7 @@
             })
             .then((willDelete) => {
                 if (willDelete) {
-                    swal("TO DO: Borrado de imagen de evento");
+                    $("#form_delete_image_event").submit();
                 } 
             });
         

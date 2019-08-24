@@ -15,13 +15,16 @@ use App\Organization;
 
 // Soporte para transacciones 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+
 
 //Request
 use App\Http\Requests\EventStoreRequest;
 
 # Imagenes
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+
+use App\Traits\ImageTrait;
 
 
 use \Conner\Tagging\Model\Tag;
@@ -29,6 +32,8 @@ use \Conner\Tagging\Model\Tagged;
 
 class EventController extends Controller
 {
+     use ImageTrait;
+    
     public function __construct() {
 
         $this->middleware('auth');
@@ -93,7 +98,7 @@ class EventController extends Controller
             return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
         } else {
             DB::rollBack();
-            return back()->with('message', 'Evento creado correctamente');
+            return back()->withErrors('Error al crear el evento');
         }
     }
 
@@ -165,8 +170,6 @@ class EventController extends Controller
         // $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
         // $streets = $this->getStreets();
 
-
-
         #Manejo de Tags 
         // dd($event->tagNames());
 
@@ -174,6 +177,7 @@ class EventController extends Controller
         $group_type = 'App\Event';
 
         $tags_events = '';
+        $array_tags_in_event = [];
         $array_tags_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
         ->join('tagging_tag_groups','tagging_tags.tag_group_id','tagging_tag_groups.id')
         ->where('tagging_tagged.taggable_id', $id )
@@ -184,6 +188,7 @@ class EventController extends Controller
 
         foreach ($array_tags_events as $key => $tag) {
             $tags_events .= $tag ['name'].', ';
+            $array_tags_in_event[] = $tag ['name'];
         }
 
         // Recuperar Tag NO AGRUPADOS 
@@ -202,9 +207,10 @@ class EventController extends Controller
         //Traer todos los tags agrupados en eventos
         $group_events = Tag::inGroup('Eventos')->get()->toArray();
 
-        
-        return view('admin.events.edit', compact('event', 'organizations', 'place',  'group_events', 'tags_events', 'tags_no_events', 'places', 'zones', 'addresses_types', 'streets'));
+        return view('admin.events.edit', compact('event', 'organizations', 'place',  'group_events', 'array_tags_in_event', 'tags_events', 'tags_no_events', 'places', 'zones', 'addresses_types', 'streets'));
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -222,58 +228,35 @@ class EventController extends Controller
 
         $event = Event::findOrFail($id);
 
-        #Determinar Tags a Asociar
+        # Determinar Tags a Asociar
+
+        #Tags manejados como categorias de eventos
+
         // Los tags categorizados bajo eventos se definen previamente, no pudiendose
         // agregar en forma dinámica desde el formulario de edición de eventos. 
         // Por mas que estos se cargen en el campo correspondiente a "categorias"
         // serán taggeados al evento pero se ubicaran en etiquetas asociadas
-        $tags_events = explode(',', $request->get('tags_events'));
+        // $tags_events = explode(',', $request->get('tags_events'));
 
+        $tags_events = $request->get('select_mult');
+
+        if (!$tags_events) {
+            $tags_events = [];
+        }
+
+        # Tags no categorizados
         $tags_no_events = explode(',', $request->get('tags_no_events'));
 
+        # Unir tags categorizados y no categorizados, almacenar 
         $tags =  array_merge($tags_events, $tags_no_events);
-
         $event->retag($tags);
 
         // echo ("<pre>");print_r($event->tagNames());echo ("</pre>"); exit();
 
         
-        # Cargado de imagen
-        if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            
-            $folder_img = 'events/'.$event->id.'/';
-            $thumb_img = $folder_img.'thumbs/';
-            
-            // Borrar archivos anteriores, si existen
-            if($event->file) {
-                
-                if (Storage::exists($folder_img.$event->file->file_path) ) {
-                    Storage::delete($folder_img.$event->file->file_path);
-                    Storage::delete($thumb_img.$event->file->file_path);
-                }  
-                $event->file->delete();
-            }
-            
-            // Renombrar archivo entrante
-            $new_img = $this->renameFile($request->file('file'));
-            
-            if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
-                
-                Storage::makeDirectory($thumb_img);
-                
-                $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
-                
-                $event->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
-            }
-            
-        } else {
-            $event->file()->update(['file_alt'=> $request->get('file_alt')]);
-        }
-        # END  Cargado de imagen
-        
         # Actualizar evento
         // $result = $event->fill($request->all())->save();
-        $place = $request->get('place');
+        $place = $event->place_id;
         
         if ($request->get('place_id')) {
             $place = $request->get('place_id');
@@ -285,6 +268,7 @@ class EventController extends Controller
             'organizer'=> $request->get('organizer'),
             'summary'=> $request->get('summary'),
             'description'=> $request->get('description'),
+            'state'=> $request->get('state'),
             'place_id'=> $place
         ]);
         // echo ('<pre>');print_r($event);echo ('</pre>'); exit();
@@ -292,10 +276,12 @@ class EventController extends Controller
 
         if ($result) {
             DB::commit();
-            return redirect()->route('events.edit', $event->id)->with('message', 'Evento actualizado correctamente');
+            // return redirect()->route('events.edit', $event->id)->with('message', 'Evento actualizado correctamente');
+            return back()->with('message', 'Evento actualizado correctamente');
+            
         } else {
             DB::rollBack();
-            return back()->with('message', 'Error al actualizar el evento');
+            return back()->withErrors('Error al actualizar el evento');
         }
     }
 
@@ -313,7 +299,102 @@ class EventController extends Controller
     }
 
 
-    
+
+    /*=============================================
+    Cargar imagen de evento
+    =============================================*/
+
+    public function loadImageEvent(Request $request, $id) {
+
+        // echo ('<pre>');print_r('TO DO subir imagen de evento: '.$id);echo ('</pre>'); exit();
+        # Start transaction
+        DB::beginTransaction();
+        
+        $event = Event::findOrFail($id);
+
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+            
+            $folder_img = 'events/'.$event->id.'/';
+            $thumb_img = $folder_img.'thumbs/';
+
+            // Borrar archivos anteriores, si existen
+            if($event->file) {
+                $delete_file = $this->deleteFile($folder_img.$event->file->file_path);
+                $delete_thumb = $this->deleteFile($thumb_img.$event->file->file_path);
+                $event->file->delete();
+            }
+            
+            // Renombrar archivo entrante
+            $new_img = $this->renameFile($request->file('file'));
+            
+            # Cargado de imagen ... si ok devueve el path con la ubicación del archivo
+            if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
+                #Creamos el thumb 
+                Storage::makeDirectory($thumb_img);
+                $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img ); 
+                #Actualizamos db                     
+                $result= $event->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
+            } else {
+                $result = FALSE;
+            }
+            
+
+        } else {
+            $result = FALSE;
+            if($event->file) {
+                $result = $event->file()->update(['file_alt'=> $request->get('file_alt')]);
+            }
+        }
+        
+        // var_dump($result); exit();
+
+        if ($result) {
+            DB::commit();
+            return redirect()->route('events.edit', $event->id)->with('message', 'Los cambios en la imagen se aplicaron correctamente');
+        } else {
+            DB::rollBack();
+            return back()->withErrors('Error al aplicar los cambios en la imagen');
+        }
+
+    } //END method
+
+
+    /*=============================================
+    Eliminar imagen de evento
+    =============================================*/
+
+    public function destroyImageEvent($id) {
+
+        # Start transaction
+        DB::beginTransaction();
+
+        // echo ('<pre>');print_r('TO DO eliminar imagen de evento: '.$id);echo ('</pre>'); exit();
+        $event = Event::findOrFail($id);
+
+        $folder_img = 'events/'.$event->id.'/';
+        $thumb_img = $folder_img.'thumbs/';
+
+        if($event->file) {
+            $delete_file = $this->deleteFile($folder_img.$event->file->file_path);
+            $delete_thumb = $this->deleteFile($thumb_img.$event->file->file_path);
+            $result = $event->file->delete();
+        }
+
+        if ($result) {
+            DB::commit();
+            return redirect()->route('events.edit', $event->id)->with('message', 'La imagen se eliminó correctamente');
+        } else {
+            DB::rollBack();
+            return back()->withErrors('Error al eliminar la imagen');
+        }
+
+    } //END method
+
+
+
+    /*===================================================
+    Crear y asociar un calendario-función a evento
+    ====================================================*/
 
     public function saveEventCalendar(Request $request)
     {
@@ -353,9 +434,9 @@ class EventController extends Controller
         return $data;
 
     }
-
-
     
+
+
     /*===================================================
     Eliminar calendarios-funciones relacionadas a eventos
     ====================================================*/
@@ -376,6 +457,8 @@ class EventController extends Controller
         return $data;
         
     }
+
+    
     
     // /*=============================================
     // Obtener HTML listado de funciones

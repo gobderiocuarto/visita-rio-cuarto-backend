@@ -29,9 +29,9 @@ class CreateEventsTable extends Migration
             $table->timestamps();
 
             //relation
-            $table->foreign('place_id')->references('id')->on('places')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+            // $table->foreign('place_id')->references('id')->on('places')
+            //     ->onDelete('set null')
+            //     ->onUpdate('cascade');
         });
     }
 
