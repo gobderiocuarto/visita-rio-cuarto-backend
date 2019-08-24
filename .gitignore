@@ -4,6 +4,7 @@
 /public/files
 /storage/*.key
 /vendor
+/backups
 .gitignore
 .phpunit.result.cache
 commits.txt

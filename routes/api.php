@@ -27,3 +27,14 @@ Route::get('organizations/{organization_id}/addresses/{address_id}', 'ApiControl
 
 Route::get('services/', 'ApiController@getServicesTags');
 Route::get('services/{termino}', 'ApiController@getServiceTags');
+
+#Listado de tags agrupados en "Eventos"
+Route::get('events/{termino}', 'ApiController@getEventsTags');
+
+#Listado de tags no agrupados
+Route::get('tags/', 'ApiController@getTags');
+Route::get('tags/{termino}', 'ApiController@getTags');
+
+
+# Eventos :: recuperar detalle de calendario
+Route::get('events/{event}/calendars/{calendar}','ApiController@getEventCalendar');
