@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PlaceStoreRequest extends FormRequest
+class SpaceStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class PlaceStoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'slug' => 'required|unique:places,slug',
+            'slug' => 'required|unique:spaces,slug',
             'street_id' => 'required|numeric',
             'number' => 'required|numeric'
         ];

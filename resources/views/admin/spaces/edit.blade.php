@@ -10,7 +10,7 @@
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Admin</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/admin/places') }}">Espacios</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/spaces') }}">Espacios</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar</li>
           </ol>
         </nav>
@@ -18,14 +18,14 @@
             <div class="card">
                 <div class="card-header">
                     <h3>Editar espacio:</h3>
-                    <h2><strong>"{{ $place->name }}"</strong></h2>
+                    <h2><strong>"{{ $space->name }}"</strong></h2>
                 </div>
-                <form id="form_create_place" method="POST" action='{{ url("/admin/places/$place->id") }}' method="POST" enctype="multipart/form-data">
+                <form id="form_create_space" method="POST" action='{{ url("/admin/spaces/$space->id") }}' method="POST" enctype="multipart/form-data">
                     {{ method_field('PATCH') }}
                     @csrf
                     <div class="card-body mt-2">
                         <div class="alert alert-secondary mb-3 text-right" >
-                            <a href="{{ route('places.index') }}" class="btn btn-sm btn-primary ">
+                            <a href="{{ route('spaces.index') }}" class="btn btn-sm btn-primary ">
                             Volver al listado
                             </a>
                         </div>
@@ -37,11 +37,11 @@
                                 <select class="form-control form-control-xl" id="category_id" name="category_id" data-size="8" required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($categories as $category)
-                                    <option style="font-weight: bold;" value="{{ $category->id }}" @if ($category->id == $place->category_id) selected @endif >
+                                    <option style="font-weight: bold;" value="{{ $category->id }}" @if ($category->id == $space->category_id) selected @endif >
                                         {{ $category->name }}
                                     </option>
                                     @foreach($category->categories as $subcategory)
-                                    <option style="text-indent: 10px;" value="{{ $subcategory->id }}" @if ($subcategory->id == $place->category_id) selected @endif >
+                                    <option style="text-indent: 10px;" value="{{ $subcategory->id }}" @if ($subcategory->id == $space->category_id) selected @endif >
                                         &nbsp;{{ $subcategory->name }}
                                     </option>
                                     @endforeach                             
@@ -52,19 +52,19 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
-                                <input name="name" id="name" type="text" class="form-control" value="{{ $place->name }}" autofocus required minlength=3>
+                                <input name="name" id="name" type="text" class="form-control" value="{{ $space->name }}" autofocus required minlength=3>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="slug" class="col-md-3 col-form-label text-md-right">Slug</label>
                             <div class="col-md-8">
-                                <input name="slug" id="slug" type="text" class="form-control" value="{{ $place->slug }}" readonly>
+                                <input name="slug" id="slug" type="text" class="form-control" value="{{ $space->slug }}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="description" class="col-md-3 col-form-label text-md-right">Breve descripción </label>
                             <div class="col-md-8">
-                                <textarea class="form-control" name="description" rows="8">{{ $place->description }}</textarea>
+                                <textarea class="form-control" name="description" rows="8">{{ $space->description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -73,7 +73,7 @@
                                 <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-live-search="true" data-size="8" required>
                                     <option value="" >Selecciona...</option>
                                     @foreach($streets as $street)
-                                    <option value="{{ $street->id }}" @if ($street->id == $place->address->street_id) selected @endif >
+                                    <option value="{{ $street->id }}" @if ($street->id == $space->address->street_id) selected @endif >
                                         {{ $street->name }}
                                     </option>
                                     @endforeach
@@ -83,22 +83,22 @@
                         <div class="form-group row">
                             <label for="number" class="col-md-3 col-form-label text-md-right">Número (*)</label>
                             <div class="col-md-3">
-                                <input name="number" id="number" type="number" class="form-control" value="{{ $place->address->number }}" required>
+                                <input name="number" id="number" type="number" class="form-control" value="{{ $space->address->number }}" required>
                             </div>
 
                             <label for="floor" class="col-md-2 col-form-label text-md-right">Piso / Dpto</label>
                             <div class="col-md-3">
-                                <input name="floor" id="floor" type="text" class="form-control" value="{{ $place->address->floor }}">
+                                <input name="floor" id="floor" type="text" class="form-control" value="{{ $space->address->floor }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="lat" class="col-md-3 col-form-label text-md-right">Latitud</label>
                             <div class="col-md-3">
-                                <input name="lat" id="lat" type="text" class="form-control" value="{{ $place->address->lat }}">
+                                <input name="lat" id="lat" type="text" class="form-control" value="{{ $space->address->lat }}">
                             </div>
                             <label for="lng" class="col-md-2 col-form-label text-md-right">Longitud</label>
                             <div class="col-md-3">
-                                <input name="lng" id="lng" type="text" class="form-control" value="{{ $place->address->lng }}">
+                                <input name="lng" id="lng" type="text" class="form-control" value="{{ $space->address->lng }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -107,7 +107,7 @@
                                 <select id="zone_id" name="zone_id" class="form-control form-control-xl selectpicker" data-live-search="true" data-size="8">
                                     <option value="0">Selecciona...</option>
                                     @foreach($zones as $zone)
-                                    <option value="{{ $zone->id }}" @if ($zone->id == $place->address->zone_id) selected="selected" @endif>
+                                    <option value="{{ $zone->id }}" @if ($zone->id == $space->address->zone_id) selected="selected" @endif>
                                         {{ $zone->name }}
                                     </option>
                                     @endforeach
@@ -124,10 +124,10 @@
                         <hr />
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label text-md-right">Imagen principal: </label>
-                            @if($place->file)
+                            @if($space->file)
                             <div class="col-md-3">
-                                <a target="_blank" href="{{ Storage::url("places/{$place->id}/{$place->file->file_path}") }}">
-                                    <img class="img-fluid" src="{{ Storage::url("places/{$place->id}/thumbs/{$place->file->file_path}") }}" alt="{{$place->file->file_alt}}">
+                                <a target="_blank" href="{{ Storage::url("spaces/{$space->id}/{$space->file->file_path}") }}">
+                                    <img class="img-fluid" src="{{ Storage::url("spaces/{$space->id}/thumbs/{$space->file->file_path}") }}" alt="{{$space->file->file_alt}}">
                                 </a>
                             </div>
                             @else
@@ -147,7 +147,7 @@
                         <div class="form-group row">
                             <label for="file_alt" class="col-md-3 col-form-label text-md-right">Texto alternativo</label>
                             <div class="col-md-8">
-                                <input type="text" id="file_alt" name="file_alt" class="form-control" @if($place->file) value="{{$place->file->file_alt}}" @else value="" @endif>
+                                <input type="text" id="file_alt" name="file_alt" class="form-control" @if($space->file) value="{{$space->file->file_alt}}" @else value="" @endif>
                                 <small class="form-text text-muted mt-2">Texto asociado a la imagen. Asegura que no se pierda información sea porque las imágenes no están disponibles, el lector ha desactivado las imágenes en su navegador o porqué está utilizando un lector de pantalla debido a que padece una deficiencia visual. </small>
                             </div>
                         </div>

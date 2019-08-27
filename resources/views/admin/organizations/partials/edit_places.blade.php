@@ -1,67 +1,3 @@
-<div id="list_places" class="mt-2" @if(Session::has('action')) style="display: none;" @endif>
-    <div class="card">
-        <div class="card-header">
-            <h2>Ubicaciones</h2> 
-        </div>
-        <div class="card-body">
-            <div class="alert alert-secondary text-right mb-3" >
-                <button id="places_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Crear ubicación</button>
-            </div>
-            <hr>       
-            <table class="table table-striped table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Calle y número</th>
-                        <th colspan="2">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @if (count($organization->places) === 0 and count($organization->addresses) === 0)
-                    <tr>
-                        <td colspan="4"><strong>Aún no se han asociado direcciones</strong></td>
-                    </tr>
-                @else
-                    @foreach($organization->places as $place)
-                    <tr>
-                        <td><strong>{{ $place->pivot->address_type_name }}</strong></td>
-                        <td>{{ $place->address->street->name }} {{ $place->address->number }}, <strong>{{ $place->name }}</strong></strong></td>
-                        <td width="10px">
-                            <button type="button" class="btn btn-sm btn-success places_btn_edit" data-rel-type="place" data-rel-value="{{ $place->id }}">
-                                Editar
-                            </button>
-                        </td>
-                        <td width="10px">
-                            <form id="form_delete_place_{{ $place->id }}" action='{{ url("/admin/organizations/$organization->id/places/$place->id") }}' method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-danger delete_location">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @foreach($organization->addresses as $address)
-                    <tr>
-                        <td><strong>{{ $address->pivot->address_type_name }}</strong></td>
-                        <td>{{ $address->street->name }} {{ $address->number }}</td>
-                        <td width="10px">
-                            <button type="button" class="btn btn-sm btn-success places_btn_edit" data-rel-type="address" data-rel-value="{{ $address->id }}">
-                                Editar
-                            </button>
-                        </td>
-                        <td width="10px">
-                            <form id="form_delete_address_{{ $address->id }}" action='{{ url("/admin/organizations/$organization->id/addresses/$address->id") }}' method="POST">
-                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger delete_location">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                @endif
-                </tbody>   
-            </table>
-        </div>
-    </div>
-</div>
 <div id="add_edit_place" class="mt-2" @if(!Session::has('action')) style="display: none;" @endif>
     <form id="form_place" method="POST" action='{{ url("/admin/organizations/$organization->id/place") }}'>
         <div class="card-header">
@@ -82,13 +18,13 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="place" class="col-md-12 col-form-label">Asociar a ubicación existente:</label>
+                <label for="space" class="col-md-12 col-form-label">Asociar a ubicación existente:</label>
                 <div class="col-md-8">
-                    <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true"  data-default-value="" data-size="8">
+                    <select id="space" name="space" class="form-control form-control-xl selectpicker" data-live-search="true"  data-default-value="" data-size="8">
                         <option value="">No asociar</option>
-                        @foreach($places as $place)
-                        <option value="{{ $place->id }}">
-                            {{ $place->name }}
+                        @foreach($spaces as $space)
+                        <option value="{{ $space->id }}">
+                            {{ $space->name }}
                         </option>
                         @endforeach
                     </select>

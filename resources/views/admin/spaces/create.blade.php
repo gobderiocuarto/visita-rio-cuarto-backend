@@ -10,7 +10,7 @@
         <nav class="col-12 col-md-10 mb-2" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Admin</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/admin/places') }}">Espacios</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/spaces') }}">Espacios</a></li>
             <li class="breadcrumb-item active" aria-current="page">Crear</li>
           </ol>
         </nav>
@@ -19,11 +19,11 @@
                 <div class="card-header">
                     <h2>Crear espacio</h2>
                 </div>
-                <form id="form_create_place" method="POST" action="{{ url('/admin/places') }}" method="POST">
+                <form id="form_create_space" method="POST" action="{{ url('/admin/spaces') }}" method="POST">
                     @csrf
                     <div class="card-body mt-2">
                         <div class="alert alert-secondary mb-3 text-right" >
-                            <a href="{{ route('places.index') }}" class="btn btn-sm btn-primary ">
+                            <a href="{{ route('spaces.index') }}" class="btn btn-sm btn-primary ">
                             Volver al listado
                             </a>
                         </div>
@@ -180,11 +180,8 @@
                 source : function (request, responseGetData) {
 
                     var term = request.term;
-
-                    console.log(term)
-
                     $.get(base_url+'/api/services/'+term, function(data){
-                        console.log(data)
+                        // console.log(data)
                         responseGetData(data);
                     });
                 }

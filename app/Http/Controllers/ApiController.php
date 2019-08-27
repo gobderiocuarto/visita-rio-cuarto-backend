@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Address;
 use App\Organization;
-use App\Place;
+use App\Space;
 use App\Event;
 use App\Calendar;
 
@@ -22,11 +22,11 @@ use Illuminate\Support\Facades\Storage;
 class ApiController extends Controller
 {
 	//Traer datos de espacio por ej. para agregar a org
-	public function getPlace($id)
+	public function getSpace($id)
     {
-        $place =  Place::with('organizations', 'address.zone')->findOrFail($id);
+        $space =  Space::with('organizations', 'address.zone')->findOrFail($id);
 
-        return $place;
+        return $space;
     }
 
 
@@ -59,12 +59,12 @@ class ApiController extends Controller
     // ----------------------------------------------------------------
     // ----------------------------------------------------------------
 
-    public function getOrganizationPlace($organization, $place)
+    public function getOrganizationSpace($organization, $space)
     {
         $organization = Organization::findOrFail($organization);
         
-        // return $organization->places()->with('address.street')->where('places.id', $place )->first();
-        return $organization->places()->with('address')->where('places.id', $place )->first();
+        // return $organization->spaces()->with('address.street')->where('spaces.id', $space )->first();
+        return $organization->spaces()->with('address')->where('spaces.id', $space )->first();
     }
 
 

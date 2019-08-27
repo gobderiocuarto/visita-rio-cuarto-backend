@@ -11,7 +11,7 @@ class Organization extends Model
 {
     
     use Taggable;
-    use Searchable;
+    // use Searchable;
 
     protected $fillable = [
         'category_id', 'name', 'slug', 'description', 'email', 'phone', 'web'
@@ -32,15 +32,15 @@ class Organization extends Model
         return $this->morphedByMany('App\Address', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
     }
 
-    // public function places()
+    // public function spaces()
     // {
-    //     return $this->belongsToMany(Place::class)->withPivot('address_type_id', 'address_type_name');
+    //     return $this->belongsToMany(Space::class)->withPivot('address_type_id', 'address_type_name');
     // }
 
 
-    public function places()
+    public function spaces()
     {
-        return $this->morphedByMany('App\Place', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
+        return $this->morphedByMany('App\Space', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
     }
     
 

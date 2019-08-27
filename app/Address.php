@@ -20,9 +20,9 @@ class Address extends Model
     }
 
    
-    public function places()
+    public function spaces()
     {
-        return $this->hasMany(Place::class);
+        return $this->hasMany(Space::class);
     }
 
 

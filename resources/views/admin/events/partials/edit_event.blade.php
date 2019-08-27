@@ -21,7 +21,7 @@
         <div class="form-group row">
             <label for="tags_events" class="col-md-3 col-form-label text-md-right">Categorías asociadas</label>
             <div class="col-md-8">
-                <select multiple="multiple" size="5" id="select_mult" name="select_mult[]" class="form-control form-control-xl">
+                <select multiple="multiple" size="5" id="select_mult" name="select_mult[]" class="form-control form-control-xl" required>
                     @foreach ($group_events as $tag_event)
                     <option value="{{ $tag_event['name'] }}"  @if (in_array( $tag_event['name'], $array_tags_in_event))
     selected="selected" @endif>
@@ -82,12 +82,12 @@
 </div>
 <div class="card">
     <div class="card-header">
-        <h3><a name="place">Lugar del evento</h3>
+        <h3><a name="space">Lugar del evento</h3>
     </div>
     <div class="card-body mt-2">
         <hr />
         <div class="form-group row">
-            <label for="place" class="col-md-3 col-form-label text-md-right">Ubicación del Evento</label>
+            <label for="space" class="col-md-3 col-form-label text-md-right">Ubicación del Evento</label>
             <div class="col-md-8">
                 @if ($place)
                 <input name="place" id="place" type="text" class="form-control" value="{{ $place }}" readonly>
@@ -97,17 +97,17 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="place_id" class="col-md-3 col-form-label text-md-right">Asignar nueva ubicación</label>
+            <label for="space_id" class="col-md-3 col-form-label text-md-right">Asignar nueva ubicación</label>
             <div class="col-md-8">
                 <select id="place_id" name="place_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8">
                     <option value="">Selecciona...</option>
                     @foreach($organizations as $organization)
-                        @if (!empty($organization->places))
-                        @foreach($organization->places as $place)
-                        <option value="{{ $place->pivot->id }}">
-                            ({{ $place->pivot->id }})
-                            {{ $organization->name }} - {{ $place->name }} - 
-                            {{ $place->address->street->name }} {{ $place->address->number }}
+                        @if (!empty($organization->spaces))
+                        @foreach($organization->spaces as $space)
+                        <option value="{{ $space->pivot->id }}">
+                            ({{ $space->pivot->id }})
+                            {{ $organization->name }} - {{ $space->name }} - 
+                            {{ $space->address->street->name }} {{ $space->address->number }}
                         </option>
                         @endforeach
                         @endif

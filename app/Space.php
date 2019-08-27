@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use \Conner\Tagging\Taggable;
 
-class Place extends Model
+class Space extends Model
 {
     
     use Taggable;

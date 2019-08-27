@@ -12,7 +12,7 @@ use App\Address;
 use App\AddressType;
 use App\Category;
 use App\Organization;
-use App\Place;
+use App\Space;
 use App\Street;
 use App\Zone;
 
@@ -84,11 +84,11 @@ class OrganizationController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        $places = Place::orderBy('name', 'ASC')->get();
+        $spaces = Space::orderBy('name', 'ASC')->get();
         $streets = Street::orderBy('name', 'ASC')->get();
         $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
 
-        return view('admin.organizations.create', compact('categories','places','streets', 'zones') );
+        return view('admin.organizations.create', compact('categories','spaces','streets', 'zones') );
     }
 
     /**
@@ -140,20 +140,20 @@ class OrganizationController extends Controller
     {
         $organization = Organization::findOrFail($id);
 
-        //dd($organization->places);
+        //dd($organization->spaces);
 
         $tags = implode(', ', $organization->tagNames());
 
         $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
 
         $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
-        $places = Place::orderBy('name', 'ASC')->get();
+        $spaces = Space::orderBy('name', 'ASC')->get();
        
         $streets = $this->getStreets();
 
         $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
 
-        return view('admin.organizations.edit', compact('organization','tags', 'categories','places','zones', 'addresses_types', 'streets'));
+        return view('admin.organizations.edit', compact('organization','tags', 'categories','spaces','zones', 'addresses_types', 'streets'));
     }
 
 
@@ -234,19 +234,20 @@ class OrganizationController extends Controller
     public function storePlace(Request $request, $org_id)
     {
 
-        //dd($request->all());
-        $organization = Organization::with('addresses', 'places')->findOrFail($org_id); 
+        // dd($request->all());
+        $organization = Organization::with('addresses', 'spaces')->findOrFail($org_id);
+        
         //dd($request->get('address_type_name'));
 
         $address_type_id = $request->get('address_type');
 
-        // // Determino el nombre del tipo de dirección
-        if ($request->get('address_type') === "0"){ // nuevo tipo 
+        // Determino el nombre del tipo de dirección
+        if ($request->get('address_type') === "0"){ // nuevo tipo de ubicación
 
             $address_type_name =  $request->get('address_type_name');
 
         } else {
-
+            // Selecciona el tipo de ubicación del listado de la db
             $address_type_name = AddressType::findOrFail($address_type_id)->name;
             
         }
@@ -254,25 +255,24 @@ class OrganizationController extends Controller
         # Start transaction
         // DB::beginTransaction();
 
-        if($request->place) { // asocia place a org
+        if($request->space) { // asocia space a org
 
             // Determinar si el espacio ya esta asociado a la org
-            $exist = $organization->places()->where('organizationable_id', $request->place)
-            ->where('organizationable_type', 'App\Place')->first();
+            $exist = $organization->spaces()->where('organizationable_id', $request->space)
+            ->where('organizationable_type', 'App\Space')->first();
 
             if(!empty($exist)) {
 
                 //dd($exist);
                 // DB::rollBack();
-
                 return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('La ubicación elegida ya se encuentra asociada');
 
             } else {
 
                 // Elimino relacion anterior de ubicación
-                if ($request->get('prev_rel_type') === "place"){
+                if ($request->get('prev_rel_type') === "space"){
 
-                    $organization->places()->detach($request->get('prev_rel_value'));
+                    $organization->spaces()->detach($request->get('prev_rel_value'));
 
                 } else if ($request->get('prev_rel_type') === "address"){
 
@@ -282,14 +282,14 @@ class OrganizationController extends Controller
 
                 }
 
-                $organization->places()->attach($request->place, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
+                $organization->spaces()->attach($request->space, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
 
-                // $this->setStorageResponse('place', $request->place);
+                // $this->setStorageResponse('space', $request->space);
                 // DB::commit();
 
                 return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
                         ->with('message', 'Se actualizó correctamente la ubicación')
-                        ->with('action', ['type' => 'place', 'value' => $request->place ]);
+                        ->with('action', ['type' => 'space', 'value' => $request->space ]);
 
             }
 
@@ -298,9 +298,9 @@ class OrganizationController extends Controller
             //dd($request);
 
             // Si existe, elimino relacion con ubicación anterior
-            if ($request->get('prev_rel_type') === "place"){
+            if ($request->get('prev_rel_type') === "space"){
 
-                $organization->places()->detach($request->get('prev_rel_value'));
+                $organization->spaces()->detach($request->get('prev_rel_value'));
                 $address = Address::create($request->all());
                
 
@@ -352,10 +352,10 @@ class OrganizationController extends Controller
     }
 
 
-    public function destroyPlace($org_id, $place_id)
+    public function destroySpace($org_id, $space_id)
     {
         $organization = Organization::findOrFail($org_id);
-        $organization->places()->detach($place_id);
+        $organization->spaces()->detach($space_id);
 
         return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Ubicación desvinculada correctamente');
     }

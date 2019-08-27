@@ -36,7 +36,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="{{ url('/admin/places/') }}" class="btn btn-lg btn-primary mb-3 p-5 btn-block">
+            <a href="{{ url('/admin/spaces/') }}" class="btn btn-lg btn-primary mb-3 p-5 btn-block">
               <i class="fas fa-calendar-alt fa-2x d-block mb-3"></i>
               <h5 class="">Espacios</h5>
             </a>

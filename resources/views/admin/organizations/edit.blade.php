@@ -45,7 +45,8 @@
                              @include('admin.organizations.partials.edit_organization')
                         </div>
                         <div class="tab-pane" role="tabpanel" id="places_tab">
-                            @include('admin.organizations.partials.places')
+                            @include('admin.organizations.partials.list_places')
+                            @include('admin.organizations.partials.edit_places')
                         </div>
                     </div>
                 </div>
@@ -67,9 +68,9 @@
     //Limpiar datos  de formulario nuevo / editar
     function clear_address(){
 
-        $('#place option:selected').removeAttr('selected');
-        $("#place").val($("#place").data("default-value"));
-        $('#place').prop('disabled', false);
+        $('#space option:selected').removeAttr('selected');
+        $("#space").val($("#space").data("default-value"));
+        $('#space').prop('disabled', false);
 
         $('#street_id option:selected').removeAttr('selected');
         $("#street_id").val($("#street_id").data("default-value"));
@@ -97,9 +98,6 @@
         $("#address_type").val($("#address_type").data("default-value"));
         $("#address_custom_name").val("");
 
-        //$('#place option:selected').removeAttr('selected');
-        //$("#place").val($("#place").data("default-value"));
-
         clear_address();
 
         if (flag){
@@ -120,7 +118,7 @@
     }
 
 
-    function loadPlaceAddress() {
+    function loadPlace() {
 
         let rel_type = $("#rel_type").val()
         let rel_value = $("#rel_value").val()
@@ -136,8 +134,8 @@
             $('#title_add_edit_place').html(title_add_edit)
             
             switch (rel_type) {
-                case 'place':
-                    url_get = base_url+"/api/organizations/"+organization+"/places/"+rel_value
+                case 'space':
+                    url_get = base_url+"/api/organizations/"+organization+"/spaces/"+rel_value
                     break;
 
                 case 'address':
@@ -156,13 +154,12 @@
 
                 success: function(data) {
 
-                    console.log(data)
-
                     showform(true)
 
                     // Si trae data.address se trata de un espacio
                     if (data.address) {
 
+                        // console.log(data)   
                         if (data.pivot.address_type_id == 0) {
                             var option = new Option(data.pivot.address_type_name, data.pivot.address_type_id); 
                             $('#address_type').prepend($(option));
@@ -171,12 +168,11 @@
                         $('#address_type option[value="'+data.pivot.address_type_id+'"]').attr("selected",true);
                         $('#address_type_name').val(data.pivot.address_type_name);
 
-                        $('#place option:selected').removeAttr('selected');
+                        $('#space option:selected').removeAttr('selected');
                         //$('#place option[value="3"]').attr("selected",true);
-                        $("#place").val(data.id);
+                        $("#space").val(data.id);
 
                         $('#street_id option:selected').removeAttr('selected');
-                        //$("#street_id option[value="+data.address.street_id+"]").attr("selected",true);
                         $("#street_id").val(data.address.street_id);
                         $('#street_id').prop('disabled', true);
 
@@ -297,9 +293,9 @@
 
         }
 
-        loadPlaceAddress()
+        loadPlace()
 
-        // NUEVO espacio / dirección: Mostrar form al presionar boton 
+        // NUEVA UBICACION: Mostrar form edit places y ocultar list al presionar boton 
         $("#places_btn_add").click(function(){
 
             const title_add_edit = 'Asociar ubicación'
@@ -347,107 +343,9 @@
             $("#rel_type").val($(this).data("rel-type"))
             $("#rel_value").val($(this).data("rel-value"))
 
-            // loadPlaceAddres(rel_type, rel_value)
-            loadPlaceAddress()
+            // loadPlace(rel_type, rel_value)
+            loadPlace()
 
-
-
-            /*const title_add_edit = 'Editar espacio / dirección'
-            let url_get
-            let organization = $('#organization').val()
-
-            let rel_type = $(this).data("rel-type")
-            let rel_value = $(this).data("rel-value")
-            
-            $("#rel_type").val(rel_type)
-            $("#rel_value").val(rel_value)
-
-            $('#title_add_edit_place').empty();
-            $('#title_add_edit_place').html(title_add_edit)
-            
-
-            switch (rel_type) {
-                case 'place':
-                    url_get = base_url+"/api/organizations/"+organization+"/places/"+rel_value
-                    break;
-
-                case 'address':
-
-                    url_get = base_url+"/api/organizations/"+organization+"/addresses/"+rel_value
-                    break;
-              
-                default:
-                    break;
-            }
-
-            // alert(url_get)
-
-            $.get(url_get, function(data){ 
-
-                console.log(data);
-
-                showform(true)
-
-                // Si existe address se trata de un espacio
-                if (data.address) {
-
-                    if (data.address_type_id == 0) {
-                        var option = new Option(data.address_type_name, data.address_type_id); 
-                        $('#address_type').prepend($(option));
-                    }
-                    
-                    $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
-                    $('#address_type_name').val(data.address_type_name);
-
-                    $('#place option:selected').removeAttr('selected');
-                    //$('#place option[value="3"]').attr("selected",true);
-                    $("#place").val(data.id);
-
-
-                    $('#street_id option:selected').removeAttr('selected');
-                    //$("#street_id option[value="+data.address.street_id+"]").attr("selected",true);
-                    $("#street_id").val(data.address.street_id);
-                    $('#street_id').prop('disabled', true);
-
-                    $('#number').val(data.address.number).prop('disabled', true);
-                    $('#floor').val(data.address.floor).prop('disabled', true);
-                    $('#lat').val(data.address.lat).prop('disabled', true);
-                    $('#lng').val(data.address.lng).prop('disabled', true);                    
-
-                    $('#zone_id option:selected').removeAttr('selected');
-                    //$("#zone_id option[value="+data.address.zone.id+"]").attr("selected",true);
-                    $("#zone_id").val(data.address.zone_id);
-                    $('#zone_id').prop('disabled', true);
-
-                    $('.selectpicker').selectpicker('refresh');
-
-                } else {
-
-                    if (data.address_type_id == 0) {
-                        var option = new Option(data.address_type_name, data.address_type_id); 
-                        $('#address_type').prepend($(option));
-                    }
-                    $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
-                    $('#address_type_name').val(data.address_type_name);
-
-                    $('#street_id option:selected').removeAttr('selected');
-                    $("#street_id").val(data.street_id);
-
-                    $('#number').val(data.number);
-                    $('#floor').val(data.floor);
-                    $('#lat').val(data.lat);
-                    $('#lng').val(data.lng);                    
-
-                    $('#zone_id option:selected').removeAttr('selected');
-                    $("#zone_id").val(data.zone_id);
-
-                    $('.selectpicker').selectpicker('refresh');
-                }
-
-                //$("#nombre").val(data.name);
-                
-            });*/
-             
         });
 
 
@@ -499,40 +397,33 @@
         $("#button_cancel").click(function(){
             $('#address_type option[value="0"]').remove();
             $("#address_type").val('1')
-            //$('#address_type option[value="1"]').attr("selected",true)
         });
 
 
 
         // Cargar / quitar los datos del espacio en el form
-        $("#place").change(function() {
+        $("#space").change(function() {
 
-            let place_id = $('#place option:selected').val()
+            let space_id = $('#space option:selected').val()
 
-            if (place_id == "") { // No se asocia espacio
+            if (space_id == "") { // No se asocia espacio -->limpiamos campos
 
                 clear_address();
 
             } else {
 
-                let url_place = base_url+"/api/places/"+place_id
-
-                /*
-                $.get(url_place, function(data){ 
-                    console.log(data); 
-                });
-                */
+                let url_space = base_url+"/api/spaces/"+space_id
 
                 $.ajax({
 
                     type: "GET",
                     dataType: "json",
-                    url: url_place,
+                    url: url_space,
 
                     success: function(data) {
 
-                        //console.log(data);
-
+                        console.log(data);
+                        // cargamos datos desde el espacio y ponemos los campos como disabled
                         $('#number').val(data.address.number).prop('disabled', true);
                         $('#floor').val(data.address.floor).prop('disabled', true);
                         $('#lat').val(data.address.lat).prop('disabled', true);

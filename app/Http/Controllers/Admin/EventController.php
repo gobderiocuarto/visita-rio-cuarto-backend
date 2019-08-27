@@ -62,7 +62,7 @@ class EventController extends Controller
         // echo ("<pre>");print_r("hi");echo ("</pre>"); exit();
 
         // $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
-        // $places = Place::orderBy('name', 'ASC')->get();
+        // $spaces = Place::orderBy('name', 'ASC')->get();
         // $streets = Street::orderBy('name', 'ASC')->get();
         $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
 
@@ -124,12 +124,12 @@ class EventController extends Controller
     public function edit($id)
     {
         
-        $places = $zones = $addresses_types = $streets = array();
+        $zones = $addresses_types = $streets = array();
         
         $event = Event::with('calendars')->findOrFail($id);
         
         #Listado total de organizaciones activas
-        $organizations = Organization::where('state', 1)->orderBy('name')->with('addresses')->with('places.address')->get();
+        $organizations = Organization::where('state', 1)->orderBy('name')->with('addresses')->with('spaces.address')->get();
         
         #Determinar ubicación actual del evento
         $place = NULL;
@@ -145,17 +145,17 @@ class EventController extends Controller
             if($org){
                 $org = $org->toArray();
                 switch ($org['organizationable_type']) {
-                    case 'App\Place':
-                        $actual_place = Place::with('address')->where('id',$org['organizationable_id'])->first();
-                        $place = $org['name']." - ".$actual_place->name." - ".$actual_place->address->street->name." ".$actual_place->address->number;
-                        // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+                    case 'App\Space':
+                        $actual_space = Space::with('address')->where('id',$org['organizationable_id'])->first();
+                        $place = $org['name']." - ".$actual_space->name." - ".$actual_space->address->street->name." ".$actual_space->address->number;
+                        // echo ('<pre>');print_r($space);echo ('</pre>'); exit();
         
-                        // $actual_place['organization'] =
+                        // $actual_space['organization'] =
                         break;
                     case 'App\Address':
                         $actual_address = Address::where('id',$org['organizationable_id'])->first();
                         $place = $org['name']." ".$actual_address->street->name." ".$actual_address->number;
-                        // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+                        // echo ('<pre>');print_r($space);echo ('</pre>'); exit();
                         break;
                     
                     default:
@@ -207,7 +207,7 @@ class EventController extends Controller
         //Traer todos los tags agrupados en eventos
         $group_events = Tag::inGroup('Eventos')->get()->toArray();
 
-        return view('admin.events.edit', compact('event', 'organizations', 'place',  'group_events', 'array_tags_in_event', 'tags_events', 'tags_no_events', 'places', 'zones', 'addresses_types', 'streets'));
+        return view('admin.events.edit', compact('event', 'organizations', 'place',  'group_events', 'array_tags_in_event', 'tags_events', 'tags_no_events', 'addresses_types', 'streets'));
     }
 
 
@@ -230,7 +230,7 @@ class EventController extends Controller
 
         # Determinar Tags a Asociar
 
-        #Tags manejados como categorias de eventos
+        # Tags manejados como categorias de eventos
 
         // Los tags categorizados bajo eventos se definen previamente, no pudiendose
         // agregar en forma dinámica desde el formulario de edición de eventos. 

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB; // Soporte para transacciones
 use \Conner\Tagging\Model\Tag;
 use \Conner\Tagging\Model\Tagged;
 use App\Organization;
-use App\Place;
+use App\Space;
 
 class ServiceController extends Controller
 {
@@ -108,15 +108,15 @@ class ServiceController extends Controller
         $list_orgs = Organization::withoutTags(["$service->name"])->where('state', 1)->orderBy('name','DESC')->get();
 
         // Espacios asociadas al grupo de tags "servicio" 
-        $service_places = Place::withAnyTag(["$service->name"])->orderBy('name','ASC')->get();
+        $service_spaces = Space::withAnyTag(["$service->name"])->orderBy('name','ASC')->get();
 
-        $list_places = Place::withoutTags(["$service->name"])->where('state', 1)->orderBy('name','DESC')->get();
+        $list_spaces = Space::withoutTags(["$service->name"])->where('state', 1)->orderBy('name','DESC')->get();
 
-        $list_to_adds = array_merge($list_orgs->toArray(),$list_places->toArray());
+        $list_to_adds = array_merge($list_orgs->toArray(),$list_spaces->toArray());
 
         // dd($list_to_adds);
 
-        return view('admin.services.edit', compact('service', 'service_orgs', 'list_orgs', 'service_places', 'list_places'));
+        return view('admin.services.edit', compact('service', 'service_orgs', 'list_orgs', 'service_spaces', 'list_spaces'));
 
     }
 
@@ -222,37 +222,37 @@ class ServiceController extends Controller
     }
 
 
-    public function storePlace(Request $request, $service_id)
+    public function storeSpace(Request $request, $service_id)
     {
 
 
         $service = Tag::findOrFail($service_id);
 
-        $place = Place::findOrFail($request->place);
+        $space = Space::findOrFail($request->space);
 
-        if (!in_array($service->name, $place->tagNames())) {
-            $place->tag("$service->name"); // attach the tag
-            $place->save();
-            return redirect('admin/services/'.$service_id.'/edit#places_tab')->with('message', 'Etiqueta agregada con éxito');
+        if (!in_array($service->name, $space->tagNames())) {
+            $space->tag("$service->name"); // attach the tag
+            $space->save();
+            return redirect('admin/services/'.$service_id.'/edit#spaces_tab')->with('message', 'Etiqueta agregada con éxito');
 
         } else {
-            return redirect('admin/services/'.$service_id.'/edit#places_tab')->withErrors('El espacio ya se encuentra asociado a la etiqueta');
+            return redirect('admin/services/'.$service_id.'/edit#spaces_tab')->withErrors('El espacio ya se encuentra asociado a la etiqueta');
         }
 
     }
 
 
-    public function unlinkPlace(Request $request, $service_id)
+    public function unlinkSpace(Request $request, $service_id)
     {
 
         $service = Tag::findOrFail($service_id);
 
-        $place = Place::findOrFail($request->place);
+        $space = Space::findOrFail($request->space);
 
-        if (in_array($service->name, $place->tagNames())) {
-            $place->untag("$service->name"); // attach the tag
-            $place->save();
-            return redirect('admin/services/'.$service_id.'/edit#places_tab')->with('message', 'Etiqueta desvinculada con éxito');
+        if (in_array($service->name, $space->tagNames())) {
+            $space->untag("$service->name"); // attach the tag
+            $space->save();
+            return redirect('admin/services/'.$service_id.'/edit#spaces_tab')->with('message', 'Etiqueta desvinculada con éxito');
 
         } else {
             return redirect()->back()->withErrors('Error al desvincular la etiqueta');

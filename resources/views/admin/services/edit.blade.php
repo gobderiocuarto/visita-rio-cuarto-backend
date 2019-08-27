@@ -61,7 +61,7 @@
                             </a>
                         </li>
                         <li role="presentation" class="nav-item">
-                            <a href="#places_tab" class="nav-link" data-toggle="tab" aria-controls="places_tab" role="tab" title="Espacios">
+                            <a href="#spaces_tab" class="nav-link" data-toggle="tab" aria-controls="spaces_tab" role="tab" title="Espacios">
                                 Espacios
                             </a>
                         </li>
@@ -70,8 +70,8 @@
                         <div class="tab-pane active" role="tabpanel" id="organizations_tab">
                             @include('admin.services.partials.list_organizations')
                         </div>
-                        <div class="tab-pane" role="tabpanel" id="places_tab">
-                            @include('admin.services.partials.list_places')
+                        <div class="tab-pane" role="tabpanel" id="spaces_tab">
+                            @include('admin.services.partials.list_spaces')
                         </div>
                     </div> <!-- tab-content -->
                 </div>

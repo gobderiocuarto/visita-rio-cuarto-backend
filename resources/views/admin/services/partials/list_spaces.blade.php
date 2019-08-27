@@ -1,13 +1,13 @@
 <div class="alert alert-info mb-0" role="alert">
-    <form method="POST" action='{{ url("/admin/services/$service->id/places") }}'>
+    <form method="POST" action='{{ url("/admin/services/$service->id/spaces") }}'>
         @csrf
         <div class="form-group row">
-            <label for="place" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar espacio...</h5></label>
+            <label for="space" class="col-md-12 col-form-label"><h5 class="alert-heading">Agregar espacio...</h5></label>
             <div class="col-md-10">
-                <select id="place" name="place" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="" data-size="8" required>
+                <select id="space" name="space" class="form-control form-control-xl selectpicker" data-live-search="true" data-default-value="" data-size="8" required>
                     <option value="">Seleccione...</option>
-                    @foreach ($list_places as $place)
-                    <option value="{{ $place->id }}">{{ $place->name }}</option>
+                    @foreach ($list_spaces as $space)
+                    <option value="{{ $space->id }}">{{ $space->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -26,12 +26,12 @@
         </tr>
     </thead>
     <tbody class="mt-2">
-        @forelse($service_places as $place)
+        @forelse($service_spaces as $space)
             <tr class="table-info">
-                <td><strong>{{ $place->name }}</strong></td>
-                <td>{{ $place->address->street->name }} {{ $place->address->number }}</td>
+                <td><strong>{{ $space->name }}</strong></td>
+                <td>{{ $space->address->street->name }} {{ $space->address->number }}</td>
                 <td width="10px">
-                    <form action="{{ url('admin/services/'.$service->id.'/places/'.$place->id) }}" method="POST">
+                    <form action="{{ url('admin/services/'.$service->id.'/spaces/'.$space->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-sm btn-danger">Desvincular</button>
                     </form>

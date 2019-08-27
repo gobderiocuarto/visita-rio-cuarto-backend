@@ -44,13 +44,12 @@ Route::get('admin/organizations/{search}','Admin\OrganizationController@index');
 
 Route::post('admin/organizations/{organization}/place','Admin\OrganizationController@storePlace');
 
-Route::post('admin/organizations/{organization}/places/{place}','Admin\OrganizationController@destroyPlace');
+Route::post('admin/organizations/{organization}/spaces/{space}','Admin\OrganizationController@destroySpace');
 
 Route::post('admin/organizations/{organization}/addresses/{address}','Admin\OrganizationController@destroyAddress');
 
 # Espacios
-
-Route::resource('admin/places','Admin\PlaceController');
+Route::resource('admin/spaces','Admin\SpaceController');
 
 # Servicios :: recursos
 Route::resource('admin/services','Admin\ServiceController');
@@ -62,10 +61,10 @@ Route::post('admin/services/{service}/organizations','Admin\ServiceController@st
 Route::post('admin/services/{service}/organizations/{organization}','Admin\ServiceController@unlinkOrganization');
 
 # Servicios :: Agregar espacios
-Route::post('admin/services/{service}/places','Admin\ServiceController@storePlace');
+Route::post('admin/services/{service}/spaces','Admin\ServiceController@storeSpace');
 
 # Servicios :: Desvincular espacio
-Route::post('admin/services/{service}/places/{place}','Admin\ServiceController@unlinkPlace');
+Route::post('admin/services/{service}/spaces/{space}','Admin\ServiceController@unlinkSpace');
 
 
 # Eventos 

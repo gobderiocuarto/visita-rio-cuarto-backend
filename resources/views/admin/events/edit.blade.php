@@ -69,11 +69,11 @@
     function loadCalendar(id_event, id_calendar) {
 
         emptyFormCalendar()
-        // $("#event_id").val(id_event)
         const url_api =base_url+'/api/events/'+id_event+'/calendars/'+id_calendar
+
+        console.log(url_api)
         
         $.get(url_api, function(data){
-            console.log(data)
             $('#title_add_edit_calendar').html('Editar Función')
             $("#calendar_id").val(data.id)
             $("#start_date").val(data.start_date)
@@ -255,8 +255,7 @@
                 data: formData,
 
                 success: function (data) {
-
-                    console.log(data)
+                    // console.log(data)
                     if (data.new) { //Calendario Nuevo
                         $("#list_calendar").append(calendarItemTemplate(data.calendar));
                     } else { //Editar calendario

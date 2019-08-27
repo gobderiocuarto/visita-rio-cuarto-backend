@@ -10,15 +10,15 @@ use App\Http\Controllers\Controller;
 
 use App\Category;
 use App\Address;
-use App\Place;
+use App\Space;
 use App\Street;
 use App\Zone;
 
-use App\Http\Requests\PlaceStoreRequest;
+use App\Http\Requests\SpaceStoreRequest;
 
 use Intervention\Image\ImageManagerStatic as Image;
 
-class PlaceController extends Controller
+class SpaceController extends Controller
 {
 
     public function __construct() {
@@ -34,8 +34,8 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        $places = Place::orderBy('id', 'ASC')->paginate();
-        return view('admin.places.index', compact('places'));
+        $spaces = Space::orderBy('id', 'ASC')->paginate();
+        return view('admin.spaces.index', compact('spaces'));
     }
 
     /**
@@ -50,7 +50,7 @@ class PlaceController extends Controller
         // $streets = Street::orderBy('name', 'ASC')->get();
         $streets = $this->getStreets(); // in Controller (parent)
         $zones = Zone::orderBy('name', 'ASC')->get();
-        return view('admin.places.create', compact ('categories', 'streets', 'zones') );
+        return view('admin.spaces.create', compact ('categories', 'streets', 'zones') );
     }
 
     /**
@@ -60,10 +60,10 @@ class PlaceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(PlaceStoreRequest $request)
+    public function store(SpaceStoreRequest $request)
     {
 
-        //dd($request);
+        // dd($request);
 
         # Start transaction
         DB::beginTransaction();
@@ -76,7 +76,7 @@ class PlaceController extends Controller
 
         } else {
 
-            $place = Place::create ([
+            $space = Space::create ([
                   'address_id' => $address->id
                 , 'category_id' => $request->get('category_id')
                 , 'name' => $request->get('name') 
@@ -84,23 +84,23 @@ class PlaceController extends Controller
                 , 'description' => $request->get('description')
             ]);
 
-            if (!$place) {
+            if (!$space) {
                 DB::rollBack();
                 return redirect()->back()->withErrors('Error al crear un espacio');
 
             } else {
 
                 $tags = explode(',', $request->get('tags'));
-                $place->tag($tags);
+                $space->tag($tags);
 
-                foreach ($place->tags as $tag) {
+                foreach ($space->tags as $tag) {
                    $tag->setGroup('Servicios');
                 }
 
-                $place->update();
+                $space->update();
 
                 DB::commit();
-                return redirect()->route('places.edit', $place->id)->with('message', 'Espacio creado con éxito');
+                return redirect()->route('spaces.edit', $space->id)->with('message', 'Espacio creado con éxito');
             }
         }
     }
@@ -125,7 +125,7 @@ class PlaceController extends Controller
     public function edit($id)
     {
 
-        $place = Place::findOrFail($id);
+        $space = Space::findOrFail($id);
 
         $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
         $address = Address::where('id', $id)->first();
@@ -134,11 +134,11 @@ class PlaceController extends Controller
         // $streets = Street::orderBy('name', 'ASC')->get();
         $streets = $this->getStreets(); // in Controller (parent)
 
-        $tags = implode(', ', $place->tagNames());
+        $tags = implode(', ', $space->tagNames());
 
         //dd($array_data);
 
-        return view('admin.places.edit', compact('place','address','streets','zones', 'tags', 'categories'));
+        return view('admin.spaces.edit', compact('space','address','streets','zones', 'tags', 'categories'));
     }
 
     /**
@@ -151,32 +151,32 @@ class PlaceController extends Controller
     public function update(Request $request, $id)
     {
         
-        $place = Place::findOrFail($id);
+        $space = Space::findOrFail($id);
 
         $tags = explode(',', $request->get('tags'));
-        $place->retag($tags);
+        $space->retag($tags);
 
-        foreach ($place->tags as $tag) {
+        foreach ($space->tags as $tag) {
            $tag->setGroup('Servicios');
         }
 
-        $place->address->fill($request->all())->save();
+        $space->address->fill($request->all())->save();
 
-        // dd($place->address);
+        // dd($space->address);
 
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
 
-            $folder_img = 'places/'.$place->id.'/';
+            $folder_img = 'spaces/'.$space->id.'/';
             $thumb_img = $folder_img.'thumbs/';
 
             // Borrar archivos anteriores, si existen
-            if($place->file) {
+            if($space->file) {
 
-                if (Storage::exists($folder_img.$place->file->file_path) ) {
-                    Storage::delete($folder_img.$place->file->file_path);
-                    Storage::delete($thumb_img.$place->file->file_path);
+                if (Storage::exists($folder_img.$space->file->file_path) ) {
+                    Storage::delete($folder_img.$space->file->file_path);
+                    Storage::delete($thumb_img.$space->file->file_path);
                 }  
-                $place->file->delete();
+                $space->file->delete();
             }
 
             // Renombrar archivo entrante
@@ -188,21 +188,21 @@ class PlaceController extends Controller
 
                 $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
 
-                $place->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
+                $space->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
 
                 // DB::commit();
 
-                // return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+                // return redirect()->route('spaces.edit', $space->id)->with('message', 'Espacio actualizado con éxito');
                 
             }
             
         } else {
-            $place->file()->update(['file_alt'=> $request->get('file_alt')]);
+            $space->file()->update(['file_alt'=> $request->get('file_alt')]);
         }
 
-        $place->fill($request->all())->save();
+        $space->fill($request->all())->save();
 
-        return redirect()->route('places.edit', $place->id)->with('message', 'Espacio actualizado con éxito');
+        return redirect()->route('spaces.edit', $space->id)->with('message', 'Espacio actualizado con éxito');
 
         
     }
@@ -215,7 +215,7 @@ class PlaceController extends Controller
      */
     public function destroy($id)
     {
-        $place = Place::findOrFail($id)->delete();
+        $space = Space::findOrFail($id)->delete();
         return back()->with('message', 'Espacio eliminado correctamente');
     }
 

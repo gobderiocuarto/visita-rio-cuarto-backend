@@ -17,7 +17,7 @@
                 <div class="card-body mt-2">
                     @include('admin.layouts.partials.errors_messages')
                     <div class="alert alert-secondary text-right mb-3" >
-                        <a href="{{ route('places.create') }}" class="btn btn-sm btn-primary ">
+                        <a href="{{ route('spaces.create') }}" class="btn btn-sm btn-primary ">
                         Crear espacio
                         </a>
                     </div>
@@ -30,17 +30,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($places as $place)
+                            @forelse($spaces as $space)
                             <tr>
-                                <td>{{ $place->name }}</td>
+                                <td>{{ $space->name }}</td>
                                 <td width="10px">
-                                    <a href="{{ route('places.edit', $place->id) }}" class="btn btn-sm btn-success">Editar</a>
+                                    <a href="{{ route('spaces.edit', $space->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
                                 <td width="10px">
-                                    <form id="form_delete_place_{{ $place->id }}" action='{{ url("/admin/places/$place->id") }}' method="POST">
+                                    <form id="form_delete_space_{{ $space->id }}" action='{{ url("/admin/spaces/$space->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger delete_place" data-id-place="{{ $place->id }}">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-danger delete_space" data-id-space="{{ $space->id }}">Eliminar</button>
                                     </form>             
                                 </td>
                             </tr>
@@ -49,7 +49,7 @@
                             @endforelse
                         </tbody>   
                     </table>
-                    {{ $places->render() }}
+                    {{ $spaces->render() }}
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
     $(document).ready(function(){
 
         // Confirmación de borrado mediante SweetAlert
-        $('.delete_place').click(function() {
+        $('.delete_space').click(function() {
 
             event.preventDefault();
 
@@ -80,7 +80,7 @@
             .then((willDelete) => {
               if (willDelete) {
 
-                let form = "#form_delete_place_"+$(this).data("id-place");
+                let form = "#form_delete_space_"+$(this).data("id-space");
                 $(form).submit();
 
               } else {
