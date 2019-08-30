@@ -71,7 +71,7 @@
         emptyFormCalendar()
         const url_api =base_url+'/api/events/'+id_event+'/calendars/'+id_calendar
 
-        console.log(url_api)
+        // console.log(url_api)
         
         $.get(url_api, function(data){
             $('#title_add_edit_calendar').html('Editar Función')
@@ -302,7 +302,7 @@
                 let id_event = $($calendar).data("event-id")
                 let id_calendar = $($calendar).data("calendar-id")
 
-                console.log(id_event, id_calendar)
+                // console.log(id_event, id_calendar)
 
                 var formData = new FormData($($form)[0]);
 

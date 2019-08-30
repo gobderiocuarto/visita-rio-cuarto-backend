@@ -16,11 +16,16 @@ class Space extends Model
         'category_id', 'address_id', 'name', 'slug', 'description'
     ];
 
+    public function places()
+    {
+        return $this->morphMany('App\Place', 'placeable');
+    }
     
     public function address()
     {
         return $this->belongsTo(Address::class);
     }
+
 
 
     // public function organizations()
@@ -29,10 +34,10 @@ class Space extends Model
     // }
 
 
-    public function organizations()
-    {
-        return $this->morphToMany('App\Organization', 'organizationable')->withPivot('address_type_id', 'address_type_name');
-    }
+    // public function organizations()
+    // {
+    //     return $this->morphToMany('App\Organization', 'organizationable')->withPivot('address_type_id', 'address_type_name');
+    // }
 
 
     // public function files()

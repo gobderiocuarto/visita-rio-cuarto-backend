@@ -29,12 +29,15 @@ Route::get('/admin', function () {
 })->name('admin');
 
 
+# Home
 Route::resource('admin/home','Admin\HomeController');
 
+# Categorias
 Route::resource('admin/categories','Admin\CategoryController');
 
+# Espacios
+Route::resource('admin/spaces','Admin\SpaceController');
 
-# Organizaciones
 
 # Organizaciones :: recursos
 
@@ -44,12 +47,13 @@ Route::get('admin/organizations/{search}','Admin\OrganizationController@index');
 
 Route::post('admin/organizations/{organization}/place','Admin\OrganizationController@storePlace');
 
-Route::post('admin/organizations/{organization}/spaces/{space}','Admin\OrganizationController@destroySpace');
+# Organizaciones :: eliminar place
+Route::post('admin/organizations/{organization}/place/{place_id}','Admin\OrganizationController@destroyPlace');
 
-Route::post('admin/organizations/{organization}/addresses/{address}','Admin\OrganizationController@destroyAddress');
+// Route::post('admin/organizations/{organization}/addresses/{address}','Admin\OrganizationController@destroyAddress');
 
-# Espacios
-Route::resource('admin/spaces','Admin\SpaceController');
+# Places
+Route::resource('admin/places','Admin\PlaceController');
 
 # Servicios :: recursos
 Route::resource('admin/services','Admin\ServiceController');

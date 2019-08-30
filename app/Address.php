@@ -14,15 +14,21 @@ class Address extends Model
     protected $appends = ['street'];
 
 
-    public function organizations()
-    {
-        return $this->morphToMany('App\Organization', 'organizationable')->withPivot('address_type_id', 'address_type_name');
-    }
+    // public function organizations()
+    // {
+    //     return $this->morphToMany('App\Organization', 'organizationable')->withPivot('address_type_id', 'address_type_name');
+    // }
 
    
     public function spaces()
     {
         return $this->hasMany(Space::class);
+    }
+
+
+    public function places()
+    {
+        return $this->morphMany('App\Place', 'placeable');
     }
 
 
@@ -46,7 +52,19 @@ class Address extends Model
 
         $key = array_search($this->street_id, array_column($streets , 'id'));
 
-        return (object)$streets[$key];
+        if (!$key) {
+
+            $street = [
+                "id" => "xxx",
+                "name" => "Guillermo",
+                "slug" => ""
+            ];
+            return (object)$street;
+        } else {
+
+            return (object)$streets[$key];
+        }
+
 
     }
 

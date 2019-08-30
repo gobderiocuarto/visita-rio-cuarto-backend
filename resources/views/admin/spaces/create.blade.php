@@ -83,11 +83,6 @@
                             <div class="col-md-3">
                                 <input name="number" id="number" type="number" class="form-control" value="{{ old('number') }}" required>
                             </div>
-
-                            <label for="floor" class="col-md-2 col-form-label text-md-right">Piso / Dpto</label>
-                            <div class="col-md-3">
-                                <input name="floor" id="floor" type="text" class="form-control" value="{{ old('floor') }}">
-                            </div>
                         </div>
                         <div class="form-group row">
                             <label for="lat" class="col-md-3 col-form-label text-md-right">Latitud</label>
