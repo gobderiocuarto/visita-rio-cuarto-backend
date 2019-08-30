@@ -31,13 +31,6 @@
                 </select>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="tags_events" class="col-md-3 col-form-label text-md-right">Categorías asociadas</label>
-            <div class="col-md-8">
-                <input name="tags_events" id="tags_events" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_events }}"  placeholder="Etiquetas">
-                <small class="form-text text-muted mt-2">Separar mediante comas</small>
-            </div>
-        </div>
         <hr/>
         <div class="form-group row">
             <label for="organizer" class="col-md-3 col-form-label text-md-right">Organizador</label>
