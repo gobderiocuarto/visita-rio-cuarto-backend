@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 
 use App\Event;
 use App\Category;
-use App\Space;
 use App\Place;
 use App\Address;
 use App\Calendar;
@@ -48,7 +47,6 @@ class EventController extends Controller
      */
     public function index()
     {
-
         $events = Event::orderBy('title', 'ASC')->paginate();
 
         return view('admin.events.index', compact('events'));
@@ -61,7 +59,13 @@ class EventController extends Controller
      */
     public function create()
     {
-        // $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        // echo ("<pre>");print_r("hi");echo ("</pre>"); exit();
+
+        // $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
+        // $spaces = Place::orderBy('name', 'ASC')->get();
+        // $streets = Street::orderBy('name', 'ASC')->get();
+        $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+
         return view('admin.events.create');
     }
 
@@ -74,17 +78,26 @@ class EventController extends Controller
     public function store(EventStoreRequest $request)
     {
         # Start transaction
-        // DB::beginTransaction();
+        DB::beginTransaction();
 
         $event = Event::create($request->all());
 
+        $tags = explode(',', $request->get('tags'));
+        $event->tag($tags);
+
+        foreach ($event->tags as $tag) {
+           $tag->setGroup('Eventos');
+        }
+
         $result = $event->update();
 
+        // echo ("<pre>");print_r($event->toArray());echo ("</pre>"); exit();
+
         if ($result) {
-            // DB::commit();
+            DB::commit();
             return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
         } else {
-            // DB::rollBack();
+            DB::rollBack();
             return back()->withErrors('Error al crear el evento');
         }
     }
@@ -108,65 +121,93 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( Event $event)
+    public function edit($id)
     {
         
+        $zones = $addresses_types = $streets = array();
+        
+        $event = Event::with('calendars')->findOrFail($id);
+        
+        #Listado total de organizaciones activas
+        $organizations = Organization::where('state', 1)->orderBy('name')->with('addresses')->with('spaces.address')->get();
+        
+        #Determinar ubicación actual del evento
+        $place = NULL;
+        if ($event->place_id) {
+
+            $org = Organization::Join('organizationables', 'organizationables.organization_id','organizations.id')
+                                    ->where('organizationables.id', $event->place_id)
+                                    ->select('organizations.*','organizationables.organizationable_id','organizationables.organizationable_type' )
+                                    ->first();
+
+            // var_dump($org); exit();
+
+            if($org){
+                $org = $org->toArray();
+                switch ($org['organizationable_type']) {
+                    case 'App\Space':
+                        $actual_space = Space::with('address')->where('id',$org['organizationable_id'])->first();
+                        $place = $org['name']." - ".$actual_space->name." - ".$actual_space->address->street->name." ".$actual_space->address->number;
+                        // echo ('<pre>');print_r($space);echo ('</pre>'); exit();
+        
+                        // $actual_space['organization'] =
+                        break;
+                    case 'App\Address':
+                        $actual_address = Address::where('id',$org['organizationable_id'])->first();
+                        $place = $org['name']." ".$actual_address->street->name." ".$actual_address->number;
+                        // echo ('<pre>');print_r($space);echo ('</pre>'); exit();
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            }
+        }
+
+    
+        // $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+        // $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
+        // $streets = $this->getStreets();
+
         #Manejo de Tags 
         // dd($event->tagNames());
 
-        # Recuperar los tags agrupados en categoria eventos, para mostrar en el select
-        $tags_group_events = Tag::inGroup('Eventos')->get()->toArray();
-
-        # Recuperar Tag categorizados bajo grupo "Eventos", asociados al evento puntual
-        $tags_events = ''; // mostrar categorias como etiquetas separadas por coma
-        $tags_in_event = []; // mostrar como select de categorias
-
+        # Recuperar Tag agrupados bajo "Eventos", pertenecientes al evento puntual
         $group_type = 'App\Event';
+
+        $tags_events = '';
+        $array_tags_in_event = [];
         $array_tags_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
         ->join('tagging_tag_groups','tagging_tags.tag_group_id','tagging_tag_groups.id')
-        ->where('tagging_tagged.taggable_id', $event->id )
+        ->where('tagging_tagged.taggable_id', $id )
         ->where('tagging_tagged.taggable_type', $group_type )
         ->where('tagging_tag_groups.slug', 'eventos')
         ->select('tagging_tags.name')
         ->get()->toArray();
 
         foreach ($array_tags_events as $key => $tag) {
-            $tags_events .= $tag ['name'].', '; 
-            $tags_in_event[] = $tag ['name']; 
+            $tags_events .= $tag ['name'].', ';
+            $array_tags_in_event[] = $tag ['name'];
         }
 
-        // Recuperar Tag NO categorizados, asociados al evento puntual
+        // Recuperar Tag NO AGRUPADOS 
         $tags_no_events = '';
 
         $array_tags_no_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
-        ->where('tagging_tagged.taggable_id', $event->id )
+        ->where('tagging_tagged.taggable_id', $id )
         ->where('tagging_tagged.taggable_type', $group_type)
         ->where('tagging_tags.tag_group_id','=',NULL)
         ->get()->toArray();
 
         foreach ($array_tags_no_events as $key => $tag) {
-            $tags_no_events .= $tag ['name'].', '; // mostrar como etiquetas separadas por coma
+            $tags_no_events .= $tag ['name'].', ';
         }
 
-        # Determinar lugar / ubicación actual del evento
-        $actual_place = '';
-        if ($event->place_id) {
+        //Traer todos los tags agrupados en eventos
+        $group_events = Tag::inGroup('Eventos')->get()->toArray();
 
-            $place = Place::with('organization')->find($event->place_id);
-            $actual_place = $place->organization->name.' - ';
-
-            if ($place->placeable_type == 'App\Space') {
-                $actual_place .=  $place->placeable->address->street->name.' '.$place->placeable->address->number.', '.$place->placeable->name;
-            } else if ($place->placeable_type == 'App\Address') {
-                $actual_place .=  $place->placeable->street->name.' '.$place->placeable->number;
-            }
-        }
-
-        # Listado total de organizaciones (y sus lugares) habilitadas
-        $list_orgs = Organization::where('state', 1)->orderby('name', 'ASC')->get();
-
-        return view('admin.events.edit', compact('event', 'list_orgs', 'actual_place',  'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events'));
-
+        return view('admin.events.edit', compact('event', 'organizations', 'place',  'group_events', 'array_tags_in_event', 'tags_events', 'tags_no_events', 'addresses_types', 'streets'));
     }
 
 
@@ -210,7 +251,9 @@ class EventController extends Controller
         $tags =  array_merge($tags_events, $tags_no_events);
         $event->retag($tags);
 
+        // echo ("<pre>");print_r($event->tagNames());echo ("</pre>"); exit();
 
+        
         # Actualizar evento
         // $result = $event->fill($request->all())->save();
         $place = $event->place_id;

@@ -22,15 +22,20 @@ class Organization extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function places()
+    {
+        return $this->hasMany(Place::class);
+    }
+
     // public function addresses()
     // {
     //     return $this->belongsToMany(Address::class)->withPivot('address_type_id', 'address_type_name');
     // }
 
-    public function addresses()
-    {
-        return $this->morphedByMany('App\Address', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
-    }
+    // public function addresses()
+    // {
+    //     return $this->morphedByMany('App\Address', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
+    // }
 
     // public function spaces()
     // {
@@ -38,10 +43,10 @@ class Organization extends Model
     // }
 
 
-    public function spaces()
-    {
-        return $this->morphedByMany('App\Space', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
-    }
+    // public function spaces()
+    // {
+    //     return $this->morphedByMany('App\Space', 'organizationable')->withPivot('id','address_type_id', 'address_type_name');
+    // }
     
 
     public function file()

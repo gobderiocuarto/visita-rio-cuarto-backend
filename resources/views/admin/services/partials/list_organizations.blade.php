@@ -36,20 +36,22 @@
                     </form>
                 </td>
             </tr>
-            @foreach($organization->spaces as $space)
+            @foreach($organization->places as $place)
             <tr>
-                <td><span class="font-italic">{{ $space->pivot->address_type_name }}</span></td>
-                <td colspan="3">{{ $space->address->street->name }} {{ $space->address->number }}@if($space->address->floor)- {{ $space->address->floor }}@endif- <strong>{{$space->name}}</strong></td>
-            </tr>                                
-            @endforeach
-            @foreach($organization->addresses as $address)
-            <tr>
-                <td><span class="font-italic">{{ $address->pivot->address_type_name }}</span></td>
-                <td colspan="3">
-                    {{$address->street->name}} {{$address->number}}
-                    @if($address->floor)- {{ $address->floor }}@endif
-                    @if($address->zone)- <strong>{{$address->zone->name}}</strong>@endif
+                <td><span class="font-italic">{{ $place->address_type_name }}</span></td>
+                @if ($place->placeable_type == 'App\Space')
+                <td><span>
+                <strong>{{ $place->placeable->name }}</strong>
+                {{ $place->placeable->address->street->name }}
+                {{ $place->placeable->address->number }}
+                </span>
                 </td>
+                @elseif ($place->placeable_type == 'App\Address')
+                <td colspan="3">
+                {{ $place->placeable->street->name }} 
+                {{ $place->placeable->number }}
+                </td>
+                @endif
             </tr>                                
             @endforeach
         @empty
