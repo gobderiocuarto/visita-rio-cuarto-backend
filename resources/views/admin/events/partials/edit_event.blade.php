@@ -22,10 +22,10 @@
             <label for="tags_events" class="col-md-3 col-form-label text-md-right">Categorías asociadas</label>
             <div class="col-md-8">
                 <select multiple="multiple" size="5" id="select_mult" name="select_mult[]" class="form-control form-control-xl" required>
-                    @foreach ($group_events as $tag_event)
-                    <option value="{{ $tag_event['name'] }}"  @if (in_array( $tag_event['name'], $array_tags_in_event))
+                    @foreach ($tags_group_events as $category)
+                    <option value="{{ $category['name'] }}"  @if (in_array( $category['name'], $tags_in_event))
     selected="selected" @endif>
-                        {{ $tag_event['name'] }}
+                        {{ $category['name'] }}
                     </option>
                     @endforeach
                 </select>
@@ -82,36 +82,29 @@
         <div class="form-group row">
             <label for="space" class="col-md-3 col-form-label text-md-right">Ubicación del Evento</label>
             <div class="col-md-8">
-                @if ($place)
-                <input name="place" id="place" type="text" class="form-control" value="{{ $place }}" readonly>
+                @if ($actual_place)
+                <input name="place" id="place" type="text" class="form-control" value="{{ $actual_place }}" readonly>
                 @else
                 <input name="place" id="place" type="text" class="form-control" value="" placeholder="Aún no se ha seleccionado ubicación" readonly>
                 @endif
             </div>
         </div>
         <div class="form-group row">
-            <label for="space_id" class="col-md-3 col-form-label text-md-right">Asignar nueva ubicación</label>
+            <label for="place_id" class="col-md-3 col-form-label text-md-right">Asignar nueva ubicación</label>
             <div class="col-md-8">
                 <select id="place_id" name="place_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8">
                     <option value="">Selecciona...</option>
-                    @foreach($organizations as $organization)
-                        @if (!empty($organization->spaces))
-                        @foreach($organization->spaces as $space)
-                        <option value="{{ $space->pivot->id }}">
-                            ({{ $space->pivot->id }})
-                            {{ $organization->name }} - {{ $space->name }} - 
-                            {{ $space->address->street->name }} {{ $space->address->number }}
+                    @foreach($list_orgs as $organization)
+                        @foreach($organization->places as $place)
+                        <option value="{{ $place->id }}">
+                            {{ $organization->name }} - 
+                            @if ($place->placeable_type == 'App\Space')
+                            {{ $place->placeable->address->street->name }} {{ $place->placeable->address->number }}, {{ $place->placeable->name }}
+                            @elseif ($place->placeable_type == 'App\Address')
+                            {{ $place->placeable->street->name }} {{ $place->placeable->number }}
+                            @endif
                         </option>
                         @endforeach
-                        @endif
-                        @if (!empty($organization->addresses))
-                        @foreach($organization->addresses as $address)
-                        <option value="{{ $address->pivot->id }}">
-                            ({{ $address->pivot->id }})
-                            {{ $organization->name }} - {{ $address->street->name }} {{ $address->number }}
-                        </option>
-                        @endforeach
-                        @endif
                     @endforeach
                 </select>
             </div>

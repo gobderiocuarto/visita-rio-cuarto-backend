@@ -17,41 +17,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                @if (count($organization->spaces) === 0 and count($organization->addresses) === 0)
+                @if (count($organization->places) === 0)
                     <tr>
                         <td colspan="4"><strong>Aún no se han asociado direcciones</strong></td>
                     </tr>
                 @else
-                    @foreach($organization->spaces as $space)
+                    @foreach($organization->places as $place)
                     <tr>
-                        <td><strong>{{ $space->pivot->address_type_name }}</strong></td>
-                        <td>{{ $space->address->street->name }} {{ $space->address->number }}, <strong>{{ $space->name }}</strong></strong></td>
+                        <td><strong>{{ $place->address_type_name }}</strong></td>
+                        @if ($place->placeable_type == 'App\Space')
+                        <td>{{ $place->placeable->address->street->name }} {{ $place->placeable->address->number }} <strong>{{ $place->placeable->name }}</strong></td>
+                        @elseif($place->placeable_type == 'App\Address')
+                        <td>{{ $place->placeable->street->name }} {{ $place->placeable->number }}</td>
+                        @endif
                         <td width="10px">
-                            <button type="button" class="btn btn-sm btn-success places_btn_edit" data-rel-type="space" data-rel-value="{{ $space->id }}">
-                                Editar
+                            <button type="button" class="btn btn-sm btn-success places_btn_edit" data-place-id="{{ $place->id }}" data-org-id="{{ $organization->id }}">
+                            Editar
                             </button>
                         </td>
                         <td width="10px">
-                            <form id="form_delete_space_{{ $space->id }}" action='{{ url("/admin/organizations/$organization->id/spaces/$space->id") }}' method="POST">
+                            <form id="form_delete_place_{{ $place->id }}" action='{{ url("/admin/organizations/$organization->id/place/$place->id") }}' method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger delete_location">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @foreach($organization->addresses as $address)
-                    <tr>
-                        <td><strong>{{ $address->pivot->address_type_name }}</strong></td>
-                        <td>{{ $address->street->name }} {{ $address->number }}</td>
-                        <td width="10px">
-                            <button type="button" class="btn btn-sm btn-success places_btn_edit" data-rel-type="address" data-rel-value="{{ $address->id }}">
-                                Editar
-                            </button>
-                        </td>
-                        <td width="10px">
-                            <form id="form_delete_address_{{ $address->id }}" action='{{ url("/admin/organizations/$organization->id/addresses/$address->id") }}' method="POST">
-                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger delete_location">Eliminar</button>
+                                <button type="submit" class="btn btn-sm btn-danger places_btn_delete">Eliminar</button>
                             </form>
                         </td>
                     </tr>

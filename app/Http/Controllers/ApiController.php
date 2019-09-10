@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Address;
 use App\Organization;
+// use App\Space;
+use App\Place;
 use App\Space;
 use App\Event;
 use App\Calendar;
@@ -21,35 +23,35 @@ use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
-	//Traer datos de espacio por ej. para agregar a org
+    # Traer datos de espacio por ej. para asociar a una ubicacion 
 	public function getSpace($id)
     {
-        $space =  Space::with('organizations', 'address.zone')->findOrFail($id);
-
+        $space =  Space::with('address.zone')->findOrFail($id);
         return $space;
+
     }
 
 
-    public function getAddress($id)
-    {
+    // public function getAddress($id)
+    // {
 
-        $address =  Address::with('zone')->findOrFail($id);
+    //     $address =  Address::with('zone')->findOrFail($id);
 
-        return $address;
+    //     return $address;
 
-        $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
+    //     $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
 
-        $key = array_search($address->street_id, array_column($streets , 'id'));
+    //     $key = array_search($address->street_id, array_column($streets , 'id'));
 
-        $address = $address->toArray();
+    //     $address = $address->toArray();
 
-        $address['street'] = $streets [$key];
+    //     $address['street'] = $streets [$key];
 
-        return $address;
+    //     return $address;
 
-        // $address =  Address::with('street', 'zone')->findOrFail($id);
-        //return $address;
-    }
+    //     // $address =  Address::with('street', 'zone')->findOrFail($id);
+    //     //return $address;
+    // }
 
 
 
@@ -59,12 +61,29 @@ class ApiController extends Controller
     // ----------------------------------------------------------------
     // ----------------------------------------------------------------
 
-    public function getOrganizationSpace($organization, $space)
+    public function getOrganizationPlace($organization, $place)
     {
-        $organization = Organization::findOrFail($organization);
+        
+        // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+        // $organization = Organization::findOrFail($organization);
+        //tr
+        $place = Place::findOrfail($place);
+
+        if($place->placeable_type == 'App\\Space') {
+
+            $place->placeable->address->street;
+
+        } else {
+            // echo ('<pre>');print_r("no place");echo ('</pre>'); exit();
+
+            $place->placeable->street;
+        }
+
+        return $place;
+
         
         // return $organization->spaces()->with('address.street')->where('spaces.id', $space )->first();
-        return $organization->spaces()->with('address')->where('spaces.id', $space )->first();
+        // return $organization->spaces()->with('address')->where('spaces.id', $space )->first();
     }
 
 

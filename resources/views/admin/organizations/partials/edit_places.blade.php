@@ -50,11 +50,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="row">
-                        <label for="floor" class="col-md-12 col-form-label">Piso / Dpto / Oficina</label>
+                        <label for="apartament" class="col-md-12 col-form-label">Piso / Dpto / Oficina</label>
                         <div class="col-md-10">
-                            <input name="floor" id="floor" type="text" class="form-control" value="{{ old('depto') }}">
+                            <input name="apartament" id="apartament" type="text" class="form-control" value="{{ old('apartament') }}">
                         </div>
                     </div>
                 </div>                
@@ -101,7 +101,8 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" id="organization" name="organization" value="{{ $organization->id }}">
+        <input type="hidden" id="organization_id" name="organization_id" value="{{ $organization->id }}">
+        <input type="hidden" id="place_id" name="place_id" value="0">
         <input type="hidden" id="rel_type" name="prev_rel_type" @if(Session::has('action')) value="{{ Session::get('action.type') }}" @else value="" @endif>
         <input type="hidden" id="rel_value" name="prev_rel_value" @if(Session::has('action')) value="{{ Session::get('action.value') }}" @else value="" @endif>
     </form>

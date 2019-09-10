@@ -21,7 +21,7 @@ Route::get('/spaces/{space_id}', 'ApiController@getSpace');
 
 Route::get('/addresses/{address_id}', 'ApiController@getAddress');
 
-Route::get('organizations/{organization_id}/spaces/{space_id}', 'ApiController@getOrganizationSpace');
+Route::get('organizations/{organization_id}/places/{place_id}', 'ApiController@getOrganizationPlace');
 
 Route::get('organizations/{organization_id}/addresses/{address_id}', 'ApiController@getAddressOrganization');
 

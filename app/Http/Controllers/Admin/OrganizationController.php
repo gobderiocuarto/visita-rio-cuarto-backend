@@ -8,10 +8,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+// Para Redireccionar mediante ancla
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+
 use App\Address;
 use App\AddressType;
 use App\Category;
 use App\Organization;
+use App\Place;
 use App\Space;
 use App\Street;
 use App\Zone;
@@ -137,8 +142,16 @@ class OrganizationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+    
     {
         $organization = Organization::findOrFail($id);
+        // $organization = Organization::with('places.placeable')->findOrFail($id);
+        // echo ('<pre>');print_r($organization);echo ('</pre>'); exit();
+        
+        // foreach ($organization->places as $key => $place) {
+        //     echo ('<pre>');print_r($place->placeable);echo ('</pre>'); exit();
+        //     # code...
+        // }
 
         //dd($organization->spaces);
 
@@ -147,6 +160,7 @@ class OrganizationController extends Controller
         $categories = Category::orderBy('name', 'ASC')->where('category_id',0)->where('state',1)->get();
 
         $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
+
         $spaces = Space::orderBy('name', 'ASC')->get();
        
         $streets = $this->getStreets();
@@ -169,7 +183,7 @@ class OrganizationController extends Controller
     public function update(OrganizationUpdateRequest $request, $id)
     {
 
-        //dd($request->all());
+        // dd($request->all());
 
         $organization = Organization::findOrFail($id);
 
@@ -231,106 +245,271 @@ class OrganizationController extends Controller
 
 
 
-    public function storePlace(Request $request, $org_id)
+    public function storePlace(Request $request, Organization $organization)
     {
 
-        // dd($request->all());
-        $organization = Organization::with('addresses', 'spaces')->findOrFail($org_id);
-        
-        //dd($request->get('address_type_name'));
+        // dd($request->all());exit();
 
+        # Tipo de ubicación
         $address_type_id = $request->get('address_type');
 
-        // Determino el nombre del tipo de dirección
+        // Determino el nombre del tipo de ubicación
         if ($request->get('address_type') === "0"){ // nuevo tipo de ubicación
 
             $address_type_name =  $request->get('address_type_name');
 
         } else {
             // Selecciona el tipo de ubicación del listado de la db
-            $address_type_name = AddressType::findOrFail($address_type_id)->name;
+            $address_type_name = AddressType::find($address_type_id)->name;
             
         }
+
+        # END Tipo de ubicación
 
         # Start transaction
         // DB::beginTransaction();
 
-        if($request->space) { // asocia space a org
+        if ($request->place_id == 0) { //creacion de ubicacion
 
-            // Determinar si el espacio ya esta asociado a la org
-            $exist = $organization->spaces()->where('organizationable_id', $request->space)
-            ->where('organizationable_type', 'App\Space')->first();
+            if($request->space) { // asociar space a org
 
-            if(!empty($exist)) {
+                // dd($request->all());exit();
+                # Determinar si el espacio ya esta asociado a la org a traves de una ubicación
+                $exist_place = Place::where('organization_id', $organization->id)
+                            ->where('placeable_type', 'App\Space')
+                            ->where('placeable_id', $request->space)
+                            ->get()->toArray();
+                if ($exist_place) {
 
-                //dd($exist);
-                // DB::rollBack();
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('La ubicación elegida ya se encuentra asociada');
+                    // DB::rollBack();
+                    return Redirect::to(URL::previous() . "#places_tab")->withErrors('La ubicación elegida ya se encuentra asociada');
 
-            } else {
 
-                // Elimino relacion anterior de ubicación
-                if ($request->get('prev_rel_type') === "space"){
+                } else { // address
 
-                    $organization->spaces()->detach($request->get('prev_rel_value'));
+                    // echo ("<pre>");print_r("No existe");echo ("</pre>"); exit();
 
-                } else if ($request->get('prev_rel_type') === "address"){
-
-                    $organization->addresses()->detach($request->get('prev_rel_value'));
-                    Address::find($request->get('prev_rel_value'))->delete();
-
+                    $place = Place::create([
+                        'organization_id' => $organization->id,
+                        'placeable_type' => 'App\Space',
+                        'placeable_id' => $request->get('space'),
+                        'address_type_id' => $request->get('address_type'),
+                        'address_type_name' => $request->get('address_type_name'),
+                        'apartament' => $request->get('apartament')
+                    ]);
 
                 }
+            
+            } else { // asociar address a org
 
-                $organization->spaces()->attach($request->space, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
+                //Planteear reutilizacion de Address con mismo indice compuesto de calle y numero
+                $address = Address::create($request->all());
 
-                // $this->setStorageResponse('space', $request->space);
-                // DB::commit();
-
-                return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
-                        ->with('message', 'Se actualizó correctamente la ubicación')
-                        ->with('action', ['type' => 'space', 'value' => $request->space ]);
+                $place = Place::create([
+                    'organization_id' => $organization->id,
+                    'placeable_type' => 'App\Address',
+                    'placeable_id' => $address->id,
+                    'address_type_id' => $request->get('address_type'),
+                    'address_type_name' => $request->get('address_type_name'),
+                    'apartament' => $request->get('apartament')
+                ]);
 
             }
 
-        } else { // asocia address a org
+            // DB::rollBack();
+            return redirect('admin/organizations/'. $organization->id.'/edit#places_tab')
+                        ->with('message', 'Se asoció correctamente la ubicación');
 
-            //dd($request);
 
-            // Si existe, elimino relacion con ubicación anterior
-            if ($request->get('prev_rel_type') === "space"){
+        } else { // edicion de ubicacion
 
-                $organization->spaces()->detach($request->get('prev_rel_value'));
+            $place = Place::findOrFail($request->get('place_id'));
+
+            if($request->space) { // asociar space a org
+
+                # Determinar si el espacio ya esta asociado a la org a traves de una ubicación
+                $exist_place = Place::where('organization_id', $organization->id)
+                            ->where('placeable_type', 'App\Space')
+                            ->where('placeable_id', $request->get('space'))
+                            ->where('id', '!=', $request->get('place_id'))
+                            ->get()->toArray();
+
+                if ($exist_place) {
+
+                    // DB::rollBack();
+                    return Redirect::to(URL::previous() . "#places_tab")->withErrors('La ubicación elegida ya se encuentra asociada');
+
+                } else {
+
+                    $place->update([
+                        'organization_id' => $organization->id,
+                        'placeable_type' => 'App\Space',
+                        'placeable_id' => $request->get('space'),
+                        'address_type_id' => $request->get('address_type'),
+                        'address_type_name' => $request->get('address_type_name'),
+                        'apartament' => $request->get('apartament')
+                    ]);
+                    
+                }
+
+            
+            } else { // asociar address a org
+
+                //Planteear reutilizacion de Address con mismo indice compuesto de calle y numero
                 $address = Address::create($request->all());
+
+                $result = $place->update([
+                    'organization_id' => $organization->id,
+                    'placeable_type' => 'App\Address',
+                    'placeable_id' => $address->id,
+                    'address_type_id' => $request->get('address_type'),
+                    'address_type_name' => $request->get('address_type_name'),
+                    'apartament' => $request->get('apartament')
+                ]);
+                
+            }
+            // DB::rollBack();
+            return redirect('admin/organizations/'. $organization->id.'/edit#places_tab')
+                    ->with('message', 'Se actualizó correctamente la ubicación');
+
+
+        }
+
+        // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+
+        // # Lugares previamente asociados a la org
+        
+        // if($request->space) { // asociar space a org
+
+        //     if ($request->place_id == 0) {
+        //         // $place = Place
+        //     }
+            
+        //     // Determinar si el espacio ya esta asociado a la org
+            
+        //     // $address = Address::where(organization_id);
+        //     $space = Space::find($request->space);
+
+        //     $placeable = $space->places->where('id', $request->get('place_id') );
+
+        //     // var_dump($space->places); exit();
+
+        //     echo ('<pre>');print_r($placeable);echo ('</pre>'); exit();
+
+            
+        //     $exist = $space->places->where('id', $request->get('place_id'));
+        //     var_dump($exist); exit();
+        //     echo ('<pre>');print_r($space->places);echo ('</pre>'); exit();
+        //     // ->where('placeable_type', 'App\Space')
+        //     // ->where('placeable_id', $request->space);
+            
+
+        //     // Determinar si el espacio ya esta asociado a la org
+        //     // $exist = $organization->spaces()->where('organizationable_id', $request->space)
+        //     // ->where('organizationable_type', 'App\Space')->first();
+
+        //     if(!empty($exist->toArray())) {
+
+        //         // DB::rollBack();
+        //         return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('La ubicación elegida ya se encuentra asociada');
+
+        //     } else {
+
+        //         // // Elimino relacion anterior de ubicación
+        //         // if ($request->get('prev_rel_type') === "space"){
+
+        //         //     $organization->spaces()->detach($request->get('prev_rel_value'));
+
+        //         // } else if ($request->get('prev_rel_type') === "address"){
+
+        //         //     $organization->addresses()->detach($request->get('prev_rel_value'));
+        //         //     Address::find($request->get('prev_rel_value'))->delete();
+
+
+        //         // }
+
+        //         // dd($request->all());
+
+        //         $place = Place::create([
+        //             'organization_id' => $request->get('organization_id'),
+        //             'placeable_type' => 'App\Space',
+        //             'placeable_id' => $request->get('space'),
+        //             'address_type_id' => $address_type_id,
+        //             'address_type_name' => $address_type_name,
+        //             'apartament' => $request->get('apartament')
+        //         ]);
+
+        //         return redirect('admin/organizations/'. $organization->id.'/edit#places_tab')
+        //                 ->with('message', 'Se actualizó correctamente la ubicación');
+
+        //         // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+
+        //         // $organization->spaces()->attach($request->space, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
+
+        //         // // $this->setStorageResponse('space', $request->space);
+        //         // // DB::commit();
+
+
+        //     }
+
+        // } else { // asocia address a org
+
+        //     //dd($request);
+
+        //     // Si existe, elimino relacion con ubicación anterior
+        //     if ($request->get('prev_rel_type') === "space"){
+
+        //         $organization->spaces()->detach($request->get('prev_rel_value'));
+        //         $address = Address::create($request->all());
                
 
-            } else if ($request->get('prev_rel_type') === "address"){
+        //     } else if ($request->get('prev_rel_type') === "address"){
 
-                $organization->addresses()->detach($request->get('prev_rel_value'));
-                $address = Address::find($request->get('prev_rel_value'));
-                $address->fill($request->all())->save();
-                // dd($address);
+        //         $organization->addresses()->detach($request->get('prev_rel_value'));
+        //         $address = Address::find($request->get('prev_rel_value'));
+        //         $address->fill($request->all())->save();
+        //         // dd($address);
 
-            } else {
+        //     } else {
 
-                $address = Address::create($request->all());
+        //         $address = Address::create($request->all());
 
-            }
+        //     }
 
-            $organization->addresses()->attach($address->id, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
+        //     $organization->addresses()->attach($address->id, ['address_type_name' => $address_type_name, 'address_type_id' => $request->get('address_type')]);
             
-            // DB::commit();
-            return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
-                                ->with('message', 'Ubicación asociada con éxito')
-                                ->with('action', ['type' => 'address', 'value' => $address->id ]);
+        //     // DB::commit();
+        //     return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')
+        //                         ->with('message', 'Ubicación asociada con éxito')
+        //                         ->with('action', ['type' => 'address', 'value' => $address->id ]);
 
-            // } else {
+        //     // } else {
 
-            //     DB::rollBack();
+        //     //     DB::rollBack();
 
-            //     return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('Error al crear la dirección');
-            // }
+        //     //     return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->withErrors('Error al crear la dirección');
+        //     // }
 
+        // }
+
+    }
+
+
+    public function destroyPlace($org_id, $place_id)
+    {
+        // $organization = Organization::findOrFail($org_id);
+        // $organization->spaces()->detach($space_id);
+
+        // DB::beginTransaction();
+
+        $place = Place::where('id', $place_id)->where('organization_id', $org_id)->delete();
+
+        // DB::rollBack();
+
+        if ($place) {
+            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->with('message', 'Ubicación eliminada correctamente');
+        } else {
+            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->withErrors('Error al eliminar la ubicación');
         }
 
     }
@@ -352,12 +531,5 @@ class OrganizationController extends Controller
     }
 
 
-    public function destroySpace($org_id, $space_id)
-    {
-        $organization = Organization::findOrFail($org_id);
-        $organization->spaces()->detach($space_id);
-
-        return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Ubicación desvinculada correctamente');
-    }
 
 }

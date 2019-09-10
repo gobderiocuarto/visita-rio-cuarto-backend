@@ -84,12 +84,7 @@
                             <label for="number" class="col-md-3 col-form-label text-md-right">Número (*)</label>
                             <div class="col-md-3">
                                 <input name="number" id="number" type="number" class="form-control" value="{{ $space->address->number }}" required>
-                            </div>
-
-                            <label for="floor" class="col-md-2 col-form-label text-md-right">Piso / Dpto</label>
-                            <div class="col-md-3">
-                                <input name="floor" id="floor" type="text" class="form-control" value="{{ $space->address->floor }}">
-                            </div>
+                            </div>                            
                         </div>
                         <div class="form-group row">
                             <label for="lat" class="col-md-3 col-form-label text-md-right">Latitud</label>
