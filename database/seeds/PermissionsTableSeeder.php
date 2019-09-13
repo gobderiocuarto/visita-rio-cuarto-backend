@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+
 use Caffeinated\Shinobi\Models\Permission;
 
 class PermissionsTableSeeder extends Seeder
@@ -12,30 +13,63 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        Permission::Create ([
-                'name' => 'Listar Eventos',
-                'slug' => 'events.index',
-                'description' => 'Puede listar y navegar eventos'
+        //Users
+        Permission::create([
+            'name'          => 'Navegar usuarios',
+            'slug'          => 'users.index',
+            'description'   => 'Lista y navega todos los usuarios del sistema',
         ]);
-        Permission::Create ([
-                'name' => 'Crear Evento',
-                'slug' => 'events.create',
-                'description' => 'Puede crear un Evento'
+
+        Permission::create([
+            'name'          => 'Ver detalle de usuario',
+            'slug'          => 'users.show',
+            'description'   => 'Ve en detalle cada usuario del sistema',            
         ]);
-        Permission::Create ([
-                'name' => 'Ver Evento',
-                'slug' => 'events.show',
-                'description' => 'Puede ver el detalle de un Evento'
+        
+        Permission::create([
+            'name'          => 'Edición de usuarios',
+            'slug'          => 'users.edit',
+            'description'   => 'Podría editar cualquier dato de un usuario del sistema',
         ]);
-        Permission::Create ([
-                'name' => 'Editar Evento',
-                'slug' => 'events.edit',
-                'description' => 'Puede editar el detalle de un Evento'
+        
+        Permission::create([
+            'name'          => 'Eliminar usuario',
+            'slug'          => 'users.destroy',
+            'description'   => 'Podría eliminar cualquier usuario del sistema',      
         ]);
-        Permission::Create ([
-                'name' => 'Eliminar Evento',
-                'slug' => 'events.destroy',
-                'description' => 'Puede eliminar un Evento'
+
+        //Roles
+        Permission::create([
+            'name'          => 'Navegar roles',
+            'slug'          => 'roles.index',
+            'description'   => 'Lista y navega todos los roles del sistema',
         ]);
+
+        Permission::create([
+            'name'          => 'Ver detalle de un rol',
+            'slug'          => 'roles.show',
+            'description'   => 'Ve en detalle cada rol del sistema',            
+        ]);
+        
+        Permission::create([
+            'name'          => 'Creación de roles',
+            'slug'          => 'roles.create',
+            'description'   => 'Podría crear nuevos roles en el sistema',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Edición de roles',
+            'slug'          => 'roles.edit',
+            'description'   => 'Podría editar cualquier dato de un rol del sistema',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Eliminar roles',
+            'slug'          => 'roles.destroy',
+            'description'   => 'Podría eliminar cualquier rol del sistema',      
+        ]);
+
+
+
     }
 }

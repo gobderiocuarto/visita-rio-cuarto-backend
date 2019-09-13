@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Caffeinated\Shinobi\Models\Role;
+
 use App\Event;
 use App\Category;
 use App\Space;
@@ -33,7 +35,7 @@ use \Conner\Tagging\Model\Tagged;
 
 class EventController extends Controller
 {
-     use ImageTrait;
+    use ImageTrait;
     
     public function __construct() {
 
