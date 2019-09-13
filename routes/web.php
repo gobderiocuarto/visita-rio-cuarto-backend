@@ -29,79 +29,142 @@ Route::get('/admin', function () {
 })->name('admin');
 
 
-# Home
-Route::resource('admin/home','Admin\HomeController');
-
-# Categorias
-Route::resource('admin/categories','Admin\CategoryController');
-
-# Espacios
-Route::resource('admin/spaces','Admin\SpaceController');
-
-# Organizaciones :: recursos
-Route::resource('admin/organizations','Admin\OrganizationController');
-
-Route::get('admin/organizations/{search}','Admin\OrganizationController@index');
-
-Route::post('admin/organizations/{organization}/place','Admin\OrganizationController@storePlace');
-
-# Organizaciones :: eliminar place
-Route::post('admin/organizations/{organization}/place/{place_id}','Admin\OrganizationController@destroyPlace');
-
-// Route::post('admin/organizations/{organization}/addresses/{address}','Admin\OrganizationController@destroyAddress');
-
-# Places
-Route::resource('admin/places','Admin\PlaceController');
-
-# Servicios :: recursos
-Route::resource('admin/services','Admin\ServiceController');
-
-# Servicios :: Agregar organizaciones
-Route::post('admin/services/{service}/organizations','Admin\ServiceController@storeOrganization');
-
-# Servicios :: Desvincular organizaciones
-Route::post('admin/services/{service}/organizations/{organization}','Admin\ServiceController@unlinkOrganization');
-
-# Servicios :: Agregar espacios
-Route::post('admin/services/{service}/spaces','Admin\ServiceController@storeSpace');
-
-# Servicios :: Desvincular espacio
-Route::post('admin/services/{service}/spaces/{space}','Admin\ServiceController@unlinkSpace');
-
-
-# Eventos 
-# Recursos
-Route::get('admin/events','Admin\EventController@index')->name('events.index');
-
-Route::get('admin/events/create','Admin\EventController@create')->name('events.create');
-
-Route::post('admin/events/store','Admin\EventController@create')->name('events.store');
-
-Route::get('admin/events/{edit_id}/edit','Admin\EventController@edit')->name('events.edit');
-
-Route::post('admin/events/{edit_id}','Admin\EventController@update')->name('events.update');
-
-Route::delete('admin/events/{edit_id}','Admin\EventController@destroy')->name('events.destroy');
-
-
-
-# Eventos :: cargar - crear imagen asociada a evento
-Route::post('admin/events/{event}/images/','Admin\EventController@loadImageEvent')
-->name('events.loadImageEvent');
-
-# Eventos :: borrar imagen asociada a evento
-Route::delete('admin/events/{event}/images/delete','Admin\EventController@destroyImageEvent')
-->name('events.destroyImageEvent');
-
-# Eventos :: crear / editar  calendar asociado a evento
-Route::post('admin/events/{event}/calendars/{calendar?}','Admin\EventController@saveEventCalendar')
-	->name('events.saveEventCalendar');
-
-# Eventos :: borrar calendario asociado a evento
-Route::delete('admin/events/{event}/calendars/{calendar}','Admin\EventController@destroyEventCalendar')
-	->name('events.destroyEventCalendar');
-
 Route::middleware(['auth'])->group(function () {
+
+	# Home
+	Route::resource('admin/home','Admin\HomeController');
+
+
+	# --------------------------------------------------------
+	# Categorias
+	# --------------------------------------------------------
+
+	# Listar 
+	Route::get('admin/categories','Admin\CategoryController@index')->name('categories.index')
+	->middleware('permission:categories.index');
+
+	# Crear 
+	Route::get('admin/categories/create','Admin\CategoryController@create')->name('categories.create')
+	->middleware('permission:categories.create');
+
+	# Store 
+	Route::post('admin/categories','Admin\CategoryController@store')->name('categories.store')
+	->middleware('permission:categories.create');
+
+	# Edit 
+	Route::get('admin/categories/{category}/edit','Admin\CategoryController@edit')->name('categories.edit')
+	->middleware('permission:categories.edit');
+
+	# Update 
+	Route::patch('admin/categories/{category}','Admin\CategoryController@update')->name('categories.update')
+	->middleware('permission:categories.edit');
+
+	Route::delete('admin/categories/{category}','Admin\CategoryController@destroy')->name('categories.destroy')
+	->middleware('permission:categories.destroy');
+
+	# --------------------------------------------------------
+	# END Categorias
+	# --------------------------------------------------------
+
+
+	# --------------------------------------------------------
+	# Eventos
+	# --------------------------------------------------------
+
+	# Listar
+	Route::get('admin/events','Admin\EventController@index')->name('events.index')
+	->middleware('permission:events.index');
+	
+	# Crear
+	Route::get('admin/events/create','Admin\EventController@create')->name('events.create')
+	->middleware('permission:events.create');
+	
+	# Store
+	Route::post('admin/events','Admin\EventController@store')->name('events.store')
+	->middleware('permission:events.create');
+	
+	# Edit
+	Route::get('admin/events/{edit_id}/edit','Admin\EventController@edit')->name('events.edit')
+	->middleware('permission:events.edit');
+	
+	# Update
+	Route::patch('admin/events/{edit_id}','Admin\EventController@update')->name('events.update')
+	->middleware('permission:events.edit');
+	
+	# Update
+	Route::delete('admin/events/{edit_id}','Admin\EventController@destroy')->name('events.destroy')
+	->middleware('permission:events.destroy');
+
+	# Cargar imagen asociada a evento
+	Route::post('admin/events/{event}/images/','Admin\EventController@loadImageEvent')->name('events.loadImageEvent')
+	->middleware('permission:events.loadImageEvent');
+
+	# Borrar imagen asociada a evento
+	Route::delete('admin/events/{event}/images/delete','Admin\EventController@destroyImageEvent')->name('events.destroyImageEvent')
+	->middleware('permission:events.destroyImageEvent');
+
+	# Crear / editar calendar asociado a evento
+	Route::post('admin/events/{event}/calendars/{calendar?}','Admin\EventController@saveEventCalendar')->name('events.saveEventCalendar')
+	->middleware('permission:events.saveEventCalendar');
+
+	# Borrar calendario asociado a evento
+	Route::delete('admin/events/{event}/calendars/{calendar}','Admin\EventController@destroyEventCalendar')->name('events.destroyEventCalendar')
+	->middleware('permission:events.destroyEventCalendar');
+	
+	# --------------------------------------------------------
+	# END Eventos
+	# --------------------------------------------------------
+
+
+
+	# --------------------------------------------------------
+	# Organizaciones
+	# --------------------------------------------------------
+	
+	# Organizaciones :: recursos
+	Route::resource('admin/organizations','Admin\OrganizationController');
+	
+	Route::get('admin/organizations/{search}','Admin\OrganizationController@index');
+	
+	# Organizaciones :: Crear / editar una ubicación
+	Route::post('admin/organizations/{organization}/place','Admin\OrganizationController@storePlace');
+	
+	# Organizaciones :: eliminar una ubicación
+	Route::post('admin/organizations/{organization}/place/{place_id}','Admin\OrganizationController@destroyPlace');
+	
+	# --------------------------------------------------------
+	# END Organizaciones
+	# --------------------------------------------------------
+
+	
+	
+	
+	# Espacios
+	Route::resource('admin/spaces','Admin\SpaceController');
+
+
+	# Places
+	Route::resource('admin/places','Admin\PlaceController');
+
+	# Servicios :: recursos
+	Route::resource('admin/services','Admin\ServiceController');
+
+	# Servicios :: Agregar organizaciones
+	Route::post('admin/services/{service}/organizations','Admin\ServiceController@storeOrganization');
+
+	# Servicios :: Desvincular organizaciones
+	Route::post('admin/services/{service}/organizations/{organization}','Admin\ServiceController@unlinkOrganization');
+
+	# Servicios :: Agregar espacios
+	Route::post('admin/services/{service}/spaces','Admin\ServiceController@storeSpace');
+
+	# Servicios :: Desvincular espacio
+	Route::post('admin/services/{service}/spaces/{space}','Admin\ServiceController@unlinkSpace');
+
+
+	
+
+
 
 	# Roles
 	Route::get('admin/roles', 'Admin\RoleController@index')->name('roles.index')

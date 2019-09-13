@@ -39,7 +39,7 @@ class EventController extends Controller
     
     public function __construct() {
 
-        $this->middleware('auth');
+        // $this->middleware('auth');
 
     }
     
@@ -110,8 +110,9 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( Event $event)
+    public function edit($id)
     {
+        $event = Event::findOrFail($id);
         
         #Manejo de Tags 
         // dd($event->tagNames());

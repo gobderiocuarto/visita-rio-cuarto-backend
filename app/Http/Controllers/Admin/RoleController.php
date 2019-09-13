@@ -92,7 +92,7 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         
-        echo ("<pre>");print_r($request->all());echo ("</pre>"); exit();
+        // echo ("<pre>");print_r($request->all());echo ("</pre>"); exit();
         $role = Role::find($id);
         $role->update($request->all());
 

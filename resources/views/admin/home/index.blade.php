@@ -19,7 +19,7 @@
             </a>
           </div>
           @endcan
-          @can('events.index')
+          @can('organizations.index')
           <div class="col-12 col-md-4">
             <a href="{{ url('/admin/organizations/') }}" class="btn btn-lg btn-primary mb-3 p-5 btn-block">
               <i class="fas fa-calendar-alt fa-2x d-block mb-3"></i>
@@ -36,7 +36,7 @@
           </div>
           @endcan
           @can('categories.index')
-          <div class="col-12 col-md-4 offset-md-2">
+          <div class="col-12 col-md-4">
             <a href="{{ url('/admin/categories/') }}" class="btn btn-lg btn-primary mb-3 p-5 btn-block">
               <i class="fas fa-calendar-alt fa-2x d-block mb-3"></i>
               <h5 class="">Categorías</h5>

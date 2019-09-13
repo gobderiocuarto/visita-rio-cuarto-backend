@@ -13,62 +13,114 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        //Users
+        
+        # Categorias
         Permission::create([
-            'name'          => 'Navegar usuarios',
-            'slug'          => 'users.index',
-            'description'   => 'Lista y navega todos los usuarios del sistema',
+            'name'          => 'Listar Categorías',
+            'slug'          => 'categories.index',
+            'description'   => 'Lista y navega todas las categorías',
         ]);
 
         Permission::create([
-            'name'          => 'Ver detalle de usuario',
-            'slug'          => 'users.show',
-            'description'   => 'Ve en detalle cada usuario del sistema',            
+            'name'          => 'Creación de Categorías',
+            'slug'          => 'categories.create',
+            'description'   => 'Podrá crear una categoría',
         ]);
         
         Permission::create([
-            'name'          => 'Edición de usuarios',
-            'slug'          => 'users.edit',
-            'description'   => 'Podría editar cualquier dato de un usuario del sistema',
+            'name'          => 'Edición de Categorías',
+            'slug'          => 'categories.edit',
+            'description'   => 'Podrá editar cualquier dato de una categoría',
         ]);
         
         Permission::create([
-            'name'          => 'Eliminar usuario',
-            'slug'          => 'users.destroy',
-            'description'   => 'Podría eliminar cualquier usuario del sistema',      
+            'name'          => 'Eliminar Categorías',
+            'slug'          => 'categories.destroy',
+            'description'   => 'Podrá eliminar una categoría',      
         ]);
+        # END Categorias
 
-        //Roles
-        Permission::create([
-            'name'          => 'Navegar roles',
-            'slug'          => 'roles.index',
-            'description'   => 'Lista y navega todos los roles del sistema',
-        ]);
 
-        Permission::create([
-            'name'          => 'Ver detalle de un rol',
-            'slug'          => 'roles.show',
-            'description'   => 'Ve en detalle cada rol del sistema',            
-        ]);
-        
-        Permission::create([
-            'name'          => 'Creación de roles',
-            'slug'          => 'roles.create',
-            'description'   => 'Podría crear nuevos roles en el sistema',
-        ]);
-        
-        Permission::create([
-            'name'          => 'Edición de roles',
-            'slug'          => 'roles.edit',
-            'description'   => 'Podría editar cualquier dato de un rol del sistema',
-        ]);
-        
-        Permission::create([
-            'name'          => 'Eliminar roles',
-            'slug'          => 'roles.destroy',
-            'description'   => 'Podría eliminar cualquier rol del sistema',      
-        ]);
 
+
+        
+
+
+
+        
+
+
+
+
+        # Organizaciones
+        Permission::create([
+            'name'          => 'Listar Organizaciones',
+            'slug'          => 'organizations.index',
+            'description'   => 'Lista y navega todos las organizaciones',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Edición de Organizaciones',
+            'slug'          => 'organizations.edit',
+            'description'   => 'Podría editar cualquier dato de una organización',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Eliminar organizaciones',
+            'slug'          => 'organizations.destroy',
+            'description'   => 'Podría eliminar una organización',      
+        ]);
+        # END Organizaciones
+
+
+
+
+        # Etiquetas
+        Permission::create([
+            'name'          => 'Listar Etiquetas',
+            'slug'          => 'services.index',
+            'description'   => 'Lista y navega todos las etiquetas',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Edición de Etiquetas',
+            'slug'          => 'services.edit',
+            'description'   => 'Podría editar cualquier dato de una etiqueta',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Eliminar etiquetas',
+            'slug'          => 'services.destroy',
+            'description'   => 'Podría eliminar una etiqueta',      
+        ]);
+        # END Etiquetas
+
+
+
+        
+
+
+
+
+        # Espacios
+        Permission::create([
+            'name'          => 'Listar Espacios',
+            'slug'          => 'spaces.index',
+            'description'   => 'Lista y navega todos los espacios',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Edición de Espacios',
+            'slug'          => 'spaces.edit',
+            'description'   => 'Podría editar cualquier dato de un espacio',
+        ]);
+        
+        Permission::create([
+            'name'          => 'Eliminar Espacios',
+            'slug'          => 'spaces.destroy',
+            'description'   => 'Podría eliminar un espacio',      
+        ]);
+        # END Espacios
 
 
     }

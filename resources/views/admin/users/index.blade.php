@@ -30,7 +30,7 @@
                             <tr class="table-info">
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
-                                @can('user.edit')
+                                @can('users.edit')
                                 <td width="10px">
                                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>
