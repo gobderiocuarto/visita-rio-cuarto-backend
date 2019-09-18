@@ -1,6 +1,5 @@
-@extends('layouts.app')
-
-@section('content')
+@extends('admin.layouts.app')
+@section('meta_title') {{ config('app.name'). " - Admin :: Reseteo de Contraseña" }} @endsection@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

@@ -18,7 +18,7 @@
                     <h2>Editar Rol de usuario</h2>
                 </div>
                 <form id="form_create_role" method="POST" action="{{ route('roles.update', $role->id) }}">
-                    {{ method_field('PUT') }}
+                    {{ method_field('PATCH') }}
                     @csrf  
                     <div class="card-body mt-2">
                         <div class="alert alert-secondary mb-3 text-right" >

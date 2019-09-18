@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AddressTypesTableSeeder::class);
         //$this->call(CategoryTableSeeder::class);
         $this->call(ZonesTableSeeder::class);
+        //$this->call(PermissionsTableSeeder::class);
         
     }
 }

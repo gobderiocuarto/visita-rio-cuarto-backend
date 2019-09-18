@@ -17,7 +17,7 @@
                     <h2><strong>"{{ $user->name }}"</strong></h2>
                 </div>
                 <form id="form_organization_category" method="POST" action='{{ route("users.update",$user->id) }}' method="POST">
-                    {{ method_field('PUT') }}
+                    {{ method_field('PATCH') }}
                     @csrf
                     <div class="card-body mt-2">
                         <div class="alert alert-secondary mb-3 text-right" >
