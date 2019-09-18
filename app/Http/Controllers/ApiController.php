@@ -159,7 +159,7 @@ class ApiController extends Controller
 
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
-    // Obtener colección de nombres de tags asociados a grupo "EVENTOS"
+    // Obtener colección de nombres de tags NO asociados a grupo "EVENTOS"
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
 
@@ -167,7 +167,8 @@ class ApiController extends Controller
     {
         $tags_no_events = Tag::where('tagging_tags.name', 'LIKE', "%$termino%")
         ->where( function($query){
-            $query->where('tagging_tags.tag_group_id','!=',2);
+            $query->where('tagging_tags.tag_group_id','!=',2)
+            ->orWhereNull('tagging_tags.tag_group_id');
         })
         ->distinct()
         ->pluck('name');
