@@ -2,14 +2,19 @@
 
 namespace App;
 
+//Roles y usuarios
+use Caffeinated\Shinobi\Traits\ShinobiTrait;
+// use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class User extends Authenticatable
 {
-    use Notifiable;
-
+    use Notifiable, ShinobiTrait;
+    
     /**
      * The attributes that are mass assignable.
      *

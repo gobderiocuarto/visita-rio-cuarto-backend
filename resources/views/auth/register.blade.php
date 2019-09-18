@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @section('meta_title') {{ config('app.name'). " - Admin :: Registrar nuevo usuario" }} @endsection
 @section('content')
 <div class="container">

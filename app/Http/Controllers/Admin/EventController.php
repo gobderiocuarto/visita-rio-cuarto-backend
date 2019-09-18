@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Caffeinated\Shinobi\Models\Role;
+
 use App\Event;
 use App\Category;
 use App\Space;
@@ -33,11 +35,11 @@ use \Conner\Tagging\Model\Tagged;
 
 class EventController extends Controller
 {
-     use ImageTrait;
+    use ImageTrait;
     
     public function __construct() {
 
-        $this->middleware('auth');
+        // $this->middleware('auth');
 
     }
     
@@ -108,8 +110,9 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( Event $event)
+    public function edit($id)
     {
+        $event = Event::findOrFail($id);
         
         #Manejo de Tags 
         // dd($event->tagNames());
