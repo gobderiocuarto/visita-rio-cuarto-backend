@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Caffeinated\Shinobi\Models\Role;
 use App\User;
+use App\Group;
 
 class UserController extends Controller
 {
@@ -44,13 +45,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        // echo ("<pre>");print_r($user->group);echo ("</pre>"); exit();
         $roles = Role::get();
-
+        # Grupos o Areas
+        $groups = Group::where('state', 1)->get();
         $array_roles_id = $user->roles->pluck('id')->toArray();
         
-        // echo ('<pre>');print_r($array_roles_id);echo ('</pre>'); exit();
-
-        return view('admin.users.edit', compact('user', 'roles', 'array_roles_id'));
+        return view('admin.users.edit', compact('user', 'roles', 'array_roles_id', 'groups'));
     }
 
     /**

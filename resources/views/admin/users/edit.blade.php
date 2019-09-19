@@ -41,15 +41,15 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="section" class="col-md-3 col-form-label text-md-right">Sección (*)</label>
+                            <label for="group_id" class="col-md-3 col-form-label text-md-right">Sección (*)</label>
                             <div class="col-md-8">
-                                <select id="category_id" name="category_id" class="form-control" required>
+                                <select id="group_id" name="group_id" class="form-control" required>
                                     <option value="">Selecciona...</option>
-                                    <option value="1">Gobierno Abierto</option>
-                                    <option value="2">Turismo</option>
-                                    <option value="3">Cultura</option>
-                                    <option value="4">Deportes</option>
-                                    <option value="5">Otros</option>
+                                    @foreach ($groups as $group)
+                                    <option value="{{ $group->id }}" @if( (isset($user->group->id)) && ($user->group->id == $group->id) ) selected="selected" @endif>
+                                    {{ $group->name }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
