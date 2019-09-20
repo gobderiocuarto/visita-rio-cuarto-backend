@@ -12,7 +12,7 @@ class Event extends Model
     use Taggable;
 
     protected $fillable = [
-        'place_id', 'title', 'slug', 'summary', 'description', 'organizer', 'state'
+        'group_id', 'place_id', 'title', 'slug', 'summary', 'description', 'organizer', 'state'
     ];
 
 
@@ -30,5 +30,10 @@ class Event extends Model
     public function file()
     {
         return $this->morphOne(File::class, 'fileable');
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 }

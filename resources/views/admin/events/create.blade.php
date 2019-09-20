@@ -29,7 +29,6 @@
                         </div>
                         <hr>
                         @include('admin.layouts.partials.errors_messages')
-                        
                         <div class="form-group row">
                             <label for="title" class="col-md-3 col-form-label text-md-right">Título (*)</label>
                             <div class="col-md-8">
@@ -50,6 +49,12 @@
                             </div>
                         </div>
                         <hr />
+                        <div class="form-group row">
+                            <label for="group_id" class="col-md-3 col-form-label text-md-right">Dependencia / Grupo</label>
+                            <div class="col-md-8">
+                                <input name="group_id" id="group_id" type="text" class="form-control" value="{{ $group->name }}" readonly>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="form-group row mb-0">

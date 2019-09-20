@@ -19,6 +19,29 @@
             </div>
         </div>
         <div class="form-group row">
+            <label for="summary" class="col-md-3 col-form-label text-md-right">Información principal (*)</label>
+            <div class="col-md-8">
+                <textarea class="form-control" name="summary" rows="5" required>{{ $event->summary }}</textarea>
+                <small class="form-text text-muted mt-2">Longitud ideal: 160 caracteres aprox.</small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="group_id" class="col-md-3 col-form-label text-md-right">Dependencia / Grupo</label>
+            @if ($event->group)
+            <div class="col-md-8">
+                <input name="group_id" id="group_id" type="text" class="form-control" value="{{ $event->group->name }}" readonly>
+            </div>
+            @else
+            <div class="col-md-8">
+                <input name="group_id" id="group_id" type="text" class="form-control" value="No se ha asignado grupo" readonly>
+                <small class="form-text text-muted mt-2 text-danger"><p class="text-danger">
+                <i class="fas fa-exclamation-circle"></i> Actualice el Evento para asignar</p>
+                </small>
+            </div>
+            @endif
+        </div>
+        <hr />
+        <div class="form-group row">
             <label for="tags_events" class="col-md-3 col-form-label text-md-right">Categorías asociadas</label>
             <div class="col-md-8">
                 <select multiple="multiple" size="5" id="select_mult" name="select_mult[]" class="form-control form-control-xl" required>
@@ -38,14 +61,6 @@
                 <input name="organizer" id="organizer" type="text" class="form-control" value="{{ $event->organizer }}">
             </div>
         </div> 
-        <div class="form-group row">
-            <label for="summary" class="col-md-3 col-form-label text-md-right">Información principal (*)</label>
-            <div class="col-md-8">
-                <textarea class="form-control" name="summary" rows="5" required>{{ $event->summary }}</textarea>
-                <small class="form-text text-muted mt-2">Longitud ideal: 160 caracteres aprox.</small>
-            </div>
-        </div>
-        <hr />
         <div class="form-group row">
             <label for="description" class="col-md-3 col-form-label text-md-right">Información adicional</label>
             <div class="col-md-8">

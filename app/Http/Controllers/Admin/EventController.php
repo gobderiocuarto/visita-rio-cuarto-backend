@@ -16,8 +16,11 @@ use App\Calendar;
 use App\Zone;
 use App\Organization;
 
-// Soporte para transacciones 
+# Soporte para transacciones
 use Illuminate\Support\Facades\DB;
+
+# Autentificacion de usuarios
+use Illuminate\Support\Facades\Auth;
 
 
 //Request
@@ -64,7 +67,10 @@ class EventController extends Controller
     public function create()
     {
         // $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
-        return view('admin.events.create');
+
+        $group = Auth::user()->group;
+
+        return view('admin.events.create', compact('group'));
     }
 
     /**
@@ -77,16 +83,15 @@ class EventController extends Controller
     {
         # Start transaction
         // DB::beginTransaction();
+        $request->request->add(['group_id' => Auth::user()->group->id ]);
 
         $event = Event::create($request->all());
 
-        $result = $event->update();
+        // DB::rollBack();
 
-        if ($result) {
-            // DB::commit();
+        if ($event) {
             return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
         } else {
-            // DB::rollBack();
             return back()->withErrors('Error al crear el evento');
         }
     }
@@ -113,7 +118,7 @@ class EventController extends Controller
     public function edit($id)
     {
         $event = Event::findOrFail($id);
-        
+
         #Manejo de Tags 
         // dd($event->tagNames());
 
@@ -184,14 +189,19 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         
-        // dd($request);
+        // dd($request->all());
         # Start transaction
         DB::beginTransaction();
 
         $event = Event::findOrFail($id);
 
-        # Determinar Tags a Asociar
+        if ($event->group) {
+            $group_id = $event->group->id;
+        } else {
+            $group_id = Auth::user()->group->id;
+        }
 
+        # Determinar Tags a Asociar
         # Tags manejados como categorias de eventos
 
         // Los tags categorizados bajo eventos se definen previamente, no pudiendose
@@ -213,7 +223,6 @@ class EventController extends Controller
         $tags =  array_merge($tags_events, $tags_no_events);
         $event->retag($tags);
 
-
         # Actualizar evento
         // $result = $event->fill($request->all())->save();
         $place = $event->place_id;
@@ -223,6 +232,7 @@ class EventController extends Controller
         }
         
         $result = $event->update([
+            'group_id' => $group_id,
             'title'=> $request->get('title'),
             'slug'=> $request->get('slug'),
             'organizer'=> $request->get('organizer'),
