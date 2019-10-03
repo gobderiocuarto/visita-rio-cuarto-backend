@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 use Caffeinated\Shinobi\Models\Role;
 
+use Session;
+
 use App\Event;
 use App\Category;
 use App\Space;
@@ -39,6 +41,7 @@ use \Conner\Tagging\Model\Tagged;
 class EventController extends Controller
 {
     use ImageTrait;
+
     
     public function __construct() {
 
@@ -70,7 +73,9 @@ class EventController extends Controller
 
         $group = Auth::user()->group;
 
-        return view('admin.events.create', compact('group'));
+        $frame_events = Event::where('state', 1)->where('frame', 'is-frame')->get();
+
+        return view('admin.events.create', compact('group', 'frame_events'));
     }
 
     /**
@@ -81,8 +86,27 @@ class EventController extends Controller
      */
     public function store(EventStoreRequest $request)
     {
+        
         # Start transaction
         // DB::beginTransaction();
+        if ($request->rel_frame) {
+
+            # Definido como evento marco
+            if ($request->rel_frame == 'is-frame') {
+
+                $request->request->add(['frame' => $request->rel_frame ]);
+
+            } else {
+                # No definido como evento marco
+                $event_frame = Event::where('id', $request->rel_frame )->where('frame', 'is-frame')->first();
+
+                if ($event_frame) {
+                    $request->request->add(['event_id' => $request->rel_frame ]);
+                }
+            }
+
+        }
+
         $request->request->add(['group_id' => Auth::user()->group->id ]);
 
         $event = Event::create($request->all());
@@ -92,7 +116,7 @@ class EventController extends Controller
         if ($event) {
             return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
         } else {
-            return back()->withErrors('Error al crear el evento');
+            return back()->withErrors('Error al crear el evento, por favor intente nuevamente');
         }
     }
 
@@ -108,7 +132,6 @@ class EventController extends Controller
     }
 
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -119,61 +142,64 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        #Manejo de Tags 
-        // dd($event->tagNames());
-
-        # Recuperar los tags agrupados en categoria eventos, para mostrar en el select
+        # Todos los tags agrupados en categoria eventos, para mostrar en el select
         $tags_group_events = Tag::inGroup('Eventos')->get()->toArray();
 
-        # Recuperar Tag categorizados bajo grupo "Eventos", asociados al evento puntual
+        # Tag categorizados bajo grupo "Eventos", asociados al evento puntual
         $tags_events = ''; // mostrar categorias como etiquetas separadas por coma
-        $tags_in_event = []; // mostrar como select de categorias
+        $tags_in_event = []; // mostrar como array: select de categorias
 
-        $group_type = 'App\Event';
-        $array_tags_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
-        ->join('tagging_tag_groups','tagging_tags.tag_group_id','tagging_tag_groups.id')
-        ->where('tagging_tagged.taggable_id', $event->id )
-        ->where('tagging_tagged.taggable_type', $group_type )
-        ->where('tagging_tag_groups.slug', 'eventos')
-        ->select('tagging_tags.name')
-        ->get()->toArray();
-
-        foreach ($array_tags_events as $key => $tag) {
-            $tags_events .= $tag ['name'].', '; 
-            $tags_in_event[] = $tag ['name']; 
-        }
-
-        // Recuperar Tag NO categorizados, asociados al evento puntual
+        # Tag no categorizados bajo grupo "Eventos", asociados al evento puntual
         $tags_no_events = '';
 
-        $array_tags_no_events = Tagged::join('tagging_tags','tagging_tags.slug','tagging_tagged.tag_slug')
-        ->where('tagging_tagged.taggable_id', $event->id )
-        ->where('tagging_tagged.taggable_type', $group_type)
-        ->where('tagging_tags.tag_group_id','=',NULL)
-        ->get()->toArray();
+        foreach ($event->tags as $tag) {
 
-        foreach ($array_tags_no_events as $key => $tag) {
-            $tags_no_events .= $tag ['name'].', '; // mostrar como etiquetas separadas por coma
-        }
-
-        # Determinar lugar / ubicación actual del evento
-        $actual_place = '';
-        if ($event->place_id) {
-
-            $place = Place::with('organization')->find($event->place_id);
-            $actual_place = $place->organization->name.' - ';
-
-            if ($place->placeable_type == 'App\Space') {
-                $actual_place .=  $place->placeable->address->street->name.' '.$place->placeable->address->number.', '.$place->placeable->name;
-            } else if ($place->placeable_type == 'App\Address') {
-                $actual_place .=  $place->placeable->street->name.' '.$place->placeable->number;
+            if ($tag->isInGroup('Eventos')) {
+                $tags_in_event[] = $tag ['name'];
+            } else {
+                $tags_no_events .= $tag ['name'].', ';
             }
         }
 
-        # Listado total de organizaciones (y sus lugares) habilitadas
-        $list_orgs = Organization::where('state', 1)->orderby('name', 'ASC')->get();
+        # Listado total de eventos marco habilitados
 
-        return view('admin.events.edit', compact('event', 'list_orgs', 'actual_place',  'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events'));
+        # Listado total de organizaciones (y sus lugares) habilitadas
+        // $list_orgs = Organization::where('state', 1)->orderby('name', 'ASC')->get();
+        $list_orgs = array();
+
+        # Si se trata de un evento marco
+        if ( (isset($event->frame)) && ($event->frame == 'is-frame')) {
+            $calendar = [];
+            if ($event->calendars->first()) {
+                $calendar = $event->calendars->first();
+            }
+            
+            $data = compact('event', 'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'calendar');
+
+        } else {
+
+            $frame_events = Event::where('state', 1)->where('frame', 'is-frame')->get();
+            # Determinar lugar / ubicación actual del evento
+            $actual_place_id = '';
+            $actual_place = '';
+            if ($event->place_id) {
+
+                $actual_place_id = $event->place_id;
+                $place = Place::with('organization')->find($event->place_id);
+                $actual_place = $place->organization->name.' - ';
+
+                if ($place->placeable_type == 'App\Space') {
+                    $actual_place .=  $place->placeable->address->street->name.' '.$place->placeable->address->number.', '.$place->placeable->name;
+                } else if ($place->placeable_type == 'App\Address') {
+                    $actual_place .=  $place->placeable->street->name.' '.$place->placeable->number;
+                }
+            }
+
+            $data = compact('event', 'list_orgs', 'actual_place_id', 'actual_place',  'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'frame_events');
+            
+        }
+        
+        return view('admin.events.edit', $data);
 
     }
 
@@ -195,15 +221,16 @@ class EventController extends Controller
 
         $event = Event::findOrFail($id);
 
+        # Verificar si el evento esta asignado a un grupo
         if ($event->group) {
             $group_id = $event->group->id;
         } else {
             $group_id = Auth::user()->group->id;
         }
 
-        # Determinar Tags a Asociar
-        # Tags manejados como categorias de eventos
+        # Determinar Tags asociados
 
+        # Tags manejados como categorias de eventos
         // Los tags categorizados bajo eventos se definen previamente, no pudiendose
         // agregar en forma dinámica desde el formulario de edición de eventos. 
         // Por mas que estos se cargen en el campo correspondiente a "categorias"
@@ -224,23 +251,71 @@ class EventController extends Controller
         $event->retag($tags);
 
         # Actualizar evento
-        // $result = $event->fill($request->all())->save();
-        $place = $event->place_id;
-        
-        if ($request->get('place_id')) {
-            $place = $request->get('place_id');
-        }
-        
-        $result = $event->update([
+
+        $update_fields = [
             'group_id' => $group_id,
             'title'=> $request->get('title'),
             'slug'=> $request->get('slug'),
             'organizer'=> $request->get('organizer'),
             'summary'=> $request->get('summary'),
             'description'=> $request->get('description'),
-            'state'=> $request->get('state'),
-            'place_id'=> $place
-        ]);
+            'state'=> $request->get('state')
+        ];
+
+
+
+        # Si se trata de un evento marco
+        if ( (isset($event->frame)) && ($event->frame == 'is-frame')) {
+
+            $calendars_fields = [
+                'event_id' => $id,
+                'start_date'=> $request->get('start_date'),
+                'start_time'=> $request->get('start_time'),
+                'end_date'=> $request->get('end_date'),
+                'end_time'=> $request->get('end_time'),
+                'state'=> 1
+            ];
+
+            $calendar = $event->calendars->first();
+            
+            if ($calendar) {
+                // Actualiza calendario
+                $result = $calendar->fill($calendars_fields)->save(); 
+                
+            } else {
+                //Creo el calendario
+                $calendar = Calendar::create($calendars_fields);
+                $result = ($calendar) ? TRUE : FALSE;
+            }
+
+
+        } else { # Si se trata de un evento común
+
+            # Asignar a Evento marco
+            $frame = null;
+            if ($request->rel_frame) {
+
+                $event_frame = Event::where('id', $request->rel_frame )
+                ->where('frame', 'is-frame')->first();
+                
+                if ($event_frame) {
+
+                    $frame = $event_frame->id;
+
+                }
+            } 
+            $update_fields = array_merge($update_fields, ['event_id'=> $frame ]);
+            # END Asignar a Evento marco
+
+            # Asignar Lugar / espacio
+            $place = $request->get('place_id');
+            $update_fields = array_merge($update_fields, ['place_id'=> $place]);
+
+        }
+
+        $result = $event->update($update_fields);
+
+       
         // echo ('<pre>');print_r($event);echo ('</pre>'); exit();
         # END actualizar evento
 
@@ -276,12 +351,12 @@ class EventController extends Controller
 
     public function loadImageEvent(Request $request, $id) {
 
-        // echo ('<pre>');print_r('TO DO subir imagen de evento: '.$id);echo ('</pre>'); exit();
         # Start transaction
         DB::beginTransaction();
         
         $event = Event::findOrFail($id);
 
+        // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             
             $folder_img = 'events/'.$event->id.'/';
@@ -307,7 +382,6 @@ class EventController extends Controller
             } else {
                 $result = FALSE;
             }
-            
 
         } else {
             $result = FALSE;
@@ -316,8 +390,6 @@ class EventController extends Controller
             }
         }
         
-        // var_dump($result); exit();
-
         if ($result) {
             DB::commit();
             return redirect()->route('events.edit', $event->id)->with('message', 'Los cambios en la imagen se aplicaron correctamente');

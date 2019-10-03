@@ -240,7 +240,6 @@
         // Habilitar bootstrap-select
         $('.selectpicker').selectpicker();
 
-
         // Redireccionar a tab según ancla en url
         const hash = $(location).attr('hash'); 
 

@@ -21,12 +21,20 @@ Route::get('/spaces/{space_id}', 'ApiController@getSpace');
 
 Route::get('/addresses/{address_id}', 'ApiController@getAddress');
 
+# Organizaciones :: listado total o el base a termino de busqueda
+Route::get('/organizations/{termino?}', 'ApiController@getOrganizations');
+
 Route::get('organizations/{organization_id}/places/{place_id}', 'ApiController@getOrganizationPlace');
 
 Route::get('organizations/{organization_id}/addresses/{address_id}', 'ApiController@getAddressOrganization');
 
-Route::get('services/', 'ApiController@getServicesTags');
-Route::get('services/{termino}', 'ApiController@getServiceTags');
+
+# Lugares :: listado total o el base a termino de busqueda (y organizaciones)
+Route::get('/places/{termino?}', 'ApiController@getPlacesOrganizations');
+
+
+
+Route::get('services/{termino?}', 'ApiController@getServicesTags');
 
 #Listado de tags agrupados en "Eventos"
 Route::get('events/{termino}', 'ApiController@getEventsTags');

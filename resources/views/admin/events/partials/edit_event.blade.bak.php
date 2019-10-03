@@ -1,4 +1,4 @@
- <form id="form_event" method="POST" action='{{ url("/admin/events/$event->id#event")}}' enctype="multipart/form-data">
+<form id="form_event" method="POST" action='{{ url("/admin/events/$event->id#event")}}' enctype="multipart/form-data">
 {{ method_field('PATCH') }}
 @csrf   
 <div class="card">
@@ -7,26 +7,7 @@
     </div>
     <div class="card-body mt-2">
         <div class="form-group row">
-            <label for="title" class="col-md-3 col-form-label text-md-right">Título (*)</label>
-            <div class="col-md-8">
-                <input name="title" id="title" type="text" class="form-control" value="{{ $event->title }}" required minlength=3>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="slug" class="col-md-3 col-form-label text-md-right">Slug</label>
-            <div class="col-md-8">
-                <input name="slug" id="slug" type="text" class="form-control" value="{{ $event->slug }}" readonly>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="summary" class="col-md-3 col-form-label text-md-right">Información principal (*)</label>
-            <div class="col-md-8">
-                <textarea class="form-control" name="summary" rows="5" required>{{ $event->summary }}</textarea>
-                <small class="form-text text-muted mt-2">Longitud ideal: 160 caracteres aprox.</small>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="group_id" class="col-md-3 col-form-label text-md-right">Dependencia / Grupo</label>
+            <label for="group_id" class="col-md-3 col-form-label text-md-right">Creador del Evento</label>
             @if ($event->group)
             <div class="col-md-8">
                 <input name="group_id" id="group_id" type="text" class="form-control" value="{{ $event->group->name }}" readonly>
@@ -40,27 +21,26 @@
             </div>
             @endif
         </div>
-        <hr />
         <div class="form-group row">
-            <label for="tags_events" class="col-md-3 col-form-label text-md-right">Categorías asociadas</label>
+            <label for="title" class="col-md-3 col-form-label text-md-right">Título (*)</label>
             <div class="col-md-8">
-                <select multiple="multiple" size="5" id="select_mult" name="select_mult[]" class="form-control form-control-xl" required>
-                    @foreach ($tags_group_events as $category)
-                    <option value="{{ $category['name'] }}"  @if (in_array( $category['name'], $tags_in_event))
-    selected="selected" @endif>
-                        {{ $category['name'] }}
-                    </option>
-                    @endforeach
-                </select>
+                <input name="title" id="title" type="text" class="form-control" value="{{ $event->title }}" required minlength=3>
             </div>
         </div>
-        <hr/>
+        <input name="slug" id="slug" type="hidden" value="{{ $event->slug }}" readonly>
         <div class="form-group row">
             <label for="organizer" class="col-md-3 col-form-label text-md-right">Organizador</label>
             <div class="col-md-8">
                 <input name="organizer" id="organizer" type="text" class="form-control" value="{{ $event->organizer }}">
             </div>
-        </div> 
+        </div>
+        <div class="form-group row">
+            <label for="summary" class="col-md-3 col-form-label text-md-right">Información principal (*)</label>
+            <div class="col-md-8">
+                <textarea class="form-control" name="summary" rows="5" required>{{ $event->summary }}</textarea>
+                <small class="form-text text-muted mt-2">Longitud ideal: 160 caracteres aprox.</small>
+            </div>
+        </div>
         <div class="form-group row">
             <label for="description" class="col-md-3 col-form-label text-md-right">Información adicional</label>
             <div class="col-md-8">
@@ -75,7 +55,22 @@
                 <small class="form-text text-muted mt-2">Separar mediante comas</small>
             </div>
         </div>
+        <hr />
+        <h5>Categorías</h5>
+        <div class="form-group row">
+            <div class="offset-md-3 col-md-8">
+                <select multiple="multiple" size="5" id="select_mult" name="select_mult[]" class="form-control form-control-xl" required>
+                    @foreach ($tags_group_events as $category)
+                    <option value="{{ $category['name'] }}"  @if (in_array( $category['name'], $tags_in_event))
+    selected="selected" @endif>
+                        {{ $category['name'] }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <hr/>
+        
         <div class="form-group row">
             <label for="state" class="col-md-3 col-form-label text-md-right">Estado</label>
             <div class="col-md-4">
@@ -200,4 +195,8 @@
         </div>
         </form>
     </div>
-</div>   
+</div>
+<hr />
+<div id="list_calendars" class="mt-2">
+    @include('admin.events.partials.list_calendars')
+</div>  

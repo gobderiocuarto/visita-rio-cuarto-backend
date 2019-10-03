@@ -48,18 +48,38 @@
                                 <small class="form-text text-muted mt-2">Longitud ideal: 160 caracteres aprox.</small>
                             </div>
                         </div>
-                        <hr />
                         <div class="form-group row">
                             <label for="group_id" class="col-md-3 col-form-label text-md-right">Dependencia / Grupo</label>
                             <div class="col-md-8">
                                 <input name="group_id" id="group_id" type="text" class="form-control" value="{{ $group->name }}" readonly>
                             </div>
                         </div>
+                        <hr />
+                        <h4>Relación con Evento Marco</h4>
+                        </br>
+                        <div class="form-group row">
+                            <label for="rel_frame" class="col-md-3 col-form-label text-md-right">Relación / Asignado a:</label>
+                            <div class="col-md-8">
+                                <select name="rel_frame" class="form-control form-control-xl">
+                                    <option value="">No relacionado a 'Evento Marco'</option>
+                                    <option value="is-frame">Definido como 'Evento Marco'</option>
+                                    <optgroup label="Asignado a un 'Evento Marco': ">
+                                    @forelse ($frame_events as $frame)
+                                    <option value="{{ $frame->id }}">{{ $frame->title }}</option>
+                                    @empty
+                                    <option value="" disabled="disabled">
+                                    No hay eventos marco habilitados
+                                    </option>
+                                    @endforelse
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-3">
-                                <button type="submit" class="btn btn-success">Crear evento</button>
+                                <button type="submit" class="btn btn-success">Crear y continuar...</button>
                             </div>
                             <div class="col-md-4">
                                 <button type="reset" class="btn btn-outline-dark">Limpiar campos</button>

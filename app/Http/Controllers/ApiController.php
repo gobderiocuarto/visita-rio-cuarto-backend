@@ -32,6 +32,54 @@ class ApiController extends Controller
     }
 
 
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Obtener Listado de lugares y organizaciones asociadas
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+
+    public function getOrganizations($termino = '')
+    {
+        $list_orgs = Place::with('organization')
+        ->where('state', 1)
+        ->orderby('organizations.name', 'ASC')
+        ->where('name', 'LIKE', "%$termino%")
+        ->get();
+        return $list_orgs;
+
+    }
+
+    public function getPlacesOrganizations($termino = '')
+    {
+        
+        $list_orgs = Organization::where('state', 1)->orderby('name', 'ASC')
+        ->where('name', 'LIKE', "%$termino%")
+        ->get();
+
+        $list_places = [];
+        foreach($list_orgs as $organization) {
+
+            foreach($organization->places as $place) {
+
+                $array_place['id'] = $place->id;
+                $array_place['name'] = $organization->name." - ";
+                if ($place->placeable_type == 'App\Space') {
+
+                    $array_place['name'] .= $place->placeable->address->street->name." ".$place->placeable->address->number. ", ".$place->placeable->name;
+
+                } else if ($place->placeable_type == 'App\Address') {
+                    $array_place['name'] .= $place->placeable->street->name." ".$place->placeable->number;
+                }
+
+                array_push($list_places, $array_place);
+            }
+        }
+        
+        return $list_places;
+
+    }
+
+
     // public function getAddress($id)
     // {
 
@@ -117,7 +165,7 @@ class ApiController extends Controller
 
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
-    // Obtener coleccción de nombres de tags asociados a grupo "servicios",
+    // Obtener colección de nombres de tags asociados a grupo "servicios",
     // filtrados por un termino
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
@@ -127,20 +175,6 @@ class ApiController extends Controller
         $service_tags = Tag::inGroup('Servicios')->where('name', 'LIKE', "%$termino%")->pluck('name');
         return $service_tags;
     }
-
-
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-    // Obtener colección de nombres de tags asociados a grupo servicios
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-
-    // public function getServicesTags()
-    // {
-    //     $service_tags = Tag::inGroup('Servicios')->pluck('name');
-    //     return $service_tags;
-    // }
-
 
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------

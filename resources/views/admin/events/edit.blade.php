@@ -24,15 +24,77 @@
                 </a>
             </div>
             <hr>
+            @if ($event->frame)
+            <div class="alert alert-warning" role="alert">
+                Atención: Estás editando un 'Evento Marco'
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            @endif
             @include('admin.layouts.partials.errors_messages')
-            @include('admin.events.partials.edit_event')
-            <hr />
-            <div id="list_calendars" class="mt-2">
-                @include('admin.events.partials.list_calendars')
-            </div>           
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="nav-item">
+                    <a href="#event" class="nav-link active" data-toggle="tab" aria-controls="event" role="tab" title="Datos del evento">
+                        Datos del evento
+                    </a>
+                </li>
+                <li role="presentation" class="nav-item">
+                    <a href="#image" class="nav-link" data-toggle="tab" aria-controls="image" role="tab" title="Imagen del evento">
+                        Imagen del evento 
+                    </a>
+                </li>
+            </ul><!-- nav-tabs -->
+            <div class="tab-content p-3 mt-2">
+                <div class="tab-pane active" role="tabpanel" id="event">
+                    <form id="form_event" method="POST" action='{{ url("/admin/events/$event->id#event")}}' enctype="multipart/form-data">
+                        {{ method_field('PATCH') }}
+                        @csrf
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><a name="event">Datos de evento</h3>
+                            </div>
+                            <div class="card-body mt-2">
+                                @include('admin.events.partials.edit_event_base')
+                                @if ($event->frame)
+                                    @include('admin.events.partials.edit_event_frame')
+                                @else          
+                                    @include('admin.events.partials.edit_event_no_frame')
+                                @endif
+                            </div>
+                            @if (!$event->frame)
+                                @include('admin.events.partials.edit_event_place')
+                            @endif  
+                        </div>
+                        <div class="card">
+                            <div class="card-footer ">
+                                <div class="row pt-2 pb-2">
+                                    <div class="col-md-4 offset-md-3">
+                                        <button type="submit" class="btn btn-success">Actualizar Evento</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="reset" class="btn btn-outline-dark ">Restaurar datos</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                @if (!$event->frame)
+                    @include('admin.events.partials.list_calendars')
+                @endif 
+                </div>
+                <div class="tab-pane" role="tabpanel" id="image">
+                    @include('admin.events.partials.event_image')
+                </div>
+                
+            </div>
         </div>
     </div>
 </div>
+
+@include('admin.events.partials.modal_create_edit_calendar')
+@include('admin.events.partials.modal_load_place')
 @endsection
 @section('scripts')
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
@@ -94,6 +156,18 @@
     $(document).ready(function(){
 
 
+        // Redireccionar a tab según ancla en url
+        const hash = $(location).attr('hash'); 
+
+        if (hash) {
+            $('.tab-pane').removeClass('active')
+            $('.nav-item a').removeClass('active')
+            $('.nav-item a[href="'+hash+'"]').addClass('active')
+            $(hash).tab('show')
+
+        }
+
+
         // ----------------------------------------------------
         // Edicion datos de evento
         // ----------------------------------------------------
@@ -110,12 +184,13 @@
             // autocomplete: The Autocomplete widgets provides suggestions while you type into the field
             // https://jqueryui.com/autocomplete/
             'autocomplete': {
+                dataType: 'json',
                 source : function (request, responseGetData) {
                     var term = request.term;
                     $.get(base_url+'/api/events/'+term, function(data){
                         responseGetData(data);
                     });
-                }
+                },
             } 
         });
 
@@ -131,6 +206,67 @@
                 }
             }
         });
+
+        // ----------------------------------------------------
+        // Mostrar MODAL form Vincular evento a espacio
+        // ----------------------------------------------------
+
+        $("#load_place").click(function(){
+
+            event.preventDefault()            
+            $("#modal_load_place").modal("show");
+
+        });
+
+
+        // Mostrar listado de ubicaciones bajo el input del modal            
+
+        $('#load_place_name').autocomplete({
+            minLength : 3,
+            autoFocus : true,
+            dataType: "json",
+            source : function (request, response) {
+                var term = request.term;
+                $.get(base_url+'/api/places/'+term, function(data){
+
+                    var suggestions = [];
+                    $.each(data, function(i, val) {
+                        suggestions.push(
+                            {
+                                value : val.id,
+                                label : val.name,
+                            }
+                        ); 
+                    });
+                    response(suggestions)
+                });
+            },
+            
+            appendTo: $('#list_places'),
+
+            select: function(event, ui) {
+                event.preventDefault();
+                $("#load_place_name").val(ui.item.label);
+                $("#load_place_id").val(ui.item.value);
+            }
+
+        });
+
+
+        $("#form_load_place").submit(function(event){
+            event.preventDefault()
+            $("#place_name").val($('#load_place_name').val());
+            $("#place_id").val($('#load_place_id').val());
+
+            $("#load_place_name").val('')
+            $("#load_place_id").val('')
+
+            $("#modal_load_place").modal("hide");
+
+        });
+
+
+        
 
         // Eliminar imagen de evento
         $("#delete_image").click(function(){
@@ -193,6 +329,8 @@
         // ----------------------------------------------------
 
         $("#calendar_btn_add").click(function(){
+
+            event.preventDefault()
 
             emptyFormCalendar()
             $('#title_add_edit_calendar').html('Agregar Función')
