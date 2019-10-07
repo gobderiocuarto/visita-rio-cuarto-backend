@@ -19,7 +19,7 @@
             <h1><strong>{{ $event->title }}</strong></h1>
             </br>
             <div class="alert alert-secondary mb-3 text-right" >
-                <a href="{{ route('events.index') }}" class="btn btn-sm btn-primary ">
+                <a href="{{ route('events.index', Session::get('redirect') ) }}" class="btn btn-sm btn-primary ">
                 Volver al listado
                 </a>
             </div>

@@ -15,13 +15,27 @@
                     <h2>Listado de eventos</h2>
                 </div>
                 <div class="card-body mt-2">
-                    @include('admin.layouts.partials.errors_messages')   
-                    <div class="alert alert-secondary text-right mb-3" >
-                        <a href="{{ route('events.create') }}" class="btn btn-sm btn-primary">
+                    @include('admin.layouts.partials.errors_messages')
+                    <div class="alert alert-secondary text-right m-1 row" >
+                        <div class="col-9">
+                            <form class="form-inline" action="{{url('/admin/events') }}" method="GET">
+                                <input style="width: 200px;" class="form-control form-control-sm mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" name="search" value="{{ $filter->search }}">
+                                <select style="max-width: 200px;" class="form-control form-control-sm mr-sm-2" id="category" name="category" autofocus>
+                                    <option value="">Todas las categorías...</option>
+                                    @foreach($event_tags as $tags)
+                                    <option value="{{ $tags['name'] }}" @if( $tags['name'] == $filter->category) selected @endif >{{ $tags['name'] }}</option>
+                                    @endforeach
+                                </select>
+                                <button class="btn btn-sm btn-success my-sm-0" type="submit">Aplicar...</button>
+                            </form>                        
+                        </div>
+                        <div class="col-3">
+                            <a href="{{ route('events.create') }}" class="btn btn-sm btn-primary">
                             Crear evento
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                    <hr>
+                    <hr>     
                     <table class="table table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>

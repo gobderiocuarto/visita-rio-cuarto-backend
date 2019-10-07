@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\DB;
 # Autentificacion de usuarios
 use Illuminate\Support\Facades\Auth;
 
-
 //Request
 use App\Http\Requests\EventStoreRequest;
 
@@ -54,12 +53,45 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $events = Event::orderBy('title', 'ASC')->paginate();
+        $filter = (object)[];
 
-        return view('admin.events.index', compact('events'));
+        $appends = array();
+
+        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
+
+        # Listado de eventos
+        $events = Event::orderBy('title', 'ASC');
+
+        # Filtrar por campo busqueda
+        $filter->search = '';
+        if (($request->search != '')) {
+
+            $events = $events->where('events.title', 'like', '%'.$request->search.'%' );
+            $filter->search = $request->search;
+            $appends ['search'] = $request->search;
+        }
+
+        # Filtrar por categorias (Tags)
+        $filter->category = "";
+        if ($request->category != "" ) {
+            $events = $events->withAnyTag([$request->category]);
+            $filter->category = $request->category;
+            $appends ['category'] = $request->category;
+        }
+
+
+        $events = $events->paginate(10);
+
+        $events->appends((array)$filter);
+
+        # Almacenar el query del listado actual para retornar 
+        # a los ultimos parametros de busqueda, categoria, pagina desde la edición
+        Session::flash('redirect',$request->getQueryString());
+
+        return view('admin.events.index', compact('filter', 'events', 'event_tags'));
     }
 
     /**
@@ -69,11 +101,12 @@ class EventController extends Controller
      */
     public function create()
     {
-        // $zones = Zone::orderBy('name', 'ASC')->where('state',1)->get();
 
         $group = Auth::user()->group;
 
         $frame_events = Event::where('state', 1)->where('frame', 'is-frame')->get();
+
+        Session::keep(['redirect']);
 
         return view('admin.events.create', compact('group', 'frame_events'));
     }
@@ -89,6 +122,7 @@ class EventController extends Controller
         
         # Start transaction
         // DB::beginTransaction();
+
         if ($request->rel_frame) {
 
             # Definido como evento marco
@@ -111,9 +145,18 @@ class EventController extends Controller
 
         $event = Event::create($request->all());
 
+        // $data['redirect'] = "";
+        // if (Session::get('redirec_back')) {
+        //     $data ['redirect']= Session::get('redirec_back');
+        // }
+        
+
         // DB::rollBack();
 
+        Session::keep(['redirect']);
+
         if ($event) {
+
             return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
         } else {
             return back()->withErrors('Error al crear el evento, por favor intente nuevamente');
@@ -198,7 +241,9 @@ class EventController extends Controller
             $data = compact('event', 'list_orgs', 'actual_place_id', 'actual_place',  'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'frame_events');
             
         }
-        
+
+        Session::keep(['redirect']);
+
         return view('admin.events.edit', $data);
 
     }
@@ -315,14 +360,15 @@ class EventController extends Controller
 
         $result = $event->update($update_fields);
 
-       
-        // echo ('<pre>');print_r($event);echo ('</pre>'); exit();
         # END actualizar evento
+
+        // Session::keep(['redirect']);
 
         if ($result) {
             DB::commit();
-            // return redirect()->route('events.edit', $event->id)->with('message', 'Evento actualizado correctamente');
-            return back()->with('message', 'Evento actualizado correctamente');
+            // return back()->with('message', 'Evento actualizado correctamente');
+
+            return redirect()->route('events.index', Session::get('redirect'))->with('message', 'Evento actualizado correctamente');
             
         } else {
             DB::rollBack();
@@ -338,8 +384,8 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        // echo ("<pre>");print_r("TO DO: eliminar evento");echo ("</pre>"); exit();
         $event = Event::findOrFail($id)->delete();
+
         return back()->with('message', 'Evento eliminado correctamente');
     }
 
@@ -389,6 +435,8 @@ class EventController extends Controller
                 $result = $event->file()->update(['file_alt'=> $request->get('file_alt')]);
             }
         }
+
+        Session::keep(['redirect']);
         
         if ($result) {
             DB::commit();
@@ -421,6 +469,8 @@ class EventController extends Controller
             $delete_thumb = $this->deleteFile($thumb_img.$event->file->file_path);
             $result = $event->file->delete();
         }
+
+        Session::keep(['redirect']);
 
         if ($result) {
             DB::commit();
@@ -499,17 +549,5 @@ class EventController extends Controller
         return $data;
         
     }
-
-    
-    
-    // /*=============================================
-    // Obtener HTML listado de funciones
-    // =============================================*/
-
-    // public function getHtmlEventFunction() {
-
-    //      return view('admin.events.partials.event_calendar');
-
-    // } //END method
 
 }
