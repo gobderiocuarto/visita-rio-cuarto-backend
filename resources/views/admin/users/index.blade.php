@@ -22,6 +22,7 @@
                             <tr>
                                 <th width="10px">ID</th>
                                 <th>Nombre</th>
+                                <th>Portal / Grupo</th>
                                 <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
@@ -30,6 +31,7 @@
                             <tr class="table-info">
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
+                                <td>{{ $user->group->name }}</td>
                                 @can('users.edit')
                                 <td width="10px">
                                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-success">Editar</a>

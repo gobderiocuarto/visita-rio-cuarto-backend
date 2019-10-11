@@ -286,9 +286,12 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('admin/events','Admin\EventController@store')->name('events.store')
 	->middleware('permission:events.create');
 	
+	# Show
+	Route::get('admin/events/{edit_id}','Admin\EventController@show')->name('events.show');
+
 	# Edit
 	Route::get('admin/events/{edit_id}/edit','Admin\EventController@edit')->name('events.edit')
-	->middleware('permission:events.edit');
+	->middleware(['permission:events.edit', 'event.edit']);
 	
 	# Update
 	Route::patch('admin/events/{edit_id}','Admin\EventController@update')->name('events.update')

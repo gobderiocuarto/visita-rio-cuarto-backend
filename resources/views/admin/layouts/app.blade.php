@@ -23,9 +23,6 @@
         <main class="py-4" style="margin-top: 50px; margin-bottom: 40px">
             @yield('content')
         </main>
-        <nav class="navbar fixed-bottom navbar-dark bg-danger" style="height: 50px">
-          <a class="navbar-brand" href="mailto:incoming+dg-guillermo-rodriguez-servicios-y-eventos-12351361-issue-@incoming.gitlab.com?subject=Servicios%20y%20Eventos:%20reportar%20un%20error" target="_blank" style="position: absolute; width: 100%; left: 0;text-align: center;">Reportar un error</a>
-        </nav>
     </div>
     <!-- Scripts -->
     <script src="{{ asset('libs/jquery/jquery.min.js') }}" ></script>

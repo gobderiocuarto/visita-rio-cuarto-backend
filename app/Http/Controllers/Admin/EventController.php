@@ -63,7 +63,7 @@ class EventController extends Controller
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
 
         # Listado de eventos
-        $events = Event::orderBy('title', 'ASC');
+        $events = Event::orderBy('created_at', 'DESC');
 
         # Filtrar por campo busqueda
         $filter->search = '';
@@ -82,6 +82,7 @@ class EventController extends Controller
             $appends ['category'] = $request->category;
         }
 
+        $group_id = Auth::user()->group->id;
 
         $events = $events->paginate(10);
 
@@ -91,7 +92,8 @@ class EventController extends Controller
         # a los ultimos parametros de busqueda, categoria, pagina desde la edición
         Session::flash('redirect',$request->getQueryString());
 
-        return view('admin.events.index', compact('filter', 'events', 'event_tags'));
+        return view('admin.events.index', compact('filter', 'events', 'event_tags', 'group_id'));
+
     }
 
     /**
@@ -171,7 +173,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+         echo ("<pre>");print_r("ver detalle del evento");echo ("</pre>"); exit();
     }
 
 

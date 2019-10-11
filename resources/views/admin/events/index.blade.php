@@ -40,6 +40,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Título</th>
+                                <th>Propietario</th>
                                 <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
@@ -47,16 +48,27 @@
                             @forelse($events as $event)
                             <tr class="table-info">
                                 <td>{{ $event->title }}</td>
+                                <td>{{ $event->group->name }}</td>
+                                @if ($event->group_id == $group_id)
                                 <td width="10px">
-                                    <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-success">Editar</a>
+                                    <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-success" title="Editar evento"><i class="fas fa-edit"></i></a>
                                 </td>
                                 <td width="10px">
                                     <form id="form_delete_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger delete_event" data-id-event="{{ $event->id }}">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-danger delete_event" data-id-event="{{ $event->id }}" title="Borrar evento">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
                                     </form>
                                 </td>
+                                @else
+                                <td colspan="2" width="20px">
+                                    <a href='{{ url("/admin/events/$event->id") }}' class="btn btn-sm btn-success" title="Ver detalle">
+                                        <i class="far fa-eye"></i>
+                                    </a>
+                                </td>
+                                @endif
                             </tr>
                             @empty
                             <tr><td colspan="4"><i class="fas fa-exclamation-triangle"></i> Aún no se han definido eventos</td></tr>
