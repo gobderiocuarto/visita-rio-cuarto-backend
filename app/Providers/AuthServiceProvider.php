@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\ownerEventMiddleware;
+
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        //'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -25,6 +29,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('event-owner', function ($user, $event) {
+
+            if ($user->can('all-access')) {
+
+                return TRUE;
+
+            }else{
+
+                return $user->group->id === $event->group_id;
+
+            }
+            // @can("event.owner", $actual_user, $event)
+            // @if ($event->group_id == $actual_user->group->id)
+        });
+
     }
 }

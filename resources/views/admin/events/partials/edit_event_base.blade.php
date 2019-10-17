@@ -1,5 +1,5 @@
 <div class="form-group row">
-    <label for="group_id" class="col-md-3 col-form-label text-md-right">Creador del evento</label>
+    <label for="group_id" class="col-md-3 col-form-label text-md-right">Propietario del evento</label>
     @if ($event->group)
     <div class="col-md-8">
         <input name="group_id" id="group_id" type="text" class="form-control" value="{{ $event->group->name }}" readonly>

@@ -20,6 +20,7 @@ class UserController extends Controller
     {
         $users = User::paginate();
 
+        // echo ("<pre>");print_r($users->group);echo ("</pre>"); exit();
         return view('admin.users.index', compact('users'));
     }
 

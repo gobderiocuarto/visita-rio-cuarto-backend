@@ -31,7 +31,11 @@
                             <tr class="table-info">
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
+                                @if ($user->group)
                                 <td>{{ $user->group->name }}</td>
+                                @else
+                                <td>No asignado</td>
+                                @endif
                                 @can('users.edit')
                                 <td width="10px">
                                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-success">Editar</a>
