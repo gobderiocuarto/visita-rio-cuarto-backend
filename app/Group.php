@@ -9,4 +9,9 @@ class Group extends Model
     protected $fillable = [
         'name', 'slug', 'description', 'state'
     ];
+
+    public function events()
+    {
+        return $this->belongsToMany('App\Event')->withPivot('event_id', 'group_id');
+    }
 }

@@ -8,7 +8,7 @@ use App\Event;
 # Autentificacion de usuarios
 use Illuminate\Support\Facades\Auth;
 
-class editEventMiddleware
+class ownerEventMiddleware
 {
     /**
      * Handle an incoming request.

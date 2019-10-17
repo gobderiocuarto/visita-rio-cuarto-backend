@@ -64,7 +64,7 @@ class Kernel extends HttpKernel
         'role' => \Caffeinated\Shinobi\Middleware\UserHasRole::class,
         'permission' => \Caffeinated\Shinobi\Middleware\UserHasPermission::class,
         
-        'event.edit' => \App\Http\Middleware\editEventMiddleware::class,
+        'event.owner' => \App\Http\Middleware\ownerEventMiddleware::class,
     ];
 
     /**
