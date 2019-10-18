@@ -88,7 +88,6 @@ class EventController extends Controller
         $events_in_group = Auth::user()->group->events()
         ->pluck('events.id')->toArray();
 
-
         $events = $events->paginate(10);
 
         $events->appends((array)$filter);
@@ -105,13 +104,12 @@ class EventController extends Controller
         // }
         // exit();
 
-        
-
         # Almacenar el query del listado actual para retornar 
         # a los ultimos parametros de busqueda, categoria, pagina desde la edición
         Session::flash('redirect',$request->getQueryString());
 
         return view('admin.events.index', compact('filter', 'events', 'event_tags', 'events_in_group'));
+
 
     }
 

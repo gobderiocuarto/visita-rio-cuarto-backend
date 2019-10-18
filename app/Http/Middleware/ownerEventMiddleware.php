@@ -17,6 +17,7 @@ class ownerEventMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
+
     public function handle($request, Closure $next)
     {
         
@@ -30,20 +31,8 @@ class ownerEventMiddleware
 
         }
 
-        // $event = Event::find($request->route('edit_id'));
-
-        // if ( (Auth::user()->can('all-access')) || (Auth::user()->group->id === $event->group_id) ) {
-
-        //     return $next($request);
-
-        // }else{
-
-        //     // return $user->group->id === $event->group_id;
-        //     abort(403, 'Acción no autorizada');       
-            
-        // }
-
     }
+
 
 
     public function eventOwner($request)
@@ -52,8 +41,8 @@ class ownerEventMiddleware
         $event = Event::find($request->route('edit_id'));
         if ($event) {
 
+            # Usuario webmaster o propietario de evento
             if ( (Auth::user()->can('all-access')) || (Auth::user()->group->id === $event->group_id) ) {
-
                 return TRUE;
             }
 
@@ -61,14 +50,6 @@ class ownerEventMiddleware
 
         return FALSE; 
 
-        // else if ( (Auth::user()->can('all-access')) || (Auth::user()->group->id === $event->group_id) ) {
-
-        //     return TRUE;
-
-        // }else{
-
-            
-        // }
-
     }
+    
 }

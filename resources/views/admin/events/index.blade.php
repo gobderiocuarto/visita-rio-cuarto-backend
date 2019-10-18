@@ -47,7 +47,12 @@
                         <tbody>
                             @forelse($events as $event)
                             <tr class="table-info">
-                                <td>{{ $event->title }}</td>
+                                <td>
+                                {{ $event->title }}
+                                @if ($event->frame == 'is-frame')
+                                <span class="font-italic">(E. marco)</span>
+                                @endif
+                                </td>
                                 <td>
                                 @if ($event->group_id)
                                     {{ $event->group->name }}
@@ -55,7 +60,7 @@
                                     <span class="font-italic">Sin propietario asignado</span>
                                 @endif
                                 </td>
-                                @if (Gate::allows('event-owner', $event))
+                                @if (Gate::allows('event.owner', $event))
                                 <td width="10px">
                                     <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-default" title="Editar evento"><i class="fas fa-edit fa-2x"></i></a>
                                 </td>
@@ -139,6 +144,7 @@
               }
             });
 
+<<<<<<< HEAD
         });
 
 
@@ -167,6 +173,36 @@
         });
 
 
+=======
+        });
+
+
+
+        $('.associate_event').click(function() {
+
+            event.preventDefault();
+            swal({
+              title: "¡Atención!",
+              text: "¿Desea vincular el evento al portal?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_asociate_event_"+$(this).data("id-event");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });         
+
+        });
+
+
+>>>>>>> 6862e51f490919602c28687e5f574d6855d0f659
         $('.unlink_event').click(function() {
 
             event.preventDefault();

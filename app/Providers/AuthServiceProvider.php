@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('event-owner', function ($user, $event) {
+        Gate::define('event.owner', function ($user, $event) {
 
             if ($user->can('all-access')) {
 
@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
 
                 return $user->group->id === $event->group_id;
 
-            }
+            }           
             // @can("event.owner", $actual_user, $event)
             // @if ($event->group_id == $actual_user->group->id)
         });
