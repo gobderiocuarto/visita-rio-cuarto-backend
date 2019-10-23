@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFrameEventIdColumnsToEventTable extends Migration
+class AddUserIdToEventTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,10 @@ class AddFrameEventIdColumnsToEventTable extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->enum('frame', ['is-frame'])->nullable();
-            $table->integer('event_id')->unsigned()->nullable()->after('group_id');
+            $table->integer('user_id')->unsigned()->nullable()->after('group_id');
 
             //relation
-            $table->foreign('event_id')->references('id')->on('events')
+            $table->foreign('user_id')->references('id')->on('users')
             ->onDelete('set null')
             ->onUpdate('cascade');
         });
@@ -31,11 +30,10 @@ class AddFrameEventIdColumnsToEventTable extends Migration
      */
     public function down()
     {
-        
+
         Schema::table('events', function (Blueprint $table) {
-            $table->dropForeign('events_event_id_foreign');
-            $table->dropColumn('event_id');
-            $table->dropColumn('frame');
+            $table->dropForeign('events_user_id_foreign');
+            $table->dropColumn('user_id');
         });
     }
 }

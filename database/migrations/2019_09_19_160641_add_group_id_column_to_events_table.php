@@ -30,11 +30,9 @@ class AddGroupIdColumnToEventsTable extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->dropForeign('events_group_id_foreign');
-        });
 
         Schema::table('events', function (Blueprint $table) {
+            $table->dropForeign('events_group_id_foreign');
             $table->dropColumn('group_id');
         });
     }

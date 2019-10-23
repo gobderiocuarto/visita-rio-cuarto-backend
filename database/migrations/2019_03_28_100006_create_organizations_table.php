@@ -44,6 +44,12 @@ class CreateOrganizationsTable extends Migration
      */
     public function down()
     {
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->dropUnique('organizations_slug_unique');
+            $table->dropUnique('organizations_email_unique');
+            $table->dropForeign('organizations_category_id_foreign');
+        });
+
         Schema::dropIfExists('organizations');
     }
 }

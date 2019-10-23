@@ -45,6 +45,10 @@ class CreateCalendarsTable extends Migration
      */
     public function down()
     {
+        Schema::table('calendars', function (Blueprint $table) {
+            $table->dropForeign('calendars_event_id_foreign');
+        });
+
         Schema::dropIfExists('calendars');
     }
 }

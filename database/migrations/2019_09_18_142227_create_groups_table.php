@@ -33,6 +33,10 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
+        Schema::table('groups', function (Blueprint $table) {
+            $table->dropUnique('groups_slug_unique');
+        });
+
         Schema::dropIfExists('groups');
     }
 }

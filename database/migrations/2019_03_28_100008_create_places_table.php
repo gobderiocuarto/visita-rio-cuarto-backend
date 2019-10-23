@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrganizationPlaceTable extends Migration
+class CreatePlacesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,26 +13,23 @@ class CreateOrganizationPlaceTable extends Migration
      */
     public function up()
     {
-        Schema::create('organization_place', function (Blueprint $table) {
-            
+        Schema::create('places', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('organization_id')->unsigned();
-            $table->integer('place_id')->unsigned();
+            $table->string('placeable_type');
+            $table->integer('placeable_id')->unsigned();
+
             $table->tinyinteger('address_type_id')->unsigned()->default(0);
             $table->string('address_type_name')->nullable();
-            
+
+            $table->string('apartament')->nullable();
             $table->timestamps();
 
             //relation
             $table->foreign('organization_id')->references('id')->on('organizations')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
-            $table->foreign('place_id')->references('id')->on('places')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-
         });
     }
 
@@ -43,6 +40,11 @@ class CreateOrganizationPlaceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organization_place');
+        
+        Schema::table('places', function (Blueprint $table) {
+            $table->dropForeign('places_organization_id_foreign');
+        });
+        
+        Schema::dropIfExists('places');
     }
 }

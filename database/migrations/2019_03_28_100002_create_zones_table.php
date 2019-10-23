@@ -32,6 +32,10 @@ class CreateZonesTable extends Migration
      */
     public function down()
     {
+        Schema::table('zones', function (Blueprint $table) {
+            $table->dropUnique('zones_slug_unique');
+        });
+
         Schema::dropIfExists('zones');
     }
 }

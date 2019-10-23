@@ -42,6 +42,13 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
+        
+
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropUnique('events_slug_unique');
+            $table->dropForeign('events_place_id_foreign');
+        });
+
         Schema::dropIfExists('events');
     }
 }

@@ -30,6 +30,10 @@ class CreateStreetsTable extends Migration
      */
     public function down()
     {
+        Schema::table('streets', function (Blueprint $table) {
+            $table->dropUnique('streets_slug_unique');
+        });
+
         Schema::dropIfExists('streets');
     }
 }

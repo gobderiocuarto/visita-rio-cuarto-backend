@@ -34,6 +34,11 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropUnique('categories_slug_unique');
+        });
+
+
         Schema::dropIfExists('categories');
     }
 }
