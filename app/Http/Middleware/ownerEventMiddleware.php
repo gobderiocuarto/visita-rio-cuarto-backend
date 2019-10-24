@@ -38,7 +38,7 @@ class ownerEventMiddleware
     public function eventOwner($request)
     {
         
-        $event = Event::find($request->route('edit_id'));
+        $event = Event::find($request->route('event'));
         if ($event) {
 
             # Usuario webmaster o propietario de evento

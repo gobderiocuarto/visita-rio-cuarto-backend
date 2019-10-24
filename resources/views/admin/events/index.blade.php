@@ -144,7 +144,6 @@
               }
             });
 
-<<<<<<< HEAD
         });
 
 
@@ -173,10 +172,6 @@
         });
 
 
-=======
-        });
-
-
 
         $('.associate_event').click(function() {
 
@@ -202,7 +197,6 @@
         });
 
 
->>>>>>> 6862e51f490919602c28687e5f574d6855d0f659
         $('.unlink_event').click(function() {
 
             event.preventDefault();

@@ -207,6 +207,63 @@
             }
         });
 
+
+        // Confirmar eliminación de imagen de evento
+        $("#delete_image").click(function(){
+
+            event.preventDefault()
+
+            swal({
+              title: "¡Atención!",
+              text: "¿Confirma que desea eliminar la imagen?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $("#form_delete_image_event").submit();
+                } 
+            });
+        
+        }); 
+
+
+        // ----------------------------------------------------
+        // ----------------------------------------------------
+        // Evento Marco
+        // ----------------------------------------------------
+        // ----------------------------------------------------
+
+        // ---------------------------------------------------------------
+        // Fecha finalizacion sea igual o sup a la de inicio
+        // ---------------------------------------------------------------
+
+        $("#frame_start_date").change(function(){
+            
+            var date = new Date()
+            var today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+
+            if ($("#frame_start_date").val() <= today) {
+                var min_end_date = today
+            } else {
+                var min_end_date = $("#frame_start_date").val()
+            }
+                
+            $("#frame_end_date").attr({
+                "min": min_end_date
+            });
+        });
+
+
+
+        // ----------------------------------------------------
+        // ----------------------------------------------------
+        // Evento NO Marco
+        // ----------------------------------------------------
+        // ----------------------------------------------------
+
+
         // ----------------------------------------------------
         // Mostrar MODAL form Vincular evento a espacio
         // ----------------------------------------------------
@@ -219,10 +276,12 @@
         });
 
 
-        // Mostrar listado de ubicaciones bajo el input del modal            
+        // ----------------------------------------------------
+        // Mostrar listado de ubicaciones bajo el input del modal  
+        // ----------------------------------------------------          
 
         $('#load_place_name').autocomplete({
-            minLength : 3,
+            minLength : 2,
             autoFocus : true,
             dataType: "json",
             source : function (request, response) {
@@ -253,6 +312,10 @@
         });
 
 
+        // ----------------------------------------------------
+        // Cargar ubicación al seleccionarla desde el modal  
+        // ---------------------------------------------------- 
+
         $("#form_load_place").submit(function(event){
             event.preventDefault()
             $("#place_name").val($('#load_place_name').val());
@@ -266,33 +329,8 @@
         });
 
 
-        
-
-        // Eliminar imagen de evento
-        $("#delete_image").click(function(){
-
-            event.preventDefault()
-
-            swal({
-              title: "¡Atención!",
-              text: "¿Confirma que desea eliminar la imagen?",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    $("#form_delete_image_event").submit();
-                } 
-            });
-        
-        }); 
-
-
-        // ----------------------------------------------------
         // ----------------------------------------------------
         // Calendarios-Funciones asociados a evento
-        // ----------------------------------------------------
         // ----------------------------------------------------
 
         function calendarItemTemplate(calendar) {
@@ -335,8 +373,8 @@
             emptyFormCalendar()
             $('#title_add_edit_calendar').html('Agregar Función')
 
+            // Copiar fecha de inicio de ultimo calendario agregado, si existe
             let $liCalendar = document.querySelectorAll('.start_date')
-            // Copiar fecha de ultimo calendario agregado, si existe
             if ($liCalendar.length) {
                 let $lastCalendar = $liCalendar[$liCalendar.length - 1];
                 $("#start_date").val($lastCalendar.innerHTML)
@@ -359,6 +397,25 @@
             loadCalendar(id_event, id_calendar)
             $("#modal_create_edit_calendar").modal("show")
 
+        });
+
+        // ----------------------------------------------------
+        // Mostrar MODAL form EDITAR calendario-función
+        // ----------------------------------------------------
+
+         $("#start_date").change(function(){
+
+            var date = new Date()
+            var today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+
+            if ($("#start_date").val() <= today) {
+                var min_end_date = today
+            } else {
+                var min_end_date = $("#start_date").val()
+            }
+            $("#end_date").attr({
+                "min": min_end_date
+            });
         });
 
 
@@ -409,7 +466,7 @@
                 },
 
                 error: function (data) {
-                    alert ("error list_calendars")
+                    alert ("error al Crear - Editar calendario")
                 }
             });
 
