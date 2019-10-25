@@ -40,26 +40,77 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Título</th>
-                                <th colspan="2">Opciones</th>
+                                <th>Propietario</th>
+                                <th colspan="3" width="20px">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($events as $event)
                             <tr class="table-info">
-                                <td>{{ $event->title }}</td>
-                                <td width="10px">
-                                    <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-success">Editar</a>
+                                <td>
+                                    {{ $event->title }}
+                                    @if ($event->frame == 'is-frame')
+                                        <span class="font-italic">(E. marco)</span>
+                                    @endif
                                 </td>
-                                <td width="10px">
+                                <td>
+                                @if ($event->group_id)
+                                    {{ $event->group->name }}
+                                @else
+                                    <span class="font-italic">Sin propietario asignado</span>
+                                @endif
+                                </td>
+                                @if ($event->state == 1)
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <span class="btn btn-sm btn-default" title="Estado: Publicado">
+                                    <i class="fas fa-eye fa-2x"></i></span>
+                                </td>
+                                @else
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <span class="btn btn-sm btn-default" title="Estado: Borrador"><i class="fas fa-eye-slash fa-2x"></i></span>
+                                </td>
+                                @endif
+                                @if (Gate::allows('event.owner', $event))
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-default" title="Editar evento"><i class="fas fa-edit fa-2x"></i></a>
+                                </td>
+                                <td style="padding-left: 0; padding-right: 0">
                                     <form id="form_delete_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger delete_event" data-id-event="{{ $event->id }}">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-default delete_event" data-id-event="{{ $event->id }}" title="Borrar evento">
+                                            <i class="fas fa-trash-alt fa-2x"></i>
+                                        </button>
                                     </form>
                                 </td>
+                                @else
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <a href='{{ url("/admin/events/$event->id") }}' class="btn btn-sm btn-default" title="Consultar detalle">
+                                        <i class="fas fa-search fa-2x"></i>
+                                    </a>
+                                </td>
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <form id="form_asociate_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id/asociate") }}' method="POST">
+                                        {{ method_field('PATCH') }}
+                                        @csrf
+                                        @if(in_array($event->id, $events_in_group))
+                                        <button type="submit" class="btn btn-sm btn-default unlink_event" data-id-event="{{ $event->id }}" title="Evento asociado al portal propio">
+                                            <i class="fas fa-check-circle fa-2x"></i>
+                                        </button>
+                                         @else
+                                        <button type="submit" class="btn btn-sm btn-default associate_event" data-id-event="{{ $event->id }}" title="Asociar evento al portal propio">
+                                            <i class="fas fa-plus-circle fa-2x" style="color: red"></i>
+                                        </button>
+                                        @endif
+                                    </form>
+
+                                </td>
+                                @endif
                             </tr>
                             @empty
-                            <tr><td colspan="4"><i class="fas fa-exclamation-triangle"></i> Aún no se han definido eventos</td></tr>
+                            <tr>
+                                <td colspan="5"><i class="fas fa-exclamation-triangle"></i> Aún no se han definido eventos</td>
+                            </tr>
                             @endforelse
                         </tbody>   
                     </table>     	
@@ -104,7 +155,83 @@
                 swal("La acción fue cancelada");
               }
             });
+
         });
+
+
+
+        $('.associate_event').click(function() {
+
+            event.preventDefault();
+            swal({
+              title: "¡Atención!",
+              text: "¿Desea vincular el evento al portal?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_asociate_event_"+$(this).data("id-event");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });         
+
+        });
+
+
+
+        $('.associate_event').click(function() {
+
+            event.preventDefault();
+            swal({
+              title: "¡Atención!",
+              text: "¿Desea vincular el evento al portal?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_asociate_event_"+$(this).data("id-event");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });         
+
+        });
+
+
+        $('.unlink_event').click(function() {
+
+            event.preventDefault();
+            swal({
+              title: "¡Atención!",
+              text: "¿Desea desvincular el evento de su portal?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                let form = "#form_asociate_event_"+$(this).data("id-event");
+                $(form).submit();
+
+              } else {
+                swal("La acción fue cancelada");
+              }
+            });         
+
+        });
+
     }); //  END document ready
 </script>
 @endsection

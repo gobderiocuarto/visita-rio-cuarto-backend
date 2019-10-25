@@ -23,7 +23,7 @@
                 <div class="form-group row">
                     <div class="col-6">
                         <label for="end_date" class="col-form-label">Fecha de finalización</label>
-                        <input class="form-control" type="date" id="end_date" name="end_date">
+                        <input class="form-control" type="date" id="end_date" name="end_date" min="{{ date('Y-m-d') }}">
                     </div>
                     <div class="col-6">
                         <label for="end_time" class="col-form-label">Hora de Finalización</label>

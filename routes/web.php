@@ -286,33 +286,41 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('admin/events','Admin\EventController@store')->name('events.store')
 	->middleware('permission:events.create');
 	
+	# Show
+	Route::get('admin/events/{event}','Admin\EventController@show')->name('events.show');
+
 	# Edit
-	Route::get('admin/events/{edit_id}/edit','Admin\EventController@edit')->name('events.edit')
-	->middleware('permission:events.edit');
+	Route::get('admin/events/{event}/edit','Admin\EventController@edit')->name('events.edit')
+	->middleware(['permission:events.edit', 'event.owner']);
 	
 	# Update
-	Route::patch('admin/events/{edit_id}','Admin\EventController@update')->name('events.update')
-	->middleware('permission:events.edit');
+	Route::patch('admin/events/{event}','Admin\EventController@update')->name('events.update')
+	->middleware(['permission:events.edit', 'event.owner']);
 	
-	# Update
-	Route::delete('admin/events/{edit_id}','Admin\EventController@destroy')->name('events.destroy')
-	->middleware('permission:events.destroy');
+	# Delete
+	Route::delete('admin/events/{event}','Admin\EventController@destroy')->name('events.destroy')
+	->middleware(['permission:events.destroy', 'event.owner']);
+
+	# Asociar evento
+	Route::patch('admin/events/{event}/asociate/','Admin\EventController@asociate')->name('events.asociate');
 
 	# Cargar imagen asociada a evento
 	Route::post('admin/events/{event}/images/','Admin\EventController@loadImageEvent')->name('events.loadImageEvent')
-	->middleware('permission:events.loadImageEvent');
+	->middleware(['permission:events.loadImageEvent', 'event.owner']);
 
 	# Borrar imagen asociada a evento
 	Route::delete('admin/events/{event}/images/delete','Admin\EventController@destroyImageEvent')->name('events.destroyImageEvent')
-	->middleware('permission:events.destroyImageEvent');
+	->middleware(['permission:events.destroyImageEvent', 'event.owner']);
+
 
 	# Crear / editar calendar asociado a evento
 	Route::post('admin/events/{event}/calendars/{calendar?}','Admin\EventController@saveEventCalendar')->name('events.saveEventCalendar')
-	->middleware('permission:events.saveEventCalendar');
+	->middleware(['permission:events.saveEventCalendar', 'event.owner']);
 
 	# Borrar calendario asociado a evento
 	Route::delete('admin/events/{event}/calendars/{calendar}','Admin\EventController@destroyEventCalendar')->name('events.destroyEventCalendar')
-	->middleware('permission:events.destroyEventCalendar');
+	->middleware(['permission:events.destroyEventCalendar', 'event.owner']);
+
 	
 	# --------------------------------------------------------
 	# END Events

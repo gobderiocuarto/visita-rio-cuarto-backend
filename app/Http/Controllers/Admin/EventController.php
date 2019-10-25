@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Gate;
+
 use Caffeinated\Shinobi\Models\Role;
 
 use Session;
@@ -63,7 +65,7 @@ class EventController extends Controller
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
 
         # Listado de eventos
-        $events = Event::orderBy('title', 'ASC');
+        $events = Event::orderBy('created_at', 'DESC');
 
         # Filtrar por campo busqueda
         $filter->search = '';
@@ -82,16 +84,33 @@ class EventController extends Controller
             $appends ['category'] = $request->category;
         }
 
+        # Eventos (no propios) ya asociados al grupo al que pertenece el usuario actual
+        $events_in_group = Auth::user()->group->events()
+        ->pluck('events.id')->toArray();
 
         $events = $events->paginate(10);
 
         $events->appends((array)$filter);
 
+        #Chequear permiso de edicion - borrado o visualización - asociado
+        // $user = Auth::user();
+        // // var_dump($user->can('all-access')); exit();
+        // foreach ($events as $key => $event) {
+        //     if (Gate::allows('event-owner', $event)) {
+        //         echo ("<pre>");print_r("permite");echo ("</pre>"); 
+        //     } else{
+        //         echo ("<pre>");print_r("no permite");echo ("</pre>");
+        //     }
+        // }
+        // exit();
+
         # Almacenar el query del listado actual para retornar 
         # a los ultimos parametros de busqueda, categoria, pagina desde la edición
         Session::flash('redirect',$request->getQueryString());
 
-        return view('admin.events.index', compact('filter', 'events', 'event_tags'));
+        return view('admin.events.index', compact('filter', 'events', 'event_tags', 'events_in_group'));
+
+
     }
 
     /**
@@ -171,7 +190,56 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        $event = Event::findOrFail($id);
+
+        # Tag categorizados bajo grupo "Eventos", asociados al evento puntual
+        $tags_events = ''; // mostrar categorias como etiquetas separadas por coma
+
+        # Tag no categorizados bajo grupo "Eventos", asociados al evento puntual
+        $tags_no_events = '';
+
+        foreach ($event->tags as $tag) {
+
+            if ($tag->isInGroup('Eventos')) {
+                $tags_events .= $tag ['name'].', ';
+            } else {
+                $tags_no_events .= $tag ['name'].', ';
+            }
+        }
+
+        # Si se trata de un evento marco
+        if ( (isset($event->frame)) && ($event->frame == 'is-frame')) {
+            $calendar = [];
+            if ($event->calendars->first()) {
+                $calendar = $event->calendars->first();
+            }
+            
+            $data = compact('event', 'tags_events', 'tags_no_events', 'calendar');
+
+        } else {
+
+            $frame_event = Event::where('id', $event->event_id)
+            ->first();
+
+            # Determinar lugar / ubicación actual del evento
+            $actual_place_id = '';
+            $actual_place = '';
+            if ($event->place_id) {
+
+                $actual_place_id = $event->place_id;
+                $place = Place::with('organization')->find($event->place_id);
+                $actual_place = $place->organization->name.' - ';
+
+                if ($place->placeable_type == 'App\Space') {
+                    $actual_place .=  $place->placeable->address->street->name.' '.$place->placeable->address->number.', '.$place->placeable->name;
+                } else if ($place->placeable_type == 'App\Address') {
+                    $actual_place .=  $place->placeable->street->name.' '.$place->placeable->number;
+                }
+            }
+
+            $data = compact('event', 'frame_event', 'tags_events', 'tags_no_events', 'actual_place');
+        }
+        return view('admin.events.show', $data);
     }
 
 
@@ -387,6 +455,28 @@ class EventController extends Controller
         $event = Event::findOrFail($id)->delete();
 
         return back()->with('message', 'Evento eliminado correctamente');
+    }
+
+
+    public function asociate($id)
+    {
+        $event = Event::findOrFail($id);
+        $group = Auth::user()->group;
+
+        $exist = $group->events()->wherePivot('event_id', $event->id)->first();
+
+        if($exist) {
+
+            $result = $group->events()->detach($event);
+            $message = "Evento desvinculado correctamente";
+
+        } else {
+
+            $result = $group->events()->attach($event);
+            $message = "Evento asociado correctamente";
+        }
+
+        return back()->with('message', $message);
     }
 
 
