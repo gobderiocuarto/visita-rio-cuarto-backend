@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Address;
-use App\Organization;
-// use App\Space;
-use App\Place;
+use App\Category;
 use App\Space;
+use App\Organization;
+use App\Address;
+use App\Place;
 use App\Event;
 use App\Calendar;
 
@@ -23,31 +23,176 @@ use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
-    # Traer datos de espacio por ej. para asociar a una ubicacion 
+    
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Categorías
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+
+    // ----------------------------------------------------------------
+    // api/categories/{id}
+
+    // Detalle de categoría en base a su id
+    // ----------------------------------------------------------------
+
+    public function getCategory($id)
+    {
+        $category =  Category::with('category')->with('categories')
+        ->where('id',$id)
+        ->get();
+        // ->first();
+
+        return $category;
+
+    }
+
+    // ----------------------------------------------------------------
+    // api/categories/{termino?}
+
+    // Listado total de categorías o en base a término de búsqueda
+    // ----------------------------------------------------------------
+
+    public function getCategories($termino = '')
+    {
+        $list_categories = Category::with('category')->with('categories')
+        ->where('state', 1)
+        ->orderby('name', 'ASC')
+        ->where('name', 'LIKE', "%$termino%")
+        ->get();
+
+        return $list_categories;
+
+    }
+
+
+
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Direcciones
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+
+
+    // ----------------------------------------------------------------
+    // api/addresses/{id}
+
+    // Detalle de direccion en base a su id
+    // ----------------------------------------------------------------
+
+    public function getAddress($id)
+    {
+        $address =  Address::with('zone')
+        ->where('id',$id)
+        ->get();
+        // ->first();
+
+        return $address;
+
+    }
+
+
+
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Espacios
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+
+
+    // ----------------------------------------------------------------
+    // api/spaces/{id}
+
+    // Detalle de espacio en base a su id
+    // ----------------------------------------------------------------
+
 	public function getSpace($id)
     {
-        $space =  Space::with('address.zone')->findOrFail($id);
+        $space =  Space::with('address.zone')
+        ->where('id',$id)
+        ->get();
+        // ->first();
+
         return $space;
 
     }
 
 
     // ----------------------------------------------------------------
+    // api/spaces/{termino?}
+
+    // Listado total de espcios o en base a término de búsqueda
     // ----------------------------------------------------------------
-    // Obtener Listado de lugares y organizaciones asociadas
+
+    public function getSpaces($termino = '')
+    {
+        $list_spaces = Space::with('address.zone')->where('state', 1)
+        ->orderby('spaces.name', 'ASC')
+        ->where('name', 'LIKE', "%$termino%")
+        ->get();
+
+        return $list_spaces;
+
+    }
+
+
+
+
     // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Organizaciones
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+
+
+    // ----------------------------------------------------------------
+    // api/organizations/{id}
+
+    // Detalle de organizacion en base a su id
+    // ----------------------------------------------------------------
+
+    public function getOrganization($id)
+    {
+        $org = Organization::with('places.placeable')
+        ->where('id',$id)
+        ->first();
+
+        echo ("<pre>");print_r($org);echo ("</pre>"); exit();
+        return $org;
+
+    }
+
+
+    // ----------------------------------------------------------------
+    // api/organizations/{termino?}
+
+    // Listado total de organizaciones o en base a término de búsqueda
     // ----------------------------------------------------------------
 
     public function getOrganizations($termino = '')
     {
-        $list_orgs = Place::with('organization')
-        ->where('state', 1)
+        $list_orgs = Organization::with('places.placeable')->where('state', 1)
         ->orderby('organizations.name', 'ASC')
         ->where('name', 'LIKE', "%$termino%")
         ->get();
+
+        // echo ("<pre>");print_r($list_orgs);echo ("</pre>"); exit();
         return $list_orgs;
 
     }
+
+
+
+
+
+    // ----------------------------------------------------------------
+    // api/places/{termino?}
+    // Mostrar listado de lugares y su organización asociada
+    // En base al nombre de esta.
+
+    // Usado en la edición de un evento, para asociarle un lugar
+    // mediante el uso de un modal de busqueda
+    // ----------------------------------------------------------------
 
     public function getPlacesOrganizations($termino = '')
     {
@@ -122,16 +267,12 @@ class ApiController extends Controller
             $place->placeable->address->street;
 
         } else {
-            // echo ('<pre>');print_r("no place");echo ('</pre>'); exit();
 
             $place->placeable->street;
         }
 
         return $place;
 
-        
-        // return $organization->spaces()->with('address.street')->where('spaces.id', $space )->first();
-        // return $organization->spaces()->with('address')->where('spaces.id', $space )->first();
     }
 
 
@@ -230,8 +371,6 @@ class ApiController extends Controller
 
         return $calendar; exit();
 
-        // $text = $this->getHtmlEventFunction();
-        // $data['html'] = html_entity_decode($text); 
 
     }
 
