@@ -126,20 +126,6 @@
         });
 
 
-        // Obtener listado de servicios (typeahead)
-        $('#tags').tagsInput({
-            'autocomplete': {
-                source : function (request, responseGetData) {
-                    var term = request.term;
-                    console.log(term)
-                    $.get(base_url+'/api/services/'+term, function(data){
-                        //console.log(data)
-                        responseGetData(data);
-                    });
-                }
-            } 
-        });
-
     });
 </script>
 @endsection

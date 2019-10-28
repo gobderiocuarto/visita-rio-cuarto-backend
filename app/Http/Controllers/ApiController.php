@@ -40,8 +40,8 @@ class ApiController extends Controller
     {
         $category =  Category::with('category')->with('categories')
         ->where('id',$id)
-        ->first();
-        // ->get();
+        // ->first();
+        ->get();
 
         return $category;
 
@@ -84,8 +84,8 @@ class ApiController extends Controller
     {
         $address =  Address::with('zone')
         ->where('id',$id)
-        ->first();
-        // ->get();
+        // ->first();
+        ->get();
 
         return $address;
 
@@ -110,8 +110,8 @@ class ApiController extends Controller
     {
         $space =  Space::with('category')->with('address.zone')->with('file')->with('tagged')
         ->where('id',$id)
-        ->first();
-        // ->get();
+        // ->first();
+        ->get();
         return $space;
 
     }
@@ -153,11 +153,10 @@ class ApiController extends Controller
 
     public function getOrganization($id)
     {
-        $org = Organization::with('places.placeable')->with('file')->with('tagged')
+        $org = Organization::with('category')->with('tagged')->with('file')->with('places.placeable')
         ->where('id',$id)
-        ->first();
+        ->get();
 
-        echo ("<pre>");print_r($org);echo ("</pre>"); exit();
         return $org;
 
     }
@@ -171,15 +170,135 @@ class ApiController extends Controller
 
     public function getOrganizations($termino = '')
     {
-        $list_orgs = Organization::with('places.placeable')->where('state', 1)
+
+        $list_orgs = Organization::with('category')->with('tagged')->with('file')->with('places.placeable')
+        ->where('state', 1)
         ->orderby('organizations.name', 'ASC')
         ->where('name', 'LIKE', "%$termino%")
         ->get();
 
-        // echo ("<pre>");print_r($list_orgs);echo ("</pre>"); exit();
         return $list_orgs;
 
     }
+
+
+
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Eventos
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+
+
+    // ----------------------------------------------------------------
+    // api/events/{id}
+
+    // Detalle de evento en base a su id
+    // ----------------------------------------------------------------
+
+    public function getEvent($id)
+    {
+        $event = Event::with('tagged')->with('event')->with('events')->with('place.organization')->with('calendars')->with('file')
+        ->where('id',$id)
+        ->get();
+
+        return $event;
+
+    }
+
+
+    // ----------------------------------------------------------------
+    // api/events/{termino?}
+
+    // Listado total de eventos o en base a término de búsqueda
+    // ----------------------------------------------------------------
+
+    public function getEvents($termino = '')
+    {
+
+        $list_events = Event::with('tagged')->with('event')->with('events')->with('place.organization')->with('calendars')->with('file')
+        ->where('state', 1)
+        ->orderby('events.title', 'ASC')
+        ->where('title', 'LIKE', "%$termino%")
+        ->get();
+
+        return $list_events;
+
+    }
+
+
+    // -------------------------------------------------------------------------
+    // api/events/{event}/calendars/{calendar}
+
+    // Obtener datos de un calendario puntual, si pertenece a un evento dado
+    // -------------------------------------------------------------------------
+
+    public function getEventCalendar($id_event, $id_calendar)
+    {
+
+        $calendar = Calendar::where('event_id', (int)$id_event)->find((int)$id_calendar);
+
+        // var_dump($calendar); exit();
+        return $calendar;
+
+    }
+
+
+
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Tags
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+
+
+    // ------------------------------------------------------------------------------
+    // api/services/{termino?}
+
+    // Obtener colección de nombres de tags agrupados bajo "SERVICIOS"
+    // ------------------------------------------------------------------------------
+
+    public function getServicesTags($termino = '')
+    {
+        $service_tags = Tag::inGroup('Servicios')
+        ->where('name', 'LIKE', "%$termino%")->pluck('name');
+        return $service_tags;
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Obtener colección de nombres de tags asociados a grupo "EVENTOS"
+    // -------------------------------------------------------------------------
+
+    public function getEventsTags($termino = '')
+    {
+        
+        $event_tags = Tag::inGroup('Eventos');
+        $event_tags->where('name', 'LIKE', "%$termino%");
+        $event_tags = $event_tags->pluck('name');
+        return $event_tags;
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Obtener colección de nombres de tags NO asociados a grupo "EVENTOS"
+    // -------------------------------------------------------------------------
+
+    public function getNoEventsTags($termino = '')
+    {
+        $tags_no_events = Tag::where('tagging_tags.name', 'LIKE', "%$termino%")
+        ->where( function($query){
+            $query->where('tagging_tags.tag_group_id','!=',2)
+            ->orWhereNull('tagging_tags.tag_group_id');
+        })
+        ->distinct()
+        ->pluck('name');
+
+        return $tags_no_events;
+    }
+
+
+
 
 
 
@@ -223,29 +342,6 @@ class ApiController extends Controller
         return $list_places;
 
     }
-
-
-    // public function getAddress($id)
-    // {
-
-    //     $address =  Address::with('zone')->findOrFail($id);
-
-    //     return $address;
-
-    //     $streets = json_decode(file_get_contents('http://eventos.localhost/files/streets/streets.json'), true);
-
-    //     $key = array_search($address->street_id, array_column($streets , 'id'));
-
-    //     $address = $address->toArray();
-
-    //     $address['street'] = $streets [$key];
-
-    //     return $address;
-
-    //     // $address =  Address::with('street', 'zone')->findOrFail($id);
-    //     //return $address;
-    // }
-
 
 
     // ----------------------------------------------------------------
@@ -304,75 +400,15 @@ class ApiController extends Controller
 
 
 
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-    // Obtener colección de nombres de tags asociados a grupo "servicios",
-    // filtrados por un termino
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-
-    public function getServiceTags($termino = '')
-    {
-        $service_tags = Tag::inGroup('Servicios')->where('name', 'LIKE', "%$termino%")->pluck('name');
-        return $service_tags;
-    }
-
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-    // Obtener colección de nombres de tags asociados a grupo "EVENTOS"
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-
-    public function getEventsTags($termino = '')
-    {
-        $event_tags = Tag::inGroup('Eventos');
-        $event_tags->where('name', 'LIKE', "%$termino%");
-        $event_tags = $event_tags->pluck('name');
-        return $event_tags;
-    }
+    
 
 
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-    // Obtener colección de nombres de tags NO asociados a grupo "EVENTOS"
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-
-    public function getTags($termino = '')
-    {
-        $tags_no_events = Tag::where('tagging_tags.name', 'LIKE', "%$termino%")
-        ->where( function($query){
-            $query->where('tagging_tags.tag_group_id','!=',2)
-            ->orWhereNull('tagging_tags.tag_group_id');
-        })
-        ->distinct()
-        ->pluck('name');
-
-        return $tags_no_events;
-    }
+    
 
 
 
 
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-    // Obtener datos de un calendario puntual, si pertenece a un evento dado
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-
-    public function getEventCalendar($id_event, $id_calendar)
-    {
-
-        // $event = Event::findOrFail((int)$id_event);
-
-        $calendar = Calendar::where('event_id', (int)$id_event)->find((int)$id_calendar);
-
-        // var_dump($calendar); exit();
-
-        return $calendar; exit();
-
-
-    }
+    
 
     
 } # END Class
