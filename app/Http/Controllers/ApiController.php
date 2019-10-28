@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Category;
+use App\Address;
 use App\Space;
 use App\Organization;
-use App\Address;
 use App\Place;
 use App\Event;
 use App\Calendar;
@@ -40,8 +40,8 @@ class ApiController extends Controller
     {
         $category =  Category::with('category')->with('categories')
         ->where('id',$id)
-        ->get();
-        // ->first();
+        ->first();
+        // ->get();
 
         return $category;
 
@@ -84,8 +84,8 @@ class ApiController extends Controller
     {
         $address =  Address::with('zone')
         ->where('id',$id)
-        ->get();
-        // ->first();
+        ->first();
+        // ->get();
 
         return $address;
 
@@ -108,11 +108,10 @@ class ApiController extends Controller
 
 	public function getSpace($id)
     {
-        $space =  Space::with('address.zone')
+        $space =  Space::with('category')->with('address.zone')->with('file')->with('tagged')
         ->where('id',$id)
-        ->get();
-        // ->first();
-
+        ->first();
+        // ->get();
         return $space;
 
     }
@@ -126,7 +125,8 @@ class ApiController extends Controller
 
     public function getSpaces($termino = '')
     {
-        $list_spaces = Space::with('address.zone')->where('state', 1)
+        $list_spaces = Space::with('category')->with('address.zone')->with('file')->with('tagged')
+        ->where('state', 1)
         ->orderby('spaces.name', 'ASC')
         ->where('name', 'LIKE', "%$termino%")
         ->get();
@@ -153,7 +153,7 @@ class ApiController extends Controller
 
     public function getOrganization($id)
     {
-        $org = Organization::with('places.placeable')
+        $org = Organization::with('places.placeable')->with('file')->with('tagged')
         ->where('id',$id)
         ->first();
 

@@ -26,6 +26,15 @@ class Space extends Model
         return $this->belongsTo(Address::class);
     }
 
+    public function file()
+    {
+        return $this->morphOne(File::class, 'fileable');
+    }
+
+    public function category()
+    {
+        return  $this->belongsTo('App\Category');
+    }
 
 
     // public function organizations()
@@ -45,10 +54,6 @@ class Space extends Model
     //     return $this->morphMany(File::class, 'fileable');
     // }
 
-    public function file()
-    {
-        return $this->morphOne(File::class, 'fileable');
-    }
 
 
 }
