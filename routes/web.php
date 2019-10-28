@@ -14,7 +14,8 @@
 
 
 Route::get('/', function () {
-    return redirect()->route('home');
+    return redirect('admin/home');
+    // return redirect()->route('home');
 });
 
 

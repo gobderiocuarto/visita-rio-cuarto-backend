@@ -179,28 +179,13 @@
             }
         }); 
 
-        // Mostrar listado de categorias / tags (agrupados en eventos)
-        $('#tags_events').tagsInput({
-            // autocomplete: The Autocomplete widgets provides suggestions while you type into the field
-            // https://jqueryui.com/autocomplete/
-            'autocomplete': {
-                dataType: 'json',
-                source : function (request, responseGetData) {
-                    var term = request.term;
-                    $.get(base_url+'/api/events/'+term, function(data){
-                        responseGetData(data);
-                    });
-                },
-            } 
-        });
-
 
         // Mostrar manejo de tags (fuera de grupo eventos)
         $('#tags_no_events').tagsInput({
             'autocomplete': {
                 source : function (request, responseGetData) {
                     var term = request.term;
-                    $.get(base_url+'/api/tags/'+term, function(data){
+                    $.get(base_url+'/api/tags/services/'+term, function(data){
                         responseGetData(data);
                     });
                 }

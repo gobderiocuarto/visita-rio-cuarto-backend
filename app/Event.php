@@ -16,16 +16,28 @@ class Event extends Model
     ];
 
 
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+
+
     public function calendars()
     {
         return $this->hasMany(Calendar::class)->orderBy('start_date','ASC');
     }
     
-
-    // public function files()
-    // {
-    //     return $this->morphMany(File::class, 'fileable');
-    // }
 
     public function file()
     {
