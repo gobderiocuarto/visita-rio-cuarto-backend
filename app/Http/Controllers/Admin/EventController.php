@@ -58,6 +58,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
 
+    
         $filter = (object)[];
 
         $appends = array();
@@ -164,6 +165,8 @@ class EventController extends Controller
 
         $event = Event::create($request->all());
 
+
+
         // $data['redirect'] = "";
         // if (Session::get('redirec_back')) {
         //     $data ['redirect']= Session::get('redirec_back');
@@ -176,6 +179,8 @@ class EventController extends Controller
 
         if ($event) {
 
+            // Agregamos al evento a la relacion eventos - grupo (portal)
+            Auth::user()->group->events()->attach($event);
             return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
         } else {
             return back()->withErrors('Error al crear el evento, por favor intente nuevamente');
