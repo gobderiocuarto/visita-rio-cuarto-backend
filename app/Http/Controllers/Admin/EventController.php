@@ -434,9 +434,9 @@ class EventController extends Controller
 
         if ($result) {
             DB::commit();
-            // return back()->with('message', 'Evento actualizado correctamente');
+            return back()->with('message', 'Evento actualizado correctamente');
 
-            return redirect()->route('events.index', Session::get('redirect'))->with('message', 'Evento actualizado correctamente');
+            // return redirect()->route('events.index', Session::get('redirect'))->with('message', 'Evento actualizado correctamente');
             
         } else {
             DB::rollBack();

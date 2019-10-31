@@ -1,4 +1,4 @@
-<div id="list_calendars" class="mt-2">
+<div id="list_calendars" class="mt-3">
     <div class="card">
         <div class="card-header">
             <h2>Calendario de Funciones</h2> 
@@ -39,7 +39,6 @@
                     @endforelse
                 </tbody>   
             </table>
-            <hr>
             <div class="alert alert-secondary text-right mb-3" >
                 <button id="calendar_btn_add" class="pull-right btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Agregar función</button>
             </div>

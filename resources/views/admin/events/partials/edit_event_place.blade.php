@@ -15,7 +15,7 @@
             <label for="file" class="col-md-3 col-form-label text-md-right">Asignar nueva ubicación</label>
             <div class="col-md-8">
                 <button id="load_place" class="btn btn btn-outline-primary">Buscar...</button>
-                <small class="form-text text-muted mt-2">Algun texto aca</small>
+                <small class="form-text text-muted mt-2">Presione en "Buscar" para establecer la ubicación</small>
             </div>
         </div>
     </div>

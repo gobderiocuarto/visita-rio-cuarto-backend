@@ -2,9 +2,8 @@
     <label for="state" class="col-md-3 col-form-label text-md-right">Estado</label>
     <div class="col-md-4">
         <select id="state" name="state" class="form-control form-control-xl">
-            <option value="0" @if ($event->state == 0 ) selected="selected" @endif>Pendiente</option>
-            <option value="1" @if ($event->state == 1 ) selected="selected" @endif>Activo</option>
-            <option value="2" @if ($event->state == 2 ) selected="selected" @endif>Inactivo</option>
+            <option value="0" @if ($event->state == 0 ) selected="selected" @endif>Borrador</option>
+            <option value="1" @if ($event->state == 1 ) selected="selected" @endif>Publicado</option>
         </select>
     </div>
 </div>

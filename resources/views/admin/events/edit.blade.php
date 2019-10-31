@@ -18,10 +18,10 @@
             <h3>Editar evento:</h3>
             <h1><strong>{{ $event->title }}</strong></h1>
             </br>
-            <div class="alert alert-secondary mb-3 text-right" >
-                <a href="{{ route('events.index', Session::get('redirect') ) }}" class="btn btn-sm btn-primary ">
-                Volver al listado
-                </a>
+            <div class="card mt-3">
+                <div class="card-footer text-left">
+                    <a href="{{ route('events.index', Session::get('redirect') ) }}" class="btn btn-md btn-success "><< Volver al listado</a>
+                </div>
             </div>
             <hr>
             @if ($event->frame)
@@ -68,7 +68,7 @@
                             @endif  
                         </div>
                         <div class="card">
-                            <div class="card-footer ">
+                            <div class="card-footer">
                                 <div class="row pt-2 pb-2">
                                     <div class="col-md-4 offset-md-3">
                                         <button type="submit" class="btn btn-success">Actualizar Evento</button>
@@ -80,14 +80,18 @@
                             </div>
                         </div>
                     </form>
-                @if (!$event->frame)
-                    @include('admin.events.partials.list_calendars')
-                @endif 
+                    @if (!$event->frame)
+                        @include('admin.events.partials.list_calendars')
+                    @endif
                 </div>
                 <div class="tab-pane" role="tabpanel" id="image">
                     @include('admin.events.partials.event_image')
                 </div>
-                
+            </div>
+            <div class="card mt-3">
+                <div class="card-footer text-left">
+                    <a href="{{ route('events.index', Session::get('redirect') ) }}" class="btn btn-md btn-success "><< Volver al listado</a>
+                </div>
             </div>
         </div>
     </div>
