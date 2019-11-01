@@ -68,6 +68,15 @@ class EventController extends Controller
         # Listado de eventos
         $events = Event::orderBy('created_at', 'DESC');
 
+        if (!Auth::user()->can('all-access')){
+
+            $events = $events->where('events.group_id', Auth::user()->group->id)
+                    ->orWhere(function($query){
+                        $query->where('events.group_id','<>', Auth::user()->group->id)
+                        ->where('state', 1);   
+                    });
+        } 
+        
         # Filtrar por campo busqueda
         $filter->search = '';
         if (($request->search != '')) {
@@ -85,13 +94,19 @@ class EventController extends Controller
             $appends ['category'] = $request->category;
         }
 
-        # Eventos (no propios) ya asociados al grupo al que pertenece el usuario actual
-        $events_in_group = Auth::user()->group->events()
-        ->pluck('events.id')->toArray();
-
         $events = $events->paginate(10);
 
+
         $events->appends((array)$filter);
+
+        # Eventos (no propios) ya asociados al grupo al que pertenece el usuario actual
+        $events_in_group = Auth::user()->group->events()
+        ->where('state', 1)
+        ->where('events.group_id', '<>', Auth::user()->group->id)
+        ->pluck('events.id')
+        // ->get()
+        ->toArray();
+
 
         #Chequear permiso de edicion - borrado o visualización - asociado
         // $user = Auth::user();
@@ -164,16 +179,6 @@ class EventController extends Controller
         $request->request->add(['group_id' => Auth::user()->group->id ]);
 
         $event = Event::create($request->all());
-
-
-
-        // $data['redirect'] = "";
-        // if (Session::get('redirec_back')) {
-        //     $data ['redirect']= Session::get('redirec_back');
-        // }
-        
-
-        // DB::rollBack();
 
         Session::keep(['redirect']);
 
@@ -462,6 +467,10 @@ class EventController extends Controller
         return back()->with('message', 'Evento eliminado correctamente');
     }
 
+
+    /*=============================================
+    Asociar evento externo a grupo - portal propio
+    =============================================*/
 
     public function asociate($id)
     {
