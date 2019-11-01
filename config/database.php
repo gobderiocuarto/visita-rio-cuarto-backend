@@ -1,5 +1,17 @@
 <?php
 
+// localhost database
+define('DB_HOST', env('DB_HOST', '127.0.0.1'));
+define('DB_USERNAME', env('DB_USERNAME', 'forge'));
+define('DB_PASSWORD', env('DB_PASSWORD', 'forge'));
+define('DB_DATABASE', env('DB_DATABASE', ''));
+
+// aws RDS
+// define('DB_HOST', $_SERVER['RDS_HOSTNAME']);
+// define('DB_USERNAME', $_SERVER['RDS_USERNAME']);
+// define('DB_PASSWORD', $_SERVER['RDS_PASSWORD']);
+// define('DB_DATABASE', $_SERVER['RDS_DB_NAME']);
+
 return [
 
     /*
@@ -42,11 +54,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => DB_HOST,
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => DB_DATABASE,
+            'username' => DB_USERNAME,
+            'password' => DB_PASSWORD,
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
