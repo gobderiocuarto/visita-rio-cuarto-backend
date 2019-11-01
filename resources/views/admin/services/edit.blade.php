@@ -109,7 +109,7 @@
               datumTokenizer: Bloodhound.tokenizers.whitespace,
               queryTokenizer: Bloodhound.tokenizers.whitespace,
               // url points to a json file that contains an array of country names
-              prefetch: base_url+'/api/tags/services/'
+              prefetch: '/admin/tags/services/'
         });
 
         $('#name').typeahead({

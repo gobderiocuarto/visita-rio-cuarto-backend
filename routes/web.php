@@ -333,3 +333,21 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
+
+
+# Eventos :: recuperar detalle de calendario asociado
+Route::get('admin/events/{event}/calendars/{calendar}','Admin\EventController@getEventCalendar');
+
+
+# Organizaciones :: Listado separado por lugares - ubicaciones
+Route::get('admin/organizations/places/{termino?}', 'Admin\OrganizationController@OrganizationsPlaces');
+
+
+# Tags :: Agrupados bajo "Servicios": listado total o el base a término de busqueda
+Route::get('admin/tags/services/{termino?}', 'Admin\TagController@getTagsServices');
+
+# Tags :: Listado de tags agrupados bajo categoria "Eventos"
+Route::get('admin/tags/events/{termino?}', 'ApiController@getTagsEvents');
+
+# Tags ::  Listado de tags NO AGRUPADOS bajo "EVENTOS"
+// Route::get('admin/tags/no-events/{termino?}', 'ApiController@getTagsNoEvents');

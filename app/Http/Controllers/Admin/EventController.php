@@ -654,4 +654,21 @@ class EventController extends Controller
         
     }
 
+
+    // -------------------------------------------------------------------------
+    // admin/events/{event}/calendars/{calendar}
+
+    // Obtener datos de un calendario puntual, si pertenece a un evento dado
+    // -------------------------------------------------------------------------
+
+    public function getEventCalendar($id_event, $id_calendar)
+    {
+
+        $calendar = Calendar::where('event_id', (int)$id_event)->find((int)$id_calendar);
+
+        return $calendar;
+
+    }
+
+
 }
