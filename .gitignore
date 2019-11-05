@@ -7,7 +7,6 @@
 /backups
 /deploy
 .env
-.env.sieteuno
 .gitignore
 .phpunit.result.cache
 commits.txt
