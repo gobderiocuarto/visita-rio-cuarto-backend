@@ -34,7 +34,7 @@ class Event extends JsonResource
             'calendars' => CalendarResource::collection($this->calendars),
             'tags' => TagResource::collection($this->tagged),
             'file' => [
-                'path' => 'http://admin.visitriocuarto.com/files/events/',
+                'path' => env('APP_URL').'files/events/',
                 'file' => $this->file['file_path']
             ],
         ];
