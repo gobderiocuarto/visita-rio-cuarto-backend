@@ -32,7 +32,18 @@
                             <label for="name" class="col-md-3 col-form-label text-md-right">Nombre (*)</label>
                             <div class="col-md-8">
                                 <input name="name" id="name" type="text" class="typeahead form-control" value="{{ old('name') }}" autofocus required minlength=3>
-                            </div>                           
+                            </div>
+                        </div>
+                        <hr /> 
+                        <div class="form-group row">
+                            <label for="group" class="col-md-3 col-form-label text-md-right">Grupo (*)</label>
+                            <div class="col-md-8">
+                                <select id="group" name="group" class="form-control form-control-xl">
+                                    <option value="">Sin agrupamiento</option>
+                                    <option value="Eventos">Eventos</option>
+                                    <option value="Eventos">Servicios</option>
+                                </select>
+                            </div> 
                         </div>
                     </div>
                     <div class="card-footer">

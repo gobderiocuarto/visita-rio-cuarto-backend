@@ -28,8 +28,10 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        // $services = Tag::orderBy('id', 'ASC')->paginate();
-        $services = Tag::inGroup('Servicios')->paginate();
+        $services = Tag::with('Group')->orderBy('tag_group_id', 'DESC')->paginate();
+        // $services = Tag::inGroup('Servicios')->paginate();
+
+        // echo ("<pre>");print_r($services );echo ("</pre>"); exit();
 
         // $pag = $services->currentPage();
 
@@ -43,6 +45,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
+        
         return view('admin.services.create');
     }
 
@@ -60,9 +63,16 @@ class ServiceController extends Controller
         DB::beginTransaction();
 
         $service = Tag::create($request->all());
-        $service->setGroup('Servicios');
 
-        $exist = Tag::where('slug', '=', $service->slug)->where('tag_group_id', '=', 1)->where('id', '<>',$service->id )->first();
+        if (($request->get('group') != '')) {
+            $service->setGroup($request->get('group'));
+        } 
+        
+
+        $exist = Tag::where('slug', '=', $service->slug)
+        // ->where('tag_group_id', '=', 1)
+        ->where('id', '<>',$service->id )
+        ->first();
 
         if ($exist) {
 

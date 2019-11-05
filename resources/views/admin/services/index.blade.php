@@ -26,6 +26,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Nombre</th>
+                                <th>Grupo</th>
                                 <th colspan="2">Opciones</th>
                             </tr>
                         </thead>
@@ -33,6 +34,13 @@
                             @forelse($services as $service)
                             <tr>
                                 <td>{{ $service->name }}</td>
+                                <td width="10px">
+                                @if (isset($service->group->name))
+                                    {{ $service->group->name }}
+                                @else 
+                                    Sin grupo
+                                @endif
+                                </td>
                                 <td width="10px">
                                     <a href="{{ route('services.edit', $service->id) }}" class="btn btn-sm btn-success">Editar</a>
                                 </td>

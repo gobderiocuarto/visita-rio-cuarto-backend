@@ -210,11 +210,14 @@ class EventController extends Controller
 
         foreach ($event->tags as $tag) {
 
-            if ($tag->isInGroup('Eventos')) {
-                $tags_events .= $tag ['name'].', ';
-            } else {
-                $tags_no_events .= $tag ['name'].', ';
+            if ($tag) {
+                if ($tag->isInGroup('Eventos')) {
+                    $tags_events .= $tag ['name'].', ';
+                } else {
+                    $tags_no_events .= $tag ['name'].', ';
+                }
             }
+
         }
 
         # Si se trata de un evento marco
@@ -275,10 +278,13 @@ class EventController extends Controller
 
         foreach ($event->tags as $tag) {
 
-            if ($tag->isInGroup('Eventos')) {
-                $tags_in_event[] = $tag ['name'];
-            } else {
-                $tags_no_events .= $tag ['name'].', ';
+            if ($tag) {
+
+                if ($tag->isInGroup('Eventos')) {
+                    $tags_in_event[] = $tag ['name'];
+                } else {
+                    $tags_no_events .= $tag ['name'].', ';
+                }
             }
         }
 
