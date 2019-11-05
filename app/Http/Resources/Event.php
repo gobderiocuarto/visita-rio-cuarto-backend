@@ -33,6 +33,10 @@ class Event extends JsonResource
             ],
             'calendars' => CalendarResource::collection($this->calendars),
             'tags' => TagResource::collection($this->tagged),
+            'file' => [
+                'path' => 'http://admin.visitriocuarto.com/files/events/',
+                'file' => $this->file['file_path']
+            ],
         ];
     }
 }
