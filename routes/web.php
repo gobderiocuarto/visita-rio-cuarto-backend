@@ -338,9 +338,16 @@ Route::middleware(['auth'])->group(function () {
 # Eventos :: recuperar detalle de calendario asociado
 Route::get('admin/events/{event}/calendars/{calendar}','Admin\EventController@getEventCalendar');
 
+# Organizaciones :: Listado separado por lugares - ubicaciones
+Route::get('admin/organizations/{organization}/places/{id}', 'Admin\OrganizationController@OrganizationPlace')->where('organization', '[0-9]+');
 
 # Organizaciones :: Listado separado por lugares - ubicaciones
 Route::get('admin/organizations/places/{termino?}', 'Admin\OrganizationController@OrganizationsPlaces');
+
+
+# Espacios :: detalle en base a un id
+Route::get('admin/organizations/spaces/{id}', 'Admin\OrganizationController@OrganizationSpace')->where('id', '[0-9]+');
+
 
 
 # Tags :: Agrupados bajo "Servicios": listado total o el base a término de busqueda

@@ -31,10 +31,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="street_id" class="col-md-12 col-form-label">Calle(*)</label>
+                <label for="street_id" class="col-md-12 col-form-label">Calle</label>
                 <div class="col-md-8">
-                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8" required>
-                        <option value="">Selecciona...</option>
+                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8">
+                        <option value="0" selected="selected">Sin Asignar</option>
                         @foreach($streets as $street)
                         <option value="{{ $street->id }}">{{ $street->name }}</option>
                         @endforeach
@@ -44,9 +44,9 @@
             <div class="form-group row">
                 <div class="col-md-3">
                     <div class="row">
-                        <label for="number" class="col-md-12 col-form-label">Número (*)</label>
+                        <label for="number" class="col-md-12 col-form-label">Número</label>
                         <div class="col-md-10">
-                            <input name="number" id="number" type="number" class="form-control col-md-12" value="{{ old('number') }}" required>
+                            <input name="number" id="number" type="number" class="form-control col-md-12" value="{{ old('number') }}">
                         </div>
                     </div>
                 </div>

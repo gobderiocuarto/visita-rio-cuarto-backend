@@ -74,7 +74,7 @@
 
         //setear el valor de select street (id) por defecto
         $('#street_id option:selected').removeAttr('selected');
-        $("#street_id").val($("#street_id").data("default-value"));
+        $("#street_id").val($("#street_id").data("0"));
         $('#street_id').prop('disabled', false);
 
         //setear valores vacios y habilitar campos
@@ -132,16 +132,13 @@
         
         $("#place_id").val(place_id);
 
-
-        url_get = base_url+"/api/organizations/"+org_id+"/places/"+place_id
+        url_get = base_url+"/admin/organizations/"+org_id+"/places/"+place_id
 
         $.ajax({
             type: "GET",
             url: url_get,
 
             success: function(data) {
-
-                // console.log(data)
 
                 showNewEditPlace(true)
 
@@ -391,7 +388,7 @@
 
             } else {
 
-                let url_space = base_url+"/api/spaces/"+space_id
+                let url_space = base_url+"/admin/organizations/spaces/"+space_id
 
                 $.ajax({
 
@@ -401,7 +398,7 @@
 
                     success: function(data) {
 
-                        // console.log(data);
+                        console.log(data);
                         // cargamos datos desde el espacio y ponemos los campos como disabled
                         $('#number').val(data.address.number).prop('disabled', true);
                         $('#lat').val(data.address.lat).prop('disabled', true);

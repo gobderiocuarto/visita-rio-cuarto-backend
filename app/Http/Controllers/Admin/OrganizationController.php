@@ -297,6 +297,10 @@ class OrganizationController extends Controller
             
             } else { // asociar una address
 
+
+                // dd($request->all());exit();
+
+
                 //Planteear reutilizacion de Address con mismo indice compuesto de calle y numero
                 $address = Address::create($request->all());
 
@@ -420,6 +424,37 @@ class OrganizationController extends Controller
         }
         
         return $list_places;
+
+    }
+
+    public function OrganizationPlace($organization, $place)
+    {
+        
+        // echo ('<pre>');print_r($place);echo ('</pre>'); exit();
+        // $organization = Organization::findOrFail($organization);
+        //tr
+        $place = Place::findOrfail($place);
+
+        if($place->placeable_type == 'App\\Space') {
+
+            $place->placeable->address->street;
+
+        } else {
+
+            $place->placeable->street;
+        }
+
+        return $place;
+
+    }
+
+
+    public function OrganizationSpace( $id)
+    {        
+        $space =  Space::with('category')->with('address.zone')->with('file')->with('tagged')
+        ->where('id',$id)
+        ->first();
+        return $space;
 
     }
 
