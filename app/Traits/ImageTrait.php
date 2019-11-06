@@ -7,6 +7,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 trait ImageTrait  {
 
+    protected $file_types = ['image/jpeg', 'image/gif', 'image/png'];
+
     # Borrar archivos, si existen
     protected function deleteFile($file_path) {
 
