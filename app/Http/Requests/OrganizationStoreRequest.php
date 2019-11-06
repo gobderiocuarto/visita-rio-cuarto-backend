@@ -27,7 +27,7 @@ class OrganizationStoreRequest extends FormRequest
             'category_id' => 'required|numeric',
             'name' => 'required',
             'slug' => 'required|unique:organizations,slug',
-            'phone' => 'required|string',
+            'phone' => 'nullable|string',
             'email' => 'nullable|email|unique:organizations,email',
         ];
     }
@@ -35,7 +35,6 @@ class OrganizationStoreRequest extends FormRequest
     public function messages(){
         return [
             'name.required' => "El campo 'Nombre' es obligatorio",
-            'phone.required' => "El campo 'Teléfono' es obligatorio",
         ];
     }
 }

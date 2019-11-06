@@ -74,7 +74,7 @@
 
         //setear el valor de select street (id) por defecto
         $('#street_id option:selected').removeAttr('selected');
-        $("#street_id").val($("#street_id").data("0"));
+        $("#street_id").val("0");
         $('#street_id').prop('disabled', false);
 
         //setear valores vacios y habilitar campos
@@ -140,6 +140,8 @@
 
             success: function(data) {
 
+                // console.log(data)
+
                 showNewEditPlace(true)
 
                 // Agregamos el option del tipo de ubicación: Casa central, sucursal, etc
@@ -155,15 +157,6 @@
 
                 // Si se trata de un espacio
                 if (data.placeable_type == 'App\\Space') {
-                    
-                    // if (data.address_type_id == 0) {
-                    //     var option = new Option(data.address_type_name, data.address_type_id); 
-                    //     $('#address_type').prepend($(option));
-                    // }
-                    
-                    // //option selected: tipo de ubicacion
-                    // $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
-                    // $('#address_type_name').val(data.address_type_name);
                     
                     //option selected: space id
                     $('#space option:selected').removeAttr('selected');
@@ -186,16 +179,6 @@
                     
                     
                 } else if (data.placeable_type == 'App\\Address') { 
-
-                    // // Agregamos el option del tipo de ubicación: Casa central, sucursal, etc
-                    // if (data.address_type_id == 0) {
-                    //     var option = new Option(data.address_type_name, data.address_type_id); 
-                    //     $('#address_type').prepend($(option));
-                    // }  
-                    
-                    // //option selected: tipo de ubicacion
-                    // $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
-                    // $('#address_type_name').val(data.address_type_name);
 
                     //option selected: calle id
                     $('#street_id option:selected').removeAttr('selected');
@@ -247,9 +230,6 @@
             $(hash).tab('show')
 
         }
-        //
-        // loadPlace()
-
 
         // ----------------------------------------------------
         // (Tab) Editar datos de la organización
@@ -301,8 +281,7 @@
             $('#title_add_edit_place').html(title_add_edit)
             $('#place_id').val("0");
 
-            // $("#rel_type").val("")
-            // $("#rel_value").val("")
+            // Mostrar formulario nuevo editar
             showNewEditPlace(true) 
 
         });
@@ -313,10 +292,6 @@
 
             let place_id = $(this).data("place-id")
             let org_id = $(this).data("org-id")
-
-            // let rel_value = $(this).data("rel-value")
-            // $("#rel_type").val($(this).data("rel-type"))
-            // $("#rel_value").val($(this).data("rel-value"))
 
             loadPlace(org_id, place_id)
 

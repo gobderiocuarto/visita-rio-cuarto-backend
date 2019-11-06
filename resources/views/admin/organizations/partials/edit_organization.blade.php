@@ -38,9 +38,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono (*)</label>
+        <label for="phone" class="col-md-3 col-form-label text-md-right">Teléfono</label>
         <div class="col-md-8">
-            <input name="phone" id="phone" type="text" class="form-control" value="{{ $organization->phone }}" required>
+            <input name="phone" id="phone" type="text" class="form-control" value="{{ $organization->phone }}">
         </div>
     </div>
     <div class="form-group row">

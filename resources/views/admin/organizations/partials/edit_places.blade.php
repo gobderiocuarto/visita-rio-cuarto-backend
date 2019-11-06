@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="space" class="col-md-12 col-form-label">Asociar a ubicación existente:</label>
+                <label for="space" class="col-md-12 col-form-label">Asociar a espacio existente:</label>
                 <div class="col-md-8">
                     <select id="space" name="space" class="form-control form-control-xl selectpicker" data-live-search="true"  data-default-value="" data-size="8">
                         <option value="">No asociar</option>

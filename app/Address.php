@@ -42,15 +42,15 @@ class Address extends Model
     {
         
         $streets = json_decode(file_get_contents(env('APP_URL').env('STREETS_PATH')), true);
-        # 
+        # Busca el id de calle en el array / listado de calles existentes (json)
         $key = array_search($this->street_id, array_column($streets , 'id'));
 
-        if (!$key) {
+        if ($key === FALSE) {
 
             $street = [
                 "id" => "0",
-                "name" => "No asignada",
-                "slug" => "no-asignada"
+                "name" => "( Calle sin asignar )",
+                "slug" => "calle-no-asignada"
             ];
             return (object)$street;
         } else {

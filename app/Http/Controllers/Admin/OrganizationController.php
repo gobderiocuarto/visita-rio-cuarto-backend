@@ -263,11 +263,12 @@ class OrganizationController extends Controller
             $address_type_name = AddressType::find($address_type_id)->name;
             
         }
+
         # END Tipo de ubicación
 
         # Start transaction
         // DB::beginTransaction();
-        if ($request->place_id == 0) { // crear nueva ubicación
+        if ($request->place_id == 0) { // crear nueva ubicación - place
 
             if($request->space) { // asociar un espacio
 
@@ -289,17 +290,13 @@ class OrganizationController extends Controller
                         'placeable_type' => 'App\Space',
                         'placeable_id' => $request->get('space'),
                         'address_type_id' => $request->get('address_type'),
-                        'address_type_name' => $request->get('address_type_name'),
+                        'address_type_name' => $address_type_name,
                         'apartament' => $request->get('apartament')
                     ]);
 
                 }
             
             } else { // asociar una address
-
-
-                // dd($request->all());exit();
-
 
                 //Planteear reutilizacion de Address con mismo indice compuesto de calle y numero
                 $address = Address::create($request->all());
@@ -309,7 +306,7 @@ class OrganizationController extends Controller
                     'placeable_type' => 'App\Address',
                     'placeable_id' => $address->id,
                     'address_type_id' => $request->get('address_type'),
-                    'address_type_name' => $request->get('address_type_name'),
+                    'address_type_name' => $address_type_name,
                     'apartament' => $request->get('apartament')
                 ]);
 
@@ -320,11 +317,11 @@ class OrganizationController extends Controller
                         ->with('message', 'Se asoció correctamente la ubicación');
 
 
-        } else { // edicion de ubicacion
+        } else { // edicion de ubicacion-place existente
 
             $place = Place::findOrFail($request->get('place_id'));
 
-            if($request->space) { // asociar space a org
+            if($request->space) { // espacio
 
                 # Determinar si el espacio ya esta asociado a la org a traves de una ubicación
                 $exist_place = Place::where('organization_id', $organization->id)
@@ -334,7 +331,6 @@ class OrganizationController extends Controller
                             ->get()->toArray();
 
                 if ($exist_place) {
-
                     // DB::rollBack();
                     return Redirect::to(URL::previous() . "#places_tab")->withErrors('La ubicación elegida ya se encuentra asociada');
 
@@ -345,7 +341,7 @@ class OrganizationController extends Controller
                         'placeable_type' => 'App\Space',
                         'placeable_id' => $request->get('space'),
                         'address_type_id' => $request->get('address_type'),
-                        'address_type_name' => $request->get('address_type_name'),
+                        'address_type_name' => $address_type_name,
                         'apartament' => $request->get('apartament')
                     ]);
                     
@@ -354,7 +350,7 @@ class OrganizationController extends Controller
             
             } else { // asociar address a org
 
-                //Planteear reutilizacion de Address con mismo indice compuesto de calle y numero
+                // Analizar reutilizacion de Address con mismo indice compuesto de calle y numero ?
                 $address = Address::create($request->all());
 
                 $result = $place->update([
@@ -362,7 +358,7 @@ class OrganizationController extends Controller
                     'placeable_type' => 'App\Address',
                     'placeable_id' => $address->id,
                     'address_type_id' => $request->get('address_type'),
-                    'address_type_name' => $request->get('address_type_name'),
+                    'address_type_name' => $address_type_name,
                     'apartament' => $request->get('apartament')
                 ]);
                 
@@ -370,8 +366,6 @@ class OrganizationController extends Controller
             // DB::rollBack();
             return redirect('admin/organizations/'. $organization->id.'/edit#places_tab')
                     ->with('message', 'Se actualizó correctamente la ubicación');
-
-
         }
 
     }
