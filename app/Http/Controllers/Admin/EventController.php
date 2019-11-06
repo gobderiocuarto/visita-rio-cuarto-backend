@@ -512,50 +512,75 @@ class EventController extends Controller
         
         $event = Event::findOrFail($id);
 
-        // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
-        if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            
-            $folder_img = 'events/'.$event->id.'/';
-            $thumb_img = $folder_img.'thumbs/';
+        // echo ('<pre>');print_r($_FILES['file']);echo ('</pre>'); exit();
 
-            // Borrar archivos anteriores, si existen
-            if($event->file) {
-                $delete_file = $this->deleteFile($folder_img.$event->file->file_path);
-                $delete_thumb = $this->deleteFile($thumb_img.$event->file->file_path);
-                $event->file->delete();
-            }
-            
-            // Renombrar archivo entrante
-            $new_img = $this->renameFile($request->file('file'));
-            
-            # Cargado de imagen ... si ok devueve el path con la ubicación del archivo
-            if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
-                #Creamos el thumb 
-                Storage::makeDirectory($thumb_img);
-                $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img ); 
-                #Actualizamos db                     
-                $result= $event->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
+        if ($_FILES['file']['name'] != '') {
+
+            if ( $request->hasFile('file') && $request->file('file')->isValid() ) {
+
+                $max_width = 900; // Pixels
+                $folder_img = 'events/'.$event->id.'/';
+                $thumb_img = $folder_img.'thumbs/';
+                                                
+                $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $request->file('file'));
+                if (!in_array($mime, $this->file_types)) {
+                    return back()->withErrors('Tipo de archivo no permitido. (Sólo se permiten archivos JPG, PNG, GIF)');
+                }
+                
+                # Obtener nombre final del archivo (metodo en Controller.php)
+                $new_file_name = $this->renameFile($request->file('file'));
+
+                if ( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_file_name) ) {
+
+                    # Intervention Image
+                    $new_img = Image::make(Storage::get($path));
+                    if ($new_img->width() > $max_width ) {
+                        
+                        $new_img->resize($max_width, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->save('files/'.$folder_img.$new_file_name);
+                        
+                    }
+                    
+                    # Thumbnails
+                    Storage::makeDirectory($thumb_img);
+                    Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_file_name );
+
+                    # Borrar archivos anteriores, si existen
+                    if($event->file) {
+                        $delete_file = $this->deleteFile($folder_img.$event->file->file_path);
+                        $delete_thumb = $this->deleteFile($thumb_img.$event->file->file_path);
+                        $event->file->delete();
+                    }
+
+                    $result = $event->file()->create(['file_path'=> $new_file_name, 'file_alt'=> $request->get('file_alt') ]);
+
+                } else {
+
+                    DB::rollBack();
+                    return back()->withErrors('Se produjo algún error al actualizar la imagen. Revise los cambios realizados');
+
+                }
+
             } else {
-                $result = FALSE;
+
+                return back()->withErrors('Error al actualizar la imagen. Revise el tipo de archivo o considere disminuir el tamaño');
+
             }
 
         } else {
-            $result = FALSE;
+
             if($event->file) {
                 $result = $event->file()->update(['file_alt'=> $request->get('file_alt')]);
             }
+
         }
 
         Session::keep(['redirect']);
-        
-        if ($result) {
-            DB::commit();
-            return redirect()->route('events.edit', $event->id)->with('message', 'Los cambios en la imagen se aplicaron correctamente');
-        } else {
-            DB::rollBack();
-            return back()->withErrors('Error al aplicar los cambios en la imagen');
-        }
 
+        DB::commit();
+        return redirect()->route('events.edit', $event->id)->with('message', 'Los cambios en la imagen se aplicaron correctamente');
+        
     } //END method
 
 
@@ -568,7 +593,6 @@ class EventController extends Controller
         # Start transaction
         DB::beginTransaction();
 
-        // echo ('<pre>');print_r('TO DO eliminar imagen de evento: '.$id);echo ('</pre>'); exit();
         $event = Event::findOrFail($id);
 
         $folder_img = 'events/'.$event->id.'/';
