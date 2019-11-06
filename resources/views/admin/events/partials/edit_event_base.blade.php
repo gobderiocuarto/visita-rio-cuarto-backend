@@ -48,10 +48,11 @@ selected="selected" @endif>
         <small class="form-text text-muted mt-2">Longitud ideal: 160 caracteres aprox.</small>
     </div>
 </div>
+<hr/>
 <div class="form-group row">
     <label for="description" class="col-md-3 col-form-label text-md-right">Información adicional</label>
     <div class="col-md-8">
-        <textarea class="form-control" name="description" rows="10">{{ $event->description }}</textarea>
+        <textarea class="form-control" id="description" name="description" rows="10">{{ $event->description }}</textarea>
     </div>
 </div>
 <hr/>

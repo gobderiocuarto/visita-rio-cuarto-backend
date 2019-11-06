@@ -102,8 +102,11 @@
 @endsection
 @section('scripts')
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
 <script src="{{ asset('libs/jquery-tagsinput/js/jquery.tagsinput-revisited.js') }}"></script>
 <script>
+    ClassicEditor
+            .create( document.querySelector( '#description' ))
 
     // ----------------------------------------------------
     // Functions
