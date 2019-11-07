@@ -32,12 +32,13 @@ class HomeController extends Controller
         $events = Event::join('calendars', 'calendars.event_id', 'events.id')
         ->where('calendars.start_date', '>=', $today)
         ->select('events.*', 'calendars.start_date')
+        ->orderBy('calendars.start_date', 'DESC')
         ->get();
+        // ->count();
         
         // where('events.state', $state)
         // // ->whereNull('events.frame') //No mostrar marcos
         // ->join('event_group', 'events.group_id', 'event_group.group_id')
-        // ->orderBy('calendars.start_date', 'DESC')
         // ->distinct()
         // ->limit(4)
         // ->get();
