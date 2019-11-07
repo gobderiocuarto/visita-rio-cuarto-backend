@@ -36,7 +36,7 @@ class HomeController extends Controller
         ->where('calendars.start_date', '>=', $today)
         ->select('events.*', 'calendars.start_date')
         ->orderBy('calendars.start_date', 'DESC')
-        ->limit(4)
+        // ->limit(4)
         ->get();
         // ->count();
         
