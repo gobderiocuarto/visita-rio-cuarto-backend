@@ -8,7 +8,7 @@
       	@include('web.layouts.partials.event-card')
       </div>
       @empty
-      	@include('web.layouts.partials.no_found')
+      	@include('web.layouts.partials.no_registros')
       @endforelse
     </div>
     {{ $events->links() }}
