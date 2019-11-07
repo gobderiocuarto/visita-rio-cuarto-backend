@@ -16,7 +16,7 @@
           <div class="col-lg-6">
             <h4>Cuándo?</h4>
             @foreach($event->calendars as $calendar)
-            <p>{{ $calendar->start_date }}, {{ $calendar->start_time }} hs.</p>
+            <p>{{ \Carbon\Carbon::parse($calendar->start_date)->format('d/m/Y')}}, {{ \Carbon\Carbon::parse($calendar->start_time)->format('H.i')}} hs.</p>
             @endforeach
           </div>
           @if ($event->place)
