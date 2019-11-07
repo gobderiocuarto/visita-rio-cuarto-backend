@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-7 col-lg-8 col-xl-9">
         @if($event->file)        
-        <div style="background-image: url('{{ $event->file->file_path }}');" class="image"></div>
+        <div style="background-image: url('{{ Storage::url("events/{$event->id}/{$event->file->file_path}") }}');" class="image"></div>
         @endif      
         <div class="content">
           <h2>{{ $event->title }}</h2>
@@ -19,17 +19,28 @@
             <p>{{ \Carbon\Carbon::parse($calendar->start_date)->format('d/m/Y')}}, {{ \Carbon\Carbon::parse($calendar->start_time)->format('H.i')}} hs.</p>
             @endforeach
           </div>
-          @if ($event->place)
           <div class="col-lg-6">
             <h4>Dónde?</h4>
-            <p><b>{{ $event->place->organization->name }}</b>
-            @if ($event->place->placeable_type == 'App\Space')
-            <p>{{ $event->place->placeable->address->street->name }} {{ $event->place->placeable->address->number }}. Río Cuarto, Córdoba</p>
+            @if ($event->place)
+              @if ($event->place->placeable_type == 'App\Space')
+                @if ($event->place->placeable->address->lat && $event->place->placeable->address->lng)
+                <p><a href="https://maps.google.com.ar/?q={{$event->place->placeable->address->lat}},{{$event->place->placeable->address->lng}}" target="_blank" class="font-weight-bold">{{ $event->place->organization->name }}</a></p>
+                @else
+                <p><b>{{ $event->place->organization->name }}</b>
+                @endif
+                <p>{{ $event->place->placeable->address->street->name }} {{ $event->place->placeable->address->number }}. Río Cuarto, Córdoba</p>
+              @else
+                @if ($event->place->placeable->lat && $event->place->placeable->lng)
+                <p><a href="https://maps.google.com.ar/?q={{ $event->place->placeable->lat }},{{ $event->place->placeable->lng }}" target="_blank" class="font-weight-bold">{{ $event->place->organization->name }}</a></p>
+                @else
+                <p><b>{{ $event->place->organization->name }}</b>
+                @endif
+              <p>{{ $event->place->placeable->street->name }} {{ $event->place->placeable->number }}. Río Cuarto, Córdoba</p>
+              @endif
             @else
-            <p>{{ $event->place->placeable->street->name }} {{ $event->place->placeable->number }}. Río Cuarto, Córdoba</p>
+            <p><b>Lugar a confirmar</b>
             @endif
           </div>
-          @endif
         </div>
         @if ($event->event)
         <div class="frame">
