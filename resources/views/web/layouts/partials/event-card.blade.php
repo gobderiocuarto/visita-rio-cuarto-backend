@@ -22,7 +22,7 @@
     </div>
     <div class="mt-3">
     @if ($event->event)
-      <a href="{{ $event->id }}" class="text-branding text-uppercase text-frame">{{ $event->event->title }}</a>
+      <a href="{{ url('eventos/marco/'.$event->event->id ) }}" class="text-branding text-uppercase text-frame">{{ $event->event->title }}</a>
     @else
       <a href="" class="text-branding text-uppercase text-frame" disabled>&nbsp</a>
     @endif

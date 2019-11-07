@@ -33,7 +33,7 @@
         </div>
         @if ($event->event)
         <div class="frame">
-          Este evento se desarrolla en el marco de: <a href="{{ url('eventos/marcos/'.$event->event->slug) }}" class="text-uppercase text-frame">{{ $event->event->title }}</a>
+          Este evento se desarrolla en el marco de: <a href="{{ url('eventos/marco/'.$event->event->id ) }}" class="text-uppercase text-frame">{{ $event->event->title }}</a>
         </div>
         <hr>
         @endif

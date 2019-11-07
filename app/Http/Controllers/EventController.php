@@ -184,38 +184,58 @@ class EventController extends Controller
 
     }
 
-    public function getFrame($slug)
+    public function getFrame($id)
     {
-        
-        // $event_frame = Event::where('slug',$slug )->first();
-
-        
-        if(!$event_frame = Event::where('slug',$slug )->first()) {
-            abort(404);
-        }
-        
-        $today = date("Y-m-d");
-        $state = 1;
-
-        # Listado de eventos
-        $events = Event::with('place.organization')
-        ->join('event_group', 'events.group_id', 'event_group.group_id')
-        ->join('calendars', 'calendars.event_id', 'events.id')
-        ->whereNull('events.frame') //No mostrar marcos;
-        ->where('events.state', $state)
-        ->orderBy('calendars.start_date', 'ASC')
-        ->where('events.event_id', $event_frame->id)
-        ->where('calendars.start_date', '>=', $today)
-        ->select('events.*')
-        ->distinct()
-        ->paginate();
-
-        // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
+                
+        $event_frame = Event::findOrFail($id);
 
         # Total de tags / categorias eventos para mostrar en nav
-        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
+        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
 
-        return view('web.events.show_category', compact('events',  'event_tags'));
+        $group_id = 1; //GA
+        $state = 1;
+        $today = date("Y-m-d");
+
+        # Listado de eventos hijos
+        $events = Event::join('calendars', 'calendars.event_id', 'events.id')
+        ->join('event_group', 'events.id', 'event_group.event_id')
+        ->where('event_group.group_id', $group_id)
+        ->where('events.state', $state)
+        ->where('events.event_id', $event_frame->id)
+        ->where('calendars.start_date', '>=', $today)
+        ->select('events.*', 'calendars.start_date', 'calendars.start_time')
+        ->orderBy('calendars.start_date', 'ASC')
+        ->orderBy('calendars.start_time', 'ASC')
+        ->paginate(8);
+
+        return view('web.events.index', compact('events', 'event_tags'));
+
+
+
+
+
+
+        
+        // $today = date("Y-m-d");
+        // $state = 1;
+
+        // # Listado de eventos
+        // $events = Event::with('place.organization')
+        // ->join('event_group', 'events.group_id', 'event_group.group_id')
+        // ->join('calendars', 'calendars.event_id', 'events.id')
+        // ->whereNull('events.frame') //No mostrar marcos;
+        // ->where('events.state', $state)
+        // ->orderBy('calendars.start_date', 'ASC')
+        // ->where('events.event_id', $event_frame->id)
+        // ->where('calendars.start_date', '>=', $today)
+        // ->select('events.*')
+        // ->distinct()
+        // ->paginate();
+
+        // // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
+
+
+        // return view('web.events.show_category', compact('events',  'event_tags'));
 
     }
 
