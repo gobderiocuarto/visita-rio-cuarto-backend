@@ -152,12 +152,12 @@ class EventController extends Controller
             abort(404);
         }
         
+        # Total de tags / categorias eventos para mostrar en nav
+        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
+
         $group_id = 1; //GA
         $state = 1;
         $today = date("Y-m-d");  
-
-        # Total de tags / categorias eventos para mostrar en nav
-        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
 
         # Listado de eventos
         $events = Event::withAnyTag([$category_slug])
@@ -179,31 +179,37 @@ class EventController extends Controller
     public function getWhen($lapse = NULL)
     {
         
+        # Total de tags / categorias eventos para mostrar en nav
+        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
+
         $group_id = 1; //GA
         $state = 1;
-        $today = date("Y-m-d");  
-        // $today = "2019-01-01"; 
-        
-        // echo ('<pre>');print_r($today);echo ('</pre>'); exit();
+        $today = date("Y-m-d");
 
-        # Total de tags / categorias eventos para mostrar en nav
-        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
-
-        // # Listado de eventos
-        $events = Event::with('place.organization')
-        ->whereNull('events.frame') //No mostrar marcos;
+        # Listado de eventos
+        $events = Event::join('calendars', 'calendars.event_id', 'events.id')
+        ->join('event_group', 'events.id', 'event_group.event_id')
+        ->where('event_group.group_id', $group_id)
+        ->whereNull('events.frame') //No mostrar marcos
         ->where('events.state', $state)
-        ->join('event_group', 'events.group_id', 'event_group.group_id')
-        ->join('calendars', 'calendars.event_id', 'events.id')
-        ->orderBy('calendars.start_date', 'ASC');
+        ->where('calendars.start_date', '>=', $today);
+
+
+        // $events = Event::with('place.organization')
+        // ->whereNull('events.frame') //No mostrar marcos;
+        // ->where('events.state', $state)
+        // ->join('event_group', 'events.group_id', 'event_group.group_id')
+        // ->join('calendars', 'calendars.event_id', 'events.id')
+        // ->orderBy('calendars.start_date', 'ASC');
 
         switch ($lapse) {
+
             case 'hoy':
 
                 $events = $events->where('calendars.start_date', $today);
                 break;
 
-            case 'manana':
+            case 'maniana':
 
                 $datetime_now = new \DateTime($today);
                 $datetime = $datetime_now->modify('+1 day');
@@ -238,13 +244,23 @@ class EventController extends Controller
                 break;
         }
 
-        $events = $events->select('events.*')
-        ->distinct()
-        ->paginate(1);
 
-        // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
+        $events = $events->select('events.*', 'calendars.start_date', 'calendars.start_time')
+        // ->distinct()
+        ->orderBy('calendars.start_date', 'ASC')
+        ->orderBy('calendars.start_time', 'ASC')
+        ->paginate(8);
 
-        return view('web.events.show_category', compact('events',  'event_tags'));
+        return view('web.events.index', compact('events', 'event_tags')); 
+
+        
+
+        // $events = $events->select('events.*')
+        // ->distinct()
+        // ->paginate(1);
+
+        // // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
+
 
     }
 

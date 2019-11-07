@@ -25,10 +25,10 @@
             Cuando?
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="events.html">Hoy</a>
-            <a class="dropdown-item" href="events.html">Mañana</a>
-            <a class="dropdown-item" href="events.html">Este fin de semana</a>
-            <a class="dropdown-item" href="events.html">Este Mes</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/hoy') }}">Hoy</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/maniana') }}">Mañana</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/fin-de-semana') }}">Este fin de semana</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/mes') }}">Este Mes</a>
           </div>
         </li>
       </ul>
