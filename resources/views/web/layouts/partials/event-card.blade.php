@@ -2,7 +2,12 @@
 <div class="card event">
   <div class="card-header">
     <div class="row">
-        <div class="col-6 date">{{ $event->start_date }}, {{ $event->start_time }}</div>
+        <div class="col-6 date">
+        {{ \Carbon\Carbon::parse($event->start_date)->format('d/m/Y')}} 
+        </div>
+        <div class="col-6 text-right">
+        {{ \Carbon\Carbon::parse($event->start_time)->format('H.i')}} hs.
+        </div>
     </div>
   </div>
   @if ($event->file)
@@ -22,8 +27,5 @@
       <a href="" class="text-branding text-uppercase text-frame" disabled>&nbsp</a>
     @endif
     </div>
-  </div>
-  <div class="card-footer">
-      faltan 2 días
   </div>
 </div>

@@ -36,73 +36,13 @@ class EventController extends Controller
         ->join('event_group', 'events.id', 'event_group.event_id')
         ->where('event_group.group_id', $group_id)
         ->whereNull('events.frame') //No mostrar marcos
-        // ->where('events.state', $state)
+        ->where('events.state', $state) //
         ->where('calendars.start_date', '>=', $today)
         ->select('events.*', 'calendars.start_date')
         ->orderBy('calendars.start_date', 'ASC')
         ->paginate();
 
         return view('web.events.index');
-
-
-
-
-        // $calendars = Calendar::where('start_date','>=',$today)
-        // ->distinct()
-        // ->get();
-
-        // $events = [];
-
-        // foreach ($calendars->event as $key => $value) {
-        //     $events
-        // }
-
-        // echo ("<pre>");print_r($calendars->toArray());echo ("</pre>"); exit();
-
-
-        // $calendars = Calendar::where('start_date','>=',$today)
-        // ->orderBy('start_date', 'ASC')
-        // ->distinct()
-        // ->pluck ('event_id');
-
-        // // echo ("<pre>");print_r($calendars->toArray());echo ("</pre>"); exit();
-
-        // $events = Event::with('place.organization')->with('calendars')
-        // ->where('events.state', $state)
-        // ->whereNull('events.frame') //No mostrar marcos
-        // ->whereIn('id', $calendars)
-        // ->orderBy('calendars.start_date', 'ASC')
-        // ->limit(5)
-        // ->get();
-
-
-
-        // # Listado de eventos
-        // $events = Event::with('place.organization')->with('calendarsToday')
-        // ->where('events.state', $state)
-        // ->whereNull('events.frame') //No mostrar marcos
-        // ->whereIn('id', $calendars)
-        // // ->Join('event_group', 'events.group_id', 'event_group.group_id')
-        // // ->join('calendars', 'calendars.event_id', 'events.id')
-        // // ->where('calendars.start_date', '>=', $today)
-        // // ->orderBy('calendars.start_date', 'DESC')
-        // ->select('events.*')
-        // // ->distinct()
-        // // ->limit()
-        // ->paginate(1);
-        // // ->get(1);
-
-        // echo ("<pre>");print_r($events);echo ("</pre>"); exit();
-        
-        // $events = $events->join('calendars', 'calendars.event_id', 'events.id')
-        // // ->join('event_group', 'event_group.group_id', 3)
-        // // ->where('event_group.group_id', $group_id)
-        // ->where('calendars.start_date', '>=', $today)
-        // ->whereNull('events.frame') //No mostrar marcos
-        
-        // echo ("<pre>");print_r($events);echo ("</pre>"); exit();
-        // debe existir al menos un calendario
-        // return view('web.events.index', compact('events', 'event_tags'));
         
     }
 
@@ -120,7 +60,6 @@ class EventController extends Controller
         $state = 1;
         $today = date("Y-m-d");
 
-        # Listado de eventos
         $events = Event::join('calendars', 'calendars.event_id', 'events.id')
         ->join('event_group', 'events.id', 'event_group.event_id')
         ->where('event_group.group_id', $group_id)
@@ -130,25 +69,8 @@ class EventController extends Controller
         ->select('events.*', 'calendars.start_date', 'calendars.start_time')
         ->orderBy('calendars.start_date', 'ASC')
         ->orderBy('calendars.start_time', 'ASC')
-        ->limit(4)
+        ->limit(2)
         ->get();
-
-
-
-        
-        // $events = Event::with('place.organization')->with('calendars')
-        // ->where('events.state', $state)
-        // ->whereNull('events.frame') //No mostrar marcos
-        // ->join('event_group', 'events.group_id', 'event_group.group_id')
-        // ->join('calendars', 'calendars.event_id', 'events.id')
-        // ->where('calendars.start_date', '>=', $today)
-        // ->orderBy('calendars.start_date', 'ASC')
-        // ->select('events.*')
-        // ->distinct()
-        // ->limit(4)
-        // ->get();
-
-        // echo ("<pre>");print_r($events);echo ("</pre>"); exit();
 
         # Total de tags / categorias eventos para mostrar en nav
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
