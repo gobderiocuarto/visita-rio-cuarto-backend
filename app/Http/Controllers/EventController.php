@@ -116,22 +116,37 @@ class EventController extends Controller
         ->FindOrFail($id);
 
         # Listado de proximos eventos
-
         $group_id = 1; //GA
         $state = 1;
-        $today = date("Y-m-d");  
-        
-        $events = Event::with('place.organization')->with('calendars')
-        ->where('events.state', $state)
+        $today = date("Y-m-d");
+
+        # Listado de eventos
+        $events = Event::join('calendars', 'calendars.event_id', 'events.id')
+        ->join('event_group', 'events.id', 'event_group.event_id')
+        ->where('event_group.group_id', $group_id)
         ->whereNull('events.frame') //No mostrar marcos
-        ->join('event_group', 'events.group_id', 'event_group.group_id')
-        ->join('calendars', 'calendars.event_id', 'events.id')
+        ->where('events.state', $state)
         ->where('calendars.start_date', '>=', $today)
+        ->select('events.*', 'calendars.start_date', 'calendars.start_time')
         ->orderBy('calendars.start_date', 'ASC')
-        ->select('events.*')
-        ->distinct()
+        ->orderBy('calendars.start_time', 'ASC')
         ->limit(4)
         ->get();
+
+
+
+        
+        // $events = Event::with('place.organization')->with('calendars')
+        // ->where('events.state', $state)
+        // ->whereNull('events.frame') //No mostrar marcos
+        // ->join('event_group', 'events.group_id', 'event_group.group_id')
+        // ->join('calendars', 'calendars.event_id', 'events.id')
+        // ->where('calendars.start_date', '>=', $today)
+        // ->orderBy('calendars.start_date', 'ASC')
+        // ->select('events.*')
+        // ->distinct()
+        // ->limit(4)
+        // ->get();
 
         // echo ("<pre>");print_r($events);echo ("</pre>"); exit();
 
