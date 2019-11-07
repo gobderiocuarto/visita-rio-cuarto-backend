@@ -19,6 +19,7 @@
             <p>{{ $calendar->start_date }}, {{ $calendar->start_time }} hs.</p>
             @endforeach
           </div>
+          @if ($event->place)
           <div class="col-lg-6">
             <h4>Dónde?</h4>
             <p><b>{{ $event->place->organization->name }}</b>
@@ -28,6 +29,7 @@
             <p>{{ $event->place->placeable->street->name }} {{ $event->place->placeable->number }}. Río Cuarto, Córdoba</p>
             @endif
           </div>
+          @endif
         </div>
         @if ($event->event)
         <div class="frame">

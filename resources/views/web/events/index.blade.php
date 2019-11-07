@@ -3,11 +3,14 @@
 <div class="container home">
     <h1 class="display-4 text-center">Próximos eventos</h1>
     <div class="row">
-      @for ($i = 0; $i < 6; $i++)
+      @forelse  ($events as $event)
       <div class="col-md-6 col-lg-4 col-xl-3">
       	@include('web.layouts.partials.event-card')
       </div>
-      @endfor
+      @empty
+      	@include('web.layouts.partials.no_found')
+      @endforelse
     </div>
-  </div>
+    {{ $events->links() }}
+</div>
 @endsection

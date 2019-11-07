@@ -35,8 +35,8 @@ class HomeController extends Controller
         ->whereNull('events.frame') //No mostrar marcos
         ->where('events.state', $state)
         ->where('calendars.start_date', '>=', $today)
-        ->select('events.*', 'calendars.start_date')
-        ->orderBy('calendars.start_date', 'DESC')
+        ->select('events.*', 'calendars.start_date', 'calendars.start_time')
+        ->orderBy('calendars.start_date', 'ASC')
         ->limit(4)
         ->get();
 
