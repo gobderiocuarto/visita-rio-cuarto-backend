@@ -30,17 +30,34 @@ class EventController extends Controller
         # Total de tags / categorias eventos para mostrar en nav
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
 
-        $calendars = Calendar::where('start_date','>=',$today)
-        ->distinct()
-        ->get();
 
-        $events = [];
+        $events = Event::join('calendars', 'calendars.event_id', 'events.id')
+        ->join('event_group', 'events.id', 'event_group.event_id')
+        ->where('event_group.group_id', $group_id)
+        ->whereNull('events.frame') //No mostrar marcos
+        // ->where('events.state', $state)
+        ->where('calendars.start_date', '>=', $today)
+        ->select('events.*', 'calendars.start_date')
+        ->orderBy('calendars.start_date', 'DESC')
+        ->limit(30)
+        ->paginate();
 
-        foreach ($calendars->event as $key => $value) {
-            $events
-        }
+        return view('web.events.index');
 
-        echo ("<pre>");print_r($calendars->toArray());echo ("</pre>"); exit();
+
+
+
+        // $calendars = Calendar::where('start_date','>=',$today)
+        // ->distinct()
+        // ->get();
+
+        // $events = [];
+
+        // foreach ($calendars->event as $key => $value) {
+        //     $events
+        // }
+
+        // echo ("<pre>");print_r($calendars->toArray());echo ("</pre>"); exit();
 
 
         // $calendars = Calendar::where('start_date','>=',$today)
@@ -86,7 +103,7 @@ class EventController extends Controller
         // echo ("<pre>");print_r($events);echo ("</pre>"); exit();
         // debe existir al menos un calendario
         // return view('web.events.index', compact('events', 'event_tags'));
-        return view('web.events.index');
+        
     }
 
 

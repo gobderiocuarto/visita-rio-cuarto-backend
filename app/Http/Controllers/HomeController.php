@@ -33,16 +33,12 @@ class HomeController extends Controller
         ->join('event_group', 'events.id', 'event_group.event_id')
         ->where('event_group.group_id', $group_id)
         ->whereNull('events.frame') //No mostrar marcos
-        // ->where('events.state', $state)
+        ->where('events.state', $state)
         ->where('calendars.start_date', '>=', $today)
         ->select('events.*', 'calendars.start_date')
         ->orderBy('calendars.start_date', 'DESC')
-        ->limit(30)
+        ->limit(4)
         ->get();
-        // ->count();
-        
-        // ->distinct()
-        // ->get();
 
         return view('web.home.index', compact('events', 'event_tags'));
     }
