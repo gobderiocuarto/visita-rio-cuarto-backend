@@ -1,27 +1,41 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Menu 1</a>
-                        </li>
-                    </ul>
-                    <form class="form-inline" action="{{ url ('/search') }}" method="GET">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" name="search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-                    </form>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin') }}">Admin</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="./">
+    <img src="/images/logo-visita-rio-cuarto-white.svg" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
+      <ul class="navbar-nav mr-auto ml-sm-3">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Que Hacer?
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            @foreach ($event_tags as $tag )
+            <a class="dropdown-item" href="{{ url('eventos/categorias/'.$tag->slug) }}">{{ $tag->name }}</a>
+            @endforeach
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Cuando?
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="events.html">Hoy</a>
+            <a class="dropdown-item" href="events.html">Mañana</a>
+            <a class="dropdown-item" href="events.html">Este fin de semana</a>
+            <a class="dropdown-item" href="events.html">Este Mes</a>
+          </div>
+        </li>
+      </ul>
+      <form action="" class="form-inline my-2 my-lg-0">
+        <input type="text" class="form-control mr-sm-2" type="search" placeholder="Buscar">
+        <button class="btn btn-outline-light my-2 my-sm-0">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>

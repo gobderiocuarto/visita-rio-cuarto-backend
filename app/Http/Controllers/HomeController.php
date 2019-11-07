@@ -8,40 +8,53 @@ use App\Category;
 use App\Zone;
 use App\Organization;
 
+use App\Event;
+use App\Calendar;
+
+use \Conner\Tagging\Model\Tag;
+use \Conner\Tagging\Model\Tagged;
+
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
 
-        $organizations = Organization::orderBy('id', 'ASC')->paginate();
-        //dd($organizations);
-        return view('web.home.index', compact('organizations'));
+        $group_id = 1; //GA
+        $state = 1;
+        $today = date("Y-m-d");  
+
+        # Total de tags / categorias eventos para mostrar en nav
+        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
+
+        # Listado de eventos
+        $events = Event::with('place.organization')->with('calendars')
+        ->where('events.state', $state)
+        ->whereNull('events.frame') //No mostrar marcos
+        ->join('event_group', 'events.group_id', 'event_group.group_id')
+        ->join('calendars', 'calendars.event_id', 'events.id')
+        ->where('calendars.start_date', '>=', $today)
+        ->orderBy('calendars.start_date', 'DESC')
+        ->select('events.*')
+        ->distinct()
+        ->limit(4)
+        ->get();
+
+        return view('web.home.index', compact('events', 'event_tags'));
     }
 
 
 
-    public function search(Request $request)
-    {
+    // public function search(Request $request)
+    // {
         
-        $query = $request->get('search');
-        // $organizations = Organization::with('tagged')->where('name', 'like',"%$query%")->get();
-        $organizations = Organization::search($query)->get();
+    //     $query = $request->get('search');
+    //     // $organizations = Organization::with('tagged')->where('name', 'like',"%$query%")->get();
+    //     $organizations = Organization::search($query)->get();
         
-        //dd($organizations);
-        return view('web.home.index', compact('organizations'));
-    }
+    //     //dd($organizations);
+    //     return view('web.home.index', compact('organizations'));
+    // }
 
 }

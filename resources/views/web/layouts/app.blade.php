@@ -6,22 +6,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    <!-- Styles -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    @yield('style')
+    <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
 </head>
 <body>
-    <div id="app">
-        @include('web.layouts.partials.nav_bar')
-        @yield('container')
-    </div>
-    <!-- Scripts -->
-    <script src="{{ asset('libs/jquery/jquery.min.js') }}" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script>const base_url = "{{ url('/') }}"</script>
-    @yield('scripts')
+    @include('web.layouts.partials.nav_bar')
+    @yield('content')
+    @include('web.layouts.partials.footer')
+    <script src="{{ asset('js/main.min.js') }}"></script>
 </body>
 </html>

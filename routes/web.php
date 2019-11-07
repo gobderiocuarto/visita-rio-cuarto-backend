@@ -14,16 +14,20 @@
 
 
 Route::get('/', function () {
-    return redirect('admin/home');
-    // return redirect()->route('home');
+    return redirect()->route('home');
 });
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/search', 'HomeController@search')->name('search');
+Route::get('/eventos', 'EventController@index');
+Route::get('/eventos/categorias/{slug}', 'EventController@getCategories');
+Route::get('/eventos/{id}/{slug}', 'EventController@show');
+
+
+// Route::get('/search', 'HomeController@search')->name('search');
+
 
 Auth::routes();
-
 
 Route::get('/admin', function () {
     return redirect('admin/home');
@@ -34,8 +38,6 @@ Route::middleware(['auth'])->group(function () {
 
 	# Home
 	Route::resource('admin/home','Admin\HomeController');
-
-
 
 	# --------------------------------------------------------
 	# Roles
