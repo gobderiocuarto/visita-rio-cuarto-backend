@@ -29,15 +29,14 @@ class HomeController extends Controller
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
 
         # Listado de eventos
-        $events = Event::with('place.organization')->with('calendars')
-        ->where('events.state', $state)
-        ->whereNull('events.frame') //No mostrar marcos
+        $events = Event::where('events.state', $state)
+        // ->whereNull('events.frame') //No mostrar marcos
         ->join('event_group', 'events.group_id', 'event_group.group_id')
         ->join('calendars', 'calendars.event_id', 'events.id')
         ->where('calendars.start_date', '>=', $today)
         ->orderBy('calendars.start_date', 'DESC')
-        ->select('events.*')
         ->distinct()
+        ->select('events.*', 'calendars.start_date')
         ->limit(4)
         ->get();
 
