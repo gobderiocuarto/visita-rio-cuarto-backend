@@ -30,6 +30,7 @@ class HomeController extends Controller
 
         # Listado de eventos
         $events = Event::join('calendars', 'calendars.event_id', 'events.id')
+        ->join('event_group', 'events.group_id', 'event_group.group_id')
         ->whereNull('events.frame') //No mostrar marcos
         ->where('events.state', $state)
         ->where('calendars.start_date', '>=', $today)
@@ -39,7 +40,6 @@ class HomeController extends Controller
         ->get();
         // ->count();
         
-        // ->join('event_group', 'events.group_id', 'event_group.group_id')
         // ->distinct()
         // ->get();
 
