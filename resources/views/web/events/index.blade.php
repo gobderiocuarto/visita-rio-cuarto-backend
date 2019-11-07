@@ -1,7 +1,7 @@
 @extends('web.layouts.app')
 @section('content')
 <div class="container home">
-    <h1 class="display-4 text-center">Próximos eventos</h1>
+    <h1 class="display-4 text-center">{{ $title_index }}</h1>
     <div class="row">
       @forelse  ($events as $event)
       <div class="col-md-6 col-lg-4 col-xl-3">

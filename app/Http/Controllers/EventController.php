@@ -94,7 +94,9 @@ class EventController extends Controller
 
         $group_id = 1; //GA
         $state = 1;
-        $today = date("Y-m-d");  
+        $today = date("Y-m-d"); 
+
+        $title_index = $actual_category->name; 
 
         # Listado de eventos
         $events = Event::withAnyTag([$category_slug])
@@ -110,7 +112,7 @@ class EventController extends Controller
         ->orderBy('calendars.start_time', 'ASC')
         ->paginate(8);
 
-        return view('web.events.index', compact('events', 'event_tags'));       
+        return view('web.events.index', compact('events', 'event_tags', 'title_index'));       
     }
 
     public function getWhen($lapse = NULL)
@@ -135,10 +137,14 @@ class EventController extends Controller
 
             case 'hoy':
 
+                $title_index = 'Eventos para hoy';
+
                 $events = $events->where('calendars.start_date', $today);
                 break;
 
             case 'maniana':
+
+                $title_index = 'Eventos para mañana';
 
                 $datetime_now = new \DateTime($today);
                 $datetime = $datetime_now->modify('+1 day');
@@ -149,6 +155,8 @@ class EventController extends Controller
 
             case 'fin-de-semana':
 
+                $title_index = 'Eventos para este fin de semana';
+
                 $next_saturday = date('Y-m-d', strtotime("saturday"));
                 $next_sunday = date('Y-m-d', strtotime("sunday"));
 
@@ -157,6 +165,8 @@ class EventController extends Controller
                 break;
 
             case 'mes':
+
+                $title_index = 'Eventos para este mes';
 
                 $datetime_now = new \DateTime($today);
 
@@ -180,7 +190,7 @@ class EventController extends Controller
         ->orderBy('calendars.start_time', 'ASC')
         ->paginate(8);
 
-        return view('web.events.index', compact('events', 'event_tags')); 
+        return view('web.events.index', compact('events', 'event_tags', 'title_index')); 
 
     }
 
@@ -191,6 +201,8 @@ class EventController extends Controller
 
         # Total de tags / categorias eventos para mostrar en nav
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
+
+        $title_index = $event_frame->title;
 
         $group_id = 1; //GA
         $state = 1;
@@ -208,64 +220,37 @@ class EventController extends Controller
         ->orderBy('calendars.start_time', 'ASC')
         ->paginate(8);
 
-        return view('web.events.index', compact('events', 'event_tags'));
-
-
-
-
-
-
-        
-        // $today = date("Y-m-d");
-        // $state = 1;
-
-        // # Listado de eventos
-        // $events = Event::with('place.organization')
-        // ->join('event_group', 'events.group_id', 'event_group.group_id')
-        // ->join('calendars', 'calendars.event_id', 'events.id')
-        // ->whereNull('events.frame') //No mostrar marcos;
-        // ->where('events.state', $state)
-        // ->orderBy('calendars.start_date', 'ASC')
-        // ->where('events.event_id', $event_frame->id)
-        // ->where('calendars.start_date', '>=', $today)
-        // ->select('events.*')
-        // ->distinct()
-        // ->paginate();
-
-        // // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
-
-
-        // return view('web.events.show_category', compact('events',  'event_tags'));
+        return view('web.events.index', compact('events', 'event_tags', 'title_index'));
 
     }
 
 
-    public function getWhere($where)
-    {
-        // echo ('<pre>');print_r('Donde');echo ('</pre>'); exit();
+    // public function getWhere($where)
+    // {
+    //     // echo ('<pre>');print_r('Donde');echo ('</pre>'); exit();
 
-        $today = date("Y-m-d");
-        $state = 1;
+    //     $today = date("Y-m-d");
+    //     $state = 1;
 
-        # Total de tags / categorias eventos para mostrar en nav
-        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
+    //     # Total de tags / categorias eventos para mostrar en nav
+    //     $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
 
-        $events = Event::with('place.organization')
-        ->join('event_group', 'events.group_id', 'event_group.group_id')
-        ->join('calendars', 'calendars.event_id', 'events.id')
-        ->whereNull('events.frame') //No mostrar marcos;
-        ->where('events.state', $state)
-        ->where('calendars.start_date', '>=', $today)
-        ->orderBy('calendars.start_date', 'ASC')
-        ->join('places', 'places.id', 'events.place_id')
-        ->join('organizations', 'organizations.id', 'places.organization_id')
-        ->where('organizations.category_id', 27)
-        ->select('events.*')
-        ->distinct()
-        ->paginate();
+    //     $events = Event::with('place.organization')
+    //     ->join('event_group', 'events.group_id', 'event_group.group_id')
+    //     ->join('calendars', 'calendars.event_id', 'events.id')
+    //     ->whereNull('events.frame') //No mostrar marcos;
+    //     ->where('events.state', $state)
+    //     ->where('calendars.start_date', '>=', $today)
+    //     ->orderBy('calendars.start_date', 'ASC')
+    //     ->join('places', 'places.id', 'events.place_id')
+    //     ->join('organizations', 'organizations.id', 'places.organization_id')
+    //     ->where('organizations.category_id', 27)
+    //     ->select('events.*')
+    //     ->distinct()
+    //     ->paginate();
 
-        // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
-        return view('web.events.show_category', compact('events',  'event_tags'));
-    }
+    //     // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
+    //     return view('web.events.show_category', compact('events',  'event_tags'));
+    // }
 
 }
