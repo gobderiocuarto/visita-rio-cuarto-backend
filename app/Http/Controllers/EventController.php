@@ -194,14 +194,6 @@ class EventController extends Controller
         ->where('events.state', $state)
         ->where('calendars.start_date', '>=', $today);
 
-
-        // $events = Event::with('place.organization')
-        // ->whereNull('events.frame') //No mostrar marcos;
-        // ->where('events.state', $state)
-        // ->join('event_group', 'events.group_id', 'event_group.group_id')
-        // ->join('calendars', 'calendars.event_id', 'events.id')
-        // ->orderBy('calendars.start_date', 'ASC');
-
         switch ($lapse) {
 
             case 'hoy':
@@ -252,15 +244,6 @@ class EventController extends Controller
         ->paginate(8);
 
         return view('web.events.index', compact('events', 'event_tags')); 
-
-        
-
-        // $events = $events->select('events.*')
-        // ->distinct()
-        // ->paginate(1);
-
-        // // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
-
 
     }
 

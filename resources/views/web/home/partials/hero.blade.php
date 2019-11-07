@@ -7,10 +7,9 @@
             Qué querés hacer?
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="events.html">Cultura y Espectáculos</a>
-            <a class="dropdown-item" href="events.html">Deporte y Espacimiento</a>
-            <a class="dropdown-item" href="events.html">Compras y Ferias</a>
-            <a class="dropdown-item" href="events.html">Eventos Infantiles</a>
+             @foreach ($event_tags as $tag )
+            <a class="dropdown-item" href="{{ url('eventos/categorias/'.$tag->slug) }}">{{ $tag->name }}</a>
+            @endforeach
           </div>
         </div>
       </div>
@@ -20,10 +19,10 @@
             Cuando lo queres hacer?
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="events.html">Hoy</a>
-            <a class="dropdown-item" href="events.html">Mañana</a>
-            <a class="dropdown-item" href="events.html">Este fin de semana</a>
-            <a class="dropdown-item" href="events.html">Este Mes</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/hoy') }}">Hoy</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/maniana') }}">Mañana</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/fin-de-semana') }}">Este fin de semana</a>
+            <a class="dropdown-item" href="{{ url('eventos/cuando/mes') }}">Este Mes</a>
           </div>
         </div>
       </div>
