@@ -32,7 +32,13 @@ class EventController extends Controller
 
         $calendars = Calendar::where('start_date','>=',$today)
         ->distinct()
-        ->pluck ('event_id');
+        ->get();
+
+        $events = [];
+
+        foreach ($calendars->event as $key => $value) {
+            $events
+        }
 
         echo ("<pre>");print_r($calendars->toArray());echo ("</pre>"); exit();
 

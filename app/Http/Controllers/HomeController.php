@@ -30,7 +30,7 @@ class HomeController extends Controller
 
         # Listado de eventos
         $events = Event::join('calendars', 'calendars.event_id', 'events.id')
-        // ->where('calendars.start_date', '>=', $today)
+        ->where('calendars.start_date', '>=', $today)
         ->select('events.*', 'calendars.start_date')
         ->get();
         
