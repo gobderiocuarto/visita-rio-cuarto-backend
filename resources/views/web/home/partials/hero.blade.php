@@ -4,7 +4,7 @@
       <div class="col col-md-4">
         <div class="dropdown">
           <button class="btn btn-block btn-lg btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Qué querés hacer?
+            ¿Qué querés hacer?
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
              @foreach ($event_tags as $tag )
@@ -16,7 +16,7 @@
       <div class="col col-md-4">
         <div class="dropdown">
           <button class="btn btn-block btn-lg btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Cuando lo queres hacer?
+            ¿Cuándo lo querés hacer?
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="{{ url('eventos/cuando/hoy') }}">Hoy</a>
