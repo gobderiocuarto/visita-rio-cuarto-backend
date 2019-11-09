@@ -9,7 +9,10 @@
         @endif      
         <div class="content">
           <h2>{{ $event->title }}</h2>
-          <p>{{ $event->summary }}</p>         
+          <p>{{ $event->summary }}</p>
+          @if ($event->description)
+          {!! $event->description !!}
+          @endif       
         </div>
         <hr>
         <div class="row info">
