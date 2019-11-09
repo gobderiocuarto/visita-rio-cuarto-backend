@@ -14,13 +14,13 @@
         <hr>
         <div class="row info">
           <div class="col-lg-6">
-            <h4>Cuándo?</h4>
+            <h4>¿Cuándo?</h4>
             @foreach($event->calendars as $calendar)
             <p>{{ \Carbon\Carbon::parse($calendar->start_date)->format('d/m/Y')}}, {{ \Carbon\Carbon::parse($calendar->start_time)->format('H.i')}} hs.</p>
             @endforeach
           </div>
           <div class="col-lg-6">
-            <h4>Dónde?</h4>
+            <h4>¿Dónde?</h4>
             @if ($event->place)
               @if ($event->place->placeable_type == 'App\Space')
                 @if ($event->place->placeable->address->lat && $event->place->placeable->address->lng)
