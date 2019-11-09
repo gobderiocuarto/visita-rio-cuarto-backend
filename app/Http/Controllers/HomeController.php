@@ -37,7 +37,7 @@ class HomeController extends Controller
         ->where('calendars.start_date', '>=', $today)
         ->select('events.*', 'calendars.start_date', 'calendars.start_time')
         ->orderBy('calendars.start_date', 'ASC')
-        ->limit(4)
+        ->limit(8)
         ->get();
 
         return view('web.home.index', compact('events', 'event_tags'));
