@@ -12,7 +12,7 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            ¿Que Hacer?
+            ¿Qué Hacer?
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @foreach ($event_tags as $tag )
@@ -22,7 +22,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            ¿Cuando?
+            ¿Cuándo?
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ url('eventos/cuando/hoy') }}">Hoy</a>
