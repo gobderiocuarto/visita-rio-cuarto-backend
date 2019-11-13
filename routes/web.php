@@ -19,16 +19,42 @@ Route::get('/', function () {
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+# --------------------------------------------------------
+# Front: Eventos
+# --------------------------------------------------------
+
+# Listado total de eventos o mediante texto en buscador
 Route::get('/eventos', 'EventController@index');
+
+# Listado por categorias (tags)
 Route::get('/eventos/categorias/{slug}', 'EventController@getCategories');
-Route::get('/eventos/cuando/{when}','EventController@getWhen');
+
+# Listado por opción 'Cuando'
+Route::get('/eventos/cuando/{slug}','EventController@getWhen');
+
+# Listado por evento marco padre
 Route::get('/eventos/marco/{id}','EventController@getFrame');
+
+# Listado por opción 'Donde'
+Route::get('/eventos/donde/{id}/{slug?}','EventController@getWhere');
+
+# Detalle de Evento
 Route::get('/eventos/{id}/{slug}', 'EventController@show');
+
+# --------------------------------------------------------
+# END Front
+# --------------------------------------------------------
 
 
 
 // Route::get('/search', 'HomeController@search')->name('search');
 
+
+# --------------------------------------------------------
+# Admin
+# --------------------------------------------------------
 
 Auth::routes();
 
@@ -363,3 +389,8 @@ Route::get('admin/tags/events/{termino?}', 'ApiController@getTagsEvents');
 
 # Tags ::  Listado de tags NO AGRUPADOS bajo "EVENTOS"
 // Route::get('admin/tags/no-events/{termino?}', 'ApiController@getTagsNoEvents');
+
+
+# --------------------------------------------------------
+# END Admin
+# --------------------------------------------------------
