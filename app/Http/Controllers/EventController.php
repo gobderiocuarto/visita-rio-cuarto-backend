@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Event;
 use App\Calendar;
+use App\Category;
 // use App\Group;
 
 
@@ -253,32 +254,39 @@ class EventController extends Controller
     }
 
 
-    // public function getWhere($where)
-    // {
-    //     // echo ('<pre>');print_r('Donde');echo ('</pre>'); exit();
+    public function getWhere($id_cat)
+    {
 
-    //     $today = date("Y-m-d");
-    //     $state = 1;
+        $category = Category::FindOrFail($id_cat);
 
-    //     # Total de tags / categorias eventos para mostrar en nav
-    //     $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get()->toArray();
+        // echo ('<pre>');print_r($category);echo ('</pre>'); exit();
 
-    //     $events = Event::with('place.organization')
-    //     ->join('event_group', 'events.group_id', 'event_group.group_id')
-    //     ->join('calendars', 'calendars.event_id', 'events.id')
-    //     ->whereNull('events.frame') //No mostrar marcos;
-    //     ->where('events.state', $state)
-    //     ->where('calendars.start_date', '>=', $today)
-    //     ->orderBy('calendars.start_date', 'ASC')
-    //     ->join('places', 'places.id', 'events.place_id')
-    //     ->join('organizations', 'organizations.id', 'places.organization_id')
-    //     ->where('organizations.category_id', 27)
-    //     ->select('events.*')
-    //     ->distinct()
-    //     ->paginate();
+        $group_id = 1; //GA
+        $state = 1;
+        $today = date("Y-m-d");  
 
-    //     // echo ('<pre>');print_r($events);echo ('</pre>'); exit();
-    //     return view('web.events.show_category', compact('events',  'event_tags'));
-    // }
+        # Total de tags / categorias eventos para mostrar en nav
+        $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
+
+
+        $title_index = $category->name;
+
+        # Listado de eventos
+        $events = Event::join('calendars', 'calendars.event_id', 'events.id')
+        ->join('event_group', 'events.id', 'event_group.event_id')
+        ->where('event_group.group_id', $group_id)
+        ->whereNull('events.frame') //No mostrar marcos
+        ->where('events.state', $state) //
+        ->where('calendars.start_date', '>=', $today)
+        ->join('places', 'places.id', 'events.place_id')
+        ->join('organizations', 'organizations.id', 'places.organization_id')
+        ->where('organizations.category_id', $category->id)
+        ->select('events.*', 'calendars.start_date')
+        ->orderBy('calendars.start_date', 'ASC')
+        ->paginate();
+
+        return view('web.events.index', compact('events', 'event_tags', 'title_index'));
+
+    }
 
 }

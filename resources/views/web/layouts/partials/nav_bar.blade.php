@@ -29,6 +29,18 @@
             <a class="dropdown-item" href="{{ url('eventos/cuando/mes') }}">Este Mes</a>
           </div>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            ¿Dónde?
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url('eventos/donde/17/resto-bares') }}">Resto Bares</a>
+            <a class="dropdown-item" href="{{ url('eventos/donde/56/discotecas-pubs') }}">Discotecas – Pubs</a>
+            <a class="dropdown-item" href="{{ url('eventos/donde/28/museos-y-centros-culturales') }}">Museos y Centros Culturales</a>
+            <a class="dropdown-item" href="{{ url('eventos/donde/33/paseos-al-aire-libre') }}">Paseos al aire libre</a>
+            <a class="dropdown-item" href="{{ url('eventos/donde/27/teatros') }}">Teatros</a>
+          </div>
+        </li>
       </ul>
       <form action="{{url('/eventos') }}" class="form-inline my-2 my-lg-0" method="GET">
         <input type="text" class="form-control mr-sm-2" type="search" placeholder="Buscar" name="busqueda"  required="required" minlength=3 >
