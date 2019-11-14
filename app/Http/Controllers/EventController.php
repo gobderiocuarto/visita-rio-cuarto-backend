@@ -20,7 +20,7 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
 
         $group_id = 1; //GA
@@ -31,18 +31,44 @@ class EventController extends Controller
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
 
 
+        $group_id = 1; //GA
+        $state = 1;
+        $today = date("Y-m-d");
+
+        $title_index = 'Eventos :: listado total';
+
         # Listado de eventos
         $events = Event::join('calendars', 'calendars.event_id', 'events.id')
         ->join('event_group', 'events.id', 'event_group.event_id')
         ->where('event_group.group_id', $group_id)
         ->whereNull('events.frame') //No mostrar marcos
-        ->where('events.state', $state) //
-        ->where('calendars.start_date', '>=', $today)
-        ->select('events.*', 'calendars.start_date')
-        ->orderBy('calendars.start_date', 'ASC')
-        ->paginate();
+        ->where('events.state', $state)
+        ->where('calendars.start_date', '>=', $today);
 
-        return view('web.events.index');
+        # Filtrar por campo busqueda
+        $filter = (object)[];
+        $filter->busqueda = '';
+        if (($request->busqueda != '')) {
+
+            $title_index = 'Eventos :: Resultados de la búsqueda';
+
+            $events = $events->where(function ($query) use ($request) {
+                $query->where('events.title','like', '%'.$request->busqueda.'%')
+                ->orWhere('events.summary','like', '%'.$request->busqueda.'%')
+                ->orWhere('events.description','like', '%'.$request->busqueda.'%');
+            });
+
+            $filter->busqueda = $request->busqueda;
+        }
+
+        $events = $events->select('events.*', 'calendars.start_date', 'calendars.start_time')
+        ->orderBy('calendars.start_date', 'ASC')
+        ->orderBy('calendars.start_time', 'ASC')
+        ->paginate(8);
+
+        $events->appends((array)$filter);
+
+        return view('web.events.index', compact('events', 'event_tags', 'title_index'));
         
     }
 
@@ -114,6 +140,7 @@ class EventController extends Controller
 
         return view('web.events.index', compact('events', 'event_tags', 'title_index'));       
     }
+
 
     public function getWhen($lapse = NULL)
     {
@@ -193,6 +220,7 @@ class EventController extends Controller
         return view('web.events.index', compact('events', 'event_tags', 'title_index')); 
 
     }
+    
 
     public function getFrame($id)
     {

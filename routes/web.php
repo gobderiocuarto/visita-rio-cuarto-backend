@@ -19,7 +19,8 @@ Route::get('/', function () {
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/eventos', 'EventController@index');
+
+Route::get('/eventos', 'EventController@index'); // Listado total y busqueda
 Route::get('/eventos/categorias/{slug}', 'EventController@getCategories');
 Route::get('/eventos/cuando/{when}','EventController@getWhen');
 Route::get('/eventos/marco/{id}','EventController@getFrame');
