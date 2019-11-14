@@ -259,15 +259,12 @@ class EventController extends Controller
 
         $category = Category::FindOrFail($id_cat);
 
-        // echo ('<pre>');print_r($category);echo ('</pre>'); exit();
-
         $group_id = 1; //GA
         $state = 1;
         $today = date("Y-m-d");  
 
         # Total de tags / categorias eventos para mostrar en nav
         $event_tags = Tag::inGroup('Eventos')->orderBy('name', 'ASC')->get();
-
 
         $title_index = $category->name;
 
@@ -281,7 +278,7 @@ class EventController extends Controller
         ->join('places', 'places.id', 'events.place_id')
         ->join('organizations', 'organizations.id', 'places.organization_id')
         ->where('organizations.category_id', $category->id)
-        ->select('events.*', 'calendars.start_date')
+        ->select('events.*', 'calendars.start_date', 'calendars.start_time')
         ->orderBy('calendars.start_date', 'ASC')
         ->paginate();
 
