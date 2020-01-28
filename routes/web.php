@@ -146,6 +146,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('admin/spaces', 'Admin\SpaceController@store')->name('spaces.store')
 	->middleware('permission:spaces.create');
 
+	# Migrar
+	Route::get('admin/spaces/migrate', 'Admin\SpaceController@migrate');
+
 
 	# Ver
 	Route::get('admin/spaces/{space}', 'Admin\SpaceController@show')->name('spaces.show')

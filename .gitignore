@@ -4,10 +4,12 @@
 /public/files
 /storage/*.key
 /vendor
+.vscode/
 .env
 .env.production
 .env.development
 .env.backup
+
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
