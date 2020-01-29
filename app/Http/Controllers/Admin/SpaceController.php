@@ -232,6 +232,7 @@ class SpaceController extends Controller
         # Place agregar campo is_container ¿nulleable?
 
         $new_orgs = array();
+        $place_array = array();
 
         DB::beginTransaction();
 
@@ -240,22 +241,32 @@ class SpaceController extends Controller
         # Traer todos los spaces
         $spaces = Space::get();
 
+        # Mostrar todos lugares - org vinculados a espacios
+        $places_in_space = Place::with('placeable')
+        ->with('organization')
+        ->where('placeable_type', 'App\Space')
+        ->get();
+        
+        foreach ($places_in_space as $key => $place) {
+            $place_array[$key]['organization'] =  $place->organization->name;
+            $place_array[$key]['space'] =  $place->placeable->name;
+        }
+        # END Mostrar todos lugares vinculados a espacios
+
         foreach ($spaces as $space) {
 
             $organization = Organization::where('slug', $space->slug)->first();
 
             if ($organization) { // existe org con igual nombre que espacio
 
-                # Guardo el dato de organizacion-places ya existente
-
-                $new_orgs [] = $organization->toArray();
-                
                 # reemplazo algunos campos de la organizacion a partir de space
-                $organization->update([
-                    "category_id"   => $space->category_id, 
-                    "description"   => $space->description,
-                ]);
-                               
+                // $organization->update([
+                //     "category_id"   => $space->category_id, 
+                //     "description"   => $space->description,
+                // ]);
+                    
+                # Guardo el dato de organizacion-places ya existente
+                $new_orgs [] = $organization->name;
 
             } else {
 
@@ -276,25 +287,24 @@ class SpaceController extends Controller
                 // echo ('<pre>');print_r($organization->tagNames());echo ('</pre>'); exit();
 
                 # Creo el place para la nueva organizacion
-
                 // especificar / definir un place como contenedor de otros? como por ej un espacio o centro cultural, comercial, etc
-
                 $place_org = Place::create([
                     "organization_id"   => $organization->id,
                     "placeable_type"    => "App\Address",
                     "placeable_id"      => $space->address_id, # asociamos al address_id del espacio actual
-                    //"container"         => "is-container", # asociamos al address_id del espacio actual
+                    "container"         => "is-container", # asociamos al address_id del espacio actual
                 ]);
                 // echo ('<pre>');print_r($place_org);echo ('</pre>'); exit();
 
-                # Selecciono todos los places / relacionados al space actual a traves de placeable     
+                # Busco los places (hijos) asociados al space (App\Space, id de space)     
                 $child_places = Place::where('placeable_type', 'App\Space')
                 ->where('placeable_id', $space->id)
                 ->get();
                     
-                /* Los convierto en hijos del place correspondiente recien creado / editado
-                y los vinculo directamente con el address_id del espacio */
                 foreach ($child_places as $key => &$place) {
+
+                    # Creo una nueva address para cada uno, tomando los datos del address del space
+                    # Reasigno a cada place hijo la referencia al space por la referencia al nuevo address del space
 
                     $address = Address::create([
                         "street_id" => $space->address->street_id,
@@ -311,17 +321,23 @@ class SpaceController extends Controller
                         "placeable_id"      => $address->id, // El id de address asociado al espacio
                     ]);
                 }
-                // echo ('<pre>');print_r($place->placeable->street->name);echo ('</pre>'); exit();
-
                 
             }
             
         }
 
-        // DB::commit();
-        DB::rollBack();
+        DB::commit();
+        // DB::rollBack();
         
-        echo ('<pre>');print_r($new_orgs);echo ('</pre>'); exit();
+        echo ('<pre>');
+        echo ('Organizaciones Existentes:</br></br>');
+        print_r($new_orgs);
+        echo ('</pre>');
+        echo ('<pre>');
+        echo ('Organizaciones hijas de espacios:</br></br>');
+        print_r($place_array);
+        echo ('</pre>'); 
+        exit();
     }
 
 
