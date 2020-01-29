@@ -259,6 +259,45 @@ class SpaceController extends Controller
 
             if ($organization) { // existe org con igual nombre que espacio
 
+                $places = Place::where('organization_id', $organization->id)->get();
+
+                if ($places->count() == 1) {
+
+                    $place_org = $places->first();
+
+                    $place_org->update([
+
+                        "placeable_type"    => "App\Address",
+                        "placeable_id"      => $space->address_id, # asociamos al address_id del espacio actual
+                        "container"         => "is-container", # asociamos al address_id del espacio actual
+
+                    ]);
+
+                    # Busco los places (hijos) asociados al space (App\Space, id de space)     
+                    $child_places = Place::where('placeable_type', 'App\Space')
+                    ->where('placeable_id', $space->id)
+                    ->get();
+                        
+                    foreach ($child_places as $key => &$place) {
+
+                        $address = Address::create([
+                            "street_id" => $space->address->street_id,
+                            "number" => $space->address->number,
+                            "floor" => $space->address->floor,
+                            "lat" => $space->address->lat,
+                            "lng" => $space->address->lng,
+                            "zone_id" => $space->address->zone_id
+                        ]);
+
+                        $place->update([
+                            "place_id"          => $place_org->id, // ubicacion padre
+                            "placeable_type"    => "App\Address",
+                            "placeable_id"      => $address->id, // El id de address asociado al espacio
+                        ]);
+
+                    }
+                }
+                
                 # reemplazo algunos campos de la organizacion a partir de space
                 // $organization->update([
                 //     "category_id"   => $space->category_id, 

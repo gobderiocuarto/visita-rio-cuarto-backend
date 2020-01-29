@@ -6,6 +6,15 @@
         <div class="card-body">
             @csrf
             <div class="form-group row">
+                <label for="container" class="col-md-12 col-form-label"><strong>¿La ubicación es un espacio contenedor?</strong> </label>
+                <div class="col-md-8">
+                    <select id="container" name="container" class="form-control form-control-xl">
+                        <option value="">No definido como espacio contenedor</option>
+                        <option value="is-container">Definido como espacio contenedor</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="address_type" class="col-md-12 col-form-label">Tipo de ubicación</label>
                 <div class="col-md-5">
                     <select id="address_type" name="address_type" class="form-control form-control-xl" data-default-value="1" autofocus required>
@@ -17,19 +26,22 @@
                     <input name="address_type_name" id="address_type_name" type="hidden" value="">
                 </div>
             </div>
+            
             <div class="form-group row">
-                <label for="space" class="col-md-12 col-form-label">Asociar a espacio existente:</label>
+                <label for="place_id" class="col-md-12 col-form-label">Asociar a Espacio contenedor:</label>
                 <div class="col-md-8">
-                    <select id="space" name="space" class="form-control form-control-xl selectpicker" data-live-search="true"  data-default-value="" data-size="8">
+                    <select id="place_id" name="place_id" class="form-control form-control-xl selectpicker" data-live-search="true"  data-default-value="" data-size="8">
                         <option value="">No asociar</option>
-                        @foreach($spaces as $space)
-                        <option value="{{ $space->id }}">
-                            {{ $space->name }}
+                        @foreach($containers as $container)
+                        <option value="{{ $container->id }}">
+                            {{ $container->organization->name }} - {{ $container->placeable->street->name }}
+                            {{ $container->placeable->number }}
                         </option>
                         @endforeach
                     </select>
                 </div>
             </div>
+
             <div class="form-group row">
                 <label for="street_id" class="col-md-12 col-form-label">Calle</label>
                 <div class="col-md-8">
@@ -102,7 +114,7 @@
             </div>
         </div>
         <input type="hidden" id="organization_id" name="organization_id" value="{{ $organization->id }}">
-        <input type="hidden" id="place_id" name="place_id" value="0">
+        <input type="hidden" id="place" name="place" value="0">
         <input type="hidden" id="rel_type" name="prev_rel_type" @if(Session::has('action')) value="{{ Session::get('action.type') }}" @else value="" @endif>
         <input type="hidden" id="rel_value" name="prev_rel_value" @if(Session::has('action')) value="{{ Session::get('action.value') }}" @else value="" @endif>
     </form>

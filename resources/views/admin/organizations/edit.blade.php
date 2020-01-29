@@ -65,12 +65,17 @@
     // Functions
     // ----------------------------------------------------
 
-    //Limpiar datos de formulario nuevo / editar
+    // Limpiar datos de formulario nuevo / editar
     function clear_address(){
         //setear el valor de select espacio por defecto
         $('#space option:selected').removeAttr('selected');
         $("#space").val($("#space").data("default-value"));
         $('#space').prop('disabled', false);
+
+        //setear el valor de select ubicacion padre por defecto
+        $('#place_id option:selected').removeAttr('selected');
+        $("#place_id").val($("#place_id").data("default-value"));
+        $('#place_id').prop('disabled', false);
 
         //setear el valor de select street (id) por defecto
         $('#street_id option:selected').removeAttr('selected');
@@ -94,6 +99,9 @@
 
     // Mostrar / ocultar formulario nuevo-editar lugares
     function showNewEditPlace(flag) {
+
+        // $('#container option[value="0"]').remove();
+        // $('#container option:selected').removeAttr('selected');
 
         $('#address_type option[value="0"]').remove();
         $('#address_type option:selected').removeAttr('selected');
@@ -121,8 +129,8 @@
     }
 
 
-    // Recuperar datos de ubicación para mostrar en form de Edición
-    function loadPlace(org_id, place_id) {
+    // Recuperar datos de ubicación para mostrar en form de Edición de ubicacion
+    function loadPlace(org_id, place) {
 
         const title_add_edit = 'Editar ubicación'
         let url_get
@@ -130,9 +138,9 @@
         $('#title_add_edit_place').empty();
         $('#title_add_edit_place').html(title_add_edit)
         
-        $("#place_id").val(place_id);
+        $("#place").val(place);
 
-        url_get = base_url+"/admin/organizations/"+org_id+"/places/"+place_id
+        url_get = base_url+"/admin/organizations/"+org_id+"/places/"+place
 
         $.ajax({
             type: "GET",
@@ -140,7 +148,7 @@
 
             success: function(data) {
 
-                // console.log(data)
+                console.log(data)
 
                 showNewEditPlace(true)
 
@@ -149,11 +157,27 @@
                     var option = new Option(data.address_type_name, data.address_type_id); 
                     $('#address_type').prepend($(option));
                 }
+
+                // Activar option select si/no ubicacion definida como contenedor
+                $('#container option:selected').removeAttr('selected');
+                $('#container').val(data.container);
+
+                // la Ubicacion actual es contenedor?
+                if (data.container == 'is-container') {
+                    console.log(data.container)
+                    // desactivo el select de ubicaciones contenedoras
+                    $("#place_id").prop('disabled', 'disabled');
+                } 
+                
                 
                 //option selected: tipo de ubicacion
                 $('#address_type option[value="'+data.address_type_id+'"]').attr("selected",true);
                 $('#address_type_name').val(data.address_type_name);
                 $('#apartament').val(data.apartament);
+
+                // Escoder option de ubicacion actual en listado / select de ubicaciones contenedoras
+                $("#place_id option").show();
+                $('#place_id option[value="'+place+'"]').hide();
 
                 // Si se trata de un espacio
                 if (data.placeable_type == 'App\\Space') {
@@ -180,6 +204,10 @@
                     
                 } else if (data.placeable_type == 'App\\Address') { 
 
+                    //Elegir elemento option selected: ubicacion padre
+                    $('#place_id option:selected').removeAttr('selected');
+                    $("#place_id").val(data.place_id);
+                    
                     //option selected: calle id
                     $('#street_id option:selected').removeAttr('selected');
                     $("#street_id").val(data.placeable.street_id);
@@ -196,8 +224,6 @@
 
                 $('.selectpicker').selectpicker('refresh');
                 
-                //$("#nombre").val(data.name);
-
             },  // success
 
             error: function(e) {
@@ -231,8 +257,11 @@
 
         }
 
+
+        // ----------------------------------------------------
         // ----------------------------------------------------
         // (Tab) Editar datos de la organización
+        // ----------------------------------------------------
         // ----------------------------------------------------
 
         // Formatear slug a partir del name
@@ -268,18 +297,25 @@
         });
 
 
+
+
+        // ----------------------------------------------------
         // ----------------------------------------------------
         // (Tab) Asociar lugares / direcciones a organización
         // ----------------------------------------------------
+        // ----------------------------------------------------
 
+        // ----------------------------------------------------
         // NUEVA UBICACION: Mostrar form edit places y ocultar list al presionar boton 
+        // ----------------------------------------------------
+
         $("#places_btn_add").click(function(){
 
             const title_add_edit = 'Asociar ubicación'
 
             $("#title_add_edit_place").empty();
             $('#title_add_edit_place').html(title_add_edit)
-            $('#place_id').val("0");
+            $('#place').val("0");
 
             // Mostrar formulario nuevo editar
             showNewEditPlace(true) 
@@ -287,7 +323,10 @@
         });
 
 
-        // Cargar y mostrar form EDITAR ubicación asociada al presionar boton en el listado
+        // ----------------------------------------------------
+        // LISTAR UBICACION: Cargar y mostrar form EDITAR ubicación al presionar boton EDITAR
+        // ----------------------------------------------------
+
         $(".places_btn_edit").click(function(){
 
             let place_id = $(this).data("place-id")
@@ -298,10 +337,13 @@
         });
 
 
-        // CANCELAR nuevo / edicion de espacio / dirección
+        // ----------------------------------------------------
+        // CANCELAR y ocultar form nueva / edicion de UBICACION
+        // ----------------------------------------------------
+
         $("#places_btn_cancel").click(function(){
 
-            $('#place_id').val("0");
+            $('#place').val("0");
             
             $("#rel_type").val("")
             $("#rel_value").val("")
@@ -310,8 +352,41 @@
 
         });
 
-        
-        // Activar el modal para crear nuevo tipo de dirección
+        // ----------------------------------------------------
+        // NUEVA / EDITAR UBICACION: 
+        // 
+        // ----------------------------------------------------
+
+        $("#container").change(function() {
+
+            // alert($(this).val())
+            if ($(this).val() == 'is-container') {
+
+                $('#place_id option:selected').removeAttr('selected');
+                $("#place_id").val("");
+
+                $("#place_id").prop('disabled', 'disabled');
+
+                $('#place_id').selectpicker('refresh');
+
+            } else {
+                
+                $('#place_id option:selected').removeAttr('selected');
+                $("#place_id").val("");
+
+                $("#place_id").removeAttr("disabled");
+
+                $('#place_id').selectpicker('refresh');
+            }
+    
+
+        });
+
+
+        // ----------------------------------------------------
+        // NUEVA / EDITAR UBICACION: Activar el modal para crear nuevo tipo de dirección
+        // ----------------------------------------------------
+
         $("#address_type").change(function() {
 
             // Remuevo cualquier option personalizado anterior
@@ -327,9 +402,12 @@
 
         });
 
-        
 
-        // Cargar nuevo tipo de dirección desde lo ingresado en el modal
+        
+        // ----------------------------------------------------
+        //  NUEVA / EDITAR UBICACION: Cargar nuevo tipo de dirección desde lo ingresado en el modal
+        // ----------------------------------------------------
+        
         $('#form_create_custom_address').submit(function(event){
             event.preventDefault();
             var address_type_name = $("#address_custom_name").val();
@@ -344,7 +422,10 @@
         });
 
 
-        // Cancelar creación de nuevo tipo de dirección desde el modal
+        // ----------------------------------------------------
+        // NUEVA / EDITAR UBICACION: Cancelar creación de nuevo tipo de dirección desde el modal
+        // ----------------------------------------------------
+
         $("#button_cancel").click(function(){
             $('#address_type option[value="0"]').remove();
             $("#address_type").val('1')
@@ -392,6 +473,64 @@
 
                     error: function(e) {
                         alert ("error get")
+                    }
+
+                });
+
+            }
+
+        });
+
+        // ----------------------------------------------------
+        // NUEVA / EDITAR UBICACION: 
+        // Al elegir una ubicacion padre desde el select, carga / copia los datos correspondientes en el form de edicion
+        // ----------------------------------------------------
+
+        $("#place_id").change(function() {
+
+            // let container_id = $('#place_id option:selected').val()
+            let container_id = $(this).val();
+
+            if (container_id == "") { // No se asocia a un espacio -->limpiamos campos
+
+                clear_address();
+
+            } else {
+
+                // Traer datos de la ubicación elegida
+
+                let url_place = base_url+"/admin/places/"+container_id
+
+                $.ajax({
+
+                    type: "GET",
+                    dataType: "json",
+                    url: url_place,
+
+                    success: function(data) {
+
+                        // console.log(data);
+
+                        // cargamos datos desde la ubicacion
+                        // $('#number').val(data.placeable.number).prop('disabled', true);
+                        $('#number').val(data.placeable.number);
+                        $('#lat').val(data.placeable.lat);
+                        $('#lng').val(data.placeable.lng);
+
+                        // Setear mostrar la calle correspondiente en el select 
+                        $('#street_id option:selected').removeAttr('selected');
+                        $("#street_id").val(data.placeable.street_id);
+                        
+                        // Setear mostrar la zona correspondiente en el select 
+                        $('#zone_id option:selected').removeAttr('selected');
+                        $("#zone_id option[value="+data.placeable.zone_id+"]").attr("selected",true);
+                        // $('#zone_id').prop('disabled', true);
+
+                        $('.selectpicker').selectpicker('refresh');
+                    }, 
+
+                    error: function(e) {
+                        // alert ("error get")
                     }
 
                 });
