@@ -74,30 +74,30 @@ Route::middleware(['auth'])->group(function () {
 	# Roles
 	# --------------------------------------------------------
 
-	# Listar
+	# Roles Listar
 	Route::get('admin/roles', 'Admin\RoleController@index')->name('roles.index')
 	->middleware('permission:roles.index');
 
-	# Crear
+	# Roles Crear
 	Route::get('admin/roles/create', 'Admin\RoleController@create')->name('roles.create')
 	->middleware('permission:roles.create');
 	
-	# Almacenar
+	# Roles Almacenar
 	Route::post('admin/roles/store', 'Admin\RoleController@store')->name('roles.store')
 	->middleware('permission:roles.create');
 
-	# Ver
+	# Roles Ver
 	Route::get('admin/roles/{role}', 'Admin\RoleController@show')->name('roles.show')
 	->middleware('permission:roles.show');
 
-	# Editar
+	# Roles Editar
 	Route::get('admin/roles/{role}/edit', 'Admin\RoleController@edit')->name('roles.edit')
 	->middleware('permission:roles.edit');
 
-	# Actualizar
+	# Roles Actualizar
 	Route::patch('admin/roles/{role}', 'Admin\RoleController@update')->name('roles.update')->middleware('permission:roles.edit');
 
-	# Borrar
+	# Roles Borrar
 	Route::delete('admin/roles/{role}', 'Admin\RoleController@destroy')->name('roles.destroy')->middleware('permission:roles.destroy');
 
 	# --------------------------------------------------------
@@ -111,19 +111,19 @@ Route::middleware(['auth'])->group(function () {
 	# Users
 	# --------------------------------------------------------
 
-	# Listar
+	# Users Listar
 	Route::get('admin/users', 'Admin\UserController@index')->name('users.index')->middleware('permission:users.index');
 
-	# Ver
+	# Users Ver
 	Route::get('admin/users/{user}', 'Admin\UserController@show')->name('users.show')->middleware('permission:users.show');
 
-	# Editar
+	# Users Editar
 	Route::get('admin/users/{user}/edit', 'Admin\UserController@edit')->name('users.edit')->middleware('permission:users.edit');
 	
-	# Actualizar
+	# Users Actualizar
 	Route::patch('admin/users/{user}', 'Admin\UserController@update')->name('users.update')->middleware('permission:users.edit');
 
-	# Borrar
+	# Users Borrar
 	Route::delete('admin/users/{user}', 'Admin\UserController@destroy')->name('users.destroy')->middleware('permission:users.destroy');
 
 
@@ -137,35 +137,32 @@ Route::middleware(['auth'])->group(function () {
 	# Spaces
 	# --------------------------------------------------------
 
-	# Listar
+	# Spaces Listar
 	Route::get('admin/spaces', 'Admin\SpaceController@index')->name('spaces.index')
 	->middleware('permission:spaces.index');
 
-	# Crear
+	# Spaces Crear
 	Route::get('admin/spaces/create', 'Admin\SpaceController@create')->name('spaces.create')
 	->middleware('permission:spaces.create');
 
-	# Store
+	# Spaces Store
 	Route::post('admin/spaces', 'Admin\SpaceController@store')->name('spaces.store')
 	->middleware('permission:spaces.create');
 
-	# Migrar
-	Route::get('admin/spaces/migrate', 'Admin\SpaceController@migrate');
 
-
-	# Ver
+	# Spaces Ver
 	Route::get('admin/spaces/{space}', 'Admin\SpaceController@show')->name('spaces.show')
 	->middleware('permission:spaces.show');
 
-	# Editar
+	# Spaces Editar
 	Route::get('admin/spaces/{space}/edit', 'Admin\SpaceController@edit')->name('spaces.edit')
 	->middleware('permission:spaces.edit');
 	
-	# Actualizar
+	# Spaces Actualizar
 	Route::patch('admin/spaces/{space}', 'Admin\SpaceController@update')->name('spaces.update')
 	->middleware('permission:spaces.edit');
 
-	# Borrar
+	# Spaces Borrar
 	Route::delete('admin/spaces/{space}', 'Admin\SpaceController@destroy')->name('spaces.destroy')
 	->middleware('permission:spaces.destroy');
 
@@ -180,27 +177,27 @@ Route::middleware(['auth'])->group(function () {
 	# Categories
 	# --------------------------------------------------------
 
-	# Listar 
+	# Categories Listar 
 	Route::get('admin/categories','Admin\CategoryController@index')->name('categories.index')
 	->middleware('permission:categories.index');
 
-	# Crear 
+	# Categories Crear 
 	Route::get('admin/categories/create','Admin\CategoryController@create')->name('categories.create')
 	->middleware('permission:categories.create');
 
-	# Almacenar 
+	# Categories Almacenar 
 	Route::post('admin/categories','Admin\CategoryController@store')->name('categories.store')
 	->middleware('permission:categories.create');
 
-	# Editar 
+	# Categories Editar 
 	Route::get('admin/categories/{category}/edit','Admin\CategoryController@edit')->name('categories.edit')
 	->middleware('permission:categories.edit');
 
-	# Actualizar 
+	# Categories Actualizar 
 	Route::patch('admin/categories/{category}','Admin\CategoryController@update')->name('categories.update')
 	->middleware('permission:categories.edit');
 
-	# Borrar 
+	# Categories Borrar 
 	Route::delete('admin/categories/{category}','Admin\CategoryController@destroy')->name('categories.destroy')
 	->middleware('permission:categories.destroy');
 
@@ -213,40 +210,40 @@ Route::middleware(['auth'])->group(function () {
 	# Etiquetas
 	# --------------------------------------------------------
 
-	# Listar 
+	# Etiquetas Listar 
 	Route::get('admin/services','Admin\ServiceController@index')->name('services.index')
 	->middleware('permission:services.index');
 
-	# Crear 
+	# Etiquetas Crear 
 	Route::get('admin/services/create','Admin\ServiceController@create')->name('services.create')
 	->middleware('permission:services.create');
 
-	# Almacenar 
+	# Etiquetas Almacenar 
 	Route::post('admin/services','Admin\ServiceController@store')->name('services.store')
 	->middleware('permission:services.create');
 
-	# Editar 
+	# Etiquetas Editar 
 	Route::get('admin/services/{service}/edit','Admin\ServiceController@edit')->name('services.edit')
 	->middleware('permission:services.edit');
 
-	# Actualizar 
+	# Etiquetas Actualizar 
 	Route::patch('admin/services/{service}','Admin\ServiceController@update')->name('services.update')
 	->middleware('permission:services.edit');
 
-	# Borrar 
+	# Etiquetas Borrar 
 	Route::delete('admin/services/{service}','Admin\ServiceController@destroy')->name('services.destroy')
 	->middleware('permission:services.destroy');
 
 
-	# Vincular organizaciones
+	# Etiquetas Vincular organizaciones
 	Route::post('admin/services/{service}/organizations','Admin\ServiceController@storeOrganization')->name('services.storeOrganization')
 	->middleware('permission:services.storeOrganization');
 
-	# Desvincular organizaciones
+	# Etiquetas Desvincular organizaciones
 	Route::post('admin/services/{service}/organizations/{organization}','Admin\ServiceController@unlinkOrganization')->name('services.unlinkOrganization')
 	->middleware('permission:services.unlinkOrganization');
 
-	# Vincular espacios
+	# Etiquetas Vincular espacios
 	Route::post('admin/services/{service}/spaces','Admin\ServiceController@storeSpace')->name('services.storeSpace')
 	->middleware('permission:services.storeSpace');
 
@@ -264,30 +261,30 @@ Route::middleware(['auth'])->group(function () {
 	# Organizaciones
 	# --------------------------------------------------------
 	
-	# Crear 
+	# Organizaciones Crear 
 	Route::get('admin/organizations/create','Admin\OrganizationController@create')->name('organizations.create')
 	->middleware('permission:organizations.create');
 
-	# Listar y búsqueda
+	# Organizaciones Listar y búsqueda
 	Route::get('admin/organizations/{search?}','Admin\OrganizationController@index')->name('organizations.index')
 	->middleware('permission:organizations.index');
 
-	# Buscar 
+	# Organizaciones Buscar 
 	// Route::get('admin/organizations/{search?}','Admin\OrganizationController@index')->name('organizations.update');
 
-	# Almacenar 
+	# Organizaciones Almacenar 
 	Route::post('admin/organizations','Admin\OrganizationController@store')->name('organizations.store')
 	->middleware('permission:organizations.create');
 
-	# Editar 
+	# Organizaciones Editar 
 	Route::get('admin/organizations/{organization}/edit','Admin\OrganizationController@edit')->name('organizations.edit')
 	->middleware('permission:organizations.edit');
 
-	# Actualizar 
+	# Organizaciones Actualizar 
 	Route::patch('admin/organizations/{organization}','Admin\OrganizationController@update')->name('organizations.update')
 	->middleware('permission:organizations.edit');
 
-	# Borrar 
+	# Organizaciones Borrar 
 	Route::delete('admin/organizations/{organization}','Admin\OrganizationController@destroy')->name('organizations.destroy')
 	->middleware('permission:organizations.destroy');
 	
@@ -310,50 +307,50 @@ Route::middleware(['auth'])->group(function () {
 	# Events
 	# --------------------------------------------------------
 
-	# Listar
+	# Events :: Listar
 	Route::get('admin/events','Admin\EventController@index')->name('events.index')
 	->middleware('permission:events.index');
 	
-	# Crear
+	# Events :: Crear
 	Route::get('admin/events/create','Admin\EventController@create')->name('events.create')
 	->middleware('permission:events.create');
 	
-	# Store
+	# Events :: Store
 	Route::post('admin/events','Admin\EventController@store')->name('events.store')
 	->middleware('permission:events.create');
 	
-	# Show
+	# Events :: Show
 	Route::get('admin/events/{event}','Admin\EventController@show')->name('events.show');
 
-	# Edit
+	# Events :: Edit
 	Route::get('admin/events/{event}/edit','Admin\EventController@edit')->name('events.edit')
 	->middleware(['permission:events.edit', 'event.owner']);
 	
-	# Update
+	# Events :: Update
 	Route::patch('admin/events/{event}','Admin\EventController@update')->name('events.update')
 	->middleware(['permission:events.edit', 'event.owner']);
 	
-	# Delete
+	# Events :: Delete
 	Route::delete('admin/events/{event}','Admin\EventController@destroy')->name('events.destroy')
 	->middleware(['permission:events.destroy', 'event.owner']);
 
-	# Asociar evento
+	# Events :: Asociar evento
 	Route::patch('admin/events/{event}/asociate/','Admin\EventController@asociate')->name('events.asociate');
 
-	# Cargar imagen asociada a evento
+	# Events :: Cargar imagen asociada a evento
 	Route::post('admin/events/{event}/images/','Admin\EventController@loadImageEvent')->name('events.loadImageEvent')
 	->middleware(['permission:events.loadImageEvent', 'event.owner']);
 
-	# Borrar imagen asociada a evento
+	# Events :: Borrar imagen asociada a evento
 	Route::delete('admin/events/{event}/images/delete','Admin\EventController@destroyImageEvent')->name('events.destroyImageEvent')
 	->middleware(['permission:events.destroyImageEvent', 'event.owner']);
 
 
-	# Crear / editar calendar asociado a evento
+	# Events :: Crear / editar calendar asociado a evento
 	Route::post('admin/events/{event}/calendars/{calendar?}','Admin\EventController@saveEventCalendar')->name('events.saveEventCalendar')
 	->middleware(['permission:events.saveEventCalendar', 'event.owner']);
 
-	# Borrar calendario asociado a evento
+	# Events :: Borrar calendario asociado a evento
 	Route::delete('admin/events/{event}/calendars/{calendar}','Admin\EventController@destroyEventCalendar')->name('events.destroyEventCalendar')
 	->middleware(['permission:events.destroyEventCalendar', 'event.owner']);
 
