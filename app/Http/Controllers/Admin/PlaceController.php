@@ -99,4 +99,14 @@ class PlaceController extends Controller
     {
         //
     }
+
+
+    public function GetPlace($id)
+    {        
+        $place =  Place::with('placeable')
+        ->where('id',$id)
+        ->first();
+        return $place;
+
+    }
 }

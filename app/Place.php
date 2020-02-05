@@ -8,7 +8,14 @@ class Place extends Model
 {
 
     protected $fillable = [
-        'organization_id', 'placeable_type', 'placeable_id', 'address_type_id', 'address_type_name', 'apartament'
+        'place_id',
+        'organization_id',
+        'placeable_type', 
+        'placeable_id', 
+        'container', 
+        'address_type_id', 
+        'address_type_name', 
+        'apartament'
     ];
     
 

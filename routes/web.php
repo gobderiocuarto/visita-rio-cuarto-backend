@@ -52,8 +52,11 @@ Route::get('/eventos/{id}/{slug}', 'EventController@show');
 
 
 # --------------------------------------------------------
+# --------------------------------------------------------
 # Admin
 # --------------------------------------------------------
+# --------------------------------------------------------
+
 
 Auth::routes();
 
@@ -145,6 +148,9 @@ Route::middleware(['auth'])->group(function () {
 	# Store
 	Route::post('admin/spaces', 'Admin\SpaceController@store')->name('spaces.store')
 	->middleware('permission:spaces.create');
+
+	# Migrar
+	Route::get('admin/spaces/migrate', 'Admin\SpaceController@migrate');
 
 
 	# Ver
@@ -300,7 +306,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
 	# --------------------------------------------------------
 	# Events
 	# --------------------------------------------------------
@@ -358,15 +363,28 @@ Route::middleware(['auth'])->group(function () {
 	# --------------------------------------------------------
 
 
+	# --------------------------------------------------------
 	# Places
+	# --------------------------------------------------------
+
 	//Route::resource('admin/places','Admin\PlaceController');
 
 
 });
 
 
+# --------------------------------------------------------
+# Eventos
+# --------------------------------------------------------
+
+
 # Eventos :: recuperar detalle de calendario asociado
 Route::get('admin/events/{event}/calendars/{calendar}','Admin\EventController@getEventCalendar');
+
+
+# --------------------------------------------------------
+# Organizaciones
+# --------------------------------------------------------
 
 # Organizaciones :: Listado separado por lugares - ubicaciones
 Route::get('admin/organizations/{organization}/places/{id}', 'Admin\OrganizationController@OrganizationPlace')->where('organization', '[0-9]+');
@@ -375,10 +393,28 @@ Route::get('admin/organizations/{organization}/places/{id}', 'Admin\Organization
 Route::get('admin/organizations/places/{termino?}', 'Admin\OrganizationController@OrganizationsPlaces');
 
 
+# --------------------------------------------------------
+# Espacios
+# --------------------------------------------------------
+
 # Espacios :: detalle en base a un id
 Route::get('admin/organizations/spaces/{id}', 'Admin\OrganizationController@OrganizationSpace')->where('id', '[0-9]+');
 
+# Espacios :: detalle en base a un id
+Route::get('admin/organizations/place/{id}', 'Admin\OrganizationController@OrganizationSpace')->where('id', '[0-9]+');
 
+
+# --------------------------------------------------------
+# Places
+# --------------------------------------------------------
+
+# Places :: detalle en base a un id
+Route::get('admin/places/{id}', 'Admin\PlaceController@GetPlace')->where('id', '[0-9]+');
+
+
+# --------------------------------------------------------
+# Tags
+# --------------------------------------------------------
 
 # Tags :: Agrupados bajo "Servicios": listado total o el base a término de busqueda
 Route::get('admin/tags/services/{termino?}', 'Admin\TagController@getTagsServices');
@@ -390,6 +426,9 @@ Route::get('admin/tags/events/{termino?}', 'ApiController@getTagsEvents');
 // Route::get('admin/tags/no-events/{termino?}', 'ApiController@getTagsNoEvents');
 
 
+
+# --------------------------------------------------------
 # --------------------------------------------------------
 # END Admin
+# --------------------------------------------------------
 # --------------------------------------------------------
