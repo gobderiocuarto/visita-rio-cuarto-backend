@@ -58,7 +58,6 @@ class EventController extends Controller
     public function index(Request $request)
     {
 
-    
         $filter = (object)[];
 
         $appends = array();
@@ -68,14 +67,17 @@ class EventController extends Controller
         # Listado de eventos
         $events = Event::orderBy('created_at', 'DESC');
 
-        if (!Auth::user()->can('all-access')){
+        # Si el usuario no es webmaster
+        # mostramos todos sus eventos mas 
+        # solamente los eventos publicados de otros grupos
+        // if (!Auth::user()->can('all-access')){
 
-            $events = $events->where('events.group_id', Auth::user()->group->id)
-                    ->orWhere(function($query){
-                        $query->where('events.group_id','<>', Auth::user()->group->id)
-                        ->where('state', 1);   
-                    });
-        } 
+        //     $events = $events->where('events.group_id', Auth::user()->group->id)
+        //             ->orWhere(function($query){
+        //                 $query->where('events.group_id','<>', Auth::user()->group->id)
+        //                 ->where('state', 1);   
+        //             });
+        // } 
         
         # Filtrar por campo busqueda
         $filter->search = '';
@@ -99,26 +101,13 @@ class EventController extends Controller
 
         $events->appends((array)$filter);
 
-        # Eventos (no propios) ya asociados al grupo al que pertenece el usuario actual
+        # Eventos NO PROPIOS asociados al grupo al que pertenece el usuario actual
         $events_in_group = Auth::user()->group->events()
         ->where('state', 1)
         ->where('events.group_id', '<>', Auth::user()->group->id)
         ->pluck('events.id')
         // ->get()
         ->toArray();
-
-
-        #Chequear permiso de edicion - borrado o visualización - asociado
-        // $user = Auth::user();
-        // // var_dump($user->can('all-access')); exit();
-        // foreach ($events as $key => $event) {
-        //     if (Gate::allows('event-owner', $event)) {
-        //         echo ("<pre>");print_r("permite");echo ("</pre>"); 
-        //     } else{
-        //         echo ("<pre>");print_r("no permite");echo ("</pre>");
-        //     }
-        // }
-        // exit();
 
         # Almacenar el query del listado actual para retornar 
         # a los ultimos parametros de busqueda, categoria, pagina desde la edición
@@ -265,6 +254,13 @@ class EventController extends Controller
     public function edit($id)
     {
         $event = Event::findOrFail($id);
+
+        // ------------------------------
+                
+        // $allow = Gate::allows('event.associate', $event);
+        // var_dump($allow); exit();
+
+        // ------------------------------
 
         # Todos los tags agrupados en categoria eventos, para mostrar en el select
         $tags_group_events = Tag::inGroup('Eventos')->get()->toArray();

@@ -323,8 +323,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('admin/events/{event}','Admin\EventController@show')->name('events.show');
 
 	# Events :: Edit
-	Route::get('admin/events/{event}/edit','Admin\EventController@edit')->name('events.edit')
-	->middleware(['permission:events.edit', 'event.owner']);
+	Route::get('admin/events/{event}/edit','Admin\EventController@edit')->name('events.edit');
+	// ->middleware(['permission:events.edit', 'event.owner']);
 	
 	# Events :: Update
 	Route::patch('admin/events/{event}','Admin\EventController@update')->name('events.update')

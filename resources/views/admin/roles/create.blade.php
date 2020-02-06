@@ -26,8 +26,8 @@
                             <input class="form-control" id="name" name="name" type="text" value="{{ old('name') }}" required="required">
                         </div>
                         <div class="form-group">
-                            <label for="slug">URL Amigable</label>
-                            <input class="form-control" id="slug" name="slug" type="text" value="{{ old('slug') }}" required="required" readonly>
+                            <label for="slug">Slug</label>
+                            <input class="form-control" id="slug" name="slug" type="text" value="{{ old('slug') }}" required="required">
                         </div>
                         <div class="form-group">
                             <label for="description">Descripci&oacute;n</label>

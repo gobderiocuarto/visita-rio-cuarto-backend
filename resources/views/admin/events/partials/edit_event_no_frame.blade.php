@@ -1,3 +1,4 @@
+@if (Gate::allows('event.publish', $event))
 <div class="form-group row">
     <label for="state" class="col-md-3 col-form-label text-md-right">Estado</label>
     <div class="col-md-4">
@@ -8,6 +9,9 @@
     </div>
 </div>
 <hr />
+@else
+<input type="hidden" id="state" name="state" value="{{ $event->state }}">
+@endif
 <h4>Relación con Evento Marco</h4>
 </br>
 <div class="form-group row">
