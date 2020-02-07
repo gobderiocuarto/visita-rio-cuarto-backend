@@ -55,7 +55,7 @@
                                 </td>
                                 <td>
                                 @if ($event->group_id)
-                                    {{ $event->group->name }}
+                                    <span class="font-italic">{{ $event->group->name }}</span>
                                 @else
                                     <span class="font-italic">Sin propietario asignado</span>
                                 @endif
@@ -71,7 +71,8 @@
                                     <span class="btn btn-sm btn-default" title="Estado: Borrador"><i class="fas fa-eye-slash fa-2x"></i></span>
                                 </td>
                                 @endif
-                                @if (Gate::allows('event.edit', $event))
+
+                                @if ( Gate::allows('event.edit', $event) )
                                     <td style="padding-left: 0; padding-right: 0">
                                         <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-default" title="Editar evento"><i class="fas fa-edit fa-2x"></i></a>
                                     </td>                                    
@@ -115,7 +116,8 @@
                                         @endif
                                     </td>
                                 @endif
-                                @if (Gate::allows('event.delete', $event))
+
+                                @if ( Gate::allows('event.delete', $event) )
                                     <td style="padding-left: 0; padding-right: 0">
                                         <form id="form_delete_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id") }}' method="POST">
                                             {{ method_field('DELETE') }}

@@ -13,6 +13,7 @@ use Session;
 
 use App\Event;
 use App\Category;
+use App\Group;
 use App\Space;
 use App\Place;
 use App\Address;
@@ -128,11 +129,13 @@ class EventController extends Controller
 
         $group = Auth::user()->group;
 
+        $list_groups = Group::where('state',1)->get();
+
         $frame_events = Event::where('state', 1)->where('frame', 'is-frame')->get();
 
         Session::keep(['redirect']);
 
-        return view('admin.events.create', compact('group', 'frame_events'));
+        return view('admin.events.create', compact('group','list_groups', 'frame_events'));
     }
 
     /**
@@ -146,16 +149,27 @@ class EventController extends Controller
         
         # Start transaction
         // DB::beginTransaction();
+        // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
 
-        if ($request->rel_frame) {
+        #Ver si el usuario autenticado puede cambiar el grupo del evento creado
+        if ( (!Gate::allows('event.editGroup')) && (Auth::user()->group_id != $request->group_id) ) {
+            return back()->withErrors('No puede asignar al evento un grupo diferente al que Ud. pertenece');
+        }
 
-            # Definido como evento marco
-            if ($request->rel_frame == 'is-frame') {
+        if ($request->rel_frame) { 
 
-                $request->request->add(['frame' => $request->rel_frame ]);
+            if ($request->rel_frame == 'is-frame') { # Definido como evento marco
 
-            } else {
-                # No definido como evento marco
+                # Chequear que el usuario este autorizado a crear eventos marco
+                if ( (!Gate::allows('event.createFrame')) ) {
+                    return back()->withErrors('Usuario NO autorizado a crear eventos marco');
+                }
+
+                # Definir el evento como marco (el valor de event_id / padre serà null)
+                $request->request->add(['frame' => 'is-frame' ]);
+
+            } else { # No definido como evento marco
+
                 $event_frame = Event::where('id', $request->rel_frame )->where('frame', 'is-frame')->first();
 
                 if ($event_frame) {
@@ -253,6 +267,8 @@ class EventController extends Controller
      */
     public function edit($id)
     {
+        // echo ('<pre>');print_r('Editar Eventos');echo ('</pre>'); exit();
+        
         $event = Event::findOrFail($id);
 
         // ------------------------------
@@ -464,6 +480,7 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
+        echo ('<pre>');print_r('EventController::destroy');echo ('</pre>'); exit();
         $event = Event::findOrFail($id)->delete();
 
         return back()->with('message', 'Evento eliminado correctamente');

@@ -128,7 +128,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('event.associate', function ($user, $event) {
 
             # Traer roles de usuario auth
-            $user_roles = auth()->user()->roles->pluck('slug');
+            $user_roles = $user->roles->pluck('slug');
 
             if ($user_roles) {
 
@@ -166,8 +166,13 @@ class AuthServiceProvider extends ServiceProvider
         // Usuario puede borrar eventos ?
         Gate::define('event.delete', function ($user, $event) {
 
+            // echo ('<pre>');print_r($event->group_id);echo ('</pre>');
+            // echo ('<pre>');print_r($user->group_id);echo ('</pre>'); exit();
+
             # Traer roles de usuario auth
-            $user_roles = auth()->user()->roles->pluck('slug');
+            $user_roles = $user->roles->pluck('slug');
+
+            // echo ('<pre>');print_r($user_roles);echo ('</pre>'); exit();
 
             // var_dump(auth()->hasRole('admin')); exit(); # metodo de shinobi 4
 
@@ -204,5 +209,45 @@ class AuthServiceProvider extends ServiceProvider
 
         });
 
+        // Usuario puede crear eventos marcos
+        Gate::define('event.createFrame', function ($user) {
+
+            # Traer roles de usuario auth
+            $user_roles = $user->roles->pluck('slug');
+
+            if ($user_roles) {
+                if ( 
+                    in_array("admin", $user_roles->toArray()) 
+                    ||  in_array("owner", $user_roles->toArray())
+                    ||  in_array("event-coordinator", $user_roles->toArray())
+                    ||  in_array("event-editor", $user_roles->toArray())
+                ) {
+                    return TRUE;
+                }
+            }
+            return FALSE;
+        });
+
+
+        // Usuario puede crear eventos marcos ?
+        Gate::define('event.editGroup', function ($user) {
+
+            # Traer roles de usuario auth
+            $user_roles = $user->roles->pluck('slug');
+
+            if ($user_roles) {
+
+                if ( 
+                        in_array("admin", $user_roles->toArray()) 
+                    ||  in_array("owner", $user_roles->toArray())
+                    ||  in_array("event-coordinator", $user_roles->toArray())
+                
+                ) 
+                {
+                    return TRUE;
+                } 
+            }
+            return FALSE;
+        });
     }
 }

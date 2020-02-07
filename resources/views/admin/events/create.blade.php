@@ -38,7 +38,7 @@
                         <div class="form-group row">
                             <label for="slug" class="col-md-3 col-form-label text-md-right">Slug</label>
                             <div class="col-md-8">
-                                <input name="slug" id="slug" type="text" class="form-control" value="{{ old('slug') }}" readonly>
+                                <input name="slug" id="slug" type="text" class="form-control" value="{{ old('slug') }}" required readonly>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -51,7 +51,23 @@
                         <div class="form-group row">
                             <label for="group_id" class="col-md-3 col-form-label text-md-right">Dependencia / Grupo</label>
                             <div class="col-md-8">
-                                <input name="group_id" id="group_id" type="text" class="form-control" value="{{ $group->name }}" readonly>
+                                <select name="group_id" class="form-control form-control-xl">
+                                @if (Gate::allows('event.editGroup'))
+                                    @forelse ($list_groups as $each_group)
+                                    <option value="{{ $each_group->id }}" @if ( $group->id == $each_group->id ) selected @endif>
+                                        {{ $each_group->name }}
+                                    </option>
+                                    @empty
+                                    <option value="" disabled="disabled">
+                                        No hay Grupos habilitados
+                                    </option>
+                                    @endforelse
+                                @else
+                                    <option value="{{ $group->id }}" readonly>
+                                        {{ $group->name }}
+                                    </option>
+                                @endif
+                                </select>
                             </div>
                         </div>
                         <hr />
@@ -62,7 +78,9 @@
                             <div class="col-md-8">
                                 <select name="rel_frame" class="form-control form-control-xl">
                                     <option value="">No relacionado a 'Evento Marco'</option>
+                                    @if (Gate::allows('event.createFrame'))
                                     <option value="is-frame">Definido como 'Evento Marco'</option>
+                                    @endif
                                     <optgroup label="Asignado a un 'Evento Marco': ">
                                     @forelse ($frame_events as $frame)
                                     <option value="{{ $frame->id }}">{{ $frame->title }}</option>

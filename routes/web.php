@@ -323,8 +323,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('admin/events/{event}','Admin\EventController@show')->name('events.show');
 
 	# Events :: Edit
-	Route::get('admin/events/{event}/edit','Admin\EventController@edit')->name('events.edit');
-	// ->middleware(['permission:events.edit', 'event.owner']);
+	Route::get('admin/events/{event}/edit','Admin\EventController@edit')->name('events.edit')
+	->middleware(['permission:events.edit', 'event.edit']);
 	
 	# Events :: Update
 	Route::patch('admin/events/{event}','Admin\EventController@update')->name('events.update')
@@ -332,10 +332,11 @@ Route::middleware(['auth'])->group(function () {
 	
 	# Events :: Delete
 	Route::delete('admin/events/{event}','Admin\EventController@destroy')->name('events.destroy')
-	->middleware(['permission:events.destroy', 'event.owner']);
+	->middleware(['permission:events.destroy', 'event.delete']);
 
 	# Events :: Asociar evento
-	Route::patch('admin/events/{event}/asociate/','Admin\EventController@asociate')->name('events.asociate');
+	Route::patch('admin/events/{event}/asociate/','Admin\EventController@asociate')->name('events.asociate')
+	->middleware(['event.associate']);
 
 	# Events :: Cargar imagen asociada a evento
 	Route::post('admin/events/{event}/images/','Admin\EventController@loadImageEvent')->name('events.loadImageEvent')
@@ -368,6 +369,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
+
+# END rutas autenticadas
 
 
 # --------------------------------------------------------
