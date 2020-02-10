@@ -69,6 +69,8 @@ class Kernel extends HttpKernel
         'event.edit' => \App\Http\Middleware\EditEventMiddleware::class,
         'event.associate' => \App\Http\Middleware\AssociateEventMiddleware::class,
         'event.delete' => \App\Http\Middleware\DeleteEventMiddleware::class,
+        'event.edit-group' => \App\Http\Middleware\EditEventGroupMiddleware::class,
+        'event.create-frame' => \App\Http\Middleware\CreateEventFrameMiddleware::class,
     ];
 
     /**

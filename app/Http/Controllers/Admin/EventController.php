@@ -47,7 +47,10 @@ class EventController extends Controller
     
     public function __construct() {
 
-        // $this->middleware('auth');
+        # Ver si el usuario autenticado puede cambiar el grupo del evento creado
+        $this->middleware('event.edit-group', ['only' => ['store']]);
+        # Chequear que el usuario este autorizado a crear eventos marco
+        $this->middleware('event.create-frame', ['only' => ['store']]);
 
     }
     
@@ -151,19 +154,14 @@ class EventController extends Controller
         // DB::beginTransaction();
         // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
 
-        #Ver si el usuario autenticado puede cambiar el grupo del evento creado
-        if ( (!Gate::allows('event.editGroup')) && (Auth::user()->group_id != $request->group_id) ) {
-            return back()->withErrors('No puede asignar al evento un grupo diferente al que Ud. pertenece');
-        }
+        # Ver si el usuario autenticado puede cambiar el grupo del evento creado
+        // if ( (!Gate::allows('event.editGroup')) && (Auth::user()->group_id != $request->group_id) ) {
+        //     return back()->withErrors('No puede asignar al evento un grupo diferente al que Ud. pertenece');
+        // }
 
         if ($request->rel_frame) { 
 
             if ($request->rel_frame == 'is-frame') { # Definido como evento marco
-
-                # Chequear que el usuario este autorizado a crear eventos marco
-                if ( (!Gate::allows('event.createFrame')) ) {
-                    return back()->withErrors('Usuario NO autorizado a crear eventos marco');
-                }
 
                 # Definir el evento como marco (el valor de event_id / padre serà null)
                 $request->request->add(['frame' => 'is-frame' ]);
@@ -178,6 +176,8 @@ class EventController extends Controller
             }
 
         }
+
+        echo ('<pre>');print_r('event controller');echo ('</pre>'); exit();
 
         $request->request->add(['group_id' => Auth::user()->group->id ]);
 
