@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="group_id" class="col-md-3 col-form-label text-md-right">Dependencia / Grupo</label>
+                            <label for="group_id" class="col-md-3 col-form-label text-md-right">Propietario del evento</label>
                             <div class="col-md-8">
                                 <select name="group_id" class="form-control form-control-xl">
                                 @if (Gate::allows('event.editGroup'))

@@ -60,7 +60,6 @@
                                     <span class="font-italic">Sin propietario asignado</span>
                                 @endif
                                 </td>
-
                                 @if ($event->state == 1)
                                 <td style="padding-left: 0; padding-right: 0">
                                     <span class="btn btn-sm btn-default" title="Estado: Publicado">
@@ -68,10 +67,11 @@
                                 </td>
                                 @else
                                 <td style="padding-left: 0; padding-right: 0">
-                                    <span class="btn btn-sm btn-default" title="Estado: Borrador"><i class="fas fa-eye-slash fa-2x"></i></span>
+                                    <span class="btn btn-sm btn-default" title="Estado: Borrador">
+                                        <i class="fas fa-eraser fa-2x"></i>
+                                    </span>
                                 </td>
                                 @endif
-
                                 @if ( Gate::allows('event.edit', $event) )
                                     <td style="padding-left: 0; padding-right: 0">
                                         <a href='{{ url("/admin/events/$event->id/edit") }}' class="btn btn-sm btn-default" title="Editar evento"><i class="fas fa-edit fa-2x"></i></a>
@@ -90,11 +90,11 @@
                                             @csrf
                                             @if(in_array($event->id, $events_in_group))
                                             <button type="submit" class="btn btn-sm btn-default unlink_event" data-id-event="{{ $event->id }}" title="Evento asociado al portal propio">
-                                                <i class="fas fa-check-circle fa-2x"></i>
+                                                <i class="fas fa-lock fa-2x"></i>
                                             </button>
                                             @else
                                             <button type="submit" class="btn btn-sm btn-default associate_event" data-id-event="{{ $event->id }}" title="Asociar evento al portal propio">
-                                                <i class="fas fa-plus-circle fa-2x" style="color: red"></i>
+                                                <i class="fas fa-unlock fa-2x" style="color: red"></i>
                                             </button>
                                             @endif
                                         </form>
@@ -103,10 +103,10 @@
                                     <td style="padding-left: 0; padding-right: 0">
                                         @if( $event->group_id == auth()->user()->group_id)
                                         <div class="btn btn-sm btn-default"  title="Evento propio">
-                                            <i class="fas fa-check-double fa-2x""></i>
+                                            <i class="fas fa-users fa-2x"></i>
                                         </div>
                                         @elseif(in_array($event->id, $events_in_group))
-                                        <div class="btn btn-sm disabled" title="Evento asociado al portal ">
+                                        <div class="btn btn-sm disabled" title="Evento asociado al portal">
                                             <i class="fas fa-minus-circle fa-2x"></i>
                                         </div>
                                         @else

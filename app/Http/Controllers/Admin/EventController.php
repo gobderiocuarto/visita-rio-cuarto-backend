@@ -48,9 +48,9 @@ class EventController extends Controller
     public function __construct() {
 
         # Ver si el usuario autenticado puede cambiar el grupo del evento creado
-        $this->middleware('event.edit-group', ['only' => ['store']]);
+        $this->middleware('event.edit-group', ['only' => ['store', 'update']]);
         # Chequear que el usuario este autorizado a crear eventos marco
-        $this->middleware('event.create-frame', ['only' => ['store']]);
+        $this->middleware('event.create-frame', ['only' => ['store', 'update']]);
 
     }
     
@@ -130,11 +130,22 @@ class EventController extends Controller
     public function create()
     {
 
+        $today = date("Y-m-d");
+        
         $group = Auth::user()->group;
 
         $list_groups = Group::where('state',1)->get();
 
-        $frame_events = Event::where('state', 1)->where('frame', 'is-frame')->get();
+        // $frame_events = Event::where('state', 1)
+        // ->where('frame', 'is-frame')->get();
+
+        $frame_events = Event::join('calendars', 'calendars.event_id', 'events.id')
+                        ->where('events.state', 1)
+                        ->where('events.frame', 'is-frame')
+                        ->where('calendars.end_date', '>=', $today)
+                        ->get();
+
+        // echo ('<pre>');print_r($frame_events->toArray());echo ('</pre>'); exit();
 
         Session::keep(['redirect']);
 
@@ -152,18 +163,12 @@ class EventController extends Controller
         
         # Start transaction
         // DB::beginTransaction();
-        // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
-
-        # Ver si el usuario autenticado puede cambiar el grupo del evento creado
-        // if ( (!Gate::allows('event.editGroup')) && (Auth::user()->group_id != $request->group_id) ) {
-        //     return back()->withErrors('No puede asignar al evento un grupo diferente al que Ud. pertenece');
-        // }
 
         if ($request->rel_frame) { 
 
             if ($request->rel_frame == 'is-frame') { # Definido como evento marco
 
-                # Definir el evento como marco (el valor de event_id / padre serà null)
+                # Definir el evento como marco (el valor de event_id / padre será null)
                 $request->request->add(['frame' => 'is-frame' ]);
 
             } else { # No definido como evento marco
@@ -177,18 +182,17 @@ class EventController extends Controller
 
         }
 
-        echo ('<pre>');print_r('event controller');echo ('</pre>'); exit();
-
-        $request->request->add(['group_id' => Auth::user()->group->id ]);
-
-        $event = Event::create($request->all());
-
         Session::keep(['redirect']);
 
+        $event = Event::create($request->all());
+        
         if ($event) {
 
-            // Agregamos al evento a la relacion eventos - grupo (portal)
-            Auth::user()->group->events()->attach($event);
+            # Agregamos al evento a la relacion eventos - grupo (portal)
+            // Auth::user()->group->events()->attach($event);
+            # El middleware ya verifico el grupo asignado
+            $event->groups()->attach($request->group_id);
+            
             return redirect()->route('events.edit', $event->id)->with('message', 'Evento creado correctamente');
         } else {
             return back()->withErrors('Error al crear el evento, por favor intente nuevamente');
@@ -267,9 +271,12 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        // echo ('<pre>');print_r('Editar Eventos');echo ('</pre>'); exit();
+
+        $today = date("Y-m-d");
         
         $event = Event::findOrFail($id);
+
+        $list_groups = Group::where('state',1)->get();
 
         // ------------------------------
                 
@@ -317,7 +324,16 @@ class EventController extends Controller
 
         } else {
 
-            $frame_events = Event::where('state', 1)->where('frame', 'is-frame')->get();
+            // $frame_events = Event::where('state', 1)->where('frame', 'is-frame')->get();
+
+            $frame_events = Event::join('calendars', 'calendars.event_id', 'events.id')
+                        ->where('events.state', 1)
+                        ->where('events.frame', 'is-frame')
+                        ->where('calendars.end_date', '>=', $today)
+                        ->get();
+
+
+
             # Determinar lugar / ubicación actual del evento
             $actual_place_id = '';
             $actual_place = '';
@@ -334,7 +350,7 @@ class EventController extends Controller
                 }
             }
 
-            $data = compact('event', 'list_orgs', 'actual_place_id', 'actual_place',  'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'frame_events');
+            $data = compact('event', 'list_groups', 'list_orgs', 'actual_place_id', 'actual_place',  'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'frame_events');
             
         }
 
@@ -355,19 +371,11 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         // dd($request->all());
         # Start transaction
         DB::beginTransaction();
 
         $event = Event::findOrFail($id);
-
-        # Verificar si el evento esta asignado a un grupo
-        if ($event->group) {
-            $group_id = $event->group->id;
-        } else {
-            $group_id = Auth::user()->group->id;
-        }
 
         # Determinar Tags asociados
 
@@ -392,9 +400,8 @@ class EventController extends Controller
         $event->retag($tags);
 
         # Actualizar evento
-
         $update_fields = [
-            'group_id' => $group_id,
+            'group_id' => $request->get('group_id'),
             'title'=> $request->get('title'),
             'slug'=> $request->get('slug'),
             'organizer'=> $request->get('organizer'),
@@ -402,7 +409,6 @@ class EventController extends Controller
             'description'=> $request->get('description'),
             'state'=> $request->get('state')
         ];
-
 
 
         # Si se trata de un evento marco
@@ -454,6 +460,15 @@ class EventController extends Controller
 
         }
 
+        # Relacion eventos - grupo (portal)
+        # El grupo propietario del evento tambien se vincula en la relacional
+        # Agregar group_id "nuevo", quitar anterior
+        # sin pisar otras relaciones existentes
+        $event->groups()->detach($event->group_id);
+        $event->groups()->attach($request->group_id);
+
+        // echo ('<pre>');print_r($event->groups);echo ('</pre>'); exit();
+        
         $result = $event->update($update_fields);
 
         # END actualizar evento

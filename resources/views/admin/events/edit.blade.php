@@ -459,7 +459,7 @@
                 },
 
                 error: function (data) {
-                    alert ("error al Crear - Editar calendario")
+                    swal("Se produjo un error al crear la función. Revise si tiene los permisos adecuados");
                 }
             });
 

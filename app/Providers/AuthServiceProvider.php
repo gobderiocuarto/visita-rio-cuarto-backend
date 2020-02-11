@@ -30,24 +30,24 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // Saber si un usuario es propietario de un evento en base a su grupo
-        Gate::define('event.owner', function ($user, $event) {
+        // Gate::define('event.owner', function ($user, $event) {
 
-            if ($user->can('all-access')) { //Webmaster
+        //     if ($user->can('all-access')) { //Webmaster
 
-                return TRUE;
+        //         return TRUE;
 
-            }else{
+        //     }else{
 
-                // true si el id de grupo es igual a el grupo asignado al evento
-                return $user->group->id === $event->group_id;
+        //         // true si el id de grupo es igual a el grupo asignado al evento
+        //         return $user->group->id === $event->group_id;
 
-            }           
-            // @can("event.owner", $actual_user, $event)
-            // @if ($event->group_id == $actual_user->group->id)
-        });
+        //     }           
+        //     // @can("event.owner", $actual_user, $event)
+        //     // @if ($event->group_id == $actual_user->group->id)
+        // });
 
 
-        // Usuario puede editar eventos
+        // Usuario puede editar eventos ?
         Gate::define('event.edit', function ($user, $event) {
 
             # Traer roles de usuario auth
@@ -86,8 +86,10 @@ class AuthServiceProvider extends ServiceProvider
 
         });
 
+        // -----------------------------------------------------
+        // Usuario puede publicar eventos (estado)
+        // -----------------------------------------------------
 
-        // Usuario puede publicar eventos
         Gate::define('event.publish', function ($user, $event) {
 
             # Traer roles de usuario auth
@@ -124,7 +126,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
 
-        // Usuario puede asociar eventos
+        // -----------------------------------------------------
+        // Usuario puede asociar eventos a su portal / grupo ?
+        // -----------------------------------------------------
+
         Gate::define('event.associate', function ($user, $event) {
 
             # Traer roles de usuario auth
@@ -134,12 +139,12 @@ class AuthServiceProvider extends ServiceProvider
 
                 if ( in_array("admin", $user_roles->toArray()) ) {
 
-                    # No permitir desvincular si el evento es propio
+                    # No permitir asociar / desvincular si el evento es propio
                     return $user->group->id != $event->group_id;
 
                 } else if (in_array("owner", $user_roles->toArray()) ) {
 
-                    # No permitir desvincular si el evento es propio
+                    # No permitir asociar / desvincular si el evento es propio
                     return $user->group->id != $event->group_id;
 
                 } else if(in_array("event-coordinator", $user_roles->toArray()) ) {
@@ -163,7 +168,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
 
+        // -----------------------------------------------------
         // Usuario puede borrar eventos ?
+        // -----------------------------------------------------
+
         Gate::define('event.delete', function ($user, $event) {
 
             // echo ('<pre>');print_r($event->group_id);echo ('</pre>');
@@ -209,7 +217,11 @@ class AuthServiceProvider extends ServiceProvider
 
         });
 
-        // Usuario puede crear eventos marcos
+        
+        // -----------------------------------------------------
+        // Usuario puede crear eventos marcos?
+        // -----------------------------------------------------
+
         Gate::define('event.createFrame', function ($user) {
 
             # Traer roles de usuario auth
@@ -229,7 +241,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
 
-        // Usuario puede crear eventos marcos ?
+        // -------------------------------------------------------
+        # Usuario puede cambiar / editar el propietario / grupo ?
+        // -------------------------------------------------------
+        
         Gate::define('event.editGroup', function ($user) {
 
             # Traer roles de usuario auth

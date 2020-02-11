@@ -1,18 +1,26 @@
 <div class="form-group row">
     <label for="group_id" class="col-md-3 col-form-label text-md-right">Propietario del evento</label>
-    @if ($event->group)
     <div class="col-md-8">
-        <input name="group_id" id="group_id" type="text" class="form-control" value="{{ $event->group->name }}" readonly>
+        <select name="group_id" class="form-control form-control-xl">
+        @if (Gate::allows('event.editGroup'))
+            @forelse ($list_groups as $each_group)
+            <option value="{{ $each_group->id }}" @if ( $event->group->id == $each_group->id ) selected @endif>
+                {{ $each_group->name }}
+            </option>
+            @empty
+            <option value="" disabled="disabled">
+                No hay Grupos habilitados
+            </option>
+            @endforelse
+        @else
+            <option value="{{ $event->group->id }}" readonly aria-readonly="true" >
+                {{ $event->group->name }}
+            </option>
+        @endif
+        </select>
     </div>
-    @else
-    <div class="col-md-8">
-        <input name="group_id" id="group_id" type="text" class="form-control" value="No se ha asignado grupo" readonly>
-        <small class="form-text text-muted mt-2 text-danger"><p class="text-danger">
-        <i class="fas fa-exclamation-circle"></i> Actualice el Evento para asignar</p>
-        </small>
-    </div>
-    @endif
 </div>
+
 <div class="form-group row">
     <label for="title" class="col-md-3 col-form-label text-md-right">Título (*)</label>
     <div class="col-md-8">
