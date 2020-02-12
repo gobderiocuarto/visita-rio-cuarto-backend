@@ -49,8 +49,12 @@ class EventController extends Controller
 
         # Ver si el usuario autenticado puede cambiar el grupo del evento creado
         $this->middleware('event.edit-group', ['only' => ['store', 'update']]);
+
         # Chequear que el usuario este autorizado a crear eventos marco
         $this->middleware('event.create-frame', ['only' => ['store', 'update']]);
+
+        # Chequear que el usuario puede cambiar el estado del evento
+        $this->middleware('event.publish', ['only' => ['update']]);
 
     }
     
@@ -107,7 +111,6 @@ class EventController extends Controller
 
         # Eventos NO PROPIOS asociados al grupo al que pertenece el usuario actual
         $events_in_group = Auth::user()->group->events()
-        ->where('state', 1)
         ->where('events.group_id', '<>', Auth::user()->group->id)
         ->pluck('events.id')
         // ->get()
@@ -143,6 +146,7 @@ class EventController extends Controller
                         ->where('events.state', 1)
                         ->where('events.frame', 'is-frame')
                         ->where('calendars.end_date', '>=', $today)
+                        ->select('events.*')
                         ->get();
 
         // echo ('<pre>');print_r($frame_events->toArray());echo ('</pre>'); exit();
@@ -278,12 +282,6 @@ class EventController extends Controller
 
         $list_groups = Group::where('state',1)->get();
 
-        // ------------------------------
-                
-        // $allow = Gate::allows('event.associate', $event);
-        // var_dump($allow); exit();
-
-        // ------------------------------
 
         # Todos los tags agrupados en categoria eventos, para mostrar en el select
         $tags_group_events = Tag::inGroup('Eventos')->get()->toArray();
@@ -320,7 +318,7 @@ class EventController extends Controller
                 $calendar = $event->calendars->first();
             }
             
-            $data = compact('event', 'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'calendar');
+            $data = compact('event','list_groups', 'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'calendar');
 
         } else {
 
@@ -330,6 +328,7 @@ class EventController extends Controller
                         ->where('events.state', 1)
                         ->where('events.frame', 'is-frame')
                         ->where('calendars.end_date', '>=', $today)
+                        ->select('events.*')
                         ->get();
 
 
@@ -442,8 +441,8 @@ class EventController extends Controller
             $frame = null;
             if ($request->rel_frame) {
 
-                $event_frame = Event::where('id', $request->rel_frame )
-                ->where('frame', 'is-frame')->first();
+                $event_frame = Event::where('id', $request->rel_frame)
+                ->first();
                 
                 if ($event_frame) {
 
@@ -466,8 +465,6 @@ class EventController extends Controller
         # sin pisar otras relaciones existentes
         $event->groups()->detach($event->group_id);
         $event->groups()->attach($request->group_id);
-
-        // echo ('<pre>');print_r($event->groups);echo ('</pre>'); exit();
         
         $result = $event->update($update_fields);
 
@@ -495,7 +492,6 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        echo ('<pre>');print_r('EventController::destroy');echo ('</pre>'); exit();
         $event = Event::findOrFail($id)->delete();
 
         return back()->with('message', 'Evento eliminado correctamente');
@@ -506,25 +502,96 @@ class EventController extends Controller
     Asociar evento externo a grupo - portal propio
     =============================================*/
 
-    public function asociate($id)
+    public function associate($id)
     {
         $event = Event::findOrFail($id);
+
+        # Grupo al que pertecece el usuario logueado
         $group = Auth::user()->group;
 
-        $exist = $group->events()->wherePivot('event_id', $event->id)->first();
+        $result = $group->events()->attach($event->id);
+        // $result = $event->groups()->detach($event->group_id);
 
-        if($exist) {
 
-            $result = $group->events()->detach($event);
-            $message = "Evento desvinculado correctamente";
-
-        } else {
-
-            $result = $group->events()->attach($event);
-            $message = "Evento asociado correctamente";
-        }
-
+        $message = "Evento asociado correctamente";
         return back()->with('message', $message);
+
+
+        // # Grupo al que pertecece el usuario logueado
+        // $group = Auth::user()->group;
+
+        // $group->events()->toggle($event->id);
+
+        // # Ver si el evento esta asociado al grupo
+        // $exist = $event->groups()
+        // ->wherePivot('event_id', $event->id)
+        // ->wherePivot('group_id', $group->id)
+        // ->first();
+
+        // // echo ('<pre>');var_dump($exist);echo ('</pre>'); exit();
+
+
+        // if($exist) {
+
+        //     $event->groups()->detach($event->group_id);
+            
+        //     // $result = $group->events()->detach($event);
+        //     $message = "Evento desvinculado correctamente";
+            
+        // } else {
+            
+        //     $event->groups()->attach($event->group_id);
+        //     // $result = $group->events()->attach($event);
+        //     $message = "Evento asociado correctamente";
+        // }
+
+        // return back()->with('message', $message);
+    }
+
+
+    /*=============================================
+    Asociar evento externo a grupo - portal propio
+    =============================================*/
+
+    public function dissociate($id)
+    {
+        $event = Event::findOrFail($id);
+
+
+        # Grupo al que pertecece el usuario logueado
+        $group = Auth::user()->group;
+
+        $result = $group->events()->detach($event->id);
+        // $result = $event->groups()->detach($event->group_id);
+
+        $message = "Evento desvinculado correctamente";
+        return back()->with('message', $message);
+
+        // $group->events()->toggle($event->id);
+
+        // # Ver si el evento esta asociado al grupo
+        // $exist = $event->groups()
+        // ->wherePivot('event_id', $event->id)
+        // ->wherePivot('group_id', $group->id)
+        // ->first();
+
+        // // echo ('<pre>');var_dump($exist);echo ('</pre>'); exit();
+
+
+        // if($exist) {
+
+        //     $event->groups()->detach($event->group_id);
+            
+        //     // $result = $group->events()->detach($event);
+        //     $message = "Evento desvinculado correctamente";
+            
+        // } else {
+            
+        //     $event->groups()->attach($event->group_id);
+        //     // $result = $group->events()->attach($event);
+        //     $message = "Evento asociado correctamente";
+        // }
+
     }
 
 

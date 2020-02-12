@@ -85,33 +85,37 @@
                                 @endif
                                 @if (Gate::allows('event.associate', $event))
                                     <td style="padding-left: 0; padding-right: 0">
-                                        <form id="form_asociate_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id/asociate") }}' method="POST">
+                                        @if(in_array($event->id, $events_in_group))
+                                        <form id="form_asociate_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id/dissociate") }}' method="POST">
                                             {{ method_field('PATCH') }}
                                             @csrf
-                                            @if(in_array($event->id, $events_in_group))
-                                            <button type="submit" class="btn btn-sm btn-default unlink_event" data-id-event="{{ $event->id }}" title="Evento asociado al portal propio">
+                                            <button type="submit" class="btn btn-sm btn-default dissociate_event" data-id-event="{{ $event->id }}" title="Desvincular evento asociado al portal">
                                                 <i class="fas fa-lock fa-2x"></i>
                                             </button>
-                                            @else
+                                        </form>
+                                        @else
+                                        <form id="form_asociate_event_{{ $event->id }}" action='{{ url("/admin/events/$event->id/associate") }}' method="POST">
+                                            {{ method_field('PATCH') }}
+                                            @csrf
                                             <button type="submit" class="btn btn-sm btn-default associate_event" data-id-event="{{ $event->id }}" title="Asociar evento al portal propio">
                                                 <i class="fas fa-unlock fa-2x" style="color: red"></i>
                                             </button>
-                                            @endif
                                         </form>
+                                        @endif
                                     </td>
                                 @else
                                     <td style="padding-left: 0; padding-right: 0">
                                         @if( $event->group_id == auth()->user()->group_id)
-                                        <div class="btn btn-sm btn-default"  title="Evento propio">
+                                        <div class="btn btn-sm btn-default"  title="Tu grupo es propietario del evento">
                                             <i class="fas fa-users fa-2x"></i>
                                         </div>
                                         @elseif(in_array($event->id, $events_in_group))
                                         <div class="btn btn-sm disabled" title="Evento asociado al portal">
-                                            <i class="fas fa-minus-circle fa-2x"></i>
+                                            <i class="fas fa-lock fa-2x"></i>
                                         </div>
                                         @else
                                         <div class="btn btn-sm disabled" title="Evento no asociado al portal ">
-                                            <i class="fas fa-minus-circle fa-2x"></i>
+                                            <i class="fas fa-unlock fa-2x"></i>
                                         </div>
                                         @endif
                                     </td>
@@ -212,32 +216,7 @@
         });
 
 
-
-        $('.associate_event').click(function() {
-
-            event.preventDefault();
-            swal({
-              title: "¡Atención!",
-              text: "¿Desea vincular el evento al portal?",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
-            })
-            .then((willDelete) => {
-              if (willDelete) {
-
-                let form = "#form_asociate_event_"+$(this).data("id-event");
-                $(form).submit();
-
-              } else {
-                swal("La acción fue cancelada");
-              }
-            });         
-
-        });
-
-
-        $('.unlink_event').click(function() {
+        $('.dissociate_event').click(function() {
 
             event.preventDefault();
             swal({

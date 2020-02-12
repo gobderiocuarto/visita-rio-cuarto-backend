@@ -328,14 +328,18 @@ Route::middleware(['auth'])->group(function () {
 	
 	# Events :: Update
 	Route::patch('admin/events/{event}','Admin\EventController@update')->name('events.update')
-	->middleware(['permission:events.edit']);
+	->middleware(['permission:events.edit', 'event.edit']);
 	
 	# Events :: Delete
 	Route::delete('admin/events/{event}','Admin\EventController@destroy')->name('events.destroy')
 	->middleware(['permission:events.destroy', 'event.delete']);
 
 	# Events :: Asociar evento
-	Route::patch('admin/events/{event}/asociate/','Admin\EventController@asociate')->name('events.asociate')
+	Route::patch('admin/events/{event}/associate/','Admin\EventController@associate')->name('events.associate')
+	->middleware(['event.associate']);
+
+	# Events :: Desvincular evento a portal
+	Route::patch('admin/events/{event}/dissociate/','Admin\EventController@dissociate')->name('events.dissociate')
 	->middleware(['event.associate']);
 
 	# Events :: Cargar imagen asociada a evento
