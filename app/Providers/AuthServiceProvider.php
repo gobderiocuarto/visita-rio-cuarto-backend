@@ -69,13 +69,16 @@ class AuthServiceProvider extends ServiceProvider
 
                 } else if (in_array("event-editor", $user_roles->toArray()) ) {
 
-                    // puede editar si el id de grupo es igual a el grupo asignado al evento
+                    # puede editar si el id de grupo es igual a el grupo asignado al evento
                     return $user->group->id === $event->group_id;
 
                 } else if (in_array("event-collaborator", $user_roles->toArray()) ) {
 
-                    // puede editar si es de grupo propio y si aun no esta publicado
-                    if ( ($event->state != 1) && $user->group->id === $event->group_id ) {
+                    # Puede editar si es de grupo propio y si aun no esta publicado
+                    // if ( ($event->state != 1) && $user->group->id === $event->group_id ) {
+                    
+                    # Puede editar si FUE CREADO por usuario y si aun no esta publicado
+                    if ( ($event->state != 1) && ($user->id === $event->user_id) ) {
                         return TRUE;
                     }
 
@@ -174,15 +177,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('event.delete', function ($user, $event) {
 
-            // echo ('<pre>');print_r($event->group_id);echo ('</pre>');
-            // echo ('<pre>');print_r($user->group_id);echo ('</pre>'); exit();
-
             # Traer roles de usuario auth
             $user_roles = $user->roles->pluck('slug');
-
-            // echo ('<pre>');print_r($user_roles);echo ('</pre>'); exit();
-
-            // var_dump(auth()->hasRole('admin')); exit(); # metodo de shinobi 4
 
             if ($user_roles) {
                 // $isEditor = auth()->hasRole('admin');
@@ -205,8 +201,8 @@ class AuthServiceProvider extends ServiceProvider
 
                 } else if (in_array("event-collaborator", $user_roles->toArray()) ) {
 
-                    // puede borrar si es de grupo propio y si aun no esta publicado
-                    if ( ($event->state != 1) && $user->group->id === $event->group_id ) {
+                    # Puede borrar si FUE CREADO por usuario y si aun no esta publicado
+                    if ( ($event->state != 1) && ($user->id === $event->user_id) ) {
                         return TRUE;
                     }
 

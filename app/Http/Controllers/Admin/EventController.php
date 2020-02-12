@@ -183,11 +183,14 @@ class EventController extends Controller
                     $request->request->add(['event_id' => $request->rel_frame ]);
                 }
             }
-
         }
 
         Session::keep(['redirect']);
 
+        # Recuperamos el usuario autenticado y lo agregamos al request
+        $request->request->add(['user_id' => Auth::user()->id ]); 
+        
+        
         $event = Event::create($request->all());
         
         if ($event) {
