@@ -13,22 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::apiResource('categoriesAll', 'Api\CategoryController');
-// Route::apiResource('organizationsAll', 'Api\OrganizationController');
-// Route::apiResource('eventsAll', 'Api\EventController');
+Route::apiResource('categoriesAll', 'Api\CategoryController');
+Route::apiResource('organizationsAll', 'Api\OrganizationController');
+Route::apiResource('eventsAll', 'Api\EventController');
 
 
-// //
-// // Api Categories
-// //
-// use App\Category;
-// use App\Http\Resources\Category as CategoryResource;
-// Route::get('/categories/{id}', function ($id) {
-//     return new CategoryResource(Category::find($id) ?? abort(404));
-// });
-// Route::get('/categories', function () {
-//   return CategoryResource::collection(Category::paginate());
-// });
+//
+// Api Categories
+//
+use App\Category;
+use App\Http\Resources\Category as CategoryResource;
+Route::get('/categories/{id}', function ($id) {
+    return new CategoryResource(Category::find($id) ?? abort(404));
+});
+Route::get('/categories', function () {
+  return CategoryResource::collection(Category::paginate());
+});
 
 
 //
