@@ -85,12 +85,13 @@
     <script>
     $(document).ready(function(){
 
-        // Formatear slug a partir del name
-        $("#name").stringToSlug({
-            callback: function(text){
-                $('#slug').val(text);
-            }
-        }); 
+        // // Formatear slug a partir del name
+        // $("#slug").stringToSlug({
+        //     space: '_',
+        //     callback: function(text){
+        //         $('#slug').val(text);
+        //     }
+        // }); 
     
     });
     </script>
