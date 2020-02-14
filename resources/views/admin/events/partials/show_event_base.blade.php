@@ -25,7 +25,7 @@
 <div class="form-group row">
     <label for="tags_events" class="col-md-3 col-form-label text-md-right">Categorías</label>
     <div class="col-md-8">
-        <input name="tags_events" id="tags_events" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_events }}"  placeholder="Categorías" readonly="readonly" disabled="disabled">
+        <input name="tags_category_event" id="tags_category_event" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_category_event }}"  placeholder="Categorías" readonly="readonly" disabled="disabled">
     </div>
 </div>
 <hr />
@@ -45,8 +45,8 @@
 </div>
 <hr/>
 <div class="form-group row">
-    <label for="tags_no_events" class="col-md-3 col-form-label text-md-right">Etiquetas / Tags</label>
+    <label for="tags_no_category_event" class="col-md-3 col-form-label text-md-right">Etiquetas / Tags</label>
     <div class="col-md-8">
-        <input name="tags_no_events" id="tags_no_events" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_no_events }}" placeholder="No etiquetado" readonly="readonly" disabled="disabled">
+        <input name="tags_no_category_event" id="tags_no_category_event" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_no_category_event }}" placeholder="No etiquetado" readonly="readonly" disabled="disabled">
     </div>
 </div>

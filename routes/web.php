@@ -423,12 +423,11 @@ Route::get('admin/places/{id}', 'Admin\PlaceController@GetPlace')->where('id', '
 # Tags :: Agrupados bajo "Servicios": listado total o el base a término de busqueda
 Route::get('admin/tags/services/{termino?}', 'Admin\TagController@getTagsServices');
 
+# Tags :: NO AGRUPADOS bajo "EVENTOS" : listado total o el base a término de busqueda
+Route::get('admin/tags/no-events/{termino?}', 'Admin\TagController@getTagsNoEvents');
+
 # Tags :: Listado de tags agrupados bajo categoria "Eventos"
-Route::get('admin/tags/events/{termino?}', 'ApiController@getTagsEvents');
-
-# Tags ::  Listado de tags NO AGRUPADOS bajo "EVENTOS"
-// Route::get('admin/tags/no-events/{termino?}', 'ApiController@getTagsNoEvents');
-
+// Route::get('admin/tags/events/{termino?}', 'ApiController@getTagsEvents');
 
 
 # --------------------------------------------------------

@@ -217,18 +217,18 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
 
         # Tag categorizados bajo grupo "Eventos", asociados al evento puntual
-        $tags_events = ''; // mostrar categorias como etiquetas separadas por coma
+        $tags_category_event = ''; // mostrar categorias como etiquetas separadas por coma
 
         # Tag no categorizados bajo grupo "Eventos", asociados al evento puntual
-        $tags_no_events = '';
+        $tags_no_category_event = '';
 
         foreach ($event->tags as $tag) {
 
             if ($tag) {
                 if ($tag->isInGroup('Eventos')) {
-                    $tags_events .= $tag ['name'].', ';
+                    $tags_category_event .= $tag ['name'].', ';
                 } else {
-                    $tags_no_events .= $tag ['name'].', ';
+                    $tags_no_category_event .= $tag ['name'].', ';
                 }
             }
 
@@ -241,7 +241,7 @@ class EventController extends Controller
                 $calendar = $event->calendars->first();
             }
             
-            $data = compact('event', 'tags_events', 'tags_no_events', 'calendar');
+            $data = compact('event', 'tags_category_event', 'tags_no_category_event', 'calendar');
 
         } else {
 
@@ -264,7 +264,7 @@ class EventController extends Controller
                 }
             }
 
-            $data = compact('event', 'frame_event', 'tags_events', 'tags_no_events', 'actual_place');
+            $data = compact('event', 'frame_event', 'tags_category_event', 'tags_no_category_event', 'actual_place');
         }
         return view('admin.events.show', $data);
     }
@@ -285,25 +285,22 @@ class EventController extends Controller
 
         $list_groups = Group::where('state',1)->get();
 
-
         # Todos los tags agrupados en categoria eventos, para mostrar en el select
-        $tags_group_events = Tag::inGroup('Eventos')->get()->toArray();
+        $tags_category = Tag::inGroup('Eventos')->get()->toArray();
 
-        # Tag categorizados bajo grupo "Eventos", asociados al evento puntual
-        $tags_events = ''; // mostrar categorias como etiquetas separadas por coma
-        $tags_in_event = []; // mostrar como array: select de categorias
-
-        # Tag no categorizados bajo grupo "Eventos", asociados al evento puntual
-        $tags_no_events = '';
+        # Tag asociados al evento puntual... 
+        $tags_category_event = []; // categorizados bajo grupo "Eventos"
+        
+        $tags_no_category_event = ''; # no categorizados bajo grupo "Eventos"
 
         foreach ($event->tags as $tag) {
 
             if ($tag) {
 
                 if ($tag->isInGroup('Eventos')) {
-                    $tags_in_event[] = $tag ['name'];
+                    $tags_category_event[] = $tag ['name'];
                 } else {
-                    $tags_no_events .= $tag ['name'].', ';
+                    $tags_no_category_event .= $tag ['name'].', ';
                 }
             }
         }
@@ -321,7 +318,7 @@ class EventController extends Controller
                 $calendar = $event->calendars->first();
             }
             
-            $data = compact('event','list_groups', 'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'calendar');
+            $data = compact('event','list_groups', 'tags_category', 'tags_category_event', 'tags_no_category_event', 'calendar');
 
         } else {
 
@@ -352,7 +349,7 @@ class EventController extends Controller
                 }
             }
 
-            $data = compact('event', 'list_groups', 'list_orgs', 'actual_place_id', 'actual_place',  'tags_group_events', 'tags_in_event', 'tags_events', 'tags_no_events', 'frame_events');
+            $data = compact('event', 'list_groups', 'list_orgs', 'actual_place_id', 'actual_place',  'tags_category', 'tags_category_event', 'tags_no_category_event', 'frame_events');
             
         }
 
@@ -386,19 +383,19 @@ class EventController extends Controller
         // agregar en forma dinámica desde el formulario de edición de eventos. 
         // Por mas que estos se cargen en el campo correspondiente a "categorias"
         // serán taggeados al evento pero se ubicaran en etiquetas asociadas
-        // $tags_events = explode(',', $request->get('tags_events'));
+        // $tags_category_event = explode(',', $request->get('tags_category_event'));
 
-        $tags_events = $request->get('select_mult');
+        $tags_category_event = $request->get('select_mult');
 
-        if (!$tags_events) {
-            $tags_events = [];
+        if (!$tags_category_event) {
+            $tags_category_event = [];
         }
 
         # Tags no categorizados
-        $tags_no_events = explode(',', $request->get('tags_no_events'));
+        $tags_no_category_event = explode(',', $request->get('tags_no_category_event'));
 
         # Unir tags categorizados y no categorizados, almacenar 
-        $tags =  array_merge($tags_events, $tags_no_events);
+        $tags =  array_merge($tags_category_event, $tags_no_category_event);
         $event->retag($tags);
 
         # Actualizar evento

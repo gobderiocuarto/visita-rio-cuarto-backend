@@ -39,8 +39,8 @@
 <div class="form-group row">
     <div class="offset-3 col-md-8">
         <select multiple="multiple" size="5" id="select_mult" name="select_mult[]" class="form-control form-control-xl" required>
-            @foreach ($tags_group_events as $category)
-            <option value="{{ $category['name'] }}"  @if (in_array( $category['name'], $tags_in_event))
+            @foreach ($tags_category as $category)
+            <option value="{{ $category['name'] }}"  @if (in_array( $category['name'], $tags_category_event))
 selected="selected" @endif>
                 {{ $category['name'] }}
             </option>
@@ -65,9 +65,9 @@ selected="selected" @endif>
 </div>
 <hr/>
 <div class="form-group row">
-    <label for="tags_no_events" class="col-md-3 col-form-label text-md-right">Etiquetas / Tags</label>
+    <label for="tags_no_category_event" class="col-md-3 col-form-label text-md-right">Etiquetas / Tags</label>
     <div class="col-md-8">
-        <input name="tags_no_events" id="tags_no_events" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_no_events }}"  placeholder="Etiquetas">
+        <input name="tags_no_category_event" id="tags_no_category_event" type="text" class="form-control" data-role="tagsinput" value="{{ $tags_no_category_event }}"  placeholder="Etiquetas">
         <small class="form-text text-muted mt-2">Separar mediante comas</small>
     </div>
 </div>

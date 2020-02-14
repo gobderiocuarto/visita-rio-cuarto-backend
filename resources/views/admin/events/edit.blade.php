@@ -187,12 +187,12 @@
         }); 
 
 
-        // Mostrar manejo de tags (fuera de grupo eventos)
-        $('#tags_no_events').tagsInput({
+        // Mostrar tags (no incluidos en categoría eventos)
+        $('#tags_no_category_event').tagsInput({
             'autocomplete': {
                 source : function (request, responseGetData) {
                     var term = request.term;
-                    $.get('/admin/tags/services/'+term, function(data){
+                    $.get('/admin/tags/no-events/'+term, function(data){
                         // console.log(data)
                         responseGetData(data);
                     });

@@ -103,19 +103,14 @@
 <script src="{{ asset('libs/jquery-tagsinput/js/jquery.tagsinput-revisited.js') }}"></script>
 <script>
 
-    // ----------------------------------------------------
-    // Functions
-    // ----------------------------------------------------
-
-    
-
-
-    // ----------------------------------------------------
-    // END Functions
-    // ----------------------------------------------------
-
-    
     $(document).ready(function(){
+
+        $('#tags_no_category_event').tagsInput({
+            interactive: false,
+        });
+        $('#tags_category_event').tagsInput({
+            interactive: false,
+        });
 
     }); // END document.ready
 </script>
