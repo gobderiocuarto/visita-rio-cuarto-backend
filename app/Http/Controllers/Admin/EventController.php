@@ -615,6 +615,7 @@ class EventController extends Controller
 
                 $max_width = 900; // Pixels
                 $folder_img = 'events/'.$event->id.'/';
+                // $folder_img = 'events/'.$event->id.'/';
                 $thumb_img = $folder_img.'thumbs/';
                                                 
                 $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $request->file('file'));
@@ -622,33 +623,51 @@ class EventController extends Controller
                     return back()->withErrors('Tipo de archivo no permitido. (Sólo se permiten archivos JPG, PNG, GIF)');
                 }
                 
-                # Obtener nombre final del archivo (metodo en Controller.php)
+                # Generar el nombre final del archivo (metodo en Controller.php)
                 $new_file_name = $this->renameFile($request->file('file'));
 
-                if ( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_file_name) ) {
+                #------------------------------
+                # Almacenar archivo
+                #------------------------------
+                if (Storage::put($folder_img.$new_file_name, fopen($request->file('file'), 'r+'), 'public') ) {
+                // if ( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_file_name, 'public') ) {
 
                     # Intervention Image
-                    $new_img = Image::make(Storage::get($path));
+                    $new_img = Image::make(Storage::get($folder_img.$new_file_name));
+
                     if ($new_img->width() > $max_width ) {
-                        
+
+                        # Resampleamos la imagen  
                         $new_img->resize($max_width, null, function ($constraint) {
                             $constraint->aspectRatio();
-                        })->save('files/'.$folder_img.$new_file_name);
-                        
+                        });
+                        Storage::put($folder_img.$new_file_name, $new_img->stream()->__toString() , 'public');
                     }
-                    
-                    # Thumbnails
-                    Storage::makeDirectory($thumb_img);
-                    Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_file_name );
 
+                    #------------------------------
+                    # Thumbnails
+                    #------------------------------
+                    # Crear subdirectorio
+                    Storage::makeDirectory($thumb_img, 'public');
+
+                    # Crear imagen resampleada
+                    $thumb = Image::make(Storage::get($folder_img.$new_file_name))->fit(250, 250);
+                    // $thumb = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_file_name );
+
+                    Storage::put($thumb_img.$new_file_name, $thumb->stream()->__toString(), 'public');
+                    
                     # Borrar archivos anteriores, si existen
                     if($event->file) {
-                        $delete_file = $this->deleteFile($folder_img.$event->file->file_path);
+                        $delete_file = $this->deleteFile($folder_img.$event->file->file_path); // en ImageTrait
                         $delete_thumb = $this->deleteFile($thumb_img.$event->file->file_path);
                         $event->file->delete();
+                        // echo ('<pre>');print_r($delete_file);echo ('</pre>'); exit();
                     }
-
+                    
                     $result = $event->file()->create(['file_path'=> $new_file_name, 'file_alt'=> $request->get('file_alt') ]);
+                    $files = Storage::allFiles($folder_img);
+
+                    // echo ('<pre>');print_r($files);echo ('</pre>'); exit();
 
                 } else {
 
