@@ -11,7 +11,7 @@
     </div>
   </div>
   @if ($event->file)
-  <div class="card-image" style="background-image: url('{{ Storage::url("events/{$event->id}/{$event->file->file_path}") }}')"></div>
+  <div class="card-image" style="background-image: url('{{ Storage::url("events/medium/{$event->file->file_path}") }}')"></div>
   @else
   <div class="card-image"></div>
   @endif

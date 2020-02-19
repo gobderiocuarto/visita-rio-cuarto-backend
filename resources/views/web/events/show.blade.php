@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-7 col-lg-8 col-xl-9">
         @if($event->file)        
-        <div style="background-image: url('{{ Storage::url("events/{$event->id}/{$event->file->file_path}") }}');" class="image"></div>
+        <div style="background-image: url('{{ Storage::url("events/large/{$event->file->file_path}") }}');" class="image"></div>
         @endif      
         <div class="content">
           <h2>{{ $event->title }}</h2>
