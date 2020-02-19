@@ -8,8 +8,8 @@
             @if($event->file)
             <div class="col-md-3 parent position-relative">
                 <div>
-                    <a target="_blank" href="{{ Storage::url("events/{$event->id}/{$event->file->file_path}") }}">
-                        <img class="img-fluid" src="{{ Storage::url("events/{$event->id}/thumbs/{$event->file->file_path}") }}" alt="{{$event->file->file_alt}}">
+                    <a target="_blank" href="{{ Storage::url("events/large/{$event->file->file_path}") }}">
+                        <img class="img-fluid" src="{{ Storage::url("events/small/{$event->file->file_path}") }}" alt="{{$event->file->file_alt}}">
                     </a>
                 </div>
                 <!-- <a id="delete_image" href="#">

@@ -26,7 +26,7 @@ class Controller extends BaseController
 
     }
 
-    #recibe el objeto request->file('name'), donde name es el name del input file
+    # Recibe el objeto request->file('name'), donde name es el name del input file
     protected function renameFile($file) {
 
         $org_file_name = $file->getClientOriginalName();
