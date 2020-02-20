@@ -67,8 +67,8 @@
         <label class="col-md-3 col-form-label text-md-right">Imagen principal: </label>
         @if($organization->file)
         <div class="col-md-3">
-            <a target="_blank" href="{{ Storage::url("organizations/{$organization->id}/{$organization->file->file_path}") }}">
-                <img class="img-fluid" src="{{ Storage::url("organizations/{$organization->id}/thumbs/{$organization->file->file_path}") }}" alt="{{$organization->file->file_alt}}">
+            <a target="_blank" href="{{ Storage::url("organizations/large/{$organization->file->file_path}") }}">
+                <img class="img-fluid" src="{{ Storage::url("organizations/small/{$organization->file->file_path}") }}" alt="{{$organization->file->file_alt}}">
             </a>
         </div>
         @else

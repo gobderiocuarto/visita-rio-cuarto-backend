@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 
 // Soporte para transacciones 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 // Para Redireccionar mediante ancla
 use Illuminate\Support\Facades\Redirect;
@@ -26,14 +25,24 @@ use \Conner\Tagging\Model\Tag;
 use App\Http\Requests\OrganizationStoreRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
 
+# Imagenes
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+
+use App\Traits\ImageTrait;
 
 class OrganizationController extends Controller
 {
 
+    use ImageTrait;
+    
     public function __construct() {
 
-        // $this->middleware('auth');
+        $this->large_width     = 1200; 
+        $this->medium_width    = 700;
+        $this->small_width     = 200; 
+
+        $this->folder_img     = 'organizations/';
 
     }
 
@@ -198,31 +207,50 @@ class OrganizationController extends Controller
 
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
 
-            $folder_img = 'organizations/'.$organization->id.'/';
-            $thumb_img = $folder_img.'thumbs/';
+            // $folder_img = 'organizations/'.$organization->id.'/';
+            // $thumb_img = $folder_img.'thumbs/';
 
-            // Borrar archivos anteriores, si existen
-            if($organization->file) {
+            // $this->folder_img     = 'organizations/';
 
-                if (Storage::exists($folder_img.$organization->file->file_path) ) {
-                    Storage::delete($folder_img.$organization->file->file_path);
-                    Storage::delete($thumb_img.$organization->file->file_path);
-                }  
-                $organization->file->delete();
+            $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $request->file('file'));
+
+            if (!in_array($mime, $this->file_types)) {
+                return back()->withErrors('Tipo de archivo no permitido. (Sólo se permiten archivos JPG, PNG, GIF)');
             }
 
-            // Renombrar archivo entrante
-            $new_img = $this->renameFile($request->file('file'));
+            # Generar el nombre final del archivo (metodo en Controller.php)
+            $new_file_name = $this->renameFile($request->file('file'));
 
-            if( $path = Storage::putFileAs($folder_img, $request->file('file'), $new_img) ) {
+            #------------------------------
+            # Almacenar archivos
+            #------------------------------
 
-                Storage::makeDirectory($thumb_img);
+            $result = $this->loadImages($request, $new_file_name);
+            
+            if(!$result) {
+                // DB::rollBack();
+                return back()->withErrors('Se produjo algún error al actualizar la imagen. Revise los cambios realizados');
+            
+            } else {
 
-                $img = Image::make(Storage::get($path))->fit(250, 250)->save('files/'.$thumb_img.$new_img );                      
+                 #----------------------------------------
+                # Borrar archivos anteriores, si existen
+                #----------------------------------------
 
-                $organization->file()->create(['file_path'=> $new_img, 'file_alt'=> $request->get('file_alt') ]);
-                
+                if($organization->file) {
+                    # Borrar archivos
+                    $result_del = $this->deleteImages($organization->file->file_path);
+
+                    # Borrar en DB
+                    $delete_file = $organization->file->delete();
+                    
+                }
+
+                # Almacenar nueva imagen en DB
+                $result = $organization->file()->create(['file_path'=> $new_file_name, 'file_alt'=> $request->get('file_alt') ]);
+            
             }
+
             
         } else {
             $organization->file()->update(['file_alt'=> $request->get('file_alt')]);
