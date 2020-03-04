@@ -307,6 +307,9 @@ Route::middleware(['auth'])->group(function () {
 	# Events
 	# --------------------------------------------------------
 
+	# Resampleo de imagenes
+	Route::get('admin/events/resample', 'Admin\EventController@resample');
+
 	# Events :: Listar
 	Route::get('admin/events','Admin\EventController@index')->name('events.index')
 	->middleware('permission:events.index');

@@ -64,6 +64,94 @@ class EventController extends Controller
         $this->middleware('event.publish', ['only' => ['update']]);
 
     }
+
+
+
+    public function resample(Request $request)
+    {
+
+        $large_folder   = $this->folder_img.'large/';
+        $medium_folder  = $this->folder_img.'medium/';
+        $small_folder   = $this->folder_img.'small/';
+
+        $final_folders = array($large_folder, $medium_folder, $small_folder);
+        
+        $directories = Storage::directories($this->folder_img);
+
+        foreach ($directories as $directory) {
+
+            if (!in_array($directory, $final_folders)) {
+
+                $files = Storage::files($directory);
+                
+                foreach ($files as $img_path) {
+                    
+                    $new_img = Image::make(Storage::get($img_path));
+
+                    // echo ('<pre>');print_r($new_img->width());echo ('</pre>'); exit();
+                    
+                    $img_name = str_replace($directory."/", "", $img_path);
+
+                    #------------------------------
+                    # Large
+                    #------------------------------
+
+                    if ($new_img->width() > $this->large_width) {
+
+                        # Resampleamos la imagen a large
+                        $new_img->resize($this->large_width, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    }
+
+                    # 
+                    Storage::put($large_folder.$img_name, $new_img->stream()->__toString() , 'public');
+
+                    #------------------------------
+                    # END Large
+                    #------------------------------
+
+
+                    #------------------------------
+                    # Medium
+                    #------------------------------
+
+                    # Resampleamos la imagen a medium
+                    $new_img->resize($this->medium_width, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    Storage::put($medium_folder.$img_name, $new_img->stream()->__toString() , 'public');
+
+                    #------------------------------
+                    # END Medium
+                    #------------------------------
+
+
+                    #------------------------------
+                    # Small
+                    #------------------------------
+
+                    # Resampleamos la imagen a small
+                    $new_img->resize($this->small_width, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+
+                    Storage::put($small_folder.$img_name, $new_img->stream()->__toString() , 'public');
+
+                    #------------------------------
+                    # END Small
+                    #------------------------------
+                    
+                } // end foreach files
+            } // end if folders diferentes a los finales
+
+        } // end foreach directories
+
+        echo ('<pre>');print_r("fin");echo ('</pre>'); exit();
+        
+        
+    }
     
     /**
      * Display a listing of the resource.
