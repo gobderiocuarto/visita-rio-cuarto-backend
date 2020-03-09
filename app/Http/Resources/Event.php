@@ -14,15 +14,19 @@ class Event extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
+    
     public function toArray($request)
     {
         return [
             'id' => $this->id,
             'group' => $this->group_id,
             'title' => $this->title,
-            'summary' => $this->summary,
-            'slug' => $this->slug,
-            'state' => $this->state,
+            // 'summary' => $this->summary,
+            // 'slug' => $this->slug,
+            // 'state' => $this->state,
+            'calendars' => CalendarResource::collection($this->calendars),
+            // 'calendars' => CalendarResource::collection($this->calendars->where('start_date', '>=', '2020-02-20')),
             'place' => [
                 'id' => $this->place['organization']['id'],
                 'name' => $this->place['organization']['name'],
@@ -31,7 +35,7 @@ class Event extends JsonResource
                 'phone' => $this->place['organization']['phone'],
                 'web' => $this->place['organization']['web'],
             ],
-            'calendars' => CalendarResource::collection($this->calendars),
+            
             'tags' => TagResource::collection($this->tagged),
             'file' => [
                 'path' => env('APP_URL').'/files/events/'.$this->id.'/',
