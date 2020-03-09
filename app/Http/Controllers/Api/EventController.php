@@ -43,10 +43,10 @@ class EventController extends Controller
         $events = $events->orderBy('calendars.start_date', 'DESC');
         $events = $events->select('events.*');
 
-        $events = $events->paginate();
-        
+        $events = $events->paginate(1);
         // $events = $events->toSql();
-        $events->appends(["today" => $today]);
+
+        // $events->appends(["today" => $today]);
         // dd($events);
         return EventResource::collection($events);
     }
