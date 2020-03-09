@@ -13,7 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('events', 'Api\EventController')->only(['index', 'show' ]);
+Route::group(['middleware' => ['cors']], function () {
+    //Rutas a las que se permitirá acceso
+    Route::resource('events', 'Api\EventController')->only(['index', 'show' ]);
+});
+
 
 // Route::apiResource('categoriesAll', 'Api\CategoryController');
 // Route::apiResource('organizationsAll', 'Api\OrganizationController');
