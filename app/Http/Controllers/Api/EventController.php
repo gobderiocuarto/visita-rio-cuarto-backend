@@ -22,8 +22,10 @@ class EventController extends Controller
         // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
         $group_id = 1; //GA
         $state = 1;
-        // $today = date("Y-m-d");  
-        $today = date("2019-03-06");  
+
+        $from_date = date('2020-01-01');
+        $to_date = date('2020-03-31');
+        $today = date("Y-m-d");  
         
         // $calendar = Calendar::where('start_date', '>=', $today)->get();
         // echo ('<pre>');print_r($calendar);echo ('</pre>'); exit();
@@ -33,20 +35,40 @@ class EventController extends Controller
         ->join('event_group', 'events.id', 'event_group.event_id')
         ->where('event_group.group_id', $group_id)
         ->where('events.state', $state) // activos
-        ->whereNull('events.frame') //No mostrar marcos
-        ->where('calendars.start_date', '>=', $today);
+        ->whereNull('events.frame')  //No mostrar marcos
+        ->select('events.*');
+
+        # Orden de presentacion
+        $events = $events->orderBy('calendars.start_date', 'DESC');
+        
         # Filtrar por campo busqueda
         if (($request->search != '')) {
             $events = $events->where('events.title', 'like', '%'.$request->search.'%' );
         }
 
-        $events = $events->orderBy('calendars.start_date', 'DESC');
-        $events = $events->select('events.*');
+        # Rango de fechas / calendarios
+        if ($request->start_date) {
 
-        $events = $events->paginate(1);
-        // $events = $events->toSql();
+            if ($request->end_date) {
 
+                $events = $events ->whereBetween('calendars.start_date', [$request->start_date, $request->end_date]);
+
+            } else {
+
+                $events = $events ->where('calendars.start_date', '>=', $request->start_date);
+
+            }
+
+        } else {
+            // echo ('<pre>');print_r("date no def");echo ('</pre>'); exit();
+        }
+        
         // $events->appends(["today" => $today]);
+
+        // $events = $events->toSql();
+        // $events = $events->count();
+        $events = $events->paginate();
+
         // dd($events);
         return EventResource::collection($events);
     }
