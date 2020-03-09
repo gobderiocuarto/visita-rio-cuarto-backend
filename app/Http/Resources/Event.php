@@ -18,6 +18,8 @@ class Event extends JsonResource
     
     public function toArray($request)
     {
+        // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
+        
         return [
             'id' => $this->id,
             'group' => $this->group_id,
