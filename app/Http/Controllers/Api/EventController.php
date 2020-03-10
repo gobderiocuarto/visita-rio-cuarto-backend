@@ -19,18 +19,11 @@ class EventController extends Controller
     public function index(Request $request)
     {
         
-        // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
         $group_id = 1; //GA
-        $state = 1;
-
-        $from_date = date('2020-01-01');
-        $to_date = date('2020-03-31');
-        $today = date("Y-m-d");  
+        $state = 1; // Estado Activo
+        // $today = date("Y-m-d");  
         
-        // $calendar = Calendar::where('start_date', '>=', $today)->get();
-        // echo ('<pre>');print_r($calendar);echo ('</pre>'); exit();
-
-        # Listado de eventos
+        # Listado total de eventos no marco activos, pertenecientes a portal visita
         $events = Event::join('calendars', 'calendars.event_id', 'events.id')
         ->join('event_group', 'events.id', 'event_group.event_id')
         ->where('event_group.group_id', $group_id)
@@ -38,7 +31,7 @@ class EventController extends Controller
         ->whereNull('events.frame')  //No mostrar marcos
         ->select('events.*');
 
-        # Orden de presentacion
+        # Orden de presentación
         $events = $events->orderBy('calendars.start_date', 'DESC');
         
         # Filtrar por campo busqueda
@@ -46,7 +39,7 @@ class EventController extends Controller
             $events = $events->where('events.title', 'like', '%'.$request->search.'%' );
         }
 
-        # Rango de fechas / calendarios
+        # Buscar por rango de fechas / calendarios
         if ($request->start_date) {
 
             if ($request->end_date) {
@@ -64,11 +57,7 @@ class EventController extends Controller
         }
         
         // $events->appends(["today" => $today]);
-
-        // $events = $events->toSql();
-        // $events = $events->count();
-        $events = $events->paginate();
-
+        $events = $events->paginate(2);
         // dd($events);
         return EventResource::collection($events);
     }
