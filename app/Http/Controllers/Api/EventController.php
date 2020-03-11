@@ -57,7 +57,7 @@ class EventController extends Controller
         }
         
         // $events->appends(["today" => $today]);
-        $events = $events->paginate(2);
+        $events = $events->paginate(12);
         // dd($events);
         return EventResource::collection($events);
     }
