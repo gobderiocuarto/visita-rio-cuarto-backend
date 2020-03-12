@@ -52,10 +52,16 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show($event_slug)
     {
+        $event = Event::where('slug', $event_slug)->first();
+
+        if (!$event) {
+            abort(404);
+        } 
         return New EventResource($event);
     }
+    
 
     /**
      * Update the specified resource in storage.
