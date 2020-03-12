@@ -21,9 +21,9 @@ class File extends JsonResource
 
         return [
             'id' => $this->id,
-            'path_large'    => Storage::url("events/large/{$this->file_path}"),
-            'path_medium'   => Storage::url("events/medium/{$this->file_path}"),
-            'path_small'    => Storage::url("events/small/{$this->file_path}"),
+            'url_large'    => Storage::url("events/large/{$this->file_path}"),
+            'url_medium'   => Storage::url("events/medium/{$this->file_path}"),
+            'url_small'    => Storage::url("events/small/{$this->file_path}"),
             'alt' => $this->file_alt,
         ];
         
