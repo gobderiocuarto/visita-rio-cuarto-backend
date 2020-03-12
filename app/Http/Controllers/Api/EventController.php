@@ -200,30 +200,48 @@ class EventController extends Controller
     private function getQueries(Request $request, $events)
     {
         
+        # Paginar registros, valor por defecto
+        $paginate = 12; 
+
+        # Almacenar los query a la url para mantenerlos en paginado de la consulta
+        $query_filter = (object)[];
+        
         # Filtrar por campo busqueda
         if (($request->search != '')) {
             $events = $events->where('events.title', 'like', '%'.$request->search.'%' );
+            $query_filter->search = $request->search;
         }
 
         # Buscar por rango de fechas / calendarios
         if ($request->start_date) {
             
             if ($request->end_date) {
+
                 $events = $events ->whereBetween('calendars.start_date', [$request->start_date, $request->end_date]);
+                $query_filter->start_date = $request->start_date;
+                $query_filter->end_date = $request->end_date;
+
             } else {
+
                 $events = $events ->where('calendars.start_date', '>=', $request->start_date);
+                $query_filter->start_date = $request->start_date;
+
             }
 
-        } else {
-            // echo ('<pre>');print_r("date no def");echo ('</pre>'); exit();
         }
 
-        # Paginar registros ?
+        # Paginar registros
         if ($request->paginate != '') {
-            $events = $events->paginate($request->paginate);
-        } else {
-            $events = $events->get();
+
+            $paginate = $request->paginate;
+            $query_filter->paginate = $request->paginate;
+
         }
+
+        $events = $events->paginate($paginate);
+
+        # Agregar los query de la url al paginado de la consulta
+        $events->appends((array)$query_filter);
 
         return $events;
     }
