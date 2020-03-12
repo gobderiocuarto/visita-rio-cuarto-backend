@@ -27,6 +27,9 @@ Route::group(['middleware' => ['cors']], function () {
 
     # Listado total de eventos
     Route::get('events', 'Api\EventController@index');
+
+    # Detalle de evento
+    Route::get('events/{event_slug}', 'Api\EventController@show');
 });
 
 
