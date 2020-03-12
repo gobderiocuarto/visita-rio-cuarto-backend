@@ -24,7 +24,7 @@ class Place extends JsonResource
             'number' => $this->placeable->number,
             'city' => $this->city,
             'administrative' => $this->administrative,
-            'lng' => $this->placeable->lng,
+            'lat' => $this->placeable->lat,
             'lng' => $this->placeable->lng,
         ];
     }
