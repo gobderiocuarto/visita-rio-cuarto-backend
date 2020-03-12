@@ -7,6 +7,8 @@ use App\Organization;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Http\Resources\Organization as OrganizationResource;
+
 class ServiceController extends Controller
 {
     /**
@@ -46,12 +48,7 @@ class ServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-
-
+    
     public function show($service_slug)
     {
         $organization = Organization::where('slug', $service_slug)->first();
@@ -60,8 +57,7 @@ class ServiceController extends Controller
             abort(404);
         } 
 
-        echo ('<pre>');print_r($organization);echo ('</pre>'); exit();
-        return New EventResource($organization);
+        return New OrganizationResource($organization);
     }
 
     

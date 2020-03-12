@@ -30,6 +30,12 @@ Route::group(['middleware' => ['cors']], function () {
 
     # Detalle de evento
     Route::get('events/{event_slug}', 'Api\EventController@show');
+
+
+    # Detalle de servicio
+    Route::get('services/{service_slug}', 'Api\ServiceController@show');
+
+
 });
 
 
