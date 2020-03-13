@@ -208,7 +208,10 @@ class EventController extends Controller
         
         # Filtrar por campo busqueda
         if (($request->search != '')) {
-            $events = $events->where('events.title', 'like', '%'.$request->search.'%' );
+            $events = $events->where('events.title', 'like', '%'.$request->search.'%')
+                             ->orWhere('events.slug', 'like', '%'.$request->search.'%')
+                             ->orWhere('events.summary', 'like', '%'.$request->search.'%')
+                             ->orWhere('events.description', 'like', '%'.$request->search.'%');
             $query_filter->search = $request->search;
         }
 
