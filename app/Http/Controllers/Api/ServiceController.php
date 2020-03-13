@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Organization;
+use App\Category;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -88,6 +89,32 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function getServicesInCategory(Request $request, $category_slug)
+    {
+
+        $category = Category::where('slug', $category_slug)->first();
+
+        if(!$category){
+            abort(404);
+        }
+
+        # Listado total de servicios activos
+        $organizations = $this->getBaseCollection();
+
+        # Filtra por categorías, incluyendo categorías hijas
+        $organizations = $organizations->join ('categories','categories.id','organizations.category_id')
+        ->where(function ($query) use ($category) {
+            $query  ->where ('categories.id', '=', $category->id)
+                    ->orWhere ('categories.category_id', '=', $category->id);
+        });
+
+        $organizations = $this->getQueries($request, $organizations);
+        
+        return OrganizationResource::collection($organizations);
+
     }
 
 
