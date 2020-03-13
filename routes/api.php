@@ -49,17 +49,6 @@ Route::group(['middleware' => ['cors']], function () {
     Route::get('services/{service_slug}', 'Api\ServiceController@show');
 
 
-
-    # --------------------------------------------------------
-	# Tags
-	# --------------------------------------------------------
-    
-    # Listado de eventos que comparten un tag
-    // En events/tags/{slug_tag}
-    // Route::get('tags/{slug_tag}/events', 'Api\EventController@getEventsInTag');
-
-
-
     # --------------------------------------------------------
 	# Categorias
 	# --------------------------------------------------------
@@ -69,6 +58,23 @@ Route::group(['middleware' => ['cors']], function () {
 
     # Listado de servicis dentro de una categoria de organizacion
     // Route::get('categories/{category_slug}/services', 'Api\ServiceController@getServicesInCategory');
+
+    # Listado total de categorias
+    Route::get('categories', 'Api\CategoryController@index');
+
+    # Detalle de servicio
+    Route::get('categories/{category_slug}', 'Api\CategoryController@show');
+
+
+
+    # --------------------------------------------------------
+	# Tags
+	# --------------------------------------------------------
+    
+    # Listado de eventos que comparten un tag
+    // En events/tags/{slug_tag}
+    // Route::get('tags/{slug_tag}/events', 'Api\EventController@getEventsInTag');
+
 
 });
 

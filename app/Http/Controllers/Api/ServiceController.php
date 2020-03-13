@@ -104,7 +104,7 @@ class ServiceController extends Controller
         # Listado total de servicios activos
         $organizations = $this->getBaseCollection();
 
-        # Filtra por categorías, incluyendo categorías hijas
+        # Filtra por categorías, incluyendo las categorías hijas
         $organizations = $organizations->join ('categories','categories.id','organizations.category_id')
         ->where(function ($query) use ($category) {
             $query  ->where ('categories.id', '=', $category->id)
@@ -148,7 +148,10 @@ class ServiceController extends Controller
 
         # Filtrar por campo busqueda
         if (($request->search != '')) {
-            $organizations = $organizations->where('organizations.name', 'like', '%'.$request->search.'%' );
+            $organizations = $organizations
+            ->where('organizations.name', 'like', '%'.$request->search.'%' )
+            ->orWhere('organizations.slug', 'like', '%'.$request->search.'%' )
+            ->orWhere('organizations.description', 'like', '%'.$request->search.'%' );
             $query_filter->search = $request->search;
         }
 
