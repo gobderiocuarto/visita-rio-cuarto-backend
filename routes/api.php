@@ -15,21 +15,54 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => ['cors']], function () {
 
+    # --------------------------------------------------------
+	# Eventos
+	# --------------------------------------------------------
+
     # Listado de Eventos dentro de un evento marco
     Route::get('events/frames/{event_frame}', 'Api\EventController@getEventsInFrame');
-    
-    # Listado de eventos que comparten un tag
-    // Route::get('events/tags/{slug_tag}', 'Api\EventController@getTagEvents');
-    Route::get('tags/{slug_tag}/events', 'Api\EventController@getEventsInTag');
 
-    # Listado de eventos dentro de una categoria de organizacion - ubicacion
-    Route::get('categories/{category_slug}/events', 'Api\EventController@getEventsInCategory');
+    # Listado de eventos que comparten un tag
+    Route::get('events/tags/{slug_tag}', 'Api\EventController@getEventsInTag');
 
     # Listado total de eventos
     Route::get('events', 'Api\EventController@index');
 
     # Detalle de evento
     Route::get('events/{event_slug}', 'Api\EventController@show');
+
+
+
+    # --------------------------------------------------------
+	# Tags
+	# --------------------------------------------------------
+    
+    # Listado de eventos que comparten un tag
+    // En events/tags/{slug_tag}
+    // Route::get('tags/{slug_tag}/events', 'Api\EventController@getEventsInTag');
+
+
+
+    # --------------------------------------------------------
+	# Categorias
+	# --------------------------------------------------------
+
+    # Listado de eventos dentro de una categoria de organizacion - ubicacion
+    Route::get('categories/{category_slug}/events', 'Api\EventController@getEventsInCategory');
+
+    
+
+    # --------------------------------------------------------
+	# Servicios
+	# --------------------------------------------------------
+
+    # Detalle de servicio
+    Route::get('services/{service_slug}', 'Api\ServiceController@show');
+
+    # Listado total de servicios
+    Route::get('services', 'Api\ServiceController@index');
+
+
 });
 
 

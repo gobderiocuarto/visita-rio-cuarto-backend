@@ -19,13 +19,14 @@ class File extends JsonResource
     {
         // return parent::toArray($request);
 
+        $base_folder = strtolower(str_replace("App\\", "", $this->fileable_type))."s";
+
         return [
             'id' => $this->id,
-            'url_large'    => Storage::url("events/large/{$this->file_path}"),
-            'url_medium'   => Storage::url("events/medium/{$this->file_path}"),
-            'url_small'    => Storage::url("events/small/{$this->file_path}"),
+            'url_large'    => Storage::url( $base_folder."/large/{$this->file_path}"),
+            'url_medium'   => Storage::url( $base_folder."/medium/{$this->file_path}"),
+            'url_small'    => Storage::url( $base_folder."/small/{$this->file_path}"),
             'alt' => $this->file_alt,
         ];
-        
     }
 }
