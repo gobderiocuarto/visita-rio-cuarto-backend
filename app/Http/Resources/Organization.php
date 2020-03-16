@@ -21,17 +21,19 @@ class Organization extends JsonResource
         // return parent::toArray($request);
         
         return [
-            'id'            => $this->id,
-            'category'      => $this->category->name,
-            'name'          => $this->name,
-            'slug'          => $this->slug,
-            'description'   => $this->description,
-            'email'         => $this->email,
-            'phone'         => $this->phone,
-            'web'           => $this->web,
-            'file'          => New FileResource($this->file),
-            'tags'          => TagResource::collection($this->tagged),
-            'places'        => PlaceResource::collection($this->places),
+            'id'                    => $this->id,
+            'category'              => $this->category->name,
+            'name'                  => $this->name,
+            'slug'                  => $this->slug,
+            'description'           => $this->description,
+            'email'                 => $this->email,
+            'phone'                 => $this->phone,
+            'web'                   => $this->web,
+            'highlight_home_aside'  => $this->highlight_home_aside,
+            'highlight'             => $this->highlight,
+            'file'                  => New FileResource($this->file),
+            'tags'                  => TagResource::collection($this->tagged),
+            'places'                => PlaceResource::collection($this->places),
         ];
     }
 }

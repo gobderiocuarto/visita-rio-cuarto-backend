@@ -516,21 +516,53 @@ class OrganizationController extends Controller
     }
 
 
+    /*------------------------------------------------
+    /*----------------------------------------------*/
+    # Destacar / Impactar la organizacion en home o asides
+    /*------------------------------------------------
+    /*----------------------------------------------*/
 
-    // public function destroyAddress($org_id, $address_id)
-    // {
-        
-    //     $organization = Organization::findOrFail($org_id);
-    //     $organization->addresses()->where('addresses.id', $address_id)->delete();
+    public function highLightHomeAside(Organization $organization)
+    {
 
-    //     // $address = Address::join('address_organization', 'addresses.id', '=', 'address_organization.address_id')
-    //     //     ->where('address_organization.organization_id', $org_id)
-    //     //     ->where('address_organization.address_id', $address_id)
-    //     //     ->delete();
+        if (!$organization->highlight_home_aside){
+            $organization->highlight_home_aside = "home_aside";
+        } else {
+            $organization->highlight_home_aside = NULL;
+        }
+        $result = $organization->save();
 
-    //     return redirect('admin/organizations/' . $organization->id.'/edit#places_tab')->with('message', 'Ubicación eliminada correctamente');
-    // }
+        if ($result) {
+            return back()->with('message', 'Organización actualizada correctamente');
+        } else {
+            return back()->withErrors('Error al actualizar organización');
+        }
+
+    }
 
 
+    /*------------------------------------------------
+    /*----------------------------------------------*/
+    # Destacar / resaltar organizacion 
+    /*------------------------------------------------
+    /*----------------------------------------------*/
+
+    public function highLight(Organization $organization)
+    {
+
+        if (!$organization->highlight){
+            $organization->highlight = "emphasize";
+        } else {
+            $organization->highlight = NULL;
+        }
+        $result = $organization->save();
+
+        if ($result) {
+            return back()->with('message', 'Organización modificada correctamente');
+        } else {
+            return back()->withErrors('Error al actualizar organización');
+        }
+
+    }
 
 }
