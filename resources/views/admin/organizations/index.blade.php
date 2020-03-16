@@ -46,7 +46,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Categoría</th>
-                                <th colspan="2">Opciones</th>
+                                <th colspan="4">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,14 +54,36 @@
                             <tr>
                                 <td>{{ $organization->name }}</td>
                                 <td>@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}</td>                                
-                                <td width="10px">
-                                    <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-success">Editar</a>
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <a href='{{ url("/admin/organizations/{$organization->id}/highlight") }}' class="btn btn-sm btn-default" title="Destacar en Slide">
+                                    @if (!$organization->highlight)
+                                        <i class="fas fa-question fa-2x"></i>
+                                        @else
+                                        <i class="far fa-question-circle fa-2x"></i>
+                                        @endif
+                                    </a>
                                 </td>
-                                <td width="10px">
-                                    <form id="form_delete_org_{{ $organization->id }}" class="form_delete_org" action='{{ url("/admin/organizations/$organization->id") }}' method="POST" >
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <a href='{{ url("/admin/organizations/{$organization->id}/highlight_home_aside") }}' class="btn btn-sm btn-default" title="Destacar en Slide">
+                                    @if (!$organization->highlight_home_aside)
+                                        <i class="fas fa-question fa-2x"></i>
+                                        @else
+                                        <i class="far fa-question-circle fa-2x"></i>
+                                        @endif
+                                    </a>
+                                </td>
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-sm btn-default" title="Editar">
+                                        <i class="fas fa-edit fa-2x"></i>
+                                    </a>
+                                </td>    
+                                <td style="padding-left: 0; padding-right: 0">
+                                    <form id="form_delete_org_{{ $organization->id }}" class="form_delete_org"  action='{{ url("/admin/organizations/$organization->id") }}' method="POST">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger delete_org" data-id-org="{{ $organization->id }}">Eliminar</button>
+                                        <button type="submit" class="btn btn-sm btn-default delete_org" data-id-org="{{ $organization->id }}" title="Borrar">
+                                            <i class="fas fa-trash-alt fa-2x"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

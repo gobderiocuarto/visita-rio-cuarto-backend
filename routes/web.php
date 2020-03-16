@@ -296,6 +296,14 @@ Route::middleware(['auth'])->group(function () {
 	# Organizaciones :: eliminar una ubicación
 	Route::post('admin/organizations/{organization}/place/{place_id}','Admin\OrganizationController@destroyPlace')->name('organizations.destroyPlace')
 	->middleware('permission:organizations.destroyPlace');
+
+	# Organizaciones :: destacar en home y/o aside
+	Route::get('admin/organizations/{organization}/highlight_home_aside','Admin\OrganizationController@highLightHomeAside');
+	
+	# Organizaciones :: destacar / jerarquizar
+	Route::get('admin/organizations/{organization}/highlight','Admin\OrganizationController@highLight');
+
+
 	
 	# --------------------------------------------------------
 	# END Organizaciones
