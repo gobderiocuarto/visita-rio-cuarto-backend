@@ -147,22 +147,22 @@ class ServiceController extends Controller
 
 
         # Filtrar destacados / priorizados
-        if ($request->prioritize) {
+        if ($request->priority) {
 
-            if ($request->prioritize == "yes") {
+            if ($request->priority == "yes") {
 
-                $organizations = $organizations->where('organizations.prioritize', "yes");
+                $organizations = $organizations->where('organizations.priority', "yes");
                 
-            } else if ($request->prioritize == "no") {
+            } else if ($request->priority == "no") {
 
-                $organizations = $organizations->where('organizations.prioritize', "no");
+                $organizations = $organizations->where('organizations.priority', "no");
 
             }
 
-            $query_filter->prioritize = $request->prioritize;
+            $query_filter->priority = $request->priority;
 
         }
-        
+
 
         # Filtrar destacados en home / aside
         if ($request->highlight) {
