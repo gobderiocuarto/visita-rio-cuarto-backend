@@ -55,7 +55,7 @@
                                 <td>{{ $organization->name }}</td>
                                 <td>@if ($organization->category->category) {{ $organization->category->category->name }} :: @endif {{ $organization->category->name }}</td>                                
                                 <td style="padding-left: 0; padding-right: 0">
-                                    <a href='{{ url("/admin/organizations/{$organization->id}/highlight") }}' class="btn btn-sm btn-default" title="Destacar en Slide">
+                                    <a href='{{ url("/admin/organizations/{$organization->id}/highlight") }}' class="btn btn-sm btn-default" title="Destacar en Home">
                                     @if (!$organization->highlight)
                                         <i class="fas fa-question fa-2x"></i>
                                         @else
@@ -64,8 +64,8 @@
                                     </a>
                                 </td>
                                 <td style="padding-left: 0; padding-right: 0">
-                                    <a href='{{ url("/admin/organizations/{$organization->id}/highlight_home_aside") }}' class="btn btn-sm btn-default" title="Destacar en Slide">
-                                    @if (!$organization->highlight_home_aside)
+                                    <a href='{{ url("/admin/organizations/{$organization->id}/prioritize") }}' class="btn btn-sm btn-default" title="Priorizar en listado">
+                                    @if (!$organization->prioritize)
                                         <i class="fas fa-question fa-2x"></i>
                                         @else
                                         <i class="far fa-question-circle fa-2x"></i>

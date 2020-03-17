@@ -14,8 +14,8 @@ class AddHighlightColumnsToOrganizationsTable extends Migration
     public function up()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->enum('highlight_home_aside', ['home_aside'])->nullable()->after('web');
-            $table->enum('highlight', ['emphasize'])->nullable()->after('highlight_home_aside');
+            $table->enum('highlight', ['home_aside'])->nullable()->after('web');
+            $table->enum('prioritize', ['Y'])->nullable()->after('highlight');
         });
     }
 
@@ -27,8 +27,8 @@ class AddHighlightColumnsToOrganizationsTable extends Migration
     public function down()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->dropColumn('highlight_home_aside');
             $table->dropColumn('highlight');
+            $table->dropColumn('prioritize');
         });
     }
 }

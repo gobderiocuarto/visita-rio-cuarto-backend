@@ -440,17 +440,17 @@ class OrganizationController extends Controller
 
     /*------------------------------------------------
     /*----------------------------------------------*/
-    # Destacar / Impactar la organizacion en home o asides
+    # Destacar la organizacion en home o asides
     /*------------------------------------------------
     /*----------------------------------------------*/
 
-    public function highLightHomeAside(Organization $organization)
+    public function highLight(Organization $organization)
     {
 
-        if (!$organization->highlight_home_aside){
-            $organization->highlight_home_aside = "home_aside";
+        if (!$organization->highlight){
+            $organization->highlight = "home_aside";
         } else {
-            $organization->highlight_home_aside = NULL;
+            $organization->highlight = NULL;
         }
         $result = $organization->save();
 
@@ -465,24 +465,24 @@ class OrganizationController extends Controller
 
     /*------------------------------------------------
     /*----------------------------------------------*/
-    # Destacar / resaltar organizacion 
+    # Destacar / resaltar organizacion por sobre otras
     /*------------------------------------------------
     /*----------------------------------------------*/
 
-    public function highLight(Organization $organization)
+    public function prioritize(Organization $organization)
     {
 
-        if (!$organization->highlight){
-            $organization->highlight = "emphasize";
+        if (!$organization->prioritize){
+            $organization->prioritize = "Y";
         } else {
-            $organization->highlight = NULL;
+            $organization->prioritize = NULL;
         }
         $result = $organization->save();
 
         if ($result) {
-            return back()->with('message', 'Organización modificada correctamente');
+            return back()->with('message', 'Organización actualizada correctamente');
         } else {
-            return back()->withErrors('Error al actualizar organización');
+            return back()->withErrors('Error al actualizar la organización');
         }
 
     }

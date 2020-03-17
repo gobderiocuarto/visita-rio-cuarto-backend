@@ -298,10 +298,10 @@ Route::middleware(['auth'])->group(function () {
 	->middleware('permission:organizations.destroyPlace');
 
 	# Organizaciones :: destacar en home y/o aside
-	Route::get('admin/organizations/{organization}/highlight_home_aside','Admin\OrganizationController@highLightHomeAside');
+	Route::get('admin/organizations/{organization}/highlight','Admin\OrganizationController@highLight');
 	
 	# Organizaciones :: destacar / jerarquizar
-	Route::get('admin/organizations/{organization}/highlight','Admin\OrganizationController@highLight');
+	Route::get('admin/organizations/{organization}/prioritize','Admin\OrganizationController@prioritize');
 
 
 	
