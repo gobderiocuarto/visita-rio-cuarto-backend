@@ -64,8 +64,8 @@
                                     </a>
                                 </td>
                                 <td style="padding-left: 0; padding-right: 0">
-                                    <a href='{{ url("/admin/organizations/{$organization->id}/prioritize") }}' class="btn btn-sm btn-default" title="Priorizar en listado">
-                                    @if ($organization->prioritize == "no")
+                                    <a href='{{ url("/admin/organizations/{$organization->id}/priority") }}' class="btn btn-sm btn-default" title="Priorizar en listado">
+                                    @if ($organization->priority == "no")
                                         <i class="fas fa-question fa-2x"></i>
                                         @else
                                         <i class="far fa-question-circle fa-2x"></i>

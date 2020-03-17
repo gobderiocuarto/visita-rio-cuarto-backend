@@ -30,7 +30,7 @@ class Organization extends JsonResource
             'phone'                 => $this->phone,
             'web'                   => $this->web,
             'highlight'             => $this->highlight,
-            'prioritize'            => $this->prioritize,
+            'priority'              => $this->priority,
             'file'                  => New FileResource($this->file),
             'tags'                  => TagResource::collection($this->tagged),
             'places'                => PlaceResource::collection($this->places),

@@ -301,7 +301,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('admin/organizations/{organization}/highlight','Admin\OrganizationController@highLight');
 	
 	# Organizaciones :: destacar / jerarquizar
-	Route::get('admin/organizations/{organization}/prioritize','Admin\OrganizationController@prioritize');
+	Route::get('admin/organizations/{organization}/priority','Admin\OrganizationController@priority');
 
 
 	
