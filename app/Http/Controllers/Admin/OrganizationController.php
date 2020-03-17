@@ -447,10 +447,10 @@ class OrganizationController extends Controller
     public function highLight(Organization $organization)
     {
 
-        if (!$organization->highlight){
+        if ($organization->highlight== "no"){
             $organization->highlight = "home_aside";
         } else {
-            $organization->highlight = NULL;
+            $organization->highlight = "no";
         }
         $result = $organization->save();
 
@@ -472,10 +472,10 @@ class OrganizationController extends Controller
     public function prioritize(Organization $organization)
     {
 
-        if (!$organization->prioritize){
-            $organization->prioritize = "Y";
+        if ($organization->prioritize == "no"){
+            $organization->prioritize = "yes";
         } else {
-            $organization->prioritize = NULL;
+            $organization->prioritize = "no";
         }
         $result = $organization->save();
 
