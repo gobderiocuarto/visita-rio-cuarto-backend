@@ -377,7 +377,6 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         # Start transaction
         DB::beginTransaction();
 
@@ -398,12 +397,20 @@ class EventController extends Controller
             $tags_category_event = [];
         }
 
+
+
         # Tags no categorizados
         $tags_no_category_event = explode(',', $request->get('tags_no_category_event'));
 
         # Unir tags categorizados y no categorizados, almacenar 
         $tags =  array_merge($tags_category_event, $tags_no_category_event);
         $event->retag($tags);
+
+        $highligth = $request->get('highligth');
+
+        echo ('<pre>');print_r("EventController linea 411");echo ('</pre>'); exit();
+
+
 
         # Actualizar evento
         $update_fields = [

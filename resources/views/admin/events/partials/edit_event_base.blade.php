@@ -76,4 +76,12 @@ selected="selected" @endif>
         <small class="form-text text-muted mt-2">Separar mediante comas</small>
     </div>
 </div>
+<hr/>
+<div class="form-group row">
+    <label for="highligth" class="col-md-3 col-form-label text-md-right">Comportamiento en home</label>     
+    <div class="col-md-8">
+        <input type="checkbox" name="highligth[]" value="slider"> Mostrar en slider<br>      
+        <input type="checkbox" name="highligth[]" value="home"> Mostrar como destacado<br>
+    </div>  
+</div>
 <hr />
