@@ -146,6 +146,25 @@ class ServiceController extends Controller
         # Almacenar los query a la url para mantenerlos en paginado de la consulta
         $query_filter = (object)[];
 
+        # Filtrar destacados / priorizados
+        if ($request->prioritize) {
+
+            if ($request->prioritize == "yes") {
+
+                $organizations = $organizations->where('organizations.prioritize', "yes");
+                
+            } else if ($request->prioritize == "no") {
+
+                $organizations = $organizations->where('organizations.prioritize', "no");
+
+            }
+
+            $query_filter->prioritize = $request->prioritize;
+
+        }
+
+
+
         # Filtrar por campo busqueda
         if (($request->search != '')) {
             $organizations = $organizations
@@ -155,7 +174,7 @@ class ServiceController extends Controller
             $query_filter->search = $request->search;
         }
 
-        # Filtrar por categoría (id)
+        # Filtrar por categoría (id) - para buscador superior
         if (((int)$request->category != 0 )) {
             $organizations = $organizations->join ('categories','categories.id','organizations.category_id')
             ->where(function ($query) use ($request) {
