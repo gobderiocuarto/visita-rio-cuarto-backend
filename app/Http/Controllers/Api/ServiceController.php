@@ -118,7 +118,6 @@ class ServiceController extends Controller
     }
 
 
-
     /*--------------------------------------/*
     /*---------------------------------------
         Metodos privados
@@ -146,6 +145,7 @@ class ServiceController extends Controller
         # Almacenar los query a la url para mantenerlos en paginado de la consulta
         $query_filter = (object)[];
 
+
         # Filtrar destacados / priorizados
         if ($request->prioritize) {
 
@@ -162,7 +162,16 @@ class ServiceController extends Controller
             $query_filter->prioritize = $request->prioritize;
 
         }
+        
 
+        # Filtrar destacados en home / aside
+        if ($request->highlight) {
+
+            $organizations = $organizations->where('organizations.highlight', $request->highlight);
+
+            $query_filter->home_aside = $request->highlight;
+            
+        }
 
 
         # Filtrar por campo busqueda
@@ -174,6 +183,7 @@ class ServiceController extends Controller
             $query_filter->search = $request->search;
         }
 
+
         # Filtrar por categoría (id) - para buscador superior
         if (((int)$request->category != 0 )) {
             $organizations = $organizations->join ('categories','categories.id','organizations.category_id')
@@ -184,6 +194,7 @@ class ServiceController extends Controller
 
             $query_filter->category = $request->category;
         }
+        
 
         # Paginar registros
         if ($request->paginate != '') {
