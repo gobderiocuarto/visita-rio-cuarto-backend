@@ -12,7 +12,7 @@ class Event extends Model
     use Taggable;
 
     protected $fillable = [
-        'group_id', 'user_id', 'place_id', 'event_id', 'title', 'slug', 'summary', 'description', 'organizer', 'state', 'frame'
+        'group_id', 'user_id', 'place_id', 'event_id', 'title', 'slug', 'summary', 'description', 'organizer', 'slide', 'home', 'highlight', 'state', 'frame'
     ];
 
 

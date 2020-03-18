@@ -398,7 +398,6 @@ class EventController extends Controller
         }
 
 
-
         # Tags no categorizados
         $tags_no_category_event = explode(',', $request->get('tags_no_category_event'));
 
@@ -406,23 +405,21 @@ class EventController extends Controller
         $tags =  array_merge($tags_category_event, $tags_no_category_event);
         $event->retag($tags);
 
-        $highligth = $request->get('highligth');
-
-        echo ('<pre>');print_r("EventController linea 411");echo ('</pre>'); exit();
-
-
+        // echo ('<pre>');print_r($request->all());echo ('</pre>'); exit();
 
         # Actualizar evento
         $update_fields = [
             'group_id' => $request->get('group_id'),
             'title'=> $request->get('title'),
             'slug'=> $request->get('slug'),
-            'organizer'=> $request->get('organizer'),
             'summary'=> $request->get('summary'),
             'description'=> $request->get('description'),
+            'organizer'=> $request->get('organizer'),
+            'slide'=> ($request->get('slide')) ? true : false,
+            'home'=> ($request->get('home')) ? true : false,
+            'highlight'=> ($request->get('highlight')) ? true : false,
             'state'=> $request->get('state')
         ];
-
 
         # Si se trata de un evento marco
         if ( (isset($event->frame)) && ($event->frame == 'is-frame')) {
@@ -481,6 +478,9 @@ class EventController extends Controller
         $event->groups()->attach($request->group_id);
         
         $result = $event->update($update_fields);
+
+
+        // echo ('<pre>');print_r($event->home);echo ('</pre>'); exit();
 
         # END actualizar evento
 

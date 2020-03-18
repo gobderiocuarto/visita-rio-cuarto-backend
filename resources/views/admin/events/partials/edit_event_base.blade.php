@@ -80,8 +80,9 @@ selected="selected" @endif>
 <div class="form-group row">
     <label for="highligth" class="col-md-3 col-form-label text-md-right">Comportamiento en home</label>     
     <div class="col-md-8">
-        <input type="checkbox" name="highligth[]" value="slider"> Mostrar en slider<br>      
-        <input type="checkbox" name="highligth[]" value="home"> Mostrar como destacado<br>
+        <input type="checkbox" name="slide"> Mostrar en slider<br>      
+        <input type="checkbox" name="home" value="yes"> Mostrar en home<br>
+        <input type="checkbox" name="highlight" value="yes"> Destacar<br>
     </div>  
 </div>
 <hr />
