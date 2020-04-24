@@ -29,11 +29,9 @@ class Place extends Model
         return $this->belongsTo(Organization::class);
     }
 
-
-    // public function addresses()
-    // {
-    //     return $this->belongsTo(Address::class);
-    // }
-
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
     
 }
