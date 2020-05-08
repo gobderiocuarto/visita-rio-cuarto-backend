@@ -116,10 +116,18 @@
     function responseGetData(data){
         var result = [];
         result.push(data);
-        // console.log(result)
         return (result)
 
     };
+
+
+    // Obtener fecha hora para sufijo slug
+    function getSuffix(){
+        var d = new Date();
+        var date = d.getFullYear()+""+d.getMonth()+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+        return date
+    };
+
 
     // Borrar los datos preexistentes del form nuevo / editar calendario - función 
     function emptyFormCalendar() {
@@ -142,7 +150,6 @@
         const url_api ='/admin/events/'+id_event+'/calendars/'+id_calendar
 
         $.get(url_api, function(data){
-            // console.log(data)
             $('#title_add_edit_calendar').html('Editar Función')
             $("#calendar_id").val(data.id)
             $("#start_date").val(data.start_date)
@@ -182,7 +189,8 @@
         // Formatear slug a partir del title
         $("#title").stringToSlug({
             callback: function(text){
-                $('#slug').val(text);
+                $('#slug').val(text+"-"+getSuffix());
+
             }
         }); 
 
@@ -193,7 +201,6 @@
                 source : function (request, responseGetData) {
                     var term = request.term;
                     $.get('/admin/tags/no-events/'+term, function(data){
-                        // console.log(data)
                         responseGetData(data);
                     });
                 }
@@ -442,7 +449,6 @@
                 data: formData,
 
                 success: function (data) {
-                    // console.log(data)
                     if (data.new) { //Calendario Nuevo
                         $("#list_calendar").append(calendarItemTemplate(data.calendar));
                     } else { //Editar calendario
@@ -453,7 +459,6 @@
                         
                         $("#list_calendar tr:eq("+position+")").after(calendarItemTemplate(data.calendar))
                         $("#list_calendar tr:eq("+position+")").remove()
-                        // console.log(position)
                     }
 
                 },
@@ -489,8 +494,6 @@
                 let id_event = $($calendar).data("event-id")
                 let id_calendar = $($calendar).data("calendar-id")
 
-                // console.log(id_event, id_calendar)
-
                 var formData = new FormData($($form)[0]);
 
                 let url_web = "/admin/events/"+id_event+"/calendars/"+id_calendar
@@ -512,7 +515,6 @@
                             var $tr_calendar = document.querySelectorAll("[data-calendar-id='"+id_calendar+"']");
                             var position = $($tr_calendar).parent().children().index($($tr_calendar))
                             $("#list_calendar tr:eq("+position+")").remove()
-                            // console.log(data.message)
                             swal(data.message);
                         } else { //Editar calendario
                             swal(data.message);
