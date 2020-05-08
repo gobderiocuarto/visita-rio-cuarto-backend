@@ -436,19 +436,23 @@ class OrganizationController extends Controller
 
     public function destroyPlace($org_id, $place)
     {
-        // $organization = Organization::findOrFail($org_id);
-        // $organization->spaces()->detach($space_id);
-
+        
         // DB::beginTransaction();
+        $place = Place::where('id', $place)->where('organization_id', $org_id)->first();
 
-        $place = Place::where('id', $place)->where('organization_id', $org_id)->delete();
+        if ($place) {
+            if ($place->placeable) {
+                $place->placeable->delete();
+            }
+            $place = $place->delete();
+        }
 
         // DB::rollBack();
 
         if ($place) {
             return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->with('message', 'Ubicación eliminada correctamente');
         } else {
-            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->withErrors('Error al eliminar la ubicación');
+            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->withErrors('Se produjo un error al eliminar la ubicación');
         }
 
     }
