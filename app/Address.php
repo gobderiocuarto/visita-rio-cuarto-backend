@@ -31,6 +31,11 @@ class Address extends Model
         return $this->morphMany('App\Place', 'placeable');
     }
 
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
 
     // public function street()
     // {
