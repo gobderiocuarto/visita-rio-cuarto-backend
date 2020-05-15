@@ -45,7 +45,7 @@ class CreateSpacesTable extends Migration
     {
         
         Schema::table('spaces', function (Blueprint $table) {
-            $table->dropUnique('places_slug_unique');
+            $table->dropUnique('spaces_slug_unique');
             $table->dropForeign('spaces_address_id_foreign');
         });
 
