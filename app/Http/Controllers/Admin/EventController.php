@@ -263,12 +263,7 @@ class EventController extends Controller
                 $actual_place_id = $event->place_id;
                 $place = Place::with('organization')->find($event->place_id);
                 $actual_place = $place->organization->name.' - ';
-
-                if ($place->placeable_type == 'App\Space') {
-                    $actual_place .=  $place->placeable->address->street->name.' '.$place->placeable->address->number.', '.$place->placeable->name;
-                } else if ($place->placeable_type == 'App\Address') {
-                    $actual_place .=  $place->placeable->street->name.' '.$place->placeable->number;
-                }
+                $actual_place .=  $place->address->street->name.' '.$place->address->number;
             }
 
             $data = compact('event', 'frame_event', 'tags_category_event', 'tags_no_category_event', 'actual_place');
@@ -348,12 +343,7 @@ class EventController extends Controller
                 $actual_place_id = $event->place_id;
                 $place = Place::with('organization')->find($event->place_id);
                 $actual_place = $place->organization->name.' - ';
-
-                if ($place->placeable_type == 'App\Space') {
-                    $actual_place .=  $place->placeable->address->street->name.' '.$place->placeable->address->number.', '.$place->placeable->name;
-                } else if ($place->placeable_type == 'App\Address') {
-                    $actual_place .=  $place->placeable->street->name.' '.$place->placeable->number;
-                }
+                $actual_place .=  $place->address->street->name.' '.$place->address->number;
             }
 
             $data = compact('event', 'list_groups', 'list_orgs', 'actual_place_id', 'actual_place',  'tags_category', 'tags_category_event', 'tags_no_category_event', 'frame_events');
