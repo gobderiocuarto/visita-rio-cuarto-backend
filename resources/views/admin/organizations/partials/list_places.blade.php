@@ -25,11 +25,7 @@
                     @foreach($organization->places as $place)
                     <tr>
                         <td><strong>{{ $place->address_type_name }}</strong></td>
-                        @if ($place->placeable_type == 'App\Space')
-                        <td>{{ $place->placeable->address->street->name }} {{ $place->placeable->address->number }} <strong>{{ $place->placeable->name }}</strong></td>
-                        @elseif($place->placeable_type == 'App\Address')
-                        <td>{{ $place->placeable->street->name }} {{ $place->placeable->number }}</td>
-                        @endif
+                        <td>{{ $place->address->street->name }} {{ $place->address->number }} <strong>{{ $place->address->name }}</strong></td>
                         <td width="10px">
                             <button type="button" class="btn btn-sm btn-success places_btn_edit" data-place-id="{{ $place->id }}" data-org-id="{{ $organization->id }}">
                             Editar
