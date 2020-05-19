@@ -279,7 +279,7 @@
             dataType: "json",
             source : function (request, response) {
                 var term = request.term;
-                $.get('/admin/organizations/places/'+term, function(data){
+                $.get(base_url+'/admin/organizations/places/'+term, function(data){
 
                     var suggestions = [];
                     $.each(data, function(i, val) {

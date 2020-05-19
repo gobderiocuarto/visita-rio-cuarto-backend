@@ -374,6 +374,7 @@ class OrganizationController extends Controller
 
 
     # admin/organizations/places/{termino?}
+    # Utilizado en edicion de eventos para listar Organizaciones y lugares - direcciones asociadas
     public function OrganizationsPlaces($termino = '')
     {
         // dd($request->all());exit();
