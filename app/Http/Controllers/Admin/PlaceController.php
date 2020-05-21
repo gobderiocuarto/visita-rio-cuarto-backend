@@ -103,10 +103,12 @@ class PlaceController extends Controller
 
     public function GetPlace($id)
     {        
-        $place =  Place::with('placeable')
-        ->where('id',$id)
-        ->first();
-        return $place;
+        // $place =  Place::with('placeable')
+        // ->where('id',$id)
+        // ->first();
+        // return $place;
+
+        return Place::with('address')->findOrFail($id);
 
     }
 }

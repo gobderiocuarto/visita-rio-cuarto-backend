@@ -12,6 +12,7 @@ class Place extends Model
         'organization_id',
         'placeable_type', 
         'placeable_id', 
+        'address_id', 
         'container', 
         'address_type_id', 
         'address_type_name', 

@@ -15,9 +15,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="address_type" class="col-md-12 col-form-label">Tipo de ubicación</label>
+                <label for="address_type_id" class="col-md-12 col-form-label">Tipo de ubicación</label>
                 <div class="col-md-5">
-                    <select id="address_type" name="address_type" class="form-control form-control-xl" data-default-value="1" autofocus required>
+                    <select id="address_type_id" name="address_type_id" class="form-control form-control-xl" data-default-value="1" autofocus required>
                         @foreach($addresses_types as $type)
                         <option value="{{ $type->id }}">{{ $type->name }}</option>
                         @endforeach
@@ -34,8 +34,8 @@
                         <option value="">No asociar</option>
                         @foreach($containers as $container)
                         <option value="{{ $container->id }}">
-                            {{ $container->organization->name }} - {{ $container->placeable->street->name }}
-                            {{ $container->placeable->number }}
+                            {{ $container->organization->name }} - {{ $container->address->street->name }}
+                            {{ $container->address->number }}
                         </option>
                         @endforeach
                     </select>
@@ -115,7 +115,5 @@
         </div>
         <input type="hidden" id="organization_id" name="organization_id" value="{{ $organization->id }}">
         <input type="hidden" id="place" name="place" value="0">
-        <input type="hidden" id="rel_type" name="prev_rel_type" @if(Session::has('action')) value="{{ Session::get('action.type') }}" @else value="" @endif>
-        <input type="hidden" id="rel_value" name="prev_rel_value" @if(Session::has('action')) value="{{ Session::get('action.value') }}" @else value="" @endif>
     </form>
 </div>
