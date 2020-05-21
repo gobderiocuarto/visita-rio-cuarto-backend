@@ -12,11 +12,6 @@
                         <img class="img-fluid" src="{{ Storage::url("events/small/{$event->file->file_path}") }}" alt="{{$event->file->file_alt}}">
                     </a>
                 </div>
-                <!-- <a id="delete_image" href="#">
-                    <div class="text-center" style="with: 100%; background-color: Gainsboro; padding: .5em">
-                        <i class="fas fa-trash-alt"></i>
-                    </div>
-                </a> -->
                 <div class="text-center" style="with: 100%; background-color: Gainsboro; padding: .5em">
                     <form id="form_delete_image_event" action='{{ url("/admin/events/$event->id/images/delete#image")}}' method="POST">
                         {{ method_field('DELETE') }}

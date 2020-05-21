@@ -26,7 +26,12 @@
     <div class="col-md-8">
         <input name="title" id="title" type="text" class="form-control" value="{{ $event->title }}" required minlength=3>
     </div>
-    <input name="slug" id="slug" type="hidden" class="form-control" value="{{ $event->slug }}" readonly>
+</div>
+<div class="form-group row">
+    <label for="slug" class="col-md-3 col-form-label text-md-right">Slug</label>
+    <div class="col-md-8">
+        <input name="slug" id="slug" type="text" class="form-control" value="{{ $event->slug }}" required readonly>
+    </div>
 </div>
 <div class="form-group row">
     <label for="organizer" class="col-md-3 col-form-label text-md-right">Organizador</label>

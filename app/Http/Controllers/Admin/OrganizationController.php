@@ -367,7 +367,7 @@ class OrganizationController extends Controller
         if ($place) {
             return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->with('message', 'Ubicación eliminada correctamente');
         } else {
-            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->withErrors('Error al eliminar la ubicación');
+            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->withErrors('Se produjo un error al eliminar la ubicación');
         }
 
     }

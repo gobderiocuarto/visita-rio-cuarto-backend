@@ -129,6 +129,16 @@
 
     };
 
+    // Obtener fecha hora para sufijo slug
+    function getSuffix(){
+
+        var d = new Date();
+        var date = d.getFullYear()+""+d.getMonth()+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+        // console.log (date);
+        return date
+        
+    };
+
     // ----------------------------------------------------
     // END Functions
     // ----------------------------------------------------
@@ -136,13 +146,12 @@
 
     $(document).ready(function(){
 
-        // Formatear slug a partir del name
+        // Formatear slug a partir del title
         $("#title").stringToSlug({
             callback: function(text){
-                $('#slug').val(text);
+                $('#slug').val(text+"-"+getSuffix());
             }
         });
-
 
     });
 </script>
