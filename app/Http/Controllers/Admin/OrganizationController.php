@@ -274,7 +274,10 @@ class OrganizationController extends Controller
     }
 
 
-    # Almacenar Nuevo / Modificar ubicacion relacionada a organizacion
+
+    # Organizaciones :: Almacenar Nueva / Modificar ubicacion relacionada
+    # admin/organizations/{organization}/place (post)
+
     public function storePlace(Request $request, Organization $organization)
     {
         // dd($request->all());exit();
@@ -356,25 +359,35 @@ class OrganizationController extends Controller
     }
 
 
+
+    # Organizaciones :: eliminar / desvincular una ubicación asociada
+    # admin/organizations/{organization}/place/{place_id}
+
     public function destroyPlace($org_id, $place)
     {
-
-        // DB::beginTransaction();
-        $place = Place::where('id', $place)->where('organization_id', $org_id)->delete();
-
-        // DB::rollBack();
+        // Plantear reutilizacion de Address con mismo indice compuesto de calle y numero
+        $result_1 = $result_2 = FALSE;
+        DB::beginTransaction();
+        $place = Place::with('address')->where('id', $place)->where('organization_id', $org_id)->first();
 
         if ($place) {
+            $result_1 = $place->address->delete();
+            $result_2 = $place->delete();
+        }
+        
+        if ($result_1 && $result_2) {
+            DB::commit();
             return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->with('message', 'Ubicación eliminada correctamente');
         } else {
-            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->withErrors('Se produjo un error al eliminar la ubicación');
+            DB::rollBack();
+            return redirect('admin/organizations/' . $org_id.'/edit#places_tab')->withErrors('Se produjo un error al eliminar la ubicación. Por favor, intente nuevamente.');
         }
 
     }
 
 
-    # admin/organizations/places/{termino?}
     # Utilizado en edicion de eventos para listar Organizaciones y lugares - direcciones asociadas
+    # admin/organizations/places/{termino?}
     public function OrganizationsPlaces($termino = '')
     {
         // dd($request->all());exit();
