@@ -147,7 +147,7 @@
 
         emptyFormCalendar()
         // const url_api =base_url+'/api/events/'+id_event+'/calendars/'+id_calendar
-        const url_api ='/admin/events/'+id_event+'/calendars/'+id_calendar
+        const url_api =base_url+'/admin/events/'+id_event+'/calendars/'+id_calendar
 
         $.get(url_api, function(data){
             $('#title_add_edit_calendar').html('Editar Función')
@@ -200,7 +200,7 @@
             'autocomplete': {
                 source : function (request, responseGetData) {
                     var term = request.term;
-                    $.get('/admin/tags/no-events/'+term, function(data){
+                    $.get(base_url+'/admin/tags/no-events/'+term, function(data){
                         responseGetData(data);
                     });
                 }
@@ -429,7 +429,7 @@
 
             let event_id = $('#event_id').val()
             let calendar_id = $('#calendar_id').val()
-            let url_web = "/admin/events/"+event_id+"/calendars"
+            let url_web = base_url+"/admin/events/"+event_id+"/calendars"
 
             if (calendar_id !== 0) {
                  url_web += '/'+ calendar_id;
@@ -496,7 +496,7 @@
 
                 var formData = new FormData($($form)[0]);
 
-                let url_web = "/admin/events/"+id_event+"/calendars/"+id_calendar
+                let url_web = base_url+"/admin/events/"+id_event+"/calendars/"+id_calendar
 
                 $.ajax({
                     type: 'POST',
