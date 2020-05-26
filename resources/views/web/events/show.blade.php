@@ -25,21 +25,12 @@
           <div class="col-lg-6">
             <h4>¿Dónde?</h4>
             @if ($event->place)
-              @if ($event->place->placeable_type == 'App\Space')
-                @if ($event->place->placeable->address->lat && $event->place->placeable->address->lng)
-                <p><a href="https://maps.google.com.ar/?q={{$event->place->placeable->address->lat}},{{$event->place->placeable->address->lng}}" target="_blank" class="font-weight-bold">{{ $event->place->organization->name }}</a></p>
-                @else
-                <p><b>{{ $event->place->organization->name }}</b>
-                @endif
-                <p>{{ $event->place->placeable->address->street->name }} {{ $event->place->placeable->address->number }}. Río Cuarto, Córdoba</p>
+              @if ($event->place->address->lat && $event->place->address->lng)
+                <p><a href="https://maps.google.com.ar/?q={{ $event->place->address->lat }},{{ $event->place->address->lng }}" target="_blank" class="font-weight-bold">{{ $event->place->organization->name }}</a></p>
               @else
-                @if ($event->place->placeable->lat && $event->place->placeable->lng)
-                <p><a href="https://maps.google.com.ar/?q={{ $event->place->placeable->lat }},{{ $event->place->placeable->lng }}" target="_blank" class="font-weight-bold">{{ $event->place->organization->name }}</a></p>
-                @else
                 <p><b>{{ $event->place->organization->name }}</b>
-                @endif
-              <p>{{ $event->place->placeable->street->name }} {{ $event->place->placeable->number }}. Río Cuarto, Córdoba</p>
               @endif
+              <p>{{ $event->place->address->street->name }} {{ $event->place->address->number }}. Río Cuarto, Córdoba</p>
             @else
             <p><b>Lugar a confirmar</b>
             @endif
