@@ -306,8 +306,6 @@ class OrganizationController extends Controller
             $place = Place::create([
                 'place_id' => $request->get('place_id'),
                 'organization_id' => $organization->id,
-                'placeable_type' => 'App\Address',
-                'placeable_id' => $address->id,
                 'address_id' => $address->id,
                 'container' => $request->get('container'),
                 'address_type_id' => $request->get('address_type_id'),
