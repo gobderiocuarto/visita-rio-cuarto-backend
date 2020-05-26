@@ -20,11 +20,6 @@ class Place extends Model
     ];
     
 
-    public function placeable()
-    {
-        return $this->morphTo();
-    }
-
     public function organization()
     {
         return $this->belongsTo(Organization::class);

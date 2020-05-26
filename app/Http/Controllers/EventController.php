@@ -78,7 +78,7 @@ class EventController extends Controller
     {
         # Detalle de evento
         $event = Event::with('place.organization')
-        ->with('place.placeable')
+        ->with('place.address')
         ->with('calendars')
         ->FindOrFail($id);
 
