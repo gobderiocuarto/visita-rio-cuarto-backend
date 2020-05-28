@@ -43,7 +43,6 @@
                 {{ $place->address->street->name }} 
                 {{ $place->address->number }}
                 </td>
-                @endif
             </tr>                                
             @endforeach
         @empty
