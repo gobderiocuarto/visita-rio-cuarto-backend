@@ -39,17 +39,9 @@
             @foreach($organization->places as $place)
             <tr>
                 <td><span class="font-italic">{{ $place->address_type_name }}</span></td>
-                @if ($place->placeable_type == 'App\Space')
-                <td><span>
-                <strong>{{ $place->placeable->name }}</strong>
-                {{ $place->placeable->address->street->name }}
-                {{ $place->placeable->address->number }}
-                </span>
-                </td>
-                @elseif ($place->placeable_type == 'App\Address')
                 <td colspan="3">
-                {{ $place->placeable->street->name }} 
-                {{ $place->placeable->number }}
+                {{ $place->address->street->name }} 
+                {{ $place->address->number }}
                 </td>
                 @endif
             </tr>                                
