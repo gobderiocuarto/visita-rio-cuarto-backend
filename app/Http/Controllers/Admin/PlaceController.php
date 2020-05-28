@@ -28,7 +28,7 @@ class PlaceController extends Controller
 
         foreach ($places as $key => $place) {
             # code...
-            echo ('<pre>');print_r($place->placeable);echo ('</pre>');
+            echo ('<pre>');print_r($place->address);echo ('</pre>');
         }
         exit();
         
@@ -100,14 +100,9 @@ class PlaceController extends Controller
         //
     }
 
-
+    # admin/places/{id}
     public function GetPlace($id)
     {        
-        // $place =  Place::with('placeable')
-        // ->where('id',$id)
-        // ->first();
-        // return $place;
-
         return Place::with('address')->findOrFail($id);
 
     }
