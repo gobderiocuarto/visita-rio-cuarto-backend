@@ -263,7 +263,7 @@
             'autocomplete': {
                 source : function (request, responseGetData) {
                     var term = request.term;
-                    $.get('/admin/tags/services/'+term, function(data){
+                    $.get(base_url+'/admin/tags/services/'+term, function(data){
                         // console.log(data)
                         responseGetData(data);
                     });

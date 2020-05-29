@@ -113,7 +113,7 @@ class ServiceController extends Controller
         $service = Tag::findOrFail($id);
 
         # Organizaciones asociadas al grupo de tags "servicio" 
-        $service_orgs = Organization::with('places.placeable')->withAnyTag(["$service->name"])->orderBy('name','ASC')->get();
+        $service_orgs = Organization::with('places.address')->withAnyTag(["$service->name"])->orderBy('name','ASC')->get();
 
         # Organizaciones que no estan asociadas al grupo de tags "servicio" 
         $list_orgs = Organization::withoutTags(["$service->name"])->where('state', 1)->orderBy('name','ASC')->get();

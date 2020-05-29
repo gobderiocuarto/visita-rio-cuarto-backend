@@ -21,10 +21,9 @@ class Address extends Model
         return $this->hasMany(Space::class);
     }
 
-
     public function places()
     {
-        return $this->morphMany('App\Place', 'placeable');
+        return $this->hasMany('App\Place');
     }
 
     public function city()
