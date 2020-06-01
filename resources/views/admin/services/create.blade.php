@@ -41,7 +41,7 @@
                                 <select id="group" name="group" class="form-control form-control-xl">
                                     <option value="">Sin agrupamiento</option>
                                     <option value="Eventos">Eventos</option>
-                                    <option value="Eventos">Servicios</option>
+                                    <option value="Servicios">Servicios</option>
                                 </select>
                             </div> 
                         </div>
