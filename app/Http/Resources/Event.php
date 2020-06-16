@@ -34,6 +34,7 @@ class Event extends JsonResource
             'summary' => $this->summary,
             'description' => $this->description,
             'state' => $this->state,
+            // 'frame' => $this->frame,
             'event_frame' => $this->when($this->event_id != NULL, New EventFrameResource(Event::find($this->event_id))),
             'place' => New PlaceResource($this->place),
             'tags' => TagResource::collection($this->tagged),

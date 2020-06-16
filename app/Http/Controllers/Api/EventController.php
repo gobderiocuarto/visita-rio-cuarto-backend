@@ -16,6 +16,63 @@ use \Conner\Tagging\Model\Tagged;
 
 class EventController extends Controller
 {
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexFrames(Request $request)
+    {
+        # Datos generales de colecciones de eventos
+        $events = $this->getBaseCollection();
+
+        # Excluir Eventos Marco
+        $events = $events->whereNotNull('events.frame');
+        
+        # Incluir opciones de filtrado
+        $events = $this->getQueries($request, $events);
+
+        return EventResource::collection($events);
+      
+    }
+
+
+    public function showFrame($event_id)
+    {
+        $event = Event::where('id', $event_id)
+        ->where('frame', "is-frame")
+        ->first();
+
+        if (!$event) {
+            abort(404);
+        } 
+        return New EventResource($event);
+    }
+
+
+
+    public function showEventsInFrame(Event $event_frame, Request $request)
+    {
+                
+        # Listado total de eventos activos
+        $events = $this->getBaseCollection();
+
+        # ID eventos marco / padre
+        $events = $events->where('events.event_id', $event_frame->id);
+
+        # Incluir opciones de filtrado
+        $events = $this->getQueries($request, $events);
+
+        return EventResource::collection($events);
+
+    }
+
+
+
+
+
+    
     /**
      * Display a listing of the resource.
      *
@@ -23,27 +80,17 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        # coleccion general de eventos
+        # Datos generales de colecciones de eventos
         $events = $this->getBaseCollection();
 
         # Excluir Eventos Marco
-        $events = $events->whereNull('events.frame'); 
-
+        $events = $events->whereNull('events.frame');
+        
+        # Incluir opciones de filtrado
         $events = $this->getQueries($request, $events);
 
         return EventResource::collection($events);
       
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -87,19 +134,7 @@ class EventController extends Controller
     }
 
 
-    public function getEventsInFrame(Event $event_frame)
-    {
-                
-        # Listado total de eventos activos
-        $events = $this->getBaseCollection();
-
-        # ID eventos marco / padre
-        $events = $events->where('events.event_id', $event_frame->id);
-
-        $events = $events->paginate(12);
-        return EventResource::collection($events);
-
-    }
+    
 
 
     public function getEventsInTag(Request $request, $slug_tag = NULL)
@@ -166,15 +201,11 @@ class EventController extends Controller
 
 
 
-    
-
-
     /*--------------------------------------/*
     /*---------------------------------------
         Metodos privados
     /*---------------------------------------
     /*--------------------------------------*/
-
 
     private function getBaseCollection()
     {
@@ -196,14 +227,14 @@ class EventController extends Controller
         return $events;
     }
 
-
+    # Metodo para filtar listado de eventos segun diferentes criterios
     private function getQueries(Request $request, $events)
     {
         
         # Paginar registros, valor por defecto
         $paginate = 12; 
 
-        # Almacenar los query a la url para mantenerlos en paginado de la consulta
+        # Obj para almacenar los query de la url para mantenerlos en paginado de la consulta
         $query_filter = (object)[];
         
         # Filtrar por campo busqueda
