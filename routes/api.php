@@ -23,23 +23,22 @@ Route::group(['middleware' => ['cors']], function () {
     Route::get('frames', 'Api\EventController@indexFrames');
 
     # Detalle de evento marco
-    Route::get('frames/{event_id}', 'Api\EventController@showFrame');
+    Route::get('frames/{event_frame}', 'Api\EventController@showFrame');
 
     # Listado de Eventos dentro de un evento marco
     Route::get('frames/{event_frame}/events', 'Api\EventController@showEventsInFrame');
-
 
 
     # Listado de eventos (no marco)
     Route::get('events', 'Api\EventController@index');
 
     # Detalle de evento
-    Route::get('events/{event_id}', 'Api\EventController@show');
+    Route::get('events/{event}', 'Api\EventController@show');
 
     
-
     # Listado de eventos que comparten un tag
     Route::get('events/tags/{slug_tag}', 'Api\EventController@getEventsInTag');
+    
 
     # Listado de eventos dentro de una categoria de organizacion - ubicacion
     Route::get('events/categories/{category_slug}', 'Api\EventController@getEventsInCategory');

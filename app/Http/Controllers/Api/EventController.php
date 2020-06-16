@@ -17,11 +17,12 @@ use \Conner\Tagging\Model\Tagged;
 class EventController extends Controller
 {
     
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /*--------------------------------------/*
+    /*---------------------------------------
+        Eventos Marco
+    /*---------------------------------------
+    /*--------------------------------------*/
+
     public function indexFrames(Request $request)
     {
         # Datos generales de colecciones de eventos
@@ -38,9 +39,9 @@ class EventController extends Controller
     }
 
 
-    public function showFrame($event_id)
+    public function showFrame($event_frame)
     {
-        $event = Event::where('id', $event_id)
+        $event = Event::where('id', $event_frame)
         ->where('frame', "is-frame")
         ->first();
 
@@ -69,15 +70,12 @@ class EventController extends Controller
     }
 
 
+    /*--------------------------------------/*
+    /*---------------------------------------
+        Eventos NO Marco
+    /*---------------------------------------
+    /*--------------------------------------*/
 
-
-
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         # Datos generales de colecciones de eventos
@@ -93,50 +91,25 @@ class EventController extends Controller
       
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show($event_slug)
-    {
-        $event = Event::where('slug', $event_slug)->first();
 
-        if (!$event) {
-            abort(404);
-        } 
+    public function show(Event $event)
+    {
         return New EventResource($event);
     }
+
+    /*---------------------------------------
+        END Eventos NO Marco
+    ---------------------------------------*/
+
+
+
+
+    /*--------------------------------------/*
+    /*---------------------------------------
+        Eventos asociados a un tag
+    /*---------------------------------------
+    /*--------------------------------------*/
     
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Event $event)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Event $event)
-    {
-        //
-    }
-
-
-    
-
-
     public function getEventsInTag(Request $request, $slug_tag = NULL)
     {
         
@@ -151,16 +124,26 @@ class EventController extends Controller
         # Excluir Eventos Marco
         $events = $events->whereNull('events.frame');
 
-        # Seleccionar eventos con tag
+        # Seleccionar eventos asociados al tag
         $events = $events->withAnyTag([$slug_tag]);
 
-        // $events = $events->paginate(12);
         $events = $this->getQueries($request, $events);
         
         return EventResource::collection($events);
 
     }
 
+    /*---------------------------------------
+        END Eventos asociados a un tag
+    ---------------------------------------*/
+
+
+    /*-------------------------------------------------------/*
+    /*-------------------------------------------------------
+        Listar Eventos en base a la categoria a la que 
+        pertenece su ubicación - organizacion
+    /*-------------------------------------------------------
+    /*------------------------------------------------------*/
 
     public function getEventsInCategory(Request $request, $category_slug)
     {
@@ -170,8 +153,6 @@ class EventController extends Controller
         if(!$category){
             abort(404);
         }
-
-        // var_dump($category); exit();
 
         # Listado total de eventos activos
         $events = $this->getBaseCollection();
@@ -188,16 +169,11 @@ class EventController extends Controller
         
         return EventResource::collection($events);
 
-
-        // # Listado de eventos
-        // $events = Event::join('calendars', 'calendars.event_id', 'events.id')
-       
-        // ->whereNull('events.frame') //No mostrar marcos        ->where('calendars.start_date', '>=', $today)
-        
-
-        // return view('web.events.index', compact('events', 'event_tags', 'title_index'));
-
     }
+
+    /*----------------------------------------------
+        END Listar Eventos en base a la categoria
+    ----------------------------------------------*/
 
 
 
