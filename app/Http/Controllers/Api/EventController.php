@@ -213,16 +213,18 @@ class EventController extends Controller
         # Obj para almacenar los query de la url para mantenerlos en paginado de la consulta
         $query_filter = (object)[];
         
-        # Filtrar por campo busqueda
-        if (($request->search != '')) {
-            $events = $events->where('events.title', 'like', '%'.$request->search.'%')
-                             ->orWhere('events.slug', 'like', '%'.$request->search.'%')
-                             ->orWhere('events.summary', 'like', '%'.$request->search.'%')
-                             ->orWhere('events.description', 'like', '%'.$request->search.'%');
+         # Filtrar por campo termino de busqueda
+         if (($request->search != '')) {
+            $events = $events->where(function ($query) use ($request)  {
+                            $query->where('events.title', 'like', '%'.$request->search.'%')
+                            ->orWhere('events.slug', 'like', '%'.$request->search.'%')
+                            ->orWhere('events.summary', 'like', '%'.$request->search.'%')
+                            ->orWhere('events.description', 'like', '%'.$request->search.'%');
+            });
             $query_filter->search = $request->search;
         }
 
-        # Buscar por rango de fechas / calendarios
+        # Filtrar por rango de fechas / calendarios
         if ($request->start_date) {
             
             if ($request->end_date) {
