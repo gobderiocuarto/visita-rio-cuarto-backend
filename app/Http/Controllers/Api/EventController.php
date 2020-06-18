@@ -6,8 +6,9 @@ use App\Event;
 use App\Calendar;
 use App\Category;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\Event as EventResource;
 use App\Http\Resources\EventCollection;
 
@@ -209,9 +210,22 @@ class EventController extends Controller
         
         # Paginar registros, valor por defecto
         $paginate = 12; 
-
+        
         # Obj para almacenar los query de la url para mantenerlos en paginado de la consulta
         $query_filter = (object)[];
+
+        # Validar tipo de datos ingresados en el query
+        $validator = Validator::make($request->all(), [
+            'search'       => 'alpha_num',
+            'end_date'     => 'date_format:Y-m-d',
+            'start_date'   => 'required_with:end_date|date_format:Y-m-d',
+            'paginate'     => 'numeric',
+            'page'         => 'numeric',
+        ]);
+
+        if ($validator->fails()) {
+            abort(404);
+        }
         
          # Filtrar por campo termino de busqueda
          if (($request->search != '')) {
@@ -226,7 +240,7 @@ class EventController extends Controller
 
         # Filtrar por rango de fechas / calendarios
         if ($request->start_date) {
-            
+
             if ($request->end_date) {
 
                 $events = $events ->whereBetween('calendars.start_date', [$request->start_date, $request->end_date]);
