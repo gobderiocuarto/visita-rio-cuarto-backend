@@ -13,45 +13,82 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::apiResource('categoriesAll', 'Api\CategoryController');
-Route::apiResource('organizationsAll', 'Api\OrganizationController');
-Route::apiResource('eventsAll', 'Api\EventController');
+Route::group(['middleware' => ['cors']], function () {
+
+    # --------------------------------------------------------
+	# Eventos
+    # --------------------------------------------------------
+
+    # Listado de eventos marco
+    Route::get('frames', 'Api\EventController@indexFrames');
+
+    # Detalle de evento marco
+    Route::get('frames/{event_frame}', 'Api\EventController@showFrame');
+
+    # Listado de Eventos dentro de un evento marco
+    Route::get('frames/{event_frame}/events', 'Api\EventController@showEventsInFrame');
 
 
-//
-// Api Categories
-//
-use App\Category;
-use App\Http\Resources\Category as CategoryResource;
-Route::get('/categories/{id}', function ($id) {
-    return new CategoryResource(Category::find($id) ?? abort(404));
-});
-Route::get('/categories', function () {
-  return CategoryResource::collection(Category::paginate());
+    # Listado de eventos (no marco)
+    Route::get('events', 'Api\EventController@index');
+
+    # Detalle de evento
+    Route::get('events/{event}', 'Api\EventController@show');
+
+    
+    # Listado de eventos que comparten un tag
+    Route::get('events/tags/{slug_tag}', 'Api\EventController@getEventsInTag');
+    
+
+    # Listado de eventos dentro de una categoria de organizacion - ubicacion
+    Route::get('events/categories/{category_slug}', 'Api\EventController@getEventsInCategory');
+
+    
+
+    # --------------------------------------------------------
+	# Servicios
+    # --------------------------------------------------------
+    
+    # Listado de servicios dentro de una categoria de organización
+    Route::get('services/categories/{category_slug}', 'Api\ServiceController@getServicesInCategory');
+
+    # Listado total de servicios
+    Route::get('services', 'Api\ServiceController@index');
+
+    # Detalle de servicio
+    Route::get('services/{service_slug}', 'Api\ServiceController@show');
+
+
+    # --------------------------------------------------------
+	# Categorias
+	# --------------------------------------------------------
+
+    # Listado de eventos dentro de una categoria de organizacion - ubicacion
+    // Route::get('categories/{category_slug}/events', 'Api\EventController@getEventsInCategory');
+
+    # Listado de servicis dentro de una categoria de organizacion
+    // Route::get('categories/{category_slug}/services', 'Api\ServiceController@getServicesInCategory');
+
+    # Listado total de categorias
+    Route::get('categories', 'Api\CategoryController@index');
+
+    # Detalle de servicio
+    Route::get('categories/{category_slug}', 'Api\CategoryController@show');
+
+
+
+    # --------------------------------------------------------
+	# Tags
+	# --------------------------------------------------------
+    
+    # Listado de eventos que comparten un tag
+    // En events/tags/{slug_tag}
+    // Route::get('tags/{slug_tag}/events', 'Api\EventController@getEventsInTag');
+
+
 });
 
 
-//
-// Api Organizations
-//
-use App\Organization;
-use App\Http\Resources\Organization as OrganizationResource;
-Route::get('/organizations/{id}', function ($id) {
-    return new OrganizationResource(Organization::find($id) ?? abort(404));
-});
-Route::get('/organizations', function () {
-  return OrganizationResource::collection(Organization::paginate());
-});
-
-
-//
-// Api Events
-//
-use App\Event;
-use App\Http\Resources\Event as EventResource;
-Route::get('/events/{id}', function ($id) {
-    return new EventResource(Event::find($id) ?? abort(404));
-});
-Route::get('/events', function () {
-  return EventResource::collection(Event::paginate());
-});
+// Route::apiResource('categoriesAll', 'Api\CategoryController');
+// Route::apiResource('organizationsAll', 'Api\OrganizationController');
+// Route::apiResource('eventsAll', 'Api\EventController');

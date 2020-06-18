@@ -147,7 +147,7 @@
 
         emptyFormCalendar()
         // const url_api =base_url+'/api/events/'+id_event+'/calendars/'+id_calendar
-        const url_api =base_url+'/admin/events/'+id_event+'/calendars/'+id_calendar
+        const url_api = base_url+'/admin/events/'+id_event+'/calendars/'+id_calendar
 
         $.get(url_api, function(data){
             $('#title_add_edit_calendar').html('Editar Función')
@@ -432,7 +432,7 @@
             let url_web = base_url+"/admin/events/"+event_id+"/calendars"
 
             if (calendar_id !== 0) {
-                 url_web += '/'+ calendar_id;
+                url_web += '/'+ calendar_id;
             }
             
             var formData = new FormData($("#form_add_edit_calendar")[0]);

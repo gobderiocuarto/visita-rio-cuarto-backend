@@ -19,7 +19,13 @@ class Place extends JsonResource
         return [
             'id' => $this->id,
             'organization_id' => $this->organization_id,
-            'placeable_id' => $this->placeable->id,
+            'organization' => $this->organization->name,
+            'street' => $this->address->street->name,
+            'number' => $this->address->number,
+            'city' => $this->city,
+            'administrative' => $this->administrative,
+            'lat' => $this->address->lat,
+            'lng' => $this->address->lng,
         ];
     }
 }

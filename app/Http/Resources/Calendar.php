@@ -19,7 +19,7 @@ class Calendar extends JsonResource
         return [
             'id' => $this->id,
             'start_date' => $this->start_date,
-            'start_time' => $this->id,
+            'start_time' => $this->start_time,
             'end_date' => $this->end_date,
             'end_time' => $this->end_time,
             'observations' => $this->observations,

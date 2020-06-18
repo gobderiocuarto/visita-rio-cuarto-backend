@@ -16,6 +16,17 @@ class Place extends Model
         'address_type_name', 
         'apartament'
     ];
+
+    protected $appends = ['city', 'administrative'];
+
+
+    public function getCityAttribute() {
+        return 'Río Cuarto';
+    }
+
+    public function getAdministrativeAttribute() {
+        return 'Córdoba';
+    }
     
 
     public function organization()

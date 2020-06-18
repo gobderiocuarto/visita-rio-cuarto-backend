@@ -72,6 +72,8 @@ class Kernel extends HttpKernel
         'event.delete' => \App\Http\Middleware\DeleteEventMiddleware::class,
         'event.edit-group' => \App\Http\Middleware\EditEventGroupMiddleware::class,
         'event.create-frame' => \App\Http\Middleware\CreateEventFrameMiddleware::class,
+
+        "cors" => \App\Http\Middleware\CorsMiddleware::class,
     ];
 
     /**
