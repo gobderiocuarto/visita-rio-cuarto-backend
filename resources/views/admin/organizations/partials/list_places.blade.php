@@ -24,8 +24,13 @@
                 @else
                     @foreach($organization->places as $place)
                     <tr>
+                        @if (($place->address->street) && ($place->address->number))
                         <td><strong>{{ $place->address_type_name }}</strong></td>
-                        <td>{{ $place->address->street->name }} {{ $place->address->number }} <strong>{{ $place->address->name }}</strong></td>
+                        <td>{{ $place->address->street->name }} {{ $place->address->number }}</td>
+                        @else
+                        <td></td>
+                        <td>Dirección no definida</td>
+                        @endif
                         <td width="10px">
                             <button type="button" class="btn btn-sm btn-success places_btn_edit" data-place-id="{{ $place->id }}" data-org-id="{{ $organization->id }}">
                             Editar
