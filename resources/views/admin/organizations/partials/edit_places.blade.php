@@ -45,7 +45,7 @@
             <div class="form-group row">
                 <label for="street_id" class="col-md-12 col-form-label">Calle</label>
                 <div class="col-md-8">
-                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8">
+                    <select id="street_id" name="street_id" class="form-control form-control-xl selectpicker" data-default-value="" data-live-search="true" data-size="8" required>
                         <option value="0" selected="selected">Sin Asignar</option>
                         @foreach($streets as $street)
                         <option value="{{ $street->id }}">{{ $street->name }}</option>
