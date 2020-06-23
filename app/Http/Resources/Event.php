@@ -28,19 +28,16 @@ class Event extends JsonResource
         
         return [
             'id' => $this->id,
-            // 'group' => $this->group_id,
             'title' => $this->title,
             'slug' => $this->slug,
             'summary' => $this->summary,
             'description' => $this->description,
             'state' => $this->state,
-            // 'frame' => $this->frame,
             'event_frame' => $this->when($this->event_id != NULL, New EventFrameResource(Event::find($this->event_id))),
             'place' => New PlaceResource($this->place),
             'tags' => TagResource::collection($this->tagged),
             'file' => New FileResource($this->file),
             'calendars' => CalendarResource::collection($this->calendars),
-            // 'calendars' => CalendarResource::collection($this->calendars->where('start_date', '>=', date("Y-m-d"))),
         ];
     }
 }
