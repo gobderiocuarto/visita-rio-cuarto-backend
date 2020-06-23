@@ -401,7 +401,7 @@ Route::get('admin/events/{event}/calendars/{calendar}','Admin\EventController@ge
 # Organizaciones :: Listado separado por lugares - ubicaciones
 Route::get('admin/organizations/{organization}/places/{id}', 'Admin\OrganizationController@OrganizationPlace')->where('organization', '[0-9]+');
 
-# Organizaciones :: Listado separado por lugares - ubicaciones
+# Organizaciones :: Listado de ubicaciones a partir de termino de busqueda
 Route::get('admin/organizations/places/{termino?}', 'Admin\OrganizationController@OrganizationsPlaces');
 
 

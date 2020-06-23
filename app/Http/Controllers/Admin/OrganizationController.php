@@ -172,10 +172,9 @@ class OrganizationController extends Controller
         ->select('places.*')
         ->get();
 
-        // echo ('<pre>');print_r($containers);echo ('</pre>'); exit();
+        #Listado total de calles definidas en db
+        $streets = Street::all();
        
-        $streets = $this->getStreets();
-
         $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
 
         return view('admin.organizations.edit', compact('organization','tags', 'categories','spaces','containers','zones', 'addresses_types', 'streets'));
