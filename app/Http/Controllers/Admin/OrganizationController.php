@@ -175,7 +175,6 @@ class OrganizationController extends Controller
         #Listado total de calles definidas en db
         $streets = Street::all();
        
-
         $addresses_types = AddressType::orderBy('id', 'ASC')->where('state',1)->get();
 
         return view('admin.organizations.edit', compact('organization','tags', 'categories','spaces','containers','zones', 'addresses_types', 'streets'));

@@ -26,11 +26,7 @@
                     <tr>
                         <td><strong>{{ $place->address_type_name }}</strong></td>
                         <td>
-                        @if ($place->address->street) 
                         {{ $place->address->street->name }} 
-                        @else 
-                        {{ "Calle no definida " }}
-                        @endif
                         @if ($place->address->number)
                         {{ $place->address->number }}
                         @else

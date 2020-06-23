@@ -11,10 +11,8 @@ class Address extends Model
         'street_id', 'number', 'floor', 'lat', 'lng', 'zone_id'
     ];
 
-    // public function organizations()
-    // {
-    //     return $this->morphToMany('App\Organization', 'organizationable')->withPivot('address_type_id', 'address_type_name');
-    // }
+    protected $appends = ['street'];
+
 
     public function spaces()
     {
@@ -31,15 +29,35 @@ class Address extends Model
         return $this->belongsTo(City::class);
     }
 
-
-    public function street()
-    {
-        return $this->belongsTo(Street::class);
-    }
-
-
     public function zone()
     {
         return $this->belongsTo(Zone::class);
     }
+
+    // public function street()
+    // {
+    //     return $this->belongsTo(Street::class);
+    // }
+
+
+    //Retorna una calle unica para una direccion dada
+    public function getStreetAttribute()
+    {
+    
+        if ($street = Street::where("id", $this->street_id)->first()) {
+
+            return $street;
+
+        } else {
+
+            $street = [
+                "id" => "0",
+                "name" => "Calle sin asignar",
+                "slug" => "calle-sin-asignar"
+            ];
+            return (object)$street;
+
+        }
+    }
+
 }
