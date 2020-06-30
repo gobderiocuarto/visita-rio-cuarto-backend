@@ -5,6 +5,7 @@ $body-bg: #f8fafc;
 $font-family-sans-serif: "Poppins", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+// $border-radius: 0px;
 
 // Colors
 $blue: #3490dc;
@@ -17,3 +18,17 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-caret: true !default;
+$enable-rounded: false !default;
+$enable-shadows: false !default;
+$enable-grid-classes: true !default;
+$enable-pointer-cursor-for-buttons: true !default;
+$enable-print-styles: true !default;
+$enable-responsive-font-sizes: false !default;
+$enable-validation-icons: true !default;
+$enable-deprecation-messages: true !default;
