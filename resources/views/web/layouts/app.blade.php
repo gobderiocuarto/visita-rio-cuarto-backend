@@ -15,7 +15,8 @@
 
       gtag('config', 'UA-20054145-10');
     </script>
-    <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
     @include('web.layouts.partials.nav_bar')
