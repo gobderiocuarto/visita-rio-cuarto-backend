@@ -1,7 +1,7 @@
 @extends('web.layouts.app')
 @section('content')
 @include('web.home.partials.hero')
-<div class="container home">
+	<div class="container home">
     <h1 class="display-4 text-center">Próximos eventos</h1>
     <div class="row">
     	@foreach ($events as $event)
@@ -10,5 +10,6 @@
 		</div>
       	@endforeach
     </div>
-  </div>
+	</div>
+@include('web.ui.index')
 @endsection

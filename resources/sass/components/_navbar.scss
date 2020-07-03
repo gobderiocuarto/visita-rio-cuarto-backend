@@ -1,0 +1,42 @@
+.navbar {
+    background: orange;
+    margin-bottom: 30px;
+    // padding: 0;
+    font-size: 0.9em;
+    .navbar-brand {
+        img {
+            height: 36px;
+        }
+    }
+    .navbar-toggler {
+        padding: 6px 10px;
+        color: white;
+        border: none;
+        .navbar-toggler-icon {
+            color: #fff;
+        }
+    }
+    .navbar-collapse {
+        .navbar-nav {
+            //background-color: orange;
+            .nav-item {
+                //background-color: blue;
+                padding: 0 8px;
+                margin-right: 4px;
+            }
+
+            .dropdown {
+                //background-color: red;
+
+                .dropdown-menu {
+                    margin-top: 16px;
+                }
+            }
+        }
+        .form-inline {
+            .form-control::placeholder {
+                font-size: 0.9em;
+            }
+        }
+    }
+}
